@@ -32,5 +32,8 @@
     <ClInclude Include="CoreClasses.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Sword.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -7,6 +7,7 @@
 #include"SpriteSheets.h"
 #include"Entity.h"
 #include"CoreClasses.h"
+#include "Sword.h"
 
 HANDLE console = GetStdHandle(STD_OUTPUT_HANDLE);
 HANDLE drawBuff = CreateConsoleScreenBuffer(
@@ -17,6 +18,7 @@ HANDLE drawBuff = CreateConsoleScreenBuffer(
 	NULL);
 HANDLE inputH;
 
+//Instantiate stuff HERE.
 Player player(0, 0);
 
 
