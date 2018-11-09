@@ -5,6 +5,8 @@ void SwapBuffer();
 void KeyHandler(KEY_EVENT_RECORD e);
 void clear();
 void Draw();
+void Update();
+void ResizeWindow();
 
 
 void DrawChars();
