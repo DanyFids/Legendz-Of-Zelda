@@ -1,4 +1,14 @@
 #pragma once
+struct Player_Input {
+	bool keyUp;
+	bool keyDown;
+	bool keyLeft;
+	bool keyRight;
+	bool keySpace;
+};
+
+Player_Input player_input;
+
 class Player : public Entity {
 private:
 	int hp = 5;
@@ -17,6 +27,13 @@ public:
 
 	void Hurt(int d) {
 		hp -= d;
+	}
+
+	void Update() {
+		move();
+
+		xSpd = 0;
+		ySpd = 0;
 	}
 
 };
@@ -48,6 +65,10 @@ public:
 class Terrain : public Entity {
 public:
 	Terrain(int x, int y, int w, int h):Entity(x, y, w, h) {
+
+	}
+
+	void Update() {
 
 	}
 };
