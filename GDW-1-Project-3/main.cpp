@@ -7,6 +7,7 @@
 #include"SpriteSheets.h"
 #include"Entity.h"
 #include"CoreClasses.h"
+#include "Sword.h"
 
 const int PLAYER_SPEED = 1;
 
