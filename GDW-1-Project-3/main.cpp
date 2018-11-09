@@ -7,6 +7,7 @@
 #include"SpriteSheets.h"
 #include"Entity.h"
 #include"CoreClasses.h"
+#include"Enemies.h"
 #include "Sword.h"
 
 const int PLAYER_SPEED = 1;
@@ -23,7 +24,7 @@ HANDLE inputH;
 COORD SCREEN_SIZE;
 
 Player player(0, 0);
-
+SpikeTrap test(50, 10);
 
 bool Play = true;
 
@@ -35,6 +36,7 @@ int main() {
 	SCREEN_SIZE.Y = 224;
 
 	Sprites.LoadPlayer();
+	Sprites.LoadEnemy();
 
 	const int inputR_SIZE = 128;
 	DWORD iNumRead, consoleModeSave, consoleMode;
