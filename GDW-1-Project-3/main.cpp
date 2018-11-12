@@ -24,7 +24,7 @@ HANDLE inputH;
 COORD SCREEN_SIZE;
 
 Player player(0, 0);
-SpikeTrap test(50, 10);
+//SpikeTrap test(50, 10);
 
 bool Play = true;
 
