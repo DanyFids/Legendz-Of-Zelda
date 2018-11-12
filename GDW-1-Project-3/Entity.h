@@ -39,8 +39,8 @@ public:
 		return height;
 	}
 
-	bool willHit(Entity * other, int offsetX, int offsetY) {
-		if (other->GetX() < x + width + offsetX && other->GetX() + other->GetWidth() > x + offsetX && other->GetY() < y + height + offsetY && other->GetY() + other->GetHeight() > y + offsetY) {
+	bool willHit(Entity * other) {
+		if (other->GetX() < x + width && other->GetX() + other->GetWidth() > x && other->GetY() < y + height && other->GetY() + other->GetHeight() > y) {
 			return true;
 		}
 		else {

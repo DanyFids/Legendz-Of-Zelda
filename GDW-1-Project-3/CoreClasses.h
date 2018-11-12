@@ -77,6 +77,21 @@ class Projectile : public Entity {
 private:
 	int dmg, timer;
 public:
+	int getDamage()
+	{
+		return dmg;
+	}
+
+	int getTime()
+	{
+		return timer;
+	}
+
+	void setTime(int t)
+	{
+		timer = t;
+	}
+
 	Projectile(int x, int y, int w, int h, int time, int dmg) :Entity(x, y, w, h) {
 		this->timer = time;
 		this->dmg = dmg;
