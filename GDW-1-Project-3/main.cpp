@@ -2,6 +2,7 @@
 #include<string>
 #include<vector>
 #include<Windows.h>
+#include<mmsystem.h>
 
 #include"FunctionProto.h"
 #include"SpriteSheets.h"
@@ -24,7 +25,8 @@ HANDLE inputH;
 COORD SCREEN_SIZE;
 
 Player player(0, 0);
-SpikeTrap test(50, 10);
+//SpikeTrap test(50, 10);
+Sword swing(0, 0);
 
 bool Play = true;
 
@@ -240,6 +242,7 @@ void Draw() {
 	clear();
 
 	player.draw(drawBuff);
+	swing.draw(drawBuff);
 
 	SwapBuffer();
 }

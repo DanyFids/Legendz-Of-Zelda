@@ -1,13 +1,14 @@
 #pragma once
 
+
 class Sword : public Projectile { //It's a projectile, that doesnt MOVE! :O
 
 private:
-   
+
 
 public:	   // x,y coord,                  width*2,height,time damage 
-	Sword(int x, int y): Projectile(x, y, 32, 7, 1, 1) {
-	  
+	Sword(int x, int y) : Projectile(x+30, y+3, 32, 7, 1, 1) {
+
 
 	}
 
@@ -20,9 +21,7 @@ public:	   // x,y coord,                  width*2,height,time damage
 
 	void Update()
 	{
-		this->setTime(this->getTime()-1);
+		this->setTime(this->getTime() - 1);
 	}
-
-
 
 };
