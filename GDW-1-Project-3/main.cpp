@@ -7,6 +7,7 @@
 #include"SpriteSheets.h"
 #include"Entity.h"
 #include"CoreClasses.h"
+#include"Terrains.h"
 
 HANDLE console = GetStdHandle(STD_OUTPUT_HANDLE);
 HANDLE drawBuff = CreateConsoleScreenBuffer(
