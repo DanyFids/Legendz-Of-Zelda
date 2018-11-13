@@ -8,6 +8,10 @@
 #include"Entity.h"
 #include"CoreClasses.h"
 #include"Terrains.h"
+#include"Enemies.h"
+#include "Sword.h"
+
+const int PLAYER_SPEED = 1;
 
 HANDLE console = GetStdHandle(STD_OUTPUT_HANDLE);
 HANDLE drawBuff = CreateConsoleScreenBuffer(
@@ -18,8 +22,10 @@ HANDLE drawBuff = CreateConsoleScreenBuffer(
 	NULL);
 HANDLE inputH;
 
-Player player(0, 0);
+COORD SCREEN_SIZE;
 
+Player player(0, 0);
+//SpikeTrap test(50, 10);
 
 bool Play = true;
 
@@ -27,8 +33,11 @@ bool Play = true;
 *			Main
 ***************************/
 int main() {
+	SCREEN_SIZE.X = 512;
+	SCREEN_SIZE.Y = 224;
 
 	Sprites.LoadPlayer();
+	Sprites.LoadEnemy();
 
 	const int inputR_SIZE = 128;
 	DWORD iNumRead, consoleModeSave, consoleMode;
@@ -39,6 +48,8 @@ int main() {
 	GetConsoleCursorInfo(console, &cursor);
 	cursor.bVisible = false;
 	SetConsoleCursorInfo(console, &cursor);
+
+	ResizeWindow();
 
 
 	inputH = GetStdHandle(STD_INPUT_HANDLE);
@@ -99,8 +110,10 @@ int main() {
 				}
 			}
 		}
-
+		Update();
 		Draw();
+
+		Sleep(20);
 	}
 
 	return 0;
@@ -115,7 +128,7 @@ void GoToXY(HANDLE h, int x, int y) {
 	SetConsoleCursorPosition(h, xy);
 }
 
-void DrawChars() {
+/*void DrawChars() {
 	COORD size;
 	size.X = 120;
 	size.Y = 258;
@@ -125,17 +138,17 @@ void DrawChars() {
 	for (int i = 0; i < 256; i++) {
 		std::cout << i << ": " << (char)i << std::endl;
 	}
-}
+}*/
 
 void SwapBuffer() {
-	CHAR_INFO *outBuff = new CHAR_INFO[120 * 30];
+	static CHAR_INFO *outBuff = new CHAR_INFO[SCREEN_SIZE.X * SCREEN_SIZE.Y];
 
 	//Area to read/write
 	SMALL_RECT screen;
 	screen.Top = 0;
 	screen.Left = 0;
-	screen.Right = 119;
-	screen.Bottom = 29;
+	screen.Right = SCREEN_SIZE.X - 1;
+	screen.Bottom = SCREEN_SIZE.Y - 1;
 
 	//Top Left COORD
 	COORD start;
@@ -144,8 +157,8 @@ void SwapBuffer() {
 
 	//Buffer Size
 	COORD size;
-	size.X = 120;
-	size.Y = 30;
+	size.X = SCREEN_SIZE.X;
+	size.Y = SCREEN_SIZE.Y;
 
 	ReadConsoleOutput(drawBuff, outBuff, size, start, &screen);
 	
@@ -165,22 +178,38 @@ void KeyHandler(KEY_EVENT_RECORD e) {
 			Play = false;
 			break;
 		case VK_UP:
-			player.move(0, -1);
+			player_input.keyUp = true;
 			break;
 		case VK_DOWN:
-			player.move(0, 1);
+			player_input.keyDown = true;
 			break;
 		case VK_LEFT:
-			player.move(-2, 0);
+			player_input.keyLeft = true;
 			break;
 		case VK_RIGHT:
-			player.move(2, 0);
-			break;
-		case VK_TAB:
-			
+			player_input.keyRight = true;
 			break;
 		case VK_SPACE:
-			
+			player_input.keySpace = true;
+			break;
+		}
+	}
+	else {
+		switch (e.wVirtualKeyCode) {
+		case VK_UP:
+			player_input.keyUp = false;
+			break;
+		case VK_DOWN:
+			player_input.keyDown = false;
+			break;
+		case VK_LEFT:
+			player_input.keyLeft = false;
+			break;
+		case VK_RIGHT:
+			player_input.keyRight = false;
+			break;
+		case VK_SPACE:
+			player_input.keySpace = false;
 			break;
 		}
 	}
@@ -214,4 +243,49 @@ void Draw() {
 	player.draw(drawBuff);
 
 	SwapBuffer();
+}
+
+void Update() {
+	if (player_input.keyUp && !player_input.keyDown) {
+		player.ySpd = -PLAYER_SPEED;
+	}
+
+	if (!player_input.keyUp && player_input.keyDown) {
+		player.ySpd = PLAYER_SPEED;
+	}
+
+	if (player_input.keyRight && !player_input.keyLeft) {
+		player.xSpd = PLAYER_SPEED * 2;
+	}
+
+	if (!player_input.keyRight && player_input.keyLeft) {
+		player.xSpd = -PLAYER_SPEED * 2;
+	}
+
+
+
+	player.Update();
+}
+
+void ResizeWindow() {
+	//resize window
+	CONSOLE_FONT_INFOEX cfi;
+	cfi.cbSize = sizeof(cfi);
+	cfi.nFont = 0;
+	cfi.dwFontSize.X = 0;                 
+	cfi.dwFontSize.Y = 4;
+	SetCurrentConsoleFontEx(GetStdHandle(STD_OUTPUT_HANDLE), FALSE, &cfi);
+
+	_SMALL_RECT screenDimm;
+	screenDimm.Top = 0;
+	screenDimm.Left = 0;
+	screenDimm.Right = SCREEN_SIZE.X - 1;
+	screenDimm.Bottom = SCREEN_SIZE.Y - 1;
+
+	SetConsoleScreenBufferSize(GetStdHandle(STD_OUTPUT_HANDLE), SCREEN_SIZE);
+	SetConsoleScreenBufferSize(drawBuff, SCREEN_SIZE);
+	if (!SetConsoleWindowInfo(GetStdHandle(STD_OUTPUT_HANDLE), TRUE, &screenDimm)) {
+		DWORD err = GetLastError();
+		std::cout << "HOI!!";
+	}
 }

@@ -1,29 +1,4 @@
 #pragma once
-/*class Animation {
-private:
-	int num_frames = 0;
-	int cur_frame = 0;
-	std::vector<std::vector<std::string>>::iterator it;
-public:
-	std::vector<std::vector<std::string>> frames;
-	
-	void AddFrame(std::vector<std::string> f) {
-		it = frames.end();
-		frames.insert(it, f);
-		num_frames++;
-	}
-
-	std::vector<std::string>* GetCurFrame() {
-		std::vector<std::string>* ret = &frames[cur_frame];
-
-		cur_frame++;
-		if (cur_frame > num_frames) {
-			cur_frame = 0;
-		}
-
-		return ret;
-	}
-};*/
 
 class Entity {
 private:
@@ -32,6 +7,7 @@ private:
 	int num_animations = 0;
 public:
 	HANDLE sprite_sheet;
+	int xSpd, ySpd;
 
 	Entity() {
 		x = 0;
@@ -72,13 +48,9 @@ public:
 		}
 	}
 
-	void move(int xMv, int yMv) {
-		if (!(x + xMv < 0)) {
-			x += xMv;
-		}
-		if (!(y + yMv < 0)) {
-			y += yMv;
-		}
+	void move() {
+		x += xSpd;
+		y += ySpd;
 	}
 	
 	void draw(HANDLE out) {
@@ -130,5 +102,5 @@ public:
 	}
 
 	virtual void HitDetect(Entity * other) = 0;
-
+	virtual void Update() = 0;
 };
