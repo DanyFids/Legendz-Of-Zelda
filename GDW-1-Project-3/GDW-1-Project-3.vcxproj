@@ -120,6 +120,7 @@
   <ItemGroup>
     <ClCompile Include="bgMusicManager.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="sfxManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="bgMusicManager.h" />
@@ -128,6 +129,7 @@
     <ClInclude Include="Entity.h" />
     <ClInclude Include="FunctionProto.h" />
     <ClInclude Include="CoreClasses.h" />
+    <ClInclude Include="sfxManager.h" />
     <ClInclude Include="SpriteSheets.h" />
     <ClInclude Include="Sword.h" />
   </ItemGroup>

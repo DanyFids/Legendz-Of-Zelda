@@ -2,14 +2,19 @@
 #include<string>
 #include<vector>
 #include<Windows.h>
-#include<mmsystem.h>
 
 #include"FunctionProto.h"
 #include"SpriteSheets.h"
 #include"Entity.h"
 #include"CoreClasses.h"
 #include"Enemies.h"
+
 #include "Sword.h"
+#include "Arrow.h"
+#include "bgMusicManager.h"
+
+
+
 
 const int PLAYER_SPEED = 1;
 
@@ -39,7 +44,7 @@ int main() {
 
 	Sprites.LoadPlayer();
 	Sprites.LoadEnemy();
-
+	LoZTitleScreen();
 	const int inputR_SIZE = 128;
 	DWORD iNumRead, consoleModeSave, consoleMode;
 	INPUT_RECORD inputR[inputR_SIZE];
@@ -262,6 +267,11 @@ void Update() {
 
 	if (!player_input.keyRight && player_input.keyLeft) {
 		player.xSpd = -PLAYER_SPEED * 2;
+	}
+
+	if (player_input.keySpace)
+	{
+
 	}
 
 

@@ -3,6 +3,7 @@
   <ItemGroup>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="bgMusicManager.cpp" />
+    <ClCompile Include="sfxManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Enemies.h" />
@@ -13,5 +14,6 @@
     <ClInclude Include="SpriteSheets.h" />
     <ClInclude Include="Sword.h" />
     <ClInclude Include="bgMusicManager.h" />
+    <ClInclude Include="sfxManager.h" />
   </ItemGroup>
 </Project>
