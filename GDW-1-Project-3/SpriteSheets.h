@@ -38,7 +38,7 @@ public:
 		DWORD output;
 		for (int i = 0; i < 16; i++) {
 			GoToXY(enemySprites, 0, i);
-			WriteConsole(enemySprites, &"                             ", 30, &output, NULL);
+			WriteConsole(enemySprites, &"                               ", 32, &output, NULL);
 		}
 
 		return true;

@@ -25,7 +25,8 @@ HANDLE inputH;
 COORD SCREEN_SIZE;
 
 Player player(0, 0);
-//SpikeTrap test(50, 10);
+Wall test(50, 10);
+
 
 bool Play = true;
 
@@ -240,6 +241,7 @@ void clear() {
 void Draw() {
 	clear();
 
+	test.draw(drawBuff);
 	player.draw(drawBuff);
 
 	SwapBuffer();
@@ -262,7 +264,7 @@ void Update() {
 		player.xSpd = -PLAYER_SPEED * 2;
 	}
 
-
+	test.HitDetect(&player);
 
 	player.Update();
 }
