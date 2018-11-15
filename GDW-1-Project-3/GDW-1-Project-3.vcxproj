@@ -118,6 +118,7 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Enemies.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="FunctionProto.h" />
     <ClInclude Include="CoreClasses.h" />

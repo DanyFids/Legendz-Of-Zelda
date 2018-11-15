@@ -2,6 +2,7 @@
 #include<string>
 #include<vector>
 #include<Windows.h>
+#include<random>
 
 #include"FunctionProto.h"
 #include"SpriteSheets.h"
@@ -10,6 +11,7 @@
 #include"Terrains.h"
 #include"Enemies.h"
 #include "Sword.h"
+#include "Rope.h"
 
 const int PLAYER_SPEED = 1;
 
@@ -25,8 +27,6 @@ HANDLE inputH;
 COORD SCREEN_SIZE;
 
 Player player(0, 0);
-Wall test(50, 10);
-
 
 bool Play = true;
 
@@ -37,8 +37,16 @@ int main() {
 	SCREEN_SIZE.X = 512;
 	SCREEN_SIZE.Y = 224;
 
+	Sprites.LoadFloor();
+	Sprites.LoadWall();
+	Sprites.LoadBlock();
+	Sprites.LoadDoor();
 	Sprites.LoadPlayer();
-	Sprites.LoadEnemy();
+	Sprites.LoadSword();
+	Sprites.LoadKeese();
+	Sprites.LoadRope();
+	Sprites.LoadSpikeTrap();
+	Sprites.LoadGel();
 
 	const int inputR_SIZE = 128;
 	DWORD iNumRead, consoleModeSave, consoleMode;
@@ -241,7 +249,6 @@ void clear() {
 void Draw() {
 	clear();
 
-	test.draw(drawBuff);
 	player.draw(drawBuff);
 
 	SwapBuffer();
@@ -264,7 +271,9 @@ void Update() {
 		player.xSpd = -PLAYER_SPEED * 2;
 	}
 
-	test.HitDetect(&player);
+
+
+
 
 	player.Update();
 }
@@ -288,6 +297,5 @@ void ResizeWindow() {
 	SetConsoleScreenBufferSize(drawBuff, SCREEN_SIZE);
 	if (!SetConsoleWindowInfo(GetStdHandle(STD_OUTPUT_HANDLE), TRUE, &screenDimm)) {
 		DWORD err = GetLastError();
-		std::cout << "HOI!!";
 	}
 }
