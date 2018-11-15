@@ -30,6 +30,15 @@ public:
 	}
 
 	void Update() {
+		if (GetX() + xSpd < 0) {
+			xSpd = 0 - GetX();
+		}
+
+		if (GetY() + ySpd < 0) {
+			ySpd = 0 - GetY();
+		}
+
+
 		move();
 
 		xSpd = 0;

@@ -2,13 +2,16 @@
 #include<string>
 #include<vector>
 #include<Windows.h>
+#include<ctime>
 
+#include"Enums.h"
 #include"FunctionProto.h"
 #include"SpriteSheets.h"
 #include"Entity.h"
 #include"CoreClasses.h"
 #include"Enemies.h"
 #include "Sword.h"
+#include"Threads.h"
 
 const int PLAYER_SPEED = 1;
 
@@ -21,10 +24,9 @@ HANDLE drawBuff = CreateConsoleScreenBuffer(
 	NULL);
 HANDLE inputH;
 
-COORD SCREEN_SIZE;
-
 Player player(0, 0);
-SpikeTrap test(50, 10);
+
+GameState state = TITLE;
 
 bool Play = true;
 
@@ -35,8 +37,11 @@ int main() {
 	SCREEN_SIZE.X = 512;
 	SCREEN_SIZE.Y = 224;
 
-	Sprites.LoadPlayer();
-	Sprites.LoadEnemy();
+	Load();
+
+	//Start DrawThread
+	DWORD drawThreadID;
+	HANDLE drawThreadH = CreateThread(0, 0, DrawThread, NULL, 0, &drawThreadID);
 
 	const int inputR_SIZE = 128;
 	DWORD iNumRead, consoleModeSave, consoleMode;
@@ -110,10 +115,11 @@ int main() {
 			}
 		}
 		Update();
-		Draw();
 
-		Sleep(20);
+		Sleep(40);
 	}
+
+	CloseHandle(drawThreadH);
 
 	return 0;
 }
@@ -195,6 +201,19 @@ void KeyHandler(KEY_EVENT_RECORD e) {
 	}
 	else {
 		switch (e.wVirtualKeyCode) {
+		case VK_RETURN:
+			switch (state) {
+			case TITLE:
+				state = PLAY;
+				break;
+			case PLAY:
+				state = MENU;
+				break;
+			case MENU:
+				state = PLAY;
+				break;
+			}
+			
 		case VK_UP:
 			player_input.keyUp = false;
 			break;
@@ -239,31 +258,72 @@ void clear() {
 void Draw() {
 	clear();
 
-	player.draw(drawBuff);
+	switch (state) {
+	case TITLE:
+		DrawScreen(Sprites.titleScreen);
+		
+		break;
+	case PLAY:
+		player.draw(drawBuff);
+
+		break;
+	case MENU:
+
+		break;
+	}
 
 	SwapBuffer();
 }
 
+void DrawScreen(HANDLE scrn) {
+	static CHAR_INFO *outBuff = new CHAR_INFO[SCREEN_SIZE.X * SCREEN_SIZE.Y];
+
+	//Area to read/write
+	SMALL_RECT screen;
+	screen.Top = 0;
+	screen.Left = 0;
+	screen.Right = SCREEN_SIZE.X - 1;
+	screen.Bottom = SCREEN_SIZE.Y - 1;
+
+	//Top Left COORD
+	COORD start;
+	start.X = 0;
+	start.Y = 0;
+
+	//Buffer Size
+	COORD size;
+	size.X = SCREEN_SIZE.X;
+	size.Y = SCREEN_SIZE.Y;
+
+	ReadConsoleOutput(scrn, outBuff, size, start, &screen);
+
+	WriteConsoleOutput(drawBuff, outBuff, size, start, &screen);
+}
+
 void Update() {
-	if (player_input.keyUp && !player_input.keyDown) {
-		player.ySpd = -PLAYER_SPEED;
+	float dt = GetTimeInSeconds();
+
+	if (state == PLAY) {
+		if (player_input.keyUp && !player_input.keyDown) {
+			player.ySpd = -PLAYER_SPEED;
+		}
+
+		if (!player_input.keyUp && player_input.keyDown) {
+			player.ySpd = PLAYER_SPEED;
+		}
+
+		if (player_input.keyRight && !player_input.keyLeft) {
+			player.xSpd = PLAYER_SPEED * 2;
+		}
+
+		if (!player_input.keyRight && player_input.keyLeft) {
+			player.xSpd = -PLAYER_SPEED * 2;
+		}
+
+
+
+		player.Update();
 	}
-
-	if (!player_input.keyUp && player_input.keyDown) {
-		player.ySpd = PLAYER_SPEED;
-	}
-
-	if (player_input.keyRight && !player_input.keyLeft) {
-		player.xSpd = PLAYER_SPEED * 2;
-	}
-
-	if (!player_input.keyRight && player_input.keyLeft) {
-		player.xSpd = -PLAYER_SPEED * 2;
-	}
-
-
-
-	player.Update();
 }
 
 void ResizeWindow() {
@@ -285,6 +345,55 @@ void ResizeWindow() {
 	SetConsoleScreenBufferSize(drawBuff, SCREEN_SIZE);
 	if (!SetConsoleWindowInfo(GetStdHandle(STD_OUTPUT_HANDLE), TRUE, &screenDimm)) {
 		DWORD err = GetLastError();
-		std::cout << "HOI!!";
+	}
+}
+
+float GetTimeInSeconds() {
+	static float timePassed = (float) clock();
+	float ret = ((float)clock() - timePassed) / CLOCKS_PER_SEC;
+	timePassed = (float)clock();
+	return ret;
+}
+
+void Load() {
+	SetConsoleTextAttribute(drawBuff, 15 * 16);
+	//Draw Loading Bar
+	Sprites.DrawTextSprites(drawBuff, "Loading Game...", 80,20);
+
+	GoToXY(drawBuff, 60, 30);
+	for (int i = 0; i < 204; i++) {
+		WriteConsole(drawBuff, "  ", 2, NULL, NULL);
+	}
+	for (int i = 0; i < 22; i++) {
+		GoToXY(drawBuff, 60, 31 + i);
+		WriteConsole(drawBuff, "  ", 2, NULL, NULL);
+		GoToXY(drawBuff, 466, 31 + i);
+		WriteConsole(drawBuff, "  ", 2, NULL, NULL);
+	}
+	GoToXY(drawBuff, 60, 53);
+	for (int i = 0; i < 204; i++) {
+		WriteConsole(drawBuff, "  ", 2, NULL, NULL);
+	}
+	SwapBuffer();
+
+	//Load Stuff
+	DWORD loadThreadID;
+	HANDLE loadThreadH = CreateThread(0, 0, LoadThread, NULL, 0, &loadThreadID);
+	int loadPerc = 0;
+
+	SetConsoleTextAttribute(drawBuff, 10 * 16);
+	while (SPRITES_LOADED != SPRITES_TO_LOAD) {
+		int perc = (SPRITES_LOADED * 100) / SPRITES_TO_LOAD;
+		if (perc > loadPerc) {
+			loadPerc = perc;
+			for (int i = 0; i < 20; i++) {
+				GoToXY(drawBuff, 64, 32 + i);
+				for (int j = 0; j < (loadPerc * 2); j++) {
+					WriteConsole(drawBuff, "  ", 2, NULL, NULL);
+				}
+			}
+
+			SwapBuffer();
+		}
 	}
 }

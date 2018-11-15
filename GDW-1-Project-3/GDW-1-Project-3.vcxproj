@@ -119,10 +119,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Entity.h" />
+    <ClInclude Include="Enums.h" />
     <ClInclude Include="FunctionProto.h" />
     <ClInclude Include="CoreClasses.h" />
     <ClInclude Include="SpriteSheets.h" />
     <ClInclude Include="Sword.h" />
+    <ClInclude Include="Threads.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
