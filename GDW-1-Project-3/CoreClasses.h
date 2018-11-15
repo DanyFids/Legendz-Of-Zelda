@@ -75,9 +75,45 @@ public:
 
 class Projectile : public Entity {
 private:
-	int dmg, timer;
+	int dmg, timer,speed;
+	float theta;
 public:
-	Projectile(int x, int y, int w, int h, int time, int dmg) :Entity(x, y, w, h) {
+	float getTheta()
+	{
+		return theta;
+	}
+
+	int getDamage()
+	{
+		return dmg;
+	}
+
+	int getSpeed()
+	{
+		return speed;
+	}
+
+	int getTime()
+	{
+		return timer;
+	}
+
+	void setTime(int t)
+	{
+		timer = t;
+	}
+
+	void setSpeed(int s)
+	{
+		speed = s;
+	}
+
+	void setTheta(float _theta)
+	{
+		theta = _theta;
+	}
+
+	Projectile(int x, int y, int w, int h, int time, int dmg, int speed) :Entity(x, y, w, h) {
 		this->timer = time;
 		this->dmg = dmg;
 	}

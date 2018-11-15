@@ -10,8 +10,15 @@
 #include"CoreClasses.h"
 #include"Terrains.h"
 #include"Enemies.h"
+
 #include "Sword.h"
+#include "Arrow.h"
+#include "Fireball.h"
+#include "bgMusicManager.h"
 #include "Rope.h"
+
+
+
 
 const int PLAYER_SPEED = 1;
 
@@ -42,6 +49,8 @@ int main() {
 	Sprites.LoadBlock();
 	Sprites.LoadDoor();
 	Sprites.LoadPlayer();
+	Sprites.LoadEnemy();
+	LoZTitleScreen();
 	Sprites.LoadSword();
 	Sprites.LoadKeese();
 	Sprites.LoadRope();
@@ -250,6 +259,7 @@ void Draw() {
 	clear();
 
 	player.draw(drawBuff);
+	swing.draw(drawBuff);
 
 	SwapBuffer();
 }
@@ -271,7 +281,10 @@ void Update() {
 		player.xSpd = -PLAYER_SPEED * 2;
 	}
 
+	if (player_input.keySpace)
+	{
 
+	}
 
 
 

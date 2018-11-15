@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -77,6 +77,9 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
+    <Link>
+      <AdditionalDependencies>winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -115,13 +118,18 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="bgMusicManager.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="sfxManager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="bgMusicManager.h" />
     <ClInclude Include="Enemies.h" />
+    <ClInclude Include="Enemy.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="FunctionProto.h" />
     <ClInclude Include="CoreClasses.h" />
+    <ClInclude Include="sfxManager.h" />
     <ClInclude Include="SpriteSheets.h" />
     <ClInclude Include="Sword.h" />
     <ClInclude Include="Terrains.h" />

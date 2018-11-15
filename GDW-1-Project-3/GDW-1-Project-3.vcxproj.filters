@@ -2,13 +2,19 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="bgMusicManager.cpp" />
+    <ClCompile Include="sfxManager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Enemies.h" />
+    <ClInclude Include="Enemy.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="FunctionProto.h" />
     <ClInclude Include="CoreClasses.h" />
     <ClInclude Include="SpriteSheets.h" />
     <ClInclude Include="Sword.h" />
+    <ClInclude Include="bgMusicManager.h" />
+    <ClInclude Include="sfxManager.h" />
     <ClInclude Include="Terrains.h" />
   </ItemGroup>
 </Project>
