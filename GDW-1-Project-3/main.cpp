@@ -3,15 +3,23 @@
 #include<vector>
 #include<Windows.h>
 #include<ctime>
+#include<random>
 
 #include"Enums.h"
 #include"FunctionProto.h"
 #include"SpriteSheets.h"
 #include"Entity.h"
 #include"CoreClasses.h"
+#include"Terrains.h"
 #include"Enemies.h"
+
 #include "Sword.h"
 #include"Threads.h"
+#include "Arrow.h"
+#include "Fireball.h"
+#include "bgMusicManager.h"
+#include "Rope.h"
+
 
 const int PLAYER_SPEED = 1;
 
@@ -42,6 +50,19 @@ int main() {
 	//Start DrawThread
 	DWORD drawThreadID;
 	HANDLE drawThreadH = CreateThread(0, 0, DrawThread, NULL, 0, &drawThreadID);
+
+	Sprites.LoadFloor();
+	Sprites.LoadWall();
+	Sprites.LoadBlock();
+	Sprites.LoadDoor();
+	Sprites.LoadPlayer();
+	//Sprites.LoadEnemy();
+	LoZTitleScreen();
+	Sprites.LoadSword();
+	Sprites.LoadKeese();
+	Sprites.LoadRope();
+	Sprites.LoadSpikeTrap();
+	Sprites.LoadGel();
 
 	const int inputR_SIZE = 128;
 	DWORD iNumRead, consoleModeSave, consoleMode;
@@ -272,6 +293,8 @@ void Draw() {
 		break;
 	}
 
+	player.draw(drawBuff);
+
 	SwapBuffer();
 }
 
@@ -319,6 +342,11 @@ void Update() {
 		if (!player_input.keyRight && player_input.keyLeft) {
 			player.xSpd = -PLAYER_SPEED * 2;
 		}
+
+	if (player_input.keySpace)
+	{
+
+	}
 
 
 

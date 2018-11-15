@@ -6,6 +6,7 @@ private:
 	int width, height;
 	int cur_anim = 0;
 	int num_animations = 0;
+	bool flying;
 public:
 	HANDLE sprite_sheet;
 	int xSpd, ySpd;
@@ -40,8 +41,16 @@ public:
 		return height;
 	}
 
+	bool IsFlying() {
+		return flying;
+	}
+
+	void setFly(bool f) {
+		flying = f;
+	}
+
 	bool willHit(Entity * other, int offsetX, int offsetY) {
-		if (other->GetX() < x + width + offsetX && other->GetX() + other->GetWidth() > x + offsetX && other->GetY() < y + height + offsetY && other->GetY() + other->GetHeight() > y + offsetY) {
+		if (other->GetX() + offsetX < x + width && other->GetX() + other->GetWidth() + offsetX > x && other->GetY() + offsetY < y + height && other->GetY() + other->GetHeight() + offsetY > y) {
 			return true;
 		}
 		else {
@@ -111,6 +120,6 @@ public:
 		sprite_sheet = s;
 	}
 
-	virtual void HitDetect(Entity * other) = 0;
+	//virtual void HitDetect(Entity * other) = 0;
 	virtual void Update() = 0;
 };
