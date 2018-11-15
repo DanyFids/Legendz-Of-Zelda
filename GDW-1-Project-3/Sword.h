@@ -8,7 +8,7 @@ private:
 
 public:	   // x,y coord,                  width*2,height,time damage
 		   // the x+30 and y+3 is to make it appear infront of link, this needs to be changed by direction. sooner or later.
-	Sword(int x, int y) : Projectile(x+30, y+3, 32, 7, 1, 1) {
+	Sword(int x, int y) : Projectile(x+30, y+3, 32, 7, 1, 1 , 0) {
 
 
 	}

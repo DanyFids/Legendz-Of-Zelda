@@ -11,6 +11,7 @@
 
 #include "Sword.h"
 #include "Arrow.h"
+#include "Fireball.h"
 #include "bgMusicManager.h"
 
 

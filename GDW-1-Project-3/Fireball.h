@@ -1,13 +1,13 @@
 #pragma once
 
-class Arrow : public Projectile {
+class Fireball : public Projectile {
 
 private:
 
 
 public:	   // x,y coord,                  width*2,height,lifetime, damage, speed 
-	Arrow(int x, int y) : Projectile(x + 30, y + 3, 32, 7, 1, 1, 1) {
-
+	Fireball(int x, int y, float _theta) : Projectile(x + 30, y + 3, 32, 7, 1, 1, 1) {
+		this->setTheta(_theta);
 
 	}
 
