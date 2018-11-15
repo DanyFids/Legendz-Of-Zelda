@@ -2,6 +2,7 @@
 #include<string>
 #include<vector>
 #include<Windows.h>
+#include <random>
 
 #include"FunctionProto.h"
 #include"SpriteSheets.h"
@@ -9,6 +10,7 @@
 #include"CoreClasses.h"
 #include"Enemies.h"
 #include "Sword.h"
+#include "Rope.h"
 
 const int PLAYER_SPEED = 1;
 
@@ -24,7 +26,6 @@ HANDLE inputH;
 COORD SCREEN_SIZE;
 
 Player player(0, 0);
-//SpikeTrap test(50, 10);
 
 bool Play = true;
 
@@ -268,7 +269,6 @@ void Update() {
 	if (!player_input.keyRight && player_input.keyLeft) {
 		player.xSpd = -PLAYER_SPEED * 2;
 	}
-
 
 
 	player.Update();
