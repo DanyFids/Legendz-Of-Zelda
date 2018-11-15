@@ -1,7 +1,6 @@
 #pragma once
 
-
-class Sword : public Projectile { //It's a projectile, that doesnt MOVE! :O
+class Sword : public Projectile { //It's a projectile, that doesnt MOVE! :O | Are you sassing me, young man?
 
 private:
 

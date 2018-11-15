@@ -2,7 +2,8 @@
 
 class Entity {
 private:
-	int x, y, width, height;
+	int x, y;
+	int width, height;
 	int cur_anim = 0;
 	int num_animations = 0;
 	bool flying;
@@ -63,7 +64,8 @@ public:
 	}
 	
 	void draw(HANDLE out) {
-		CHAR_INFO *outBuff = new CHAR_INFO[width * height];
+		static CHAR_INFO *outBuff = new CHAR_INFO[width * height];
+		static CHAR_INFO *transBuff = new CHAR_INFO[width * height];
 
 		//Area to read/write
 		SMALL_RECT screen;
@@ -93,6 +95,14 @@ public:
 		screen.Left = x;
 		screen.Right = width + x - 1;
 		screen.Bottom = height + y - 1;
+
+		ReadConsoleOutput(out, transBuff, size, pos, &screen);
+
+		for (int p = 0; p < (width * height); p++) {
+			if (outBuff[p].Attributes == 7) {
+				outBuff[p] = transBuff[p];
+			}
+		}
 
 		WriteConsoleOutput(out, outBuff, size, pos, &screen);
 
