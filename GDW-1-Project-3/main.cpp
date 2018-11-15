@@ -2,6 +2,7 @@
 #include<string>
 #include<vector>
 #include<Windows.h>
+#include<random>
 
 #include"FunctionProto.h"
 #include"SpriteSheets.h"
@@ -24,7 +25,9 @@ HANDLE inputH;
 COORD SCREEN_SIZE;
 
 Player player(0, 0);
-SpikeTrap test(50, 10);
+Keese test(200, 50);
+SpikeTrap test2(470, 202);
+SpikeTrap test3(470, 6);
 
 bool Play = true;
 
@@ -240,6 +243,9 @@ void Draw() {
 	clear();
 
 	player.draw(drawBuff);
+	test.draw(drawBuff);
+	test2.draw(drawBuff);
+	test3.draw(drawBuff);
 
 	SwapBuffer();
 }
@@ -261,9 +267,27 @@ void Update() {
 		player.xSpd = -PLAYER_SPEED * 2;
 	}
 
+	test.AI(player);
+	if (test.HitDetect(&player)) {
+		test.Hit(player);
+	}
+	test2.AI(player);
+	if (test2.HitDetect(&player)) {
+		test2.Hit(player);
+	}
 
+	test3.AI(player);
+	if (test3.HitDetect(&player)) {
+		test3.Hit(player);
+	}
+
+	test2.HitDetect(&test3);
+	test3.HitDetect(&test2);
 
 	player.Update();
+	test.Update();
+	test2.Update();
+	test3.Update();
 }
 
 void ResizeWindow() {
@@ -285,6 +309,5 @@ void ResizeWindow() {
 	SetConsoleScreenBufferSize(drawBuff, SCREEN_SIZE);
 	if (!SetConsoleWindowInfo(GetStdHandle(STD_OUTPUT_HANDLE), TRUE, &screenDimm)) {
 		DWORD err = GetLastError();
-		std::cout << "HOI!!";
 	}
 }
