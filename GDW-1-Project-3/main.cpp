@@ -10,6 +10,7 @@
 #include"CoreClasses.h"
 #include"Enemies.h"
 #include "Sword.h"
+#include "Rope.h"
 
 const int PLAYER_SPEED = 1;
 
@@ -38,8 +39,16 @@ int main() {
 	SCREEN_SIZE.X = 512;
 	SCREEN_SIZE.Y = 224;
 
+	Sprites.LoadFloor();
+	Sprites.LoadWall();
+	Sprites.LoadBlock();
+	Sprites.LoadDoor();
 	Sprites.LoadPlayer();
-	Sprites.LoadEnemy();
+	Sprites.LoadSword();
+	Sprites.LoadKeese();
+	Sprites.LoadRope();
+	Sprites.LoadSpikeTrap();
+	Sprites.LoadGel();
 
 	const int inputR_SIZE = 128;
 	DWORD iNumRead, consoleModeSave, consoleMode;
