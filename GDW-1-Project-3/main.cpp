@@ -2,17 +2,20 @@
 #include<string>
 #include<vector>
 #include<Windows.h>
+#include<random>
 
 #include"FunctionProto.h"
 #include"SpriteSheets.h"
 #include"Entity.h"
 #include"CoreClasses.h"
+#include"Terrains.h"
 #include"Enemies.h"
 
 #include "Sword.h"
 #include "Arrow.h"
 #include "Fireball.h"
 #include "bgMusicManager.h"
+#include "Rope.h"
 
 
 
@@ -31,8 +34,6 @@ HANDLE inputH;
 COORD SCREEN_SIZE;
 
 Player player(0, 0);
-//SpikeTrap test(50, 10);
-Sword swing(0, 0);
 
 bool Play = true;
 
@@ -43,9 +44,19 @@ int main() {
 	SCREEN_SIZE.X = 512;
 	SCREEN_SIZE.Y = 224;
 
+	Sprites.LoadFloor();
+	Sprites.LoadWall();
+	Sprites.LoadBlock();
+	Sprites.LoadDoor();
 	Sprites.LoadPlayer();
 	Sprites.LoadEnemy();
 	LoZTitleScreen();
+	Sprites.LoadSword();
+	Sprites.LoadKeese();
+	Sprites.LoadRope();
+	Sprites.LoadSpikeTrap();
+	Sprites.LoadGel();
+
 	const int inputR_SIZE = 128;
 	DWORD iNumRead, consoleModeSave, consoleMode;
 	INPUT_RECORD inputR[inputR_SIZE];
@@ -299,6 +310,5 @@ void ResizeWindow() {
 	SetConsoleScreenBufferSize(drawBuff, SCREEN_SIZE);
 	if (!SetConsoleWindowInfo(GetStdHandle(STD_OUTPUT_HANDLE), TRUE, &screenDimm)) {
 		DWORD err = GetLastError();
-		std::cout << "HOI!!";
 	}
 }

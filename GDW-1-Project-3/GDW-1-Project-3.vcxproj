@@ -132,6 +132,7 @@
     <ClInclude Include="sfxManager.h" />
     <ClInclude Include="SpriteSheets.h" />
     <ClInclude Include="Sword.h" />
+    <ClInclude Include="Terrains.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

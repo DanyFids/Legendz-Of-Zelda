@@ -15,5 +15,6 @@
     <ClInclude Include="Sword.h" />
     <ClInclude Include="bgMusicManager.h" />
     <ClInclude Include="sfxManager.h" />
+    <ClInclude Include="Terrains.h" />
   </ItemGroup>
 </Project>
