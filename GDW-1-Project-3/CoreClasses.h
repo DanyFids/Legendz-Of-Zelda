@@ -21,8 +21,8 @@ public:
 
 	}
 
-	void HitDetect(Entity * other) {
-
+	bool HitDetect(Entity * other) {
+		return false;
 	}
 
 	void Hurt(int d) {
@@ -59,7 +59,7 @@ public:
 		p.Hurt(dmg);
 	}
 
-	virtual void AI() = 0;
+	virtual void AI(Player p) = 0;
 };
 
 class Terrain : public Entity {

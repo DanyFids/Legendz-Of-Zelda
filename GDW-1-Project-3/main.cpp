@@ -2,6 +2,7 @@
 #include<string>
 #include<vector>
 #include<Windows.h>
+#include <random>
 
 #include"FunctionProto.h"
 #include"SpriteSheets.h"
@@ -9,6 +10,7 @@
 #include"CoreClasses.h"
 #include"Enemies.h"
 #include "Sword.h"
+#include "Rope.h"
 
 const int PLAYER_SPEED = 1;
 
@@ -24,7 +26,7 @@ HANDLE inputH;
 COORD SCREEN_SIZE;
 
 Player player(0, 0);
-SpikeTrap test(50, 10);
+gel test(200, 100);
 
 bool Play = true;
 
@@ -240,6 +242,7 @@ void Draw() {
 	clear();
 
 	player.draw(drawBuff);
+	test.draw(drawBuff);
 
 	SwapBuffer();
 }
@@ -261,9 +264,14 @@ void Update() {
 		player.xSpd = -PLAYER_SPEED * 2;
 	}
 
+	test.AI(player);
+	if (test.HitDetect(&player)) {
+		test.Hit(player);
+	}
 
 
 	player.Update();
+	test.Update();
 }
 
 void ResizeWindow() {
