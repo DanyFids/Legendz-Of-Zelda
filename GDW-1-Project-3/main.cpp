@@ -40,6 +40,7 @@ int main() {
 	Sprites.LoadBlock();
 	Sprites.LoadDoor();
 	Sprites.LoadPlayer();
+	Sprites.LoadSword();
 	Sprites.LoadKeese();
 	Sprites.LoadRope();
 	Sprites.LoadSpikeTrap();
