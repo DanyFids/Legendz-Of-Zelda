@@ -18,7 +18,7 @@ public:
 
 	}
 
-	void HitDetect(Entity * other) {
+	bool HitDetect(Entity * other) {
 
 	}
 };
