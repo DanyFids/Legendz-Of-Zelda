@@ -2,9 +2,12 @@
 
 class Entity {
 private:
-	int x, y, width, height;
+	int x, y;
+	int width, height;
 	int cur_anim = 0;
 	int num_animations = 0;
+	bool flying;
+	Direction dir;
 public:
 	HANDLE sprite_sheet;
 	int xSpd, ySpd;
@@ -39,8 +42,16 @@ public:
 		return height;
 	}
 
+	bool IsFlying() {
+		return flying;
+	}
+
+	void setFly(bool f) {
+		flying = f;
+	}
+
 	bool willHit(Entity * other, int offsetX, int offsetY) {
-		if (other->GetX() < x + width + offsetX && other->GetX() + other->GetWidth() > x + offsetX && other->GetY() < y + height + offsetY && other->GetY() + other->GetHeight() > y + offsetY) {
+		if (other->GetX() + offsetX < x + width && other->GetX() + other->GetWidth() + offsetX > x && other->GetY() + offsetY < y + height && other->GetY() + other->GetHeight() + offsetY > y) {
 			return true;
 		}
 		else {
@@ -55,6 +66,7 @@ public:
 	
 	void draw(HANDLE out) {
 		CHAR_INFO *outBuff = new CHAR_INFO[width * height];
+		CHAR_INFO *transBuff = new CHAR_INFO[width * height];
 
 		//Area to read/write
 		SMALL_RECT screen;
@@ -85,6 +97,14 @@ public:
 		screen.Right = width + x - 1;
 		screen.Bottom = height + y - 1;
 
+		ReadConsoleOutput(out, transBuff, size, pos, &screen);
+
+		for (int p = 0; p < (width * height); p++) {
+			if (outBuff[p].Attributes == 7) {
+				outBuff[p] = transBuff[p];
+			}
+		}
+
 		WriteConsoleOutput(out, outBuff, size, pos, &screen);
 
 	}
@@ -101,6 +121,14 @@ public:
 		sprite_sheet = s;
 	}
 
+	void SetDir(Direction d) {
+		dir = d;
+	}
+
+	Direction GetDir() {
+		return dir;
+	}
+
 	virtual bool HitDetect(Entity * other) = 0;
-	virtual void Update() = 0;
+	virtual void Update(float dt) = 0;
 };
