@@ -7,19 +7,21 @@ class Sword : public Projectile { //It's a projectile, that doesnt MOVE! :O | Ar
 private:
 
 
-public:	   // x,y coord,                  width*2,height,time damage
+public:	   // x,y coord,                  width*2,height,time,damage,speed
 		   // the x+30 and y+3 is to make it appear infront of link, this needs to be changed by direction. sooner or later.
-	Sword(int x, int y, Direction _dir) : Projectile(x + 30, y + 3, 32, 7, 1, 1, 0) {
+	Sword(int x, int y, Direction _dir) : Projectile(x, y, 32, 16, 0.2, 1, 0) {
 		this->setDir(_dir);
-
-	}bool HitDetect(Entity * e)
+		SetSpriteSheet(Sprites.swordSprites);
+	}
+	
+	bool HitDetect(Entity * e)
 	{
 		return willHit(e, 0, 0);
 	}
 
-	void Update()
+	void Update(float dt)
 	{
-		this->setTime(this->getTime() - 1);
+		this->setTime(this->getTime() - dt);
 	}
 
 };

@@ -157,7 +157,7 @@ public:
 		dir = _dir;
 	}
 
-	Projectile(int x, int y, int w, int h, int time, int dmg, int speed) :Entity(x, y, w, h) {
+	Projectile(int x, int y, int w, int h, float time, int dmg, int speed) :Entity(x, y, w, h) {
 		this->timer = time;
 		this->dmg = dmg;
 	}
