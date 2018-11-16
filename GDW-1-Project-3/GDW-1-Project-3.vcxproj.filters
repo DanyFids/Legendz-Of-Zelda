@@ -22,6 +22,21 @@
     <ClInclude Include="Threads.h">
       <Filter>Headers</Filter>
     </ClInclude>
+    <ClInclude Include="Arrow.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="bgMusicManager.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemies.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Fireball.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Terrains.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Headers">
@@ -33,6 +48,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="bgMusicManager.cpp">
       <Filter>Source</Filter>
     </ClCompile>
   </ItemGroup>

@@ -1,6 +1,5 @@
 #pragma once
 enum Direction {
-	NONE,
 	Up,
 	Down,
 	Right,
@@ -12,4 +11,10 @@ enum GameState {
 	PLAY,
 	MENU,
 	CREDITS
+};
+
+enum Weapon {
+	Bow,
+	Bomb,
+	Boomerang
 };
