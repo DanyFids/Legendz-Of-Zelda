@@ -11,10 +11,12 @@ public:	   // x,y coord,                  width*2,height,lifetime, damage, speed
 
 	}
 
-	void Hit(Enemy & e) {
+	void Hit(Player & p) {
 
-		//if(this->willHit((Entity)e))	   //-- dont work yet, but if it actually touhes a baddie hurt it.
-		e.Hurt(this->getDamage());
+		if (this->willHit(& p,0,0))
+		{
+			p.Hurt(this->getDamage());
+		}
 	}
 
 

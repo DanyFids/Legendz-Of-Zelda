@@ -13,13 +13,21 @@
 #include"Terrains.h"
 #include"Enemies.h"
 
-#include "Sword.h"
+
 #include"Threads.h"
-#include "Arrow.h"
-#include "Fireball.h"
+
+
 #include "bgMusicManager.h"
 #include "Rope.h"
 
+//Projectiles
+#include "Arrow.h"
+#include "Sword.h"
+#include "Fireball.h"
+#include "SwordBeam.h"
+#include "Bomb.h"
+#include "Explosion.h"
+#include "Boomerang.h"
 
 const int PLAYER_SPEED = 1;
 

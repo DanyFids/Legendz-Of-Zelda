@@ -86,6 +86,7 @@ class Projectile : public Entity {
 private:
 	int dmg, timer,speed;
 	float theta;
+	Direction dir;
 public:
 	float getTheta()
 	{
@@ -107,6 +108,11 @@ public:
 		return timer;
 	}
 
+	Direction getDir()
+	{
+		return dir;
+	}
+
 	void setTime(int t)
 	{
 		timer = t;
@@ -120,6 +126,11 @@ public:
 	void setTheta(float _theta)
 	{
 		theta = _theta;
+	}
+
+	void setDir(Direction _dir)
+	{
+		dir = _dir;
 	}
 
 	Projectile(int x, int y, int w, int h, int time, int dmg, int speed) :Entity(x, y, w, h) {

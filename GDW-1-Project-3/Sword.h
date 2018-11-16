@@ -7,15 +7,17 @@ private:
 
 public:	   // x,y coord,                  width*2,height,time damage
 		   // the x+30 and y+3 is to make it appear infront of link, this needs to be changed by direction. sooner or later.
-	Sword(int x, int y) : Projectile(x+30, y+3, 32, 7, 1, 1 , 0) {
-
+	Sword(int x, int y,Direction _dir) : Projectile(x+30, y+3, 32, 7, 1, 1 , 0) {
+		this->setDir(_dir);
 
 	}
 
 	void Hit(Enemy & e) {
 
-		//if(this->willHit((Entity) e))	   -- dont work yet, but if it actually touhes a baddie hurt it.
-		e.Hurt(this->getDamage());
+		if (this->willHit(&e,0,0))
+		{
+			e.Hurt(this->getDamage());
+		}
 	}
 
 	void Hit(Player & p) {
