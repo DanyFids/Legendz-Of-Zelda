@@ -120,6 +120,6 @@ public:
 		sprite_sheet = s;
 	}
 
-	//virtual void HitDetect(Entity * other) = 0;
+	virtual bool HitDetect(Entity * other) = 0;
 	virtual void Update() = 0;
 };

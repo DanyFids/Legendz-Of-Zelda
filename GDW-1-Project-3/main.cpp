@@ -21,13 +21,7 @@
 #include "Rope.h"
 
 //Projectiles
-#include "Arrow.h"
-#include "Sword.h"
-#include "Fireball.h"
-#include "SwordBeam.h"
-#include "Bomb.h"
-#include "Explosion.h"
-#include "Boomerang.h"
+#include "Projectiles.h"
 
 const int PLAYER_SPEED = 1;
 

@@ -138,6 +138,7 @@ public:
 		this->dmg = dmg;
 	}
 
+
 	void Hit(Player & p) {
 		p.Hurt(dmg);
 	}

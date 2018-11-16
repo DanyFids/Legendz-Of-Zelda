@@ -115,15 +115,22 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="bgMusicManager.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Terrain.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="bgMusicManager.h" />
+    <ClInclude Include="Enemies.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="Enums.h" />
     <ClInclude Include="FunctionProto.h" />
     <ClInclude Include="CoreClasses.h" />
+    <ClInclude Include="Projectiles.h" />
+    <ClInclude Include="Rope.h" />
     <ClInclude Include="SpriteSheets.h" />
-    <ClInclude Include="Sword.h" />
+    <ClInclude Include="Terrain.h" />
+    <ClInclude Include="Terrains.h" />
     <ClInclude Include="Threads.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
