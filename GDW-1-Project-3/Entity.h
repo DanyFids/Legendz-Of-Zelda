@@ -7,6 +7,7 @@ private:
 	int cur_anim = 0;
 	int num_animations = 0;
 	bool flying;
+	Direction dir;
 public:
 	HANDLE sprite_sheet;
 	int xSpd, ySpd;
@@ -64,8 +65,8 @@ public:
 	}
 	
 	void draw(HANDLE out) {
-		static CHAR_INFO *outBuff = new CHAR_INFO[width * height];
-		static CHAR_INFO *transBuff = new CHAR_INFO[width * height];
+		CHAR_INFO *outBuff = new CHAR_INFO[width * height];
+		CHAR_INFO *transBuff = new CHAR_INFO[width * height];
 
 		//Area to read/write
 		SMALL_RECT screen;
@@ -120,6 +121,14 @@ public:
 		sprite_sheet = s;
 	}
 
+	void SetDir(Direction d) {
+		dir = d;
+	}
+
+	Direction GetDir() {
+		return dir;
+	}
+
 	virtual bool HitDetect(Entity * other) = 0;
-	virtual void Update() = 0;
+	virtual void Update(float dt) = 0;
 };

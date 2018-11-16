@@ -1,3 +1,14 @@
 ﻿  main.cpp
-c:\users\100716573\documents\visual studio 2017\projects\legendz-of-zelda\gdw-1-project-3\spritesheets.h(1410): warning C4018: '<': signed/unsigned mismatch
+c:\users\100716573\documents\visual studio 2017\projects\legendz-of-zelda\gdw-1-project-3\spritesheets.h(2895): warning C4018: '<': signed/unsigned mismatch
+c:\users\100716573\documents\visual studio 2017\projects\legendz-of-zelda\gdw-1-project-3\coreclasses.h(150): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+c:\users\100716573\documents\visual studio 2017\projects\legendz-of-zelda\gdw-1-project-3\main.cpp(283): warning C4018: '<': signed/unsigned mismatch
+c:\users\100716573\documents\visual studio 2017\projects\legendz-of-zelda\gdw-1-project-3\main.cpp(287): warning C4018: '<': signed/unsigned mismatch
+c:\users\100716573\documents\visual studio 2017\projects\legendz-of-zelda\gdw-1-project-3\main.cpp(291): warning C4018: '<': signed/unsigned mismatch
+c:\users\100716573\documents\visual studio 2017\projects\legendz-of-zelda\gdw-1-project-3\main.cpp(406): warning C4018: '<': signed/unsigned mismatch
+c:\users\100716573\documents\visual studio 2017\projects\legendz-of-zelda\gdw-1-project-3\main.cpp(411): warning C4018: '<': signed/unsigned mismatch
+c:\users\100716573\documents\visual studio 2017\projects\legendz-of-zelda\gdw-1-project-3\main.cpp(416): warning C4018: '<': signed/unsigned mismatch
+c:\users\100716573\documents\visual studio 2017\projects\legendz-of-zelda\gdw-1-project-3\main.cpp(423): warning C4018: '<': signed/unsigned mismatch
+c:\users\100716573\documents\visual studio 2017\projects\legendz-of-zelda\gdw-1-project-3\main.cpp(425): warning C4018: '<': signed/unsigned mismatch
+c:\users\100716573\documents\visual studio 2017\projects\legendz-of-zelda\gdw-1-project-3\main.cpp(432): warning C4018: '<': signed/unsigned mismatch
+c:\users\100716573\documents\visual studio 2017\projects\legendz-of-zelda\gdw-1-project-3\main.cpp(440): warning C4018: '<': signed/unsigned mismatch
   GDW-1-Project-3.vcxproj -> C:\Users\100716573\Documents\Visual Studio 2017\Projects\Legendz-Of-Zelda\GDW-1-Project-3\Debug\GDW-1-Project-3.exe

@@ -11,7 +11,9 @@ Player_Input player_input;
 
 class Player : public Entity {
 private:
-	int hp = 5;
+	int hp = 6;
+	bool can_attack = true;
+	float stop_timer = 0;
 public:
 	Player(int x, int y) :Entity(x, y, 30, 16) {
 		SetNumAnim(1);
@@ -19,6 +21,7 @@ public:
 
 		SetSpriteSheet(Sprites.playerSprites);
 
+		SetDir(Down);
 	}
 
 	bool HitDetect(Entity * other) {
@@ -29,7 +32,7 @@ public:
 		hp -= d;
 	}
 
-	void Update() {
+	void Update(float dt) {
 		if (GetX() + xSpd < 0) {
 			xSpd = 0 - GetX();
 		}
@@ -38,18 +41,34 @@ public:
 			ySpd = 0 - GetY();
 		}
 
-
-		move();
+		if (stop_timer <= 0) {
+			move();
+		}
+		else {
+			stop_timer -= dt;
+			if (stop_timer <= 0) {
+				can_attack = true;
+			}
+		}
 
 		xSpd = 0;
 		ySpd = 0;
 	}
 
+	bool CanAtk() {
+		return can_attack;
+	}
+
+	void SwingSword() {
+		can_attack = false;
+		stop_timer = 1;
+	}
 };
 
 class Enemy : public Entity {
 private:
 	int dmg, hp;
+	bool invuln;
 public:
 	Enemy(int x, int y, int w, int h, int hp, int dmg) :Entity(x, y, w, h) {
 		this->hp = hp;
@@ -57,7 +76,8 @@ public:
 	}
 
 	void Hurt(int d) {
-		hp -= d;
+		if(!invuln)
+			hp -= d;
 	}
 
 	int GetHP() {
@@ -66,6 +86,10 @@ public:
 
 	void Hit(Player & p) {
 		p.Hurt(dmg);
+	}
+
+	void SetInvuln(bool i) {
+		invuln = i;
 	}
 
 	virtual void AI(Player p) = 0;
@@ -77,15 +101,15 @@ public:
 
 	}
 
-	void Update() {
+	void Update(float dt) {
 
 	}
 };
 
 class Projectile : public Entity {
 private:
-	int dmg, timer,speed;
-	float theta;
+	float theta, timer;
+	int dmg,speed;
 	Direction dir;
 public:
 	float getTheta()
@@ -103,7 +127,7 @@ public:
 		return speed;
 	}
 
-	int getTime()
+	float getTime()
 	{
 		return timer;
 	}
@@ -113,7 +137,7 @@ public:
 		return dir;
 	}
 
-	void setTime(int t)
+	void setTime(float t)
 	{
 		timer = t;
 	}
@@ -146,4 +170,5 @@ public:
 	void Hit(Enemy & e) {
 		e.Hurt(dmg);
 	}
+
 };

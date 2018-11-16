@@ -6,6 +6,6 @@
 
 
 
-void LoZTitleScreen();
-void LoZDungeonTheme();
+void LoZTitleScreenBGM();
+void LoZDungeonThemeBGM();
 void stopSound();

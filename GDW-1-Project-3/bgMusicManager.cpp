@@ -3,12 +3,12 @@
 
 
 
-void LoZTitleScreen()
+void LoZTitleScreenBGM()
 {
 	PlaySound(TEXT("BGM\\TitleThemeLoZ.wav"), NULL, SND_LOOP | SND_SYNC | SND_ASYNC);
 }
 
-void LoZDungeonTheme()
+void LoZDungeonThemeBGM()
 {
 	PlaySound(TEXT("BGM\\DungeonThemeLoZ.wav"), NULL, SND_LOOP | SND_SYNC | SND_ASYNC);
 }

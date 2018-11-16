@@ -18,12 +18,11 @@
 
 
 #include "bgMusicManager.h"
-#include "Rope.h"
 
 //Projectiles
 #include "Projectiles.h"
 
-const int PLAYER_SPEED = 1;
+const int PLAYER_SPEED = 2;
 
 HANDLE console = GetStdHandle(STD_OUTPUT_HANDLE);
 HANDLE drawBuff = CreateConsoleScreenBuffer(
@@ -34,11 +33,16 @@ HANDLE drawBuff = CreateConsoleScreenBuffer(
 	NULL);
 HANDLE inputH;
 
-Player player(0, 0);
 
 GameState state = TITLE;
 
 bool Play = true;
+
+// Play Objects
+Player player(0, 0);
+std::vector<Enemy*> enemies = {new Rope(80, 10),new SpikeTrap(400, 3),new SpikeTrap(400, 200),new Gel(50, 50), new Keese(100, 100) };
+std::vector<Projectile*> projectiles = {};
+std::vector<Terrain*> roomTer = {new Wall(20,100), new Wall(52, 100), new Wall(84, 100)};
 
 /***************************
 *			Main
@@ -49,22 +53,11 @@ int main() {
 
 	Load();
 
+	LoZTitleScreenBGM();
+
 	//Start DrawThread
 	DWORD drawThreadID;
 	HANDLE drawThreadH = CreateThread(0, 0, DrawThread, NULL, 0, &drawThreadID);
-
-	Sprites.LoadFloor();
-	Sprites.LoadWall();
-	Sprites.LoadBlock();
-	Sprites.LoadDoor();
-	Sprites.LoadPlayer();
-	//Sprites.LoadEnemy();
-	LoZTitleScreen();
-	Sprites.LoadSword();
-	Sprites.LoadKeese();
-	Sprites.LoadRope();
-	Sprites.LoadSpikeTrap();
-	Sprites.LoadGel();
 
 	const int inputR_SIZE = 128;
 	DWORD iNumRead, consoleModeSave, consoleMode;
@@ -289,13 +282,23 @@ void Draw() {
 	case PLAY:
 		player.draw(drawBuff);
 
+		for (int e = 0; e < enemies.size(); e++) {
+			enemies[e]->draw(drawBuff);
+		}
+
+		for (int p = 0; p < projectiles.size(); p++) {
+			projectiles[p]->draw(drawBuff);
+		}
+
+		for (int t = 0; t < roomTer.size(); t++) {
+			roomTer[t]->draw(drawBuff);
+		}
+
 		break;
 	case MENU:
 
 		break;
 	}
-
-	player.draw(drawBuff);
 
 	SwapBuffer();
 }
@@ -329,30 +332,123 @@ void Update() {
 	float dt = GetTimeInSeconds();
 
 	if (state == PLAY) {
+		bool changeDir = true;
+
+		switch (player.GetDir()) {
+		case Up:
+			if (player_input.keyUp) {
+				changeDir = false;
+			}
+			break;
+		case Down:
+			if (player_input.keyDown) {
+				changeDir = false;
+			}
+			break;
+		case Left:
+			if (player_input.keyLeft) {
+				changeDir = false;
+			}			break;
+		case Right:
+			if (player_input.keyRight) {
+				changeDir = false;
+			}
+			break;
+		}
+
 		if (player_input.keyUp && !player_input.keyDown) {
 			player.ySpd = -PLAYER_SPEED;
+			if (changeDir) {
+				player.SetDir(Up);
+			}
 		}
 
 		if (!player_input.keyUp && player_input.keyDown) {
 			player.ySpd = PLAYER_SPEED;
+			if (changeDir) {
+				player.SetDir(Down);
+			}
 		}
 
 		if (player_input.keyRight && !player_input.keyLeft) {
 			player.xSpd = PLAYER_SPEED * 2;
+			if (changeDir) {
+				player.SetDir(Right);
+			}
 		}
 
 		if (!player_input.keyRight && player_input.keyLeft) {
 			player.xSpd = -PLAYER_SPEED * 2;
+			if (changeDir) {
+				player.SetDir(Left);
+			}
 		}
 
-	if (player_input.keySpace)
-	{
+		if (player_input.keySpace)
+		{
+			if (player.CanAtk()) {
+				Direction d = player.GetDir();
+				switch (d) {
+				case Up:
+					projectiles.push_back(new Sword(player.GetX(), player.GetY() - 16, d));
+					break;
+				case Down:
+					projectiles.push_back(new Sword(player.GetX(), player.GetY() + player.GetHeight(), d));
+					break;
+				case Left:
+					projectiles.push_back(new Sword(player.GetX() - 32, player.GetY(), d));
+					break;
+				case Right:
+					projectiles.push_back(new Sword(player.GetX() + player.GetWidth(), player.GetY(), d));
+					break;
+				}
+			}
+		}
 
-	}
+		for (int e = 0; e < enemies.size(); e++) {
+			enemies[e]->AI(player);
+			if (enemies[e]->HitDetect(&player)) {
+				enemies[e]->Hit(player);
+			}
+			for (int f = 0; f < enemies.size(); f++) {
+				if (e != f) {
+					enemies[e]->HitDetect(enemies[f]);
+				}
+			}
+			for (int p = 0; p < projectiles.size(); p++) {
+				if (projectiles[p]->HitDetect(enemies[e])) {
+					projectiles[p]->Hit(*enemies[e]);
+				}
+			}
+		}
+		
+		for (int t = 0; t < roomTer.size(); t++) {
+			roomTer[t]->HitDetect(&player);
+			for (int e = 0; e < enemies.size(); e++) {
+				roomTer[t]->HitDetect(enemies[e]);
+			}
+			
+		}
 
+		player.Update(dt);
+		for (int e = 0; e < enemies.size(); e++) {
+			if (enemies[e]->GetHP() <= 0) {
+				enemies.erase(enemies.begin() + e);
+			}
+			else {
+				enemies[e]->Update(dt);
+			}
+		}
+		for (int p = 0; p < projectiles.size(); p++) {
+			if (projectiles[p]->getTime() > 0) {
+				projectiles[p]->Update(dt);
+			}
+			else {
+				std::vector<Projectile*>::iterator it = projectiles.begin();
+				projectiles.erase(it + p);
+			}
+		}
 
-
-		player.Update();
 	}
 }
 
