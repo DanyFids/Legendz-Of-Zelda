@@ -50,6 +50,7 @@ DWORD WINAPI LoadThread(LPVOID lpParameter)
 	if (sounds.LoadBeamSword()) {
 		LOADED++;
 	}
+
 	
 	return 0;
 }

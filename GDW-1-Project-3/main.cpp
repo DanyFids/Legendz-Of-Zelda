@@ -57,7 +57,8 @@ int main() {
 	SCREEN_SIZE.Y = 224;
 
 	ResizeWindow();
-	LoZTitleScreenBGM();
+	//LoZTitleScreenBGM();	 //Legacy Player
+	sounds.PlayTitleTheme();
 	Load();
 
 	
@@ -229,11 +230,17 @@ void KeyHandler(KEY_EVENT_RECORD e) {
 			switch (state) {
 			case TITLE:
 				state = PLAY;
-				LoZDungeonThemeBGM();
+				sounds.StopMusic();
+				sounds.PlayDungeonTheme();
+				
+				//LoZDungeonThemeBGM();		   //Legacy Player
+				
 				break;
 			case PLAY:
 				state = MENU;
-				LoZTitleScreenBGM();
+				sounds.StopMusic();
+				sounds.PlayTitleTheme();
+				//LoZTitleScreenBGM();		  //Legacy Player
 				break;
 			case MENU:
 				state = PLAY;
@@ -286,10 +293,12 @@ void Draw() {
 
 	switch (state) {
 	case TITLE:
+		
 		DrawScreen(Sprites.titleScreen);
 		
 		break;
 	case PLAY:
+		
 		player.draw(drawBuff);
 
 		for (int e = 0; e < enemies.size(); e++) {

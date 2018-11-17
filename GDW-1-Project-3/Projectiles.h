@@ -9,7 +9,7 @@ private:
 
 public:	   // x,y coord,                  width*2,height,time,damage,speed
 		   // the x+30 and y+3 is to make it appear infront of link, this needs to be changed by direction. sooner or later.
-	Sword(int x, int y, Direction _dir) : Projectile(x, y, 32, 16, 0.2, 1, 0) {
+	Sword(int x, int y, Direction _dir) : Projectile(x, y, 32, 16, 0.2f, 1, 0) {
 		this->setDir(_dir);
 		SetSpriteSheet(Sprites.swordSprites);
 	}
@@ -37,7 +37,7 @@ private:
 
 public:	   // x,y coord,                  width*2,height,time, damage, speed
 		   // the x+30 and y+3 is to make it appear infront of link, this needs to be changed by direction. sooner or later.
-	BeamSword(int x, int y, Direction _dir) : Projectile(x, y, 32, 7, 1, 1, 2) {
+	BeamSword(int x, int y, Direction _dir) : Projectile(x, y, 32, 7, 1.0f, 1, 2) {
 		this->setDir(_dir);
 
 	}
@@ -47,9 +47,9 @@ public:	   // x,y coord,                  width*2,height,time, damage, speed
 		return willHit(e, 0, 0);
 	}
 
-	void Update()
+	void Update(float dt)
 	{
-		this->setTime(this->getTime() - 1);
+		this->setTime(this->getTime() - dt);
 	}
 
 };
@@ -64,7 +64,7 @@ private:
 
 
 public:	   // x,y coord,                  width*2,height,lifetime, damage, speed 
-	Arrow(int x, int y, Direction _dir) : Projectile(x + 30, y + 3, 32, 7, 1, 1, 1) {
+	Arrow(int x, int y, Direction _dir) : Projectile(x + 30, y + 3, 32, 7, 1.0f, 1, 1) {
 		this->setDir(_dir);
 	}
 
@@ -73,9 +73,9 @@ public:	   // x,y coord,                  width*2,height,lifetime, damage, speed
 		return willHit(e, 0, 0);
 	}
 
-	void Update()
+	void Update(float dt)
 	{
-		this->setTime(this->getTime() - 1);
+		this->setTime(this->getTime() - dt);
 	}
 
 };
@@ -88,8 +88,8 @@ class Fireball : public Projectile {
 private:
 
 
-public:	   // x,y coord,                  width*2,height,lifetime, damage, speed 
-	Fireball(int x, int y, float _theta) : Projectile(x + 30, y + 3, 32, 7, 1, 1, 1) {
+public:	   // x,y coord,                  width*2,height,					lifetime, damage, speed 
+	Fireball(int x, int y, float _theta) : Projectile(x, y, 32, 7, 1.0f, 1, 1) {
 		this->setTheta(_theta);
 
 	}
@@ -99,9 +99,9 @@ public:	   // x,y coord,                  width*2,height,lifetime, damage, speed
 		return willHit(e, 0, 0);
 	}
 
-	void Update()
+	void Update(float dt)
 	{
-		this->setTime(this->getTime() - 1);
+		this->setTime(this->getTime() - dt);
 	}
 
 };
@@ -115,7 +115,7 @@ private:
 
 
 public:	   // x,y coord,                  width*2,height,lifetime, damage, speed 
-	Bomb(int x, int y) : Projectile(x, y, 32, 7, 3, 0, 0) {
+	Bomb(int x, int y) : Projectile(x, y, 32, 7, 3.0f, 0, 0) {
 
 
 	}
@@ -123,6 +123,11 @@ public:	   // x,y coord,                  width*2,height,lifetime, damage, speed
 	bool HitDetect(Entity * e)
 	{
 		return false;
+	}
+
+	void Update(float dt)
+	{
+		this->setTime(this->getTime() - dt);
 	}
 
 };
@@ -136,7 +141,7 @@ private:
 
 
 public:	   // x,y coord,                  width*2,height,lifetime, damage, speed 
-	Explosion(int x, int y) : Projectile(x, y, 32, 7, 2, 3, 0) {
+	Explosion(int x, int y) : Projectile(x, y, 32, 7, 1.0f, 3, 0) {
 
 
 	}
@@ -144,6 +149,11 @@ public:	   // x,y coord,                  width*2,height,lifetime, damage, speed
 	bool HitDetect(Entity * e)
 	{
 		return willHit(e, 0, 0);
+	}
+
+	void Update(float dt)
+	{
+		this->setTime(this->getTime() - dt);
 	}
 
 };
@@ -157,12 +167,14 @@ private:
 	int maxRange = 15;
 	int startX;
 	int startY;
+	float startTime;
 
-public:	   // x,y coord,                  width*2,height,lifetime, damage, speed 
-	Boomerang(int x, int y, Direction _dir) : Projectile(x, y, 32, 7, 7, 1, 1) {
+public:	   // x,y coord,                  width*2,height,		   || lifetime, damage, speed 
+	Boomerang(int x, int y, Direction _dir) : Projectile(x, y, 32, 7, 10, 1, 1) {
 		this->setDir(_dir);
 		startX = x;
 		startY = y;
+		startTime = this->getTime();
 	}
 
 	bool HitDetect(Entity * e)
@@ -170,28 +182,33 @@ public:	   // x,y coord,                  width*2,height,lifetime, damage, speed
 		return willHit(e, 0, 0);
 	}
 
-	// if boomerang is past the max range from it's parent* (thrower)	   return true
-	bool checkRange(Entity & parent)
+	void Update(float dt)
 	{
-		if (this->getDir() == Left || this->getDir() == Right)
-		{
-			if (sqrt(pow(this->GetX() * 2, 2) - pow(parent.GetX() * 2, 2)) >= this->maxRange)
-			{
-				return true;
-			}
-		}
-
-		if (this->getDir() == Up || this->getDir() == Down)
-		{
-			if (sqrt(pow(this->GetY(), 2) - pow(parent.GetY(), 2)) >= this->maxRange)
-			{
-				return true;
-			}
-		}
-
-		return false;
-
+		this->setTime(this->getTime() - dt);
 	}
+
+	void rebound() {
+
+		if (this->getTime() == startTime / 2)
+		{
+			switch (this->GetDir())
+			{
+			case Left:
+				this->SetDir(Right);
+				break;
+			case Right:
+				this->SetDir(Left);
+				break;
+			case Up:
+				this->SetDir(Down);
+				break;
+			case Down:
+				this->SetDir(Up);
+				break;
+			}
+		}
+	}
+	
 
 };
 
