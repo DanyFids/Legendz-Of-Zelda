@@ -138,49 +138,6 @@ public:
 		CONSOLE_TEXTMODE_BUFFER,
 		NULL);
 
-	void DrawSprite(HANDLE sheet, int sX, int sY, int w, int h, HANDLE dest, int dx, int dy) {
-		CHAR_INFO *outBuff = new CHAR_INFO[w * h];
-		CHAR_INFO *transBuff = new CHAR_INFO[w * h];
-
-		//Area to read/write
-		SMALL_RECT screen;
-		screen.Top = sY;
-		screen.Left = sX;
-		screen.Right = sX + w - 1;
-		screen.Bottom = sY + h - 1;
-
-		//Top Left COORD
-		COORD start;
-		start.X = 0;
-		start.Y = 0;
-
-		//Position
-		COORD pos;
-		pos.X = 0;
-		pos.Y = 0;
-
-		//Buffer Size
-		COORD size;
-		size.X = w;
-		size.Y = h;
-
-		ReadConsoleOutput(sheet, outBuff, size, start, &screen);
-
-		screen.Top = dy;
-		screen.Left = dx;
-		screen.Right = w + dx - 1;
-		screen.Bottom = h + dy - 1;
-
-		ReadConsoleOutput(dest, transBuff, size, pos, &screen);
-
-		/*for (int p = 0; p < (w * h); p++) {
-			if (outBuff[p].Attributes == 7) {
-				outBuff[p] = transBuff[p];
-			}
-		}*/
-
-		WriteConsoleOutput(dest, outBuff, size, pos, &screen);
-	}
 
 	bool LoadPlayer() {
 		//anim 1 frame 1
