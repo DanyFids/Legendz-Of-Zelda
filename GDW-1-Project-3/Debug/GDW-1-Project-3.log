@@ -1,5 +1,4 @@
-﻿  bgMusicManager.cpp
-  main.cpp
+﻿  main.cpp
 c:\users\100653368\documents\visual studio 2017\projects\gdw-1-project-2\legendz-of-zelda\gdw-1-project-3\spritesheets.h(141): error C2535: 'void SpriteSheets::DrawSprite(HANDLE,int,int,int,int,HANDLE,int,int)': member function already defined or declared
   c:\users\100653368\documents\visual studio 2017\projects\gdw-1-project-2\legendz-of-zelda\gdw-1-project-3\spritesheets.h(6): note: see declaration of 'SpriteSheets::DrawSprite'
 c:\users\100653368\documents\visual studio 2017\projects\gdw-1-project-2\legendz-of-zelda\gdw-1-project-3\spritesheets.h(4538): warning C4018: '<': signed/unsigned mismatch
@@ -14,4 +13,3 @@ c:\users\100653368\documents\visual studio 2017\projects\gdw-1-project-2\legendz
 c:\users\100653368\documents\visual studio 2017\projects\gdw-1-project-2\legendz-of-zelda\gdw-1-project-3\main.cpp(425): warning C4018: '<': signed/unsigned mismatch
 c:\users\100653368\documents\visual studio 2017\projects\gdw-1-project-2\legendz-of-zelda\gdw-1-project-3\main.cpp(432): warning C4018: '<': signed/unsigned mismatch
 c:\users\100653368\documents\visual studio 2017\projects\gdw-1-project-2\legendz-of-zelda\gdw-1-project-3\main.cpp(440): warning C4018: '<': signed/unsigned mismatch
-  Generating Code...
