@@ -34,6 +34,9 @@
     <ClInclude Include="Projectiles.h">
       <Filter>Headers</Filter>
     </ClInclude>
+    <ClInclude Include="sfxManager.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Headers">
@@ -50,5 +53,6 @@
     <ClCompile Include="bgMusicManager.cpp">
       <Filter>Source</Filter>
     </ClCompile>
+    <ClCompile Include="Terrain.cpp" />
   </ItemGroup>
 </Project>

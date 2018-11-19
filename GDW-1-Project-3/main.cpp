@@ -13,14 +13,15 @@
 #include"Terrains.h"
 #include"Enemies.h"
 
-
-#include"Threads.h"
-
-
+//SFX/BGM Managers
 #include "bgMusicManager.h"
+#include "sfxManager.h"
+#include"Threads.h"
 
 //Projectiles
 #include "Projectiles.h"
+
+
 
 const int PLAYER_SPEED = 2;
 
@@ -41,8 +42,9 @@ bool Play = true;
 // Play Objects
 Player player(0, 0);
 std::vector<Enemy*> enemies = {new Rope(80, 10),new SpikeTrap(400, 3),new SpikeTrap(400, 200),new Gel(50, 50), new Keese(100, 100) };
-std::vector<Projectile*> projectiles = {};
+std::vector<Projectile*> projectiles = {new Bomb(150,150)};
 std::vector<Terrain*> roomTer = {new Wall(20,100), new Wall(52, 100), new Wall(84, 100)};
+
 
 /***************************
 *			Main
@@ -51,9 +53,10 @@ int main() {
 	SCREEN_SIZE.X = 512;
 	SCREEN_SIZE.Y = 224;
 
+	ResizeWindow();
+	//LoZTitleScreenBGM();	 //Legacy Player
+	sounds.PlayTitleTheme();
 	Load();
-
-	LoZTitleScreenBGM();
 
 	//Start DrawThread
 	DWORD drawThreadID;
@@ -69,7 +72,7 @@ int main() {
 	cursor.bVisible = false;
 	SetConsoleCursorInfo(console, &cursor);
 
-	ResizeWindow();
+	
 
 
 	inputH = GetStdHandle(STD_INPUT_HANDLE);
@@ -221,9 +224,17 @@ void KeyHandler(KEY_EVENT_RECORD e) {
 			switch (state) {
 			case TITLE:
 				state = PLAY;
+				sounds.StopMusic();
+				sounds.PlayDungeonTheme();
+				
+				//LoZDungeonThemeBGM();		   //Legacy Player
+				
 				break;
 			case PLAY:
 				state = MENU;
+				sounds.StopMusic();
+				sounds.PlayTitleTheme();
+				//LoZTitleScreenBGM();		  //Legacy Player
 				break;
 			case MENU:
 				state = PLAY;
@@ -276,10 +287,12 @@ void Draw() {
 
 	switch (state) {
 	case TITLE:
+		
 		DrawScreen(Sprites.titleScreen);
 		
 		break;
 	case PLAY:
+		
 		player.draw(drawBuff);
 
 		for (int e = 0; e < enemies.size(); e++) {
@@ -386,6 +399,7 @@ void Update() {
 
 		if (player_input.keySpace)
 		{
+			sounds.PlaySwing();
 			if (player.CanAtk()) {
 				Direction d = player.GetDir();
 				switch (d) {
@@ -508,8 +522,8 @@ void Load() {
 	int loadPerc = 0;
 
 	SetConsoleTextAttribute(drawBuff, 10 * 16);
-	while (SPRITES_LOADED != SPRITES_TO_LOAD) {
-		int perc = (SPRITES_LOADED * 100) / SPRITES_TO_LOAD;
+	while (LOADED != TO_LOAD) {
+		int perc = (LOADED * 100) / TO_LOAD;
 		if (perc > loadPerc) {
 			loadPerc = perc;
 			for (int i = 0; i < 20; i++) {
