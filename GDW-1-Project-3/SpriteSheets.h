@@ -7465,55 +7465,17 @@ public:
 		}
 	}
 
-	bool LoadBrick() {
-
-		DWORD output;
-
-		SetConsoleTextAttribute(brickSprites, 9 * 16);
-
-		for (int i = 0; i < 8; i++) {
-			GoToXY(brickSprites, 0, i);
-			WriteConsole(brickSprites, &"                ", 16, &output, NULL);
-		}
-
-		SetConsoleTextAttribute(brickSprites, 1 * 16);
-
-		GoToXY(brickSprites, 0, 3);
-		WriteConsole(brickSprites, &"                ", 16, &output, NULL);
-
-		for (int i = 0; i < 3; i++) {
-			GoToXY(brickSprites, 2, i);
-			WriteConsole(brickSprites, "  ", 2, &output, NULL);
-		}
-
-		for (int i = 4; i < 8; i++) {
-			GoToXY(brickSprites, 10, i);
-			WriteConsole(brickSprites, "  ", 2, &output, NULL);
-		}
-
-		GoToXY(brickSprites, 0, 7);
-		WriteConsole(brickSprites, "                ", 16, &output, NULL);
-
-		SetConsoleTextAttribute(brickSprites, 11 * 16);
-
-		GoToXY(brickSprites, 4, 0);
-		WriteConsole(brickSprites, "  ", 2, &output, NULL);
-
-		GoToXY(brickSprites, 12, 4);
-		WriteConsole(brickSprites, "  ", 2, &output, NULL);
-
-		return true;
-	}
-
 	bool LoadBomb() { // Anthony's Attempt
 
 		DWORD output;
 
-		SetConsoleTextAttribute(bombSprites, 3 * 16); // Colour
+		SetConsoleTextAttribute(bombSprites, 1 * 16); // Colour
 
-		for (int i = 0; i < 16; i++) {
+		for (int i = 0; i < 8; i++) {// Draws Row (i = y size)
 			GoToXY(bombSprites, 0, i);	 //Position of pixel
-			WriteConsole(holeSprites, &"  ", 2, &output, NULL); // Drawing the sprites?
+			for (int c = 0; c < 8; c++) { // Draws Col (c = x size)
+				WriteConsole(bombSprites, &"  ", 2, &output, NULL); // Drawing the sprites?
+			}
 		}
 		return true;
 	}
