@@ -7,7 +7,7 @@ DWORD WINAPI DrawThread(LPVOID lpParameter)
 	return 0;
 }
 
-const int TO_LOAD = 13;
+const int TO_LOAD = 14;
 int LOADED = 0;
 DWORD WINAPI LoadThread(LPVOID lpParameter)
 {
@@ -44,7 +44,12 @@ DWORD WINAPI LoadThread(LPVOID lpParameter)
 	if (Sprites.LoadGel()) {
 		LOADED++;
 	}
-	if (sounds.LoadSwing()) {//12
+	if (Sprites.LoadBomb()) {
+		LOADED++;
+	}
+
+	// Sounds below!!
+	if (sounds.LoadSwing()) {//13
 		LOADED++;
 	}
 	if (sounds.LoadBeamSword()) {

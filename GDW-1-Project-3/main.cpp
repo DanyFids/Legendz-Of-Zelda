@@ -16,11 +16,7 @@
 //SFX/BGM Managers
 #include "bgMusicManager.h"
 #include "sfxManager.h"
-
 #include"Threads.h"
-
-
-
 
 //Projectiles
 #include "Projectiles.h"
@@ -46,8 +42,9 @@ bool Play = true;
 // Play Objects
 Player player(0, 0);
 std::vector<Enemy*> enemies = {new Rope(80, 10),new SpikeTrap(400, 3),new SpikeTrap(400, 200),new Gel(50, 50), new Keese(100, 100) };
-std::vector<Projectile*> projectiles = {};
+std::vector<Projectile*> projectiles = {new Bomb(150,150)};
 std::vector<Terrain*> roomTer = {new Wall(20,100), new Wall(52, 100), new Wall(84, 100)};
+
 
 /***************************
 *			Main
@@ -60,9 +57,6 @@ int main() {
 	//LoZTitleScreenBGM();	 //Legacy Player
 	sounds.PlayTitleTheme();
 	Load();
-
-	
-	
 
 	//Start DrawThread
 	DWORD drawThreadID;
