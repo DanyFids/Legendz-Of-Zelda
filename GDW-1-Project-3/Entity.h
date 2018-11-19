@@ -65,13 +65,23 @@ public:
 	}
 	
 	void draw(HANDLE out) {
+		int drX = 0;
+		if (x < 0) {
+			drX = -x;
+		}
+
+		int drY = 0;
+		if (y < 0) {
+			drY = -y;
+		}
+
 		CHAR_INFO *outBuff = new CHAR_INFO[width * height];
 		CHAR_INFO *transBuff = new CHAR_INFO[width * height];
 
 		//Area to read/write
 		SMALL_RECT screen;
-		screen.Top = 0;
-		screen.Left = 0;
+		screen.Top = drY;
+		screen.Left = drX;
 		screen.Right = width - 1;
 		screen.Bottom = height - 1;
 
@@ -87,13 +97,13 @@ public:
 
 		//Buffer Size
 		COORD size;
-		size.X = width;
-		size.Y = height;
+		size.X = width - drX;
+		size.Y = height - drY;
 
 		ReadConsoleOutput(sprite_sheet, outBuff, size, start, &screen);
 
-		screen.Top = y;
-		screen.Left = x;
+		screen.Top = y + drY;
+		screen.Left = x + drX;
 		screen.Right = width + x - 1;
 		screen.Bottom = height + y - 1;
 

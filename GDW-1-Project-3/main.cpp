@@ -1,4 +1,5 @@
 #include<iostream>
+#include<fstream>
 #include<string>
 #include<vector>
 #include<Windows.h>
@@ -12,6 +13,7 @@
 #include"CoreClasses.h"
 #include"Terrains.h"
 #include"Enemies.h"
+#include"Menus.h"
 
 #include "Sword.h"
 #include"Threads.h"
@@ -31,23 +33,52 @@ HANDLE drawBuff = CreateConsoleScreenBuffer(
 	NULL);
 HANDLE inputH;
 
+COORD mouseLoc;
 
 GameState state = TITLE;
 
 bool Play = true;
 
 // Play Objects
+// Player
 Player player(0, 0);
+Player_Info * player_file;
+// Non-Player entities
 std::vector<Enemy*> enemies = {new Rope(80, 10),new SpikeTrap(400, 3),new SpikeTrap(400, 200),new Gel(50, 50), new Keese(100, 100) };
 std::vector<Projectile*> projectiles = {};
 std::vector<Terrain*> roomTer = {new Wall(20,100), new Wall(52, 100), new Wall(84, 100)};
+
+// Menus
+Menu CharSelMenu({
+	new CharacterButton(94, 86, &PLAYER_FILES[0], 0),
+	new CharacterButton(94, 109, &PLAYER_FILES[1], 1),
+	new CharacterButton(94, 132, &PLAYER_FILES[2], 2),
+	new TextButton(94, 164, "Register Your Name", REGISTER), 
+	new TextButton(94, 180, "Elimination Mode  ", ERASE)
+});
+Menu ElimMenu({
+	new CharacterButton(94, 86, &PLAYER_FILES[0], 0, false),
+	new CharacterButton(94, 109, &PLAYER_FILES[1], 1, false),
+	new CharacterButton(94, 132, &PLAYER_FILES[2], 2, false),
+	new TextButton(94, 180, "Elimination End   ", END)
+});
+Menu RegisterMenu({
+	new CharacterButton(94, 86, &PLAYER_FILES[0], 0, false),
+	new CharacterButton(94, 109, &PLAYER_FILES[1], 1, false),
+	new CharacterButton(94, 132, &PLAYER_FILES[2], 2, false),
+	new TextButton(94, 180, "Register Name End ", END)
+});
+int editId = 0;
+int editChar = 0;
+int EDIT_TIME = 10;
+int editTimer = EDIT_TIME;
 
 /***************************
 *			Main
 ***************************/
 int main() {
 	SCREEN_SIZE.X = 512;
-	SCREEN_SIZE.Y = 224;
+	SCREEN_SIZE.Y = 240;
 
 	Load();
 
@@ -121,7 +152,7 @@ int main() {
 					KeyHandler(inputR[c].Event.KeyEvent);
 					break;
 				case MOUSE_EVENT:
-					//MouseHandler(inputR[c].Event.MouseEvent);
+					MouseHandler(inputR[c].Event.MouseEvent);
 					break;
 				default:
 					break;
@@ -191,58 +222,83 @@ void SwapBuffer() {
 	Handles keyboard input.
 */
 void KeyHandler(KEY_EVENT_RECORD e) {
-	if (e.bKeyDown) {
-		switch (e.wVirtualKeyCode) {
-		case VK_ESCAPE:
-			Play = false;
-			break;
-		case VK_UP:
-			player_input.keyUp = true;
-			break;
-		case VK_DOWN:
-			player_input.keyDown = true;
-			break;
-		case VK_LEFT:
-			player_input.keyLeft = true;
-			break;
-		case VK_RIGHT:
-			player_input.keyRight = true;
-			break;
-		case VK_SPACE:
-			player_input.keySpace = true;
-			break;
+	if (state == CHARACTER_ADD) {
+		if (e.bKeyDown) {
+			if (RegisterMenu.GetSelected() < 3) {
+				if (e.wVirtualKeyCode == VK_BACK) {
+					editChar--;
+					if (editChar < 0) {
+						editChar = 7;
+					}
+					PLAYER_FILES[editId].Name[editChar] = ' ';
+				}
+				else if(isalnum(e.uChar.AsciiChar) || e.uChar.AsciiChar == ' '){
+					PLAYER_FILES[editId].Name[editChar] = e.uChar.AsciiChar;
+					editChar++;
+					if (editChar >= 8) {
+						editChar = 0;
+					}
+					if (!PLAYER_FILES[editId].file_exists) {
+						PLAYER_FILES[editId].file_exists = true;
+					}
+				}
+			}
 		}
 	}
 	else {
-		switch (e.wVirtualKeyCode) {
-		case VK_RETURN:
-			switch (state) {
-			case TITLE:
-				state = PLAY;
+		if (e.bKeyDown) {
+			switch (e.wVirtualKeyCode) {
+			case VK_ESCAPE:
+				Play = false;
 				break;
-			case PLAY:
-				state = MENU;
+			case VK_UP:
+				player_input.keyUp = true;
 				break;
-			case MENU:
-				state = PLAY;
+			case VK_DOWN:
+				player_input.keyDown = true;
+				break;
+			case VK_LEFT:
+				player_input.keyLeft = true;
+				break;
+			case VK_RIGHT:
+				player_input.keyRight = true;
+				break;
+			case VK_SPACE:
+				player_input.keySpace = true;
 				break;
 			}
-			
-		case VK_UP:
-			player_input.keyUp = false;
-			break;
-		case VK_DOWN:
-			player_input.keyDown = false;
-			break;
-		case VK_LEFT:
-			player_input.keyLeft = false;
-			break;
-		case VK_RIGHT:
-			player_input.keyRight = false;
-			break;
-		case VK_SPACE:
-			player_input.keySpace = false;
-			break;
+		}
+		else {
+			switch (e.wVirtualKeyCode) {
+			case VK_RETURN:
+				switch (state) {
+				case TITLE:
+					ToCharacterSelect();
+					break;
+				case PLAY:
+					state = INVENTORY;
+					break;
+				case INVENTORY:
+					state = PLAY;
+					break;
+				}
+
+			case VK_UP:
+				player_input.keyUp = false;
+				break;
+			case VK_DOWN:
+				player_input.keyDown = false;
+				break;
+			case VK_LEFT:
+				player_input.keyLeft = false;
+				break;
+			case VK_RIGHT:
+				player_input.keyRight = false;
+				break;
+			case VK_SPACE:
+				player_input.keySpace = false;
+				break;
+			}
 		}
 	}
 }
@@ -277,24 +333,51 @@ void Draw() {
 		DrawScreen(Sprites.titleScreen);
 		
 		break;
+	case CHARACTER_SEL:
+		DrawScreen(Sprites.CharacterScreen);
+		CharSelMenu.Draw(drawBuff);
+		break;
 	case PLAY:
-		player.draw(drawBuff);
-
 		for (int e = 0; e < enemies.size(); e++) {
 			enemies[e]->draw(drawBuff);
-		}
-
-		for (int p = 0; p < projectiles.size(); p++) {
-			projectiles[p]->draw(drawBuff);
 		}
 
 		for (int t = 0; t < roomTer.size(); t++) {
 			roomTer[t]->draw(drawBuff);
 		}
 
-		break;
-	case MENU:
+		for (int p = 0; p < projectiles.size(); p++) {
+			projectiles[p]->draw(drawBuff);
+		}
 
+		player.draw(drawBuff);
+		break;
+	case INVENTORY:
+
+		break;
+	case CHARACTER_ADD:
+		DrawScreen(Sprites.GenericScreen);
+		Sprites.DrawTextSprites(drawBuff, "- Register Name -", 112, 40);
+
+		// Draw cursor
+		if (editTimer > (EDIT_TIME / 2)) {
+			for (int c = 0; c < 9; c++) {
+				GoToXY(drawBuff, 144 + (editChar * 16), 87 + (editId * 23) + c);
+				SetConsoleTextAttribute(drawBuff, 4*16);
+				WriteConsole(drawBuff, &"                  ", 18, NULL, NULL);
+			}
+		}
+		editTimer--;
+		if (editTimer <= 0) {
+			editTimer = EDIT_TIME;
+		}
+
+		RegisterMenu.Draw(drawBuff);
+		break;
+	case CHARACTER_RMV:
+		DrawScreen(Sprites.GenericScreen);
+		Sprites.DrawTextSprites(drawBuff, "- Elimination Mode -", 80, 40);
+		ElimMenu.Draw(drawBuff);
 		break;
 	}
 
@@ -438,10 +521,8 @@ void Update() {
 			}
 		}
 		for (int p = 0; p < projectiles.size(); p++) {
-			if (projectiles[p]->getTime() > 0) {
-				projectiles[p]->Update(dt);
-			}
-			else {
+			projectiles[p]->Update(dt);
+			if (projectiles[p]->getTime() <= 0){
 				std::vector<Projectile*>::iterator it = projectiles.begin();
 				projectiles.erase(it + p);
 			}
@@ -506,8 +587,8 @@ void Load() {
 	int loadPerc = 0;
 
 	SetConsoleTextAttribute(drawBuff, 10 * 16);
-	while (SPRITES_LOADED != SPRITES_TO_LOAD) {
-		int perc = (SPRITES_LOADED * 100) / SPRITES_TO_LOAD;
+	while (LOADED != TO_LOAD) {
+		int perc = (LOADED * 100) / TO_LOAD;
 		if (perc > loadPerc) {
 			loadPerc = perc;
 			for (int i = 0; i < 20; i++) {
@@ -519,5 +600,189 @@ void Load() {
 
 			SwapBuffer();
 		}
+	}
+}
+
+void MouseHandler(MOUSE_EVENT_RECORD e) {
+	Menu* scrn;
+
+	switch (state) {
+	case TITLE:
+		if (e.dwButtonState == FROM_LEFT_1ST_BUTTON_PRESSED) {
+			ToCharacterSelect();
+		}
+		return;
+	case CHARACTER_SEL:
+		scrn = &CharSelMenu;
+		break;
+	case CHARACTER_ADD:
+		scrn = &RegisterMenu;
+		break;
+	case CHARACTER_RMV:
+		scrn = &ElimMenu;
+		break;
+	default:
+		//state = CHARACTER_SEL;
+		return;
+	}
+
+	if (e.dwEventFlags == MOUSE_MOVED) {
+		mouseLoc = e.dwMousePosition;
+	}
+
+	scrn->isOverBtn(e.dwMousePosition);
+
+	if (e.dwButtonState == FROM_LEFT_1ST_BUTTON_PRESSED) {
+		if (scrn->isOverBtn(e.dwMousePosition) && e.dwButtonState == FROM_LEFT_1ST_BUTTON_PRESSED) {
+			ButtonHandler(scrn->GetSelAction(), scrn->GetSelExtra());
+		}
+	}
+}
+
+/************************
+	  ButtonHandler
+*************************
+	Handles Action from Button
+*/
+
+void ButtonHandler(BtnAction action, int extra) {
+	switch (action) {
+	case SELECT_FILE:
+		if (state == CHARACTER_SEL) {
+			if (PLAYER_FILES[extra].file_exists) {
+				player_file = &PLAYER_FILES[extra];
+				state = PLAY;
+			}
+		}
+		else if(state == CHARACTER_RMV) {
+			Player_Info temp;
+			PLAYER_FILES[extra] = temp;
+			Save();
+		}
+		else if (state == CHARACTER_ADD) {
+			if (editId != extra) {
+				editChar = 0;
+				editTimer = EDIT_TIME;
+			}
+			editId = extra;
+		}
+		break;
+	case REGISTER:
+		ToRegisterName();
+		break;
+	case ERASE:
+		ToEliminationMode();
+		break;
+	case END:
+		switch (state) {
+		case CHARACTER_ADD:
+			ToCharacterSelect();
+			break;
+		case CHARACTER_RMV:
+			ToRegisterName();
+			break;
+		}
+		break;
+	default:
+		break;
+	}
+}
+
+void Save() {
+	int savesSize = sizeof(Player_Info) * 3;
+	char * bytes = new char[savesSize];
+	std::fstream saves("profiles.sav", std::ios::out | std::ios::in | std::ios::trunc | std::ios::binary);
+	memcpy(bytes, PLAYER_FILES, savesSize);
+	saves.write(bytes, savesSize);
+	saves.close();
+}
+
+void ToCharacterSelect() {
+	if (state == CHARACTER_ADD) {
+		for (int f = 0; f < 3; f++) {
+			if (!PLAYER_FILES[f].file_exists && PLAYER_FILES[f].Name.compare("        ") == 0) {
+				PLAYER_FILES[f].file_exists = false;
+			}
+		}
+
+		Save();
+	}
+
+	bool setSelected = false;
+	state = CHARACTER_SEL;
+	std::vector<int> disableIds;
+	std::vector<int> enableIds;
+	for (int f = 0; f < 3; f++) {
+		if (PLAYER_FILES[f].file_exists) {
+			enableIds.push_back(f);
+			if (!setSelected) {
+				CharSelMenu.SetSelected(f);
+				setSelected = true;
+			}
+		}
+		else {
+			disableIds.push_back(f);
+		}
+	}
+
+	CharSelMenu.DisableButtons(disableIds);
+	CharSelMenu.EnableButtons(enableIds);
+
+	if (!setSelected) {
+		CharSelMenu.SetSelected(3);
+	}
+}
+
+void ToRegisterName() {
+	bool setSelected = false;
+	state = CHARACTER_ADD;
+	std::vector<int> disableIds;
+	std::vector<int> enableIds;
+	for (int f = 0; f < 3; f++) {
+		if (!(PLAYER_FILES[f].file_exists)) {
+			enableIds.push_back(f);
+			if (!setSelected) {
+				RegisterMenu.SetSelected(f);
+				setSelected = true;
+			}
+		}
+		else {
+			disableIds.push_back(f);
+		}
+	}
+
+	RegisterMenu.DisableButtons(disableIds);
+	RegisterMenu.EnableButtons(enableIds);
+
+	if (!setSelected) {
+		RegisterMenu.SetSelected(3);
+	}
+
+	editId = 0;
+}
+
+void ToEliminationMode() {
+	bool setSelected = false;
+	state = CHARACTER_RMV;
+	std::vector<int> disableIds;
+	std::vector<int> enableIds;
+	for (int f = 0; f < 3; f++) {
+		if (PLAYER_FILES[f].file_exists) {
+			enableIds.push_back(f);
+			if (!setSelected) {
+				ElimMenu.SetSelected(f);
+				setSelected = true;
+			}
+		}
+		else {
+			disableIds.push_back(f);
+		}
+	}
+
+	ElimMenu.DisableButtons(disableIds);
+	ElimMenu.EnableButtons(enableIds);
+
+	if (!setSelected) {
+		ElimMenu.SetSelected(3);
 	}
 }

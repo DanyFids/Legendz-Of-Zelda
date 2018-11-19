@@ -7,7 +7,7 @@ private:
 
 public:	   // x,y coord,                  width*2,height,time damage
 		   // the x+30 and y+3 is to make it appear infront of link, this needs to be changed by direction. sooner or later.
-	Sword(int x, int y, Direction d) : Projectile(x, y, 32, 16, 1, 1 , 0) {
+	Sword(int x, int y, Direction d) : Projectile(x, y, 32, 16, 0.3f, 1 , 0) {
 		SetSpriteSheet(Sprites.swordSprites);
 
 	}
@@ -15,7 +15,7 @@ public:	   // x,y coord,                  width*2,height,time damage
 
 	void Update(float dt)
 	{
-		this->setTime(this->getTime() - 1);
+		this->setTime(this->getTime() - dt);
 	}
 
 	bool HitDetect(Entity * other) {

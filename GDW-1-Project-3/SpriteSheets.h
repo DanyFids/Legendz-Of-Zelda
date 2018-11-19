@@ -3,50 +3,6 @@
 class SpriteSheets {
 public:
 
-	void DrawSprite(HANDLE sheet, int sX, int sY, int w, int h, HANDLE dest, int dx, int dy) {
-		CHAR_INFO *outBuff = new CHAR_INFO[w * h];
-		CHAR_INFO *transBuff = new CHAR_INFO[w * h];
-
-		//Area to read/write
-		SMALL_RECT screen;
-		screen.Top = sY;
-		screen.Left = sX;
-		screen.Right = sX + w - 1;
-		screen.Bottom = sY + h - 1;
-
-		//Top Left COORD
-		COORD start;
-		start.X = 0;
-		start.Y = 0;
-
-		//Position
-		COORD pos;
-		pos.X = 0;
-		pos.Y = 0;
-
-		//Buffer Size
-		COORD size;
-		size.X = w;
-		size.Y = h;
-
-		ReadConsoleOutput(sheet, outBuff, size, start, &screen);
-
-		screen.Top = dy;
-		screen.Left = dx;
-		screen.Right = w + dx - 1;
-		screen.Bottom = h + dy - 1;
-
-		ReadConsoleOutput(dest, transBuff, size, pos, &screen);
-
-		/*for (int p = 0; p < (w * h); p++) {
-			if (outBuff[p].Attributes == 7) {
-				outBuff[p] = transBuff[p];
-			}
-		}*/
-
-		WriteConsoleOutput(dest, outBuff, size, pos, &screen);
-	}
-
 	HANDLE playerSprites = CreateConsoleScreenBuffer(
 		GENERIC_READ | GENERIC_WRITE,
 		FILE_SHARE_READ | FILE_SHARE_WRITE,
@@ -132,6 +88,26 @@ public:
 		NULL);
 
 	HANDLE titleScreen = CreateConsoleScreenBuffer(
+		GENERIC_READ | GENERIC_WRITE,
+		FILE_SHARE_READ | FILE_SHARE_WRITE,
+		NULL,
+		CONSOLE_TEXTMODE_BUFFER,
+		NULL);
+
+	HANDLE CharacterScreen = CreateConsoleScreenBuffer(
+		GENERIC_READ | GENERIC_WRITE,
+		FILE_SHARE_READ | FILE_SHARE_WRITE,
+		NULL,
+		CONSOLE_TEXTMODE_BUFFER,
+		NULL);
+	HANDLE GenericScreen = CreateConsoleScreenBuffer(
+		GENERIC_READ | GENERIC_WRITE,
+		FILE_SHARE_READ | FILE_SHARE_WRITE,
+		NULL,
+		CONSOLE_TEXTMODE_BUFFER,
+		NULL);
+
+	HANDLE heartSprites = CreateConsoleScreenBuffer(
 		GENERIC_READ | GENERIC_WRITE,
 		FILE_SHARE_READ | FILE_SHARE_WRITE,
 		NULL,
@@ -3236,11 +3212,13 @@ public:
 		CONSOLE_SCREEN_BUFFER_INFO scrn;
 		DWORD buff;
 
+		char lGrad = (char) 176;
+
 		GetConsoleScreenBufferInfo(titleScreen, &scrn);
 
 		//Fills Console with 
 		FillConsoleOutputCharacterA(
-			titleScreen, (char) 176, scrn.dwSize.X * scrn.dwSize.Y, origin, &buff
+			titleScreen, lGrad, scrn.dwSize.X * scrn.dwSize.Y, origin, &buff
 		);
 
 		//Returns text colors to default
@@ -3253,7 +3231,7 @@ public:
 		DWORD output;
 		SetConsoleTextAttribute(titleScreen, (14 * 16) + 6);
 
-		std::string lGrad = { (char)176 };
+		
 		GoToXY(titleScreen, 186, 56);
 		for (int c = 0; c < 136; c++) {
 			WriteConsole(titleScreen, &lGrad, 1, &output, NULL);
@@ -3382,6 +3360,67 @@ public:
 		}
 
 		DrawTextSprites(titleScreen, "Push Enter Button", 128, 159, 0);
+		return true;
+	}
+
+	bool LoadCharacterMenu() {
+		SetConsoleScreenBufferSize(CharacterScreen, SCREEN_SIZE);
+		DrawTextSprites(CharacterScreen, "- S E L E C T -", 128, 40);
+		DrawTextSprites(CharacterScreen, "Name", 176, 64);
+		DrawTextSprites(CharacterScreen, "Life", 322, 64);
+
+
+		SetConsoleTextAttribute(CharacterScreen, 1*16);
+		//top line
+		GoToXY(CharacterScreen, 56, 67);
+		for (int c = 0; c < 104; c++) {
+			WriteConsole(CharacterScreen, &" ", 1, NULL, NULL);
+		}
+		GoToXY(CharacterScreen, 56, 68);
+		for (int c = 0; c < 104; c++) {
+			WriteConsole(CharacterScreen, &" ", 1, NULL, NULL);
+		}
+
+		GoToXY(CharacterScreen, 256, 67);
+		for (int c = 0; c < 48; c++) {
+			WriteConsole(CharacterScreen, &" ", 1, NULL, NULL);
+		}
+		GoToXY(CharacterScreen, 256, 68);
+		for (int c = 0; c < 48; c++) {
+			WriteConsole(CharacterScreen, &" ", 1, NULL, NULL);
+		}
+
+		GoToXY(CharacterScreen, 400, 67);
+		for (int c = 0; c < 56; c++) {
+			WriteConsole(CharacterScreen, &" ", 1, NULL, NULL);
+		}
+		GoToXY(CharacterScreen, 400, 68);
+		for (int c = 0; c < 56; c++) {
+			WriteConsole(CharacterScreen, &" ", 1, NULL, NULL);
+		}
+
+		//left line
+		for (int c = 0; c < 136; c++) {
+			GoToXY(CharacterScreen, 54, 68+c);
+			WriteConsole(CharacterScreen, &"    ", 4, NULL, NULL);
+		}
+
+		//right line
+		for (int c = 0; c < 136; c++) {
+			GoToXY(CharacterScreen, 454, 68 + c);
+			WriteConsole(CharacterScreen, &"    ", 4, NULL, NULL);
+		}
+
+		//bottom line
+		GoToXY(CharacterScreen, 56, 203);
+		for (int c = 0; c < 200; c++) {
+			WriteConsole(CharacterScreen, &"  ", 2, NULL, NULL);
+		}
+		GoToXY(CharacterScreen, 56, 204);
+		for (int c = 0; c < 200; c++) {
+			WriteConsole(CharacterScreen, &"  ", 2, NULL, NULL);
+		}
+
 		return true;
 	}
 
@@ -4527,6 +4566,18 @@ public:
 			GoToXY(out, x + 4, y + 6);
 			WriteConsole(out, &"    ", 4, &output, NULL);
 			break;
+		case '-':
+			//line 1
+			//line 2
+			//line 3
+			//line 4
+			GoToXY(out, x, y + 3);
+			WriteConsole(out, &"            ", 12, &output, NULL);
+			//line 5
+			//line 6
+
+			//line 7
+			break;
 		default:
 
 			break;
@@ -4576,6 +4627,57 @@ public:
 
 		GoToXY(brickSprites, 12, 4);
 		WriteConsole(brickSprites, "  ", 2, &output, NULL);
+
+		return true;
+	}
+
+	bool LoadHeart() {
+		DWORD output;
+		SetConsoleTextAttribute(heartSprites, 12*16);
+		for (int i = 0; i < 16; i++) {
+			GoToXY(heartSprites, 0, i);
+			WriteConsole(heartSprites, &"                             ", 30, &output, NULL);
+		}
+		SetConsoleTextAttribute(heartSprites, 7);
+
+		return true;
+	}
+
+	bool LoadGenericMenu() {
+		SetConsoleScreenBufferSize(GenericScreen, SCREEN_SIZE);
+
+		SetConsoleTextAttribute(GenericScreen, 1 * 16);
+		//top line
+		GoToXY(GenericScreen, 56, 67);
+		for (int c = 0; c < 200; c++) {
+			WriteConsole(GenericScreen, &"  ", 2, NULL, NULL);
+		}
+		GoToXY(GenericScreen, 56, 68);
+		for (int c = 0; c < 200; c++) {
+			WriteConsole(GenericScreen, &"  ", 2, NULL, NULL);
+		}
+
+		//left line
+		for (int c = 0; c < 136; c++) {
+			GoToXY(GenericScreen, 54, 68 + c);
+			WriteConsole(GenericScreen, &"    ", 4, NULL, NULL);
+		}
+
+		//right line
+		for (int c = 0; c < 136; c++) {
+			GoToXY(GenericScreen, 454, 68 + c);
+			WriteConsole(GenericScreen, &"    ", 4, NULL, NULL);
+		}
+
+		//bottom line
+		GoToXY(GenericScreen, 56, 203);
+		for (int c = 0; c < 200; c++) {
+			WriteConsole(GenericScreen, &"  ", 2, NULL, NULL);
+		}
+		GoToXY(GenericScreen, 56, 204);
+		for (int c = 0; c < 200; c++) {
+			WriteConsole(GenericScreen, &"  ", 2, NULL, NULL);
+		}
 
 		return true;
 	}

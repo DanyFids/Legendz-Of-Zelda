@@ -37,6 +37,9 @@
     <ClInclude Include="Terrains.h">
       <Filter>Headers</Filter>
     </ClInclude>
+    <ClInclude Include="Menus.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Headers">
