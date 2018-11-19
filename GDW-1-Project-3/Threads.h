@@ -7,43 +7,55 @@ DWORD WINAPI DrawThread(LPVOID lpParameter)
 	return 0;
 }
 
-const int SPRITES_TO_LOAD = 11;
-int SPRITES_LOADED = 0;
+const int TO_LOAD = 14;
+int LOADED = 0;
 DWORD WINAPI LoadThread(LPVOID lpParameter)
 {
 	if (Sprites.LoadPlayer()) {
-		SPRITES_LOADED++;
+		LOADED++;
 	}
 	if (Sprites.LoadFloor()) {
-		SPRITES_LOADED++;
+		LOADED++;
 	}
 	if (Sprites.LoadTitle()) {
-		SPRITES_LOADED++;
+		LOADED++;
 	}
 	if (Sprites.LoadWall()) {
-		SPRITES_LOADED++;
+		LOADED++;
 	}
 	if (Sprites.LoadBlock()) {
-		SPRITES_LOADED++;
+		LOADED++;
 	}
 	if (Sprites.LoadDoor()) {
-		SPRITES_LOADED++;
+		LOADED++;
 	}
 	if (Sprites.LoadSword()) {
-		SPRITES_LOADED++;
+		LOADED++;
 	}
 	if (Sprites.LoadKeese()) {
-		SPRITES_LOADED++;
+		LOADED++;
 	}
 	if (Sprites.LoadRope()) {
-		SPRITES_LOADED++;
+		LOADED++;
 	}
 	if (Sprites.LoadSpikeTrap()) {
-		SPRITES_LOADED++;
+		LOADED++;
 	}
 	if (Sprites.LoadGel()) {
-		SPRITES_LOADED++;
+		LOADED++;
 	}
+	if (Sprites.LoadBomb()) {
+		LOADED++;
+	}
+
+	// Sounds below!!
+	if (sounds.LoadSwing()) {//13
+		LOADED++;
+	}
+	if (sounds.LoadBeamSword()) {
+		LOADED++;
+	}
+
 	
 	return 0;
 }
