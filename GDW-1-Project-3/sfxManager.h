@@ -6,10 +6,12 @@
 class SoundManager {
 private:
 	sf::Sound sound;
-	sf::Music music;
+	sf::Sound music;
 public:
 	sf::SoundBuffer swingSound;
 	sf::SoundBuffer beamSound;
+	sf::SoundBuffer titleThemeBGM;
+	sf::SoundBuffer dungeonThemeBGM;
 
 	// SFX/BGM Loaders
 
@@ -21,16 +23,24 @@ public:
 		return 	beamSound.loadFromFile("SFX\\LOZ_Sword_Shoot.wav");
 	}
 
+	bool LoadTitleTheme() {
+		return titleThemeBGM.loadFromFile("BGM\\TitleThemeLoZ.wav");
+	}
+
+	bool LoadDungeonTheme() {
+		return dungeonThemeBGM.loadFromFile("BGM\\DungeonThemeLoZ.wav");
+	}
+
 
 	// SFX/BGM Players
 
 	void PlayTitleTheme() {	//These aren't loaded, they are just streamed.
-		music.openFromFile("BGM\\TitleThemeLoZ.wav");
+		music.setBuffer(titleThemeBGM);
 		music.play();
 	}
 
 	void PlayDungeonTheme() {
-		music.openFromFile("BGM\\DungeonThemeLoZ.wav");
+		music.setBuffer(dungeonThemeBGM);
 		music.play();
 	}
 

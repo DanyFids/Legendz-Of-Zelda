@@ -87,8 +87,8 @@ int main() {
 
 	ResizeWindow();
 	//LoZTitleScreenBGM();	 //Legacy Player
-	sounds.PlayTitleTheme();
 	Load();
+	sounds.PlayTitleTheme();
 
 	//Start DrawThread
 	DWORD drawThreadID;
@@ -262,17 +262,12 @@ void KeyHandler(KEY_EVENT_RECORD e) {
 		case VK_RETURN:
 			switch (state) {
 			case TITLE:
-				state = PLAY;
-				sounds.StopMusic();
-				sounds.PlayDungeonTheme();
-
+				ToCharacterSelect();
 				//LoZDungeonThemeBGM();		   //Legacy Player
 
 				break;
 			case PLAY:
-				state = CHARACTER_SEL;
-				sounds.StopMusic();
-				sounds.PlayTitleTheme();
+				state = INVENTORY;
 				//LoZTitleScreenBGM();		  //Legacy Player
 				break;
 			}
@@ -293,19 +288,6 @@ void KeyHandler(KEY_EVENT_RECORD e) {
 		}
 		else {
 			switch (e.wVirtualKeyCode) {
-			case VK_RETURN:
-				switch (state) {
-				case TITLE:
-					ToCharacterSelect();
-					break;
-				case PLAY:
-					state = INVENTORY;
-					break;
-				case INVENTORY:
-					state = PLAY;
-					break;
-				}
-
 			case VK_UP:
 				player_input.keyUp = false;
 				break;

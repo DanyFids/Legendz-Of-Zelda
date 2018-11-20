@@ -1,0 +1,17 @@
+﻿  main.cpp
+c:\users\100716573\documents\visual studio 2017\projects\legendz-of-zelda\gdw-1-project-3\spritesheets.h(7561): warning C4018: '<': signed/unsigned mismatch
+c:\users\100716573\documents\visual studio 2017\projects\legendz-of-zelda\gdw-1-project-3\menus.h(123): warning C4018: '<': signed/unsigned mismatch
+c:\users\100716573\documents\visual studio 2017\projects\legendz-of-zelda\gdw-1-project-3\menus.h(143): warning C4018: '<': signed/unsigned mismatch
+c:\users\100716573\documents\visual studio 2017\projects\legendz-of-zelda\gdw-1-project-3\menus.h(162): warning C4018: '<': signed/unsigned mismatch
+c:\users\100716573\documents\visual studio 2017\projects\legendz-of-zelda\gdw-1-project-3\menus.h(168): warning C4018: '<': signed/unsigned mismatch
+c:\users\100716573\documents\visual studio 2017\projects\legendz-of-zelda\gdw-1-project-3\main.cpp(347): warning C4018: '<': signed/unsigned mismatch
+c:\users\100716573\documents\visual studio 2017\projects\legendz-of-zelda\gdw-1-project-3\main.cpp(351): warning C4018: '<': signed/unsigned mismatch
+c:\users\100716573\documents\visual studio 2017\projects\legendz-of-zelda\gdw-1-project-3\main.cpp(355): warning C4018: '<': signed/unsigned mismatch
+c:\users\100716573\documents\visual studio 2017\projects\legendz-of-zelda\gdw-1-project-3\main.cpp(500): warning C4018: '<': signed/unsigned mismatch
+c:\users\100716573\documents\visual studio 2017\projects\legendz-of-zelda\gdw-1-project-3\main.cpp(505): warning C4018: '<': signed/unsigned mismatch
+c:\users\100716573\documents\visual studio 2017\projects\legendz-of-zelda\gdw-1-project-3\main.cpp(510): warning C4018: '<': signed/unsigned mismatch
+c:\users\100716573\documents\visual studio 2017\projects\legendz-of-zelda\gdw-1-project-3\main.cpp(517): warning C4018: '<': signed/unsigned mismatch
+c:\users\100716573\documents\visual studio 2017\projects\legendz-of-zelda\gdw-1-project-3\main.cpp(519): warning C4018: '<': signed/unsigned mismatch
+c:\users\100716573\documents\visual studio 2017\projects\legendz-of-zelda\gdw-1-project-3\main.cpp(526): warning C4018: '<': signed/unsigned mismatch
+c:\users\100716573\documents\visual studio 2017\projects\legendz-of-zelda\gdw-1-project-3\main.cpp(534): warning C4018: '<': signed/unsigned mismatch
+  GDW-1-Project-3.vcxproj -> C:\Users\100716573\Documents\Visual Studio 2017\Projects\Legendz-Of-Zelda\GDW-1-Project-3\Debug\GDW-1-Project-3.exe
