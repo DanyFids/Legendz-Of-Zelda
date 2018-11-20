@@ -15,11 +15,14 @@
 #include"Enemies.h"
 #include"Menus.h"
 
-#include "Sword.h"
-#include"Threads.h"
-#include "Arrow.h"
-#include "Fireball.h"
+//SFX/BGM Managers
 #include "bgMusicManager.h"
+#include "sfxManager.h"
+#include"Threads.h"
+
+//Projectiles
+#include "Projectiles.h"
+
 
 
 const int PLAYER_SPEED = 2;
@@ -45,7 +48,7 @@ Player player(0, 0);
 Player_Info * player_file;
 // Non-Player entities
 std::vector<Enemy*> enemies = {new Rope(80, 10),new SpikeTrap(400, 3),new SpikeTrap(400, 200),new Gel(50, 50), new Keese(100, 100) };
-std::vector<Projectile*> projectiles = {};
+std::vector<Projectile*> projectiles = {new Bomb(150,150)};
 std::vector<Terrain*> roomTer = {new Wall(20,100), new Wall(52, 100), new Wall(84, 100)};
 
 // Menus
@@ -82,9 +85,10 @@ int main() {
 
 	ResizeWindow();
 
+	ResizeWindow();
+	//LoZTitleScreenBGM();	 //Legacy Player
+	sounds.PlayTitleTheme();
 	Load();
-
-	LoZTitleScreenBGM();
 
 	//Start DrawThread
 	DWORD drawThreadID;
@@ -99,6 +103,7 @@ int main() {
 	GetConsoleCursorInfo(console, &cursor);
 	cursor.bVisible = false;
 	SetConsoleCursorInfo(console, &cursor);
+
 
 
 	inputH = GetStdHandle(STD_INPUT_HANDLE);
@@ -254,6 +259,24 @@ void KeyHandler(KEY_EVENT_RECORD e) {
 			case VK_UP:
 				player_input.keyUp = true;
 				break;
+		case VK_RETURN:
+			switch (state) {
+			case TITLE:
+				state = PLAY;
+				sounds.StopMusic();
+				sounds.PlayDungeonTheme();
+
+				//LoZDungeonThemeBGM();		   //Legacy Player
+
+				break;
+			case PLAY:
+				state = CHARACTER_SEL;
+				sounds.StopMusic();
+				sounds.PlayTitleTheme();
+				//LoZTitleScreenBGM();		  //Legacy Player
+				break;
+			}
+			break;
 			case VK_DOWN:
 				player_input.keyDown = true;
 				break;
@@ -330,6 +353,7 @@ void Draw() {
 
 	switch (state) {
 	case TITLE:
+		
 		DrawScreen(Sprites.titleScreen);
 		
 		break;
@@ -471,6 +495,7 @@ void Update() {
 
 		if (player_input.keySpace)
 		{
+			sounds.PlaySwing();
 			if (player.CanAtk()) {
 				Direction d = player.GetDir();
 				switch (d) {

@@ -127,6 +127,13 @@ public:
 		CONSOLE_TEXTMODE_BUFFER,
 		NULL);
 
+	HANDLE bombSprites = CreateConsoleScreenBuffer(
+		GENERIC_READ | GENERIC_WRITE,
+		FILE_SHARE_READ | FILE_SHARE_WRITE,
+		NULL,
+		CONSOLE_TEXTMODE_BUFFER,
+		NULL);
+
 	HANDLE holeSprites = CreateConsoleScreenBuffer(
 		GENERIC_READ | GENERIC_WRITE,
 		FILE_SHARE_READ | FILE_SHARE_WRITE,
@@ -7591,7 +7598,20 @@ public:
 		for (int c = 0; c < 200; c++) {
 			WriteConsole(GenericScreen, &"  ", 2, NULL, NULL);
 		}
+		return true;
+	}
+	bool LoadBomb() { // Anthony's Attempt
 
+		DWORD output;
+
+		SetConsoleTextAttribute(bombSprites, 1 * 16); // Colour
+
+		for (int i = 0; i < 8; i++) {// Draws Row (i = y size)
+			GoToXY(bombSprites, 0, i);	 //Position of pixel
+			for (int c = 0; c < 8; c++) { // Draws Col (c = x size)
+				WriteConsole(bombSprites, &"  ", 2, &output, NULL); // Drawing the sprites?
+			}
+		}
 		return true;
 	}
 

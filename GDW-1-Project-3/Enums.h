@@ -18,7 +18,7 @@ enum GameState {
 
 enum Weapon {
 	Bow,
-	Bomb,
+	//Bomb,
 	Boomerang
 };
 
