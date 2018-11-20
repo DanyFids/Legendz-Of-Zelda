@@ -9,7 +9,22 @@ public:	   // x,y coord,                  width*2,height,time damage
 		   // the x+30 and y+3 is to make it appear infront of link, this needs to be changed by direction. sooner or later.
 	Sword(int x, int y, Direction d) : Projectile(x, y, 32, 16, 0.3f, 1 , 0) {
 		SetSpriteSheet(Sprites.swordSprites);
+		SetNumAnim(4);
 
+		switch (d) {
+		case Up:
+			SetCurAnim(0);
+			break;
+		case Down:
+			SetCurAnim(1);
+			break;
+		case Left:
+			SetCurAnim(3);
+			break;
+		case Right:
+			SetCurAnim(2);
+			break;
+		}
 	}
 
 

@@ -1,9 +1,9 @@
 #pragma once
 enum Direction {
-	Up,
 	Down,
 	Right,
-	Left
+	Left,
+	Up
 };
 
 enum GameState {

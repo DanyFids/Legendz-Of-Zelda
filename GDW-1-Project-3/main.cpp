@@ -80,6 +80,8 @@ int main() {
 	SCREEN_SIZE.X = 512;
 	SCREEN_SIZE.Y = 240;
 
+	ResizeWindow();
+
 	Load();
 
 	LoZTitleScreenBGM();
@@ -97,8 +99,6 @@ int main() {
 	GetConsoleCursorInfo(console, &cursor);
 	cursor.bVisible = false;
 	SetConsoleCursorInfo(console, &cursor);
-
-	ResizeWindow();
 
 
 	inputH = GetStdHandle(STD_INPUT_HANDLE);
@@ -441,6 +441,7 @@ void Update() {
 			player.ySpd = -PLAYER_SPEED;
 			if (changeDir) {
 				player.SetDir(Up);
+				player.SetCurAnim(3);
 			}
 		}
 
@@ -448,6 +449,7 @@ void Update() {
 			player.ySpd = PLAYER_SPEED;
 			if (changeDir) {
 				player.SetDir(Down);
+				player.SetCurAnim(0);
 			}
 		}
 
@@ -455,6 +457,7 @@ void Update() {
 			player.xSpd = PLAYER_SPEED * 2;
 			if (changeDir) {
 				player.SetDir(Right);
+				player.SetCurAnim(1);
 			}
 		}
 
@@ -462,6 +465,7 @@ void Update() {
 			player.xSpd = -PLAYER_SPEED * 2;
 			if (changeDir) {
 				player.SetDir(Left);
+				player.SetCurAnim(2);
 			}
 		}
 

@@ -29,8 +29,8 @@ private:
 	bool can_attack = true;
 	float stop_timer = 0;
 public:
-	Player(int x, int y) :Entity(x, y, 30, 16) {
-		SetNumAnim(1);
+	Player(int x, int y) :Entity(x, y, 32, 16) {
+		SetNumAnim(4);
 
 
 		SetSpriteSheet(Sprites.playerSprites);
