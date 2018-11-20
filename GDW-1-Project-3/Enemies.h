@@ -558,7 +558,7 @@ public:
 		case 1:
 			//up
 			if (!(hasMoved)) {
-				ySpd = -1;
+				ySpd = -2;
 				walk = true;
 				hasMoved = true;
 			}
@@ -566,7 +566,7 @@ public:
 		case 2:
 			//Down
 			if (!(hasMoved)) {
-				ySpd = 1;
+				ySpd = 2;
 				walk = true;
 				hasMoved = true;
 			}
@@ -574,7 +574,7 @@ public:
 		case 3:
 			//right
 			if (!(hasMoved)) {
-				xSpd = 2;
+				xSpd = 4;
 				walk = true;
 				hasMoved = true;
 			}
@@ -582,7 +582,7 @@ public:
 		case 4:
 			//left
 			if (!(hasMoved)) {
-				xSpd = -2;
+				xSpd = -4;
 				walk = true;
 				hasMoved = true;
 			}
@@ -591,14 +591,14 @@ public:
 		if (walk) {
 			count++;
 		}
-		if (count >= 40) {
+		if (count >= 55) {
 			walk = false;
 			count = 0;
 		}
 		if (hasMoved) {
 			counter++;
 		}
-		if (counter >= 30) {
+		if (counter >= 1) {
 			hasMoved = false;
 			counter = 0;
 		}
@@ -690,14 +690,14 @@ public:
 		if (hop) {
 			count++;
 		}
-		if (count >= 40) {
+		if (count >= 30) {
 			hop = false;
 			count = 0;
 		}
 		if (hasMoved) {
 			counter++;
 		}
-		if (counter >= 30) {
+		if (counter >= 4) {
 			hasMoved = false;
 			counter = 0;
 		}

@@ -38,7 +38,7 @@ bool Play = true;
 
 // Play Objects
 Player player(0, 0);
-std::vector<Enemy*> enemies = {new Rope(80, 10),new SpikeTrap(400, 3),new SpikeTrap(400, 200),new Gel(50, 50), new Keese(100, 100) };
+std::vector<Enemy*> enemies = {new Rope(80, 10),new SpikeTrap(400, 3),new SpikeTrap(400, 200),new Gel(50, 50), new Keese(100, 100), new Dodongo(400, 100), new Goryia(100, 200)};
 std::vector<Projectile*> projectiles = {};
 std::vector<Terrain*> roomTer = {new Wall(20,100), new Wall(52, 100), new Wall(84, 100)};
 
