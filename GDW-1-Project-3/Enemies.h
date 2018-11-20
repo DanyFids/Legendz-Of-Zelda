@@ -350,7 +350,8 @@ public:
 			Movement = false;
 			count = 0;
 		}
-		//Charge Link 
+
+		//Charge Link
 		if (attack == true && l == false && r == false && d == false && u == false) {
 			if (p.GetX() <= GetX() + GetWidth() && p.GetX() + p.GetWidth() >= GetX()) {
 				if (GetY() + GetHeight() < p.GetY()) {
@@ -413,6 +414,9 @@ public:
 			ySpd = 208 - GetY();
 		}
 		if (willHit(other, 0, 0)) {
+			if (l || d || r || u) {
+				Movement = false;
+			}
 			attack = true;
 			l = false;
 			d = false;
@@ -496,6 +500,204 @@ public:
 			counter++;
 		}
 		if (counter >= 6) {
+			hasMoved = false;
+			counter = 0;
+		}
+	}
+	bool HitDetect(Entity * other) {
+		//Test Wall
+		if (GetX() + xSpd < 0) {
+			xSpd = 0 - GetX();
+		}
+		if (GetY() + ySpd < 0) {
+			ySpd = 0 - GetY();
+		}
+		if (GetX() + xSpd > 482) {
+			xSpd = 482 - GetX();
+		}
+		if (GetY() + ySpd > 208) {
+			ySpd = 208 - GetY();
+		}
+		if (willHit(other, 0, 0)) {
+
+		}
+		//Can Remove Later
+		return (willHit(other, 0, 0));
+	}
+
+	void Update(float dt) {
+		move();
+		xSpd = 0;
+		ySpd = 0;
+	}
+};
+class Dodongo : public Enemy {
+private:
+	bool walk = false;
+	bool hasMoved = false;
+	int counter = 0;
+	int count = 0;
+	int dir = 0;
+public:
+	Dodongo(int x, int y) : Enemy(x, y, 12, 8, 1, 1) {
+		SetNumAnim(1);
+		SetSpriteSheet(Sprites.gelSprites);
+	}
+	void Hurt(int d) {
+	}
+	void AI(Player p) {
+		std::random_device gen;
+		std::uniform_int_distribution<> range(1, 4);
+
+		if (!(walk)) {
+			dir = range(gen);
+		}
+
+		switch (dir)
+		{
+		case 1:
+			//up
+			if (!(hasMoved)) {
+				ySpd = -1;
+				walk = true;
+				hasMoved = true;
+			}
+			break;
+		case 2:
+			//Down
+			if (!(hasMoved)) {
+				ySpd = 1;
+				walk = true;
+				hasMoved = true;
+			}
+			break;
+		case 3:
+			//right
+			if (!(hasMoved)) {
+				xSpd = 2;
+				walk = true;
+				hasMoved = true;
+			}
+			break;
+		case 4:
+			//left
+			if (!(hasMoved)) {
+				xSpd = -2;
+				walk = true;
+				hasMoved = true;
+			}
+			break;
+		}
+		if (walk) {
+			count++;
+		}
+		if (count >= 40) {
+			walk = false;
+			count = 0;
+		}
+		if (hasMoved) {
+			counter++;
+		}
+		if (counter >= 30) {
+			hasMoved = false;
+			counter = 0;
+		}
+	}
+	bool HitDetect(Entity * other) {
+		//Test Wall
+		if (GetX() + xSpd < 0) {
+			xSpd = 0 - GetX();
+		}
+		if (GetY() + ySpd < 0) {
+			ySpd = 0 - GetY();
+		}
+		if (GetX() + xSpd > 482) {
+			xSpd = 482 - GetX();
+		}
+		if (GetY() + ySpd > 208) {
+			ySpd = 208 - GetY();
+		}
+		if (willHit(other, 0, 0)) {
+
+		}
+		//Can Remove Later
+		return (willHit(other, 0, 0));
+	}
+
+	void Update(float dt) {
+		move();
+		xSpd = 0;
+		ySpd = 0;
+	}
+};
+class Goryia : public Enemy {
+private:
+	bool hop = false;
+	bool hasMoved = false;
+	int counter = 0;
+	int count = 0;
+	int dir = 0;
+public:
+	Goryia(int x, int y) : Enemy(x, y, 12, 8, 1, 1) {
+		SetNumAnim(1);
+		SetSpriteSheet(Sprites.gelSprites);
+	}
+	void Hurt(int d) {
+	}
+	void AI(Player p) {
+		std::random_device gen;
+		std::uniform_int_distribution<> range(1, 4);
+
+		if (!(hop)) {
+			dir = range(gen);
+		}
+
+		switch (dir)
+		{
+		case 1:
+			//up
+			if (!(hasMoved)) {
+				ySpd = -1;
+				hop = true;
+				hasMoved = true;
+			}
+			break;
+		case 2:
+			//Down
+			if (!(hasMoved)) {
+				ySpd = 1;
+				hop = true;
+				hasMoved = true;
+			}
+			break;
+		case 3:
+			//right
+			if (!(hasMoved)) {
+				xSpd = 2;
+				hop = true;
+				hasMoved = true;
+			}
+			break;
+		case 4:
+			//left
+			if (!(hasMoved)) {
+				xSpd = -2;
+				hop = true;
+				hasMoved = true;
+			}
+			break;
+		}
+		if (hop) {
+			count++;
+		}
+		if (count >= 40) {
+			hop = false;
+			count = 0;
+		}
+		if (hasMoved) {
+			counter++;
+		}
+		if (counter >= 30) {
 			hasMoved = false;
 			counter = 0;
 		}
