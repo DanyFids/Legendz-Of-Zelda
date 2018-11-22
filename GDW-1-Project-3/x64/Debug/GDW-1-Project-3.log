@@ -1,8 +1,0 @@
-﻿  main.cpp
-c:\users\100700305\documents\visual studio 2017\projects\legendz-of-zelda\gdw-1-project-3\spritesheets.h(1129): error C2065: 'SCREEN_SIZE': undeclared identifier
-c:\users\100700305\documents\visual studio 2017\projects\legendz-of-zelda\gdw-1-project-3\enemies.h(10): error C2039: 'enemySprites': is not a member of 'SpriteSheets'
-  c:\users\100700305\documents\visual studio 2017\projects\legendz-of-zelda\gdw-1-project-3\spritesheets.h(3): note: see declaration of 'SpriteSheets'
-c:\users\100700305\documents\visual studio 2017\projects\legendz-of-zelda\gdw-1-project-3\rope.h(12): error C2039: 'enemySprites': is not a member of 'SpriteSheets'
-  c:\users\100700305\documents\visual studio 2017\projects\legendz-of-zelda\gdw-1-project-3\spritesheets.h(3): note: see declaration of 'SpriteSheets'
-c:\users\100700305\documents\visual studio 2017\projects\legendz-of-zelda\gdw-1-project-3\rope.h(144): error C2039: 'enemySprites': is not a member of 'SpriteSheets'
-  c:\users\100700305\documents\visual studio 2017\projects\legendz-of-zelda\gdw-1-project-3\spritesheets.h(3): note: see declaration of 'SpriteSheets'
