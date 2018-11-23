@@ -89,6 +89,7 @@ int main() {
 	//LoZTitleScreenBGM();	 //Legacy Player
 	Load();
 	sounds.PlayTitleTheme();
+	//PlayDungeonTheme();
 
 	//Start DrawThread
 	DWORD drawThreadID;
@@ -263,6 +264,7 @@ void KeyHandler(KEY_EVENT_RECORD e) {
 			switch (state) {
 			case TITLE:
 				ToCharacterSelect();
+				
 				//LoZDungeonThemeBGM();		   //Legacy Player
 
 				break;

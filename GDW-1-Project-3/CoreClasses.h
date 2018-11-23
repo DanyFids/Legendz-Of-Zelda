@@ -122,10 +122,15 @@ public:
 
 class Projectile : public Entity {
 private:
+	
 	float theta, timer;
-	int dmg,speed;
+	int dmg;
 	Direction dir;
 public:
+	ProjType getEnum() {
+		return PT_NULL;
+	}
+
 	float getTheta()
 	{
 		return theta;
@@ -134,11 +139,6 @@ public:
 	int getDamage()
 	{
 		return dmg;
-	}
-
-	int getSpeed()
-	{
-		return speed;
 	}
 
 	float getTime()
@@ -156,11 +156,6 @@ public:
 		timer = t;
 	}
 
-	void setSpeed(int s)
-	{
-		speed = s;
-	}
-
 	void setTheta(float _theta)
 	{
 		theta = _theta;
@@ -170,7 +165,7 @@ public:
 	{
 		dir = _dir;
 	}
-	Projectile(int x, int y, int w, int h, float time, int dmg, int speed) :Entity(x, y, w, h) {
+	Projectile(int x, int y, int w, int h, float time, int dmg) :Entity(x, y, w, h) {
 		this->timer = time;
 		this->dmg = dmg;
 	}

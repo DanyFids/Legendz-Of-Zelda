@@ -1,1 +1,19 @@
-﻿  GDW-1-Project-3.vcxproj -> C:\Users\100706824\Documents\GitHubKraken\Legendz-Of-Zelda\GDW-1-Project-3\Debug\GDW-1-Project-3.exe
+﻿  main.cpp
+c:\users\100706824\documents\githubkraken\legendz-of-zelda\gdw-1-project-3\spritesheets.h(7561): warning C4018: '<': signed/unsigned mismatch
+c:\users\100706824\documents\githubkraken\legendz-of-zelda\gdw-1-project-3\menus.h(123): warning C4018: '<': signed/unsigned mismatch
+c:\users\100706824\documents\githubkraken\legendz-of-zelda\gdw-1-project-3\menus.h(143): warning C4018: '<': signed/unsigned mismatch
+c:\users\100706824\documents\githubkraken\legendz-of-zelda\gdw-1-project-3\menus.h(162): warning C4018: '<': signed/unsigned mismatch
+c:\users\100706824\documents\githubkraken\legendz-of-zelda\gdw-1-project-3\menus.h(168): warning C4018: '<': signed/unsigned mismatch
+c:\users\100706824\documents\githubkraken\legendz-of-zelda\gdw-1-project-3\projectiles.h(110): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+c:\users\100706824\documents\githubkraken\legendz-of-zelda\gdw-1-project-3\projectiles.h(111): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+c:\users\100706824\documents\githubkraken\legendz-of-zelda\gdw-1-project-3\main.cpp(349): warning C4018: '<': signed/unsigned mismatch
+c:\users\100706824\documents\githubkraken\legendz-of-zelda\gdw-1-project-3\main.cpp(353): warning C4018: '<': signed/unsigned mismatch
+c:\users\100706824\documents\githubkraken\legendz-of-zelda\gdw-1-project-3\main.cpp(357): warning C4018: '<': signed/unsigned mismatch
+c:\users\100706824\documents\githubkraken\legendz-of-zelda\gdw-1-project-3\main.cpp(502): warning C4018: '<': signed/unsigned mismatch
+c:\users\100706824\documents\githubkraken\legendz-of-zelda\gdw-1-project-3\main.cpp(507): warning C4018: '<': signed/unsigned mismatch
+c:\users\100706824\documents\githubkraken\legendz-of-zelda\gdw-1-project-3\main.cpp(512): warning C4018: '<': signed/unsigned mismatch
+c:\users\100706824\documents\githubkraken\legendz-of-zelda\gdw-1-project-3\main.cpp(519): warning C4018: '<': signed/unsigned mismatch
+c:\users\100706824\documents\githubkraken\legendz-of-zelda\gdw-1-project-3\main.cpp(521): warning C4018: '<': signed/unsigned mismatch
+c:\users\100706824\documents\githubkraken\legendz-of-zelda\gdw-1-project-3\main.cpp(528): warning C4018: '<': signed/unsigned mismatch
+c:\users\100706824\documents\githubkraken\legendz-of-zelda\gdw-1-project-3\main.cpp(536): warning C4018: '<': signed/unsigned mismatch
+  GDW-1-Project-3.vcxproj -> C:\Users\100706824\Documents\GitHubKraken\Legendz-Of-Zelda\GDW-1-Project-3\Debug\GDW-1-Project-3.exe
