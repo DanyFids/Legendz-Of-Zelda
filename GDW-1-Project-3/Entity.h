@@ -8,15 +8,19 @@ private:
 	int num_animations = 0;
 	bool flying;
 	Direction dir;
+
+	
 public:
 	HANDLE sprite_sheet;
 	int xSpd, ySpd;
-
+	bool isStatue;
 	Entity() {
 		x = 0;
 		y = 0;
 		width = 0;
 		height = 0;
+
+		
 	}
 
 	Entity(int x, int y, int w, int h) {

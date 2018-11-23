@@ -4,6 +4,7 @@
 #include<Windows.h>
 #include<ctime>
 #include<random>
+#include<cmath>
 
 #include"Enums.h"
 #include"FunctionProto.h"
@@ -11,12 +12,9 @@
 #include"Entity.h"
 #include"CoreClasses.h"
 #include"Terrains.h"
+#include "Projectiles.h"
 #include"Enemies.h"
-
-#include "Sword.h"
 #include"Threads.h"
-#include "Arrow.h"
-#include "Fireball.h"
 #include "bgMusicManager.h"
 
 
@@ -38,8 +36,10 @@ bool Play = true;
 
 // Play Objects
 Player player(0, 0);
-std::vector<Enemy*> enemies = {new Rope(80, 10),new SpikeTrap(400, 3),new SpikeTrap(400, 200),new Gel(50, 50), new Keese(100, 100) };
-std::vector<Projectile*> projectiles = {};
+std::vector<Enemy*> enemies = {new Rope(80, 10),new SpikeTrap(400, 3),new SpikeTrap(400, 200),new Gel(50, 50), new Keese(100, 100), new Statue(200,100) };
+
+std::vector<std::vector> projectiles = {};
+
 std::vector<Terrain*> roomTer = {new Wall(20,100), new Wall(52, 100), new Wall(84, 100)};
 
 /***************************
@@ -404,20 +404,34 @@ void Update() {
 		}
 
 		for (int e = 0; e < enemies.size(); e++) {
+
 			enemies[e]->AI(player);
+
+			if (enemies[e]->getEnum() == STATUE)
+			{
+				if (!(enemies[e]->getAttackState())) {
+					projectiles.push_back(new Fireball(enemies[e]->GetX(), enemies[e]->GetY(), enemies[e]->getFCOORD().X, enemies[e]->getFCOORD().Y));
+					enemies[e]->setAttackState();
+				}
+			}
+
 			if (enemies[e]->HitDetect(&player)) {
 				enemies[e]->Hit(player);
 			}
+
 			for (int f = 0; f < enemies.size(); f++) {
 				if (e != f) {
 					enemies[e]->HitDetect(enemies[f]);
 				}
 			}
+
 			for (int p = 0; p < projectiles.size(); p++) {
 				if (projectiles[p]->HitDetect(enemies[e])) {
 					projectiles[p]->Hit(*enemies[e]);
 				}
 			}
+
+
 		}
 		
 		for (int t = 0; t < roomTer.size(); t++) {

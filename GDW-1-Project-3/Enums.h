@@ -6,6 +6,14 @@ enum Direction {
 	Left
 };
 
+enum enemyType {
+	E_NULL,
+	STATUE
+
+
+};
+
+
 enum GameState {
 	TITLE,
 	PLAY,

@@ -7,6 +7,11 @@ struct Player_Input {
 	bool keySpace;
 };
 
+typedef struct _FCOORD {
+	float X;
+	float Y;
+} FCOORD, *FPCOORD;
+
 Player_Input player_input;
 
 class Player : public Entity {
@@ -69,15 +74,42 @@ class Enemy : public Entity {
 private:
 	int dmg, hp;
 	bool invuln;
+	bool hasFired;
+	FCOORD location;
 public:
+
 	Enemy(int x, int y, int w, int h, int hp, int dmg) :Entity(x, y, w, h) {
 		this->hp = hp;
 		this->dmg = dmg;
+
+		this->location.X = x;
+		this->location.Y = y;
+		isStatue = true;
+	}
+
+	enemyType getEnum() {
+		isStatue =
+			return E_NULL;
 	}
 
 	void Hurt(int d) {
 		if(!invuln)
 			hp -= d;
+	}
+
+	FCOORD getFCOORD()
+	{
+		return location;
+	}
+
+	bool getAttackState()
+	{
+		return hasFired;
+	}
+
+	void setAttackState()
+	{
+		hasFired = true;
 	}
 
 	int GetHP() {
@@ -146,7 +178,7 @@ public:
 		theta = _theta;
 	}
 
-	Projectile(int x, int y, int w, int h, int time, int dmg, int speed) :Entity(x, y, w, h) {
+	Projectile(int x, int y, int w, int h, int time, int dmg) :Entity(x, y, w, h) {
 		this->timer = time;
 		this->dmg = dmg;
 	}

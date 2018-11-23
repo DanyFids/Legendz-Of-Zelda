@@ -296,6 +296,101 @@ public:
 	}
 };
 
+class Statue : public Enemy {
+private:
+	bool hasFired = false;
+	int count = 0;
+	COORD direction;
+	COORD origin;
+	float dirScale;
+	FCOORD norDir;
+	bool attack = true;
+
+	enemyType STATUE;
+	//std::vector<Projectile *> fireballs;
+public:
+	Statue(int x, int y) :Enemy(x, y, 32, 16, 1, 1) {
+		SetNumAnim(1);
+
+		SetSpriteSheet(Sprites.spiketrapSprites);
+
+		origin.X = x;
+		origin.Y = y;
+
+		SetInvuln(true);
+	}
+
+	enemyType getEnum()
+	{
+		return STATUE;
+	}
+
+	FCOORD getFCOORD()
+	{
+		return norDir;
+	}
+
+	void AI(Player p) {
+		
+		//From orgin, fireball moves to the set location.
+
+		direction.X = (origin.X - p.GetX());
+		direction.Y = (origin.Y - p.GetY());
+
+		dirScale = sqrt(pow(direction.X,2) + pow(direction.Y,2));
+
+		norDir.X = direction.X / dirScale;
+		norDir.Y = direction.Y / dirScale;
+
+		if (hasFired) {
+			count++;
+		}
+		if (count >= 5) {
+			hasFired = false;
+			count = 0;
+		}
+
+	}
+
+	bool HitDetect(Entity * other) {
+		//Test Wall
+		if (GetX() + xSpd < 0) {
+			xSpd = 0 - GetX();
+			attack = false;
+		}
+		if (GetY() + ySpd < 0) {
+			ySpd = 0 - GetY();
+			attack = false;
+		}
+		if (GetX() + xSpd > 482) {
+			xSpd = 482 - GetX();
+			attack = false;
+		}
+		if (GetY() + ySpd > 208) {
+			ySpd = 208 - GetY();
+			attack = false;
+		}
+		//Can Remove Later
+
+		if (willHit(other, 0, 0)) {
+			
+		}
+
+		return willHit(other, 0, 0);
+	}
+
+	void Update(float dt) {
+		move();
+
+		xSpd = 0;
+		ySpd = 0;
+	}
+
+	Enemy * Clone() {
+		return new Statue(*this);
+	}
+};
+
 class Rope : public Enemy {
 private:
 	bool attack = true;
