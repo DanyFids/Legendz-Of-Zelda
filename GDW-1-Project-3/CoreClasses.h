@@ -122,13 +122,19 @@ public:
 
 class Projectile : public Entity {
 private:
-	
 	float theta, timer;
 	int dmg;
 	Direction dir;
+	ProjType type;
 public:
-	ProjType getEnum() {
-		return PT_NULL;
+	ProjType getEnum()
+	{
+		type;
+	}
+
+	void setEnum(ProjType t)
+	{
+		type = t;
 	}
 
 	float getTheta()

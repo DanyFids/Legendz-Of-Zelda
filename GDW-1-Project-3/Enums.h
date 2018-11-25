@@ -24,6 +24,7 @@ enum Weapon {
 
 enum ProjType {
 	PT_NULL, // Base projectile
+	PT_SWORD,
 	PT_BEAMSWORD,
 	PT_ARROW,
 	PT_BOMB,

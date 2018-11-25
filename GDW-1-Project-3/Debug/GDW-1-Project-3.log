@@ -1,11 +1,11 @@
 ﻿  main.cpp
-c:\users\100706824\documents\githubkraken\legendz-of-zelda\gdw-1-project-3\spritesheets.h(7561): warning C4018: '<': signed/unsigned mismatch
+c:\users\100706824\documents\githubkraken\legendz-of-zelda\gdw-1-project-3\spritesheets.h(7568): warning C4018: '<': signed/unsigned mismatch
 c:\users\100706824\documents\githubkraken\legendz-of-zelda\gdw-1-project-3\menus.h(123): warning C4018: '<': signed/unsigned mismatch
 c:\users\100706824\documents\githubkraken\legendz-of-zelda\gdw-1-project-3\menus.h(143): warning C4018: '<': signed/unsigned mismatch
 c:\users\100706824\documents\githubkraken\legendz-of-zelda\gdw-1-project-3\menus.h(162): warning C4018: '<': signed/unsigned mismatch
 c:\users\100706824\documents\githubkraken\legendz-of-zelda\gdw-1-project-3\menus.h(168): warning C4018: '<': signed/unsigned mismatch
-c:\users\100706824\documents\githubkraken\legendz-of-zelda\gdw-1-project-3\projectiles.h(110): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-c:\users\100706824\documents\githubkraken\legendz-of-zelda\gdw-1-project-3\projectiles.h(111): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+c:\users\100706824\documents\githubkraken\legendz-of-zelda\gdw-1-project-3\projectiles.h(113): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+c:\users\100706824\documents\githubkraken\legendz-of-zelda\gdw-1-project-3\projectiles.h(114): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
 c:\users\100706824\documents\githubkraken\legendz-of-zelda\gdw-1-project-3\main.cpp(349): warning C4018: '<': signed/unsigned mismatch
 c:\users\100706824\documents\githubkraken\legendz-of-zelda\gdw-1-project-3\main.cpp(353): warning C4018: '<': signed/unsigned mismatch
 c:\users\100706824\documents\githubkraken\legendz-of-zelda\gdw-1-project-3\main.cpp(357): warning C4018: '<': signed/unsigned mismatch

@@ -53,6 +53,12 @@ DWORD WINAPI LoadThread(LPVOID lpParameter)
 	if (Sprites.LoadGenericMenu()) {
 		LOADED++;
 	}
+	if (Sprites.LoadBomb()) {
+		LOADED++;
+	}
+	if (Sprites.LoadArrow()) {
+		LOADED++;
+	}
 
 	// load player saves
 	int savesSize = sizeof(Player_Info) * 3;
@@ -72,12 +78,9 @@ DWORD WINAPI LoadThread(LPVOID lpParameter)
 		saves.close();
 		LOADED++;
 	}
-	if (Sprites.LoadBomb()) {
-		LOADED++;
-	}
 
 	// Sounds below!!
-	if (sounds.LoadSwing()) {//13
+	if (sounds.LoadSwing()) {
 		LOADED++;
 	}
 	if (sounds.LoadBeamSword()) {
