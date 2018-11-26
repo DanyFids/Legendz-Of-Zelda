@@ -141,6 +141,13 @@ public:
 		CONSOLE_TEXTMODE_BUFFER,
 		NULL);
 
+	HANDLE fireballSprites = CreateConsoleScreenBuffer(
+		GENERIC_READ | GENERIC_WRITE,
+		FILE_SHARE_READ | FILE_SHARE_WRITE,
+		NULL,
+		CONSOLE_TEXTMODE_BUFFER,
+		NULL);
+
 	HANDLE holeSprites = CreateConsoleScreenBuffer(
 		GENERIC_READ | GENERIC_WRITE,
 		FILE_SHARE_READ | FILE_SHARE_WRITE,
@@ -8730,6 +8737,107 @@ public:
 				}
 
 
+			}
+		}
+
+		return true;
+	}
+
+	bool LoadFireball() { // Anthony's Attempt
+
+		DWORD output;
+
+		// SetConsoleTextAttribute(bombSprites, 1 * 16); // Colour
+
+		for (int i = 0; i < 10; i++) {// Draws Row (i = y size)
+			GoToXY(fireballSprites, 0, i);	 //Position of pixel
+			for (int c = 0; c < 10; c++) { // Draws Col (c = x size)
+				if (i == 0 || i == 9) {
+					if (c > 2 && c < 7)//col
+					{
+						SetConsoleTextAttribute(fireballSprites, 12 * 16); //RED 
+						WriteConsole(fireballSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					else
+					{
+						SetConsoleTextAttribute(fireballSprites, 7);  //Empty
+						WriteConsole(fireballSprites, &"  ", 2, &output, NULL);
+					}
+				}
+
+				if (i == 1 || i == 8) {
+					if (c > 1 && c < 8)//col
+					{
+						SetConsoleTextAttribute(fireballSprites, 12 * 16); //RED 
+						WriteConsole(fireballSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					else
+					{
+						SetConsoleTextAttribute(fireballSprites, 7);  //Empty
+						WriteConsole(fireballSprites, &"  ", 2, &output, NULL);
+					}
+				}
+
+				if (i == 2 || i == 7) {
+					if (c == 2 || c == 3 || c == 6 || c == 7)//col
+					{
+						SetConsoleTextAttribute(fireballSprites, 12 * 16); //RED 
+						WriteConsole(fireballSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					if(c == 0 || c == 1)
+					{
+						SetConsoleTextAttribute(fireballSprites, 7);  //Empty
+						WriteConsole(fireballSprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 4 || c == 5)
+					{
+						SetConsoleTextAttribute(fireballSprites, 22 * 16);  //Orange
+						WriteConsole(fireballSprites, &"  ", 2, &output, NULL);
+					}
+				}
+
+				if (i == 3 || i == 6) {// Row 4
+					if (c == 1 || c == 2 || c == 7 || c == 8)//col
+					{
+						SetConsoleTextAttribute(fireballSprites, 12 * 16); //RED 
+						WriteConsole(fireballSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					if (c == 0)
+					{
+						SetConsoleTextAttribute(fireballSprites, 7);  //Empty
+						WriteConsole(fireballSprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 3 || c == 4 || c == 5 || c == 6)
+					{
+						SetConsoleTextAttribute(fireballSprites, 22 * 16);  //Orange
+						WriteConsole(fireballSprites, &"  ", 2, &output, NULL);
+					}
+				}
+
+				if (i == 4 || i == 5) {
+					if (c == 1 || c == 2 || c == 7 || c == 8)//col
+					{
+						SetConsoleTextAttribute(fireballSprites, 12 * 16); //RED 
+						WriteConsole(fireballSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					if (c == 0)
+					{
+						SetConsoleTextAttribute(fireballSprites, 7);  //Empty
+						WriteConsole(fireballSprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 3 || c == 6)
+					{
+						SetConsoleTextAttribute(fireballSprites, 22 * 16);  //Orange
+						WriteConsole(fireballSprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 4 || c == 5)
+					{
+						SetConsoleTextAttribute(fireballSprites, 15 * 16);  //White
+						WriteConsole(fireballSprites, &"  ", 2, &output, NULL);
+					}
+				}
+
+				
 			}
 		}
 

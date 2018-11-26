@@ -129,7 +129,7 @@ private:
 public:
 	ProjType getEnum()
 	{
-		type;
+		return type;
 	}
 
 	void setEnum(ProjType t)

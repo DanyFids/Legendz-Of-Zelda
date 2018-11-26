@@ -104,9 +104,10 @@ class Fireball : public Projectile {
 
 private:
 
-public:	   // x,y coord,                  width*2,height,					lifetime, damage, speed 
-	Fireball(int x, int y, float _Xdir, float _Ydir) : Projectile(x, y, 32, 7, 10.0f, 1) {
-		xSpd = _Xdir;
+public:	   // x,y coord,                  width*2,height,					lifetime, damage
+	Fireball(int x, int y, float _Xdir, float _Ydir) : Projectile(x, y, 20, 10, 10.0f, 1) {
+		SetSpriteSheet(Sprites.fireballSprites);
+		xSpd = _Xdir;			
 		ySpd = _Ydir;
 		this->setEnum(PT_FIREBALL);
 	}
