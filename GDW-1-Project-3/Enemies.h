@@ -300,15 +300,14 @@ class Statue : public Enemy {
 private:
 	bool hasFired = false;
 	int count = 0;
-	COORD direction;
 	COORD origin;
 	float dirScale;
 	FCOORD norDir;
-	bool attack = true;
-
-	enemyType STATUE;
-	//std::vector<Projectile *> fireballs;
+	bool attack = false;
+	bool innert = false;
 public:
+
+	std::vector<Projectile *> fireballs;
 	Statue(int x, int y) :Enemy(x, y, 32, 16, 1, 1) {
 		SetNumAnim(1);
 
@@ -320,18 +319,14 @@ public:
 		SetInvuln(true);
 	}
 
-	enemyType getEnum()
-	{
-		return STATUE;
-	}
-
 	FCOORD getFCOORD()
 	{
 		return norDir;
 	}
 
 	void AI(Player p) {
-		
+
+		COORD direction;
 		//From orgin, fireball moves to the set location.
 
 		direction.X = (origin.X - p.GetX());
@@ -342,12 +337,12 @@ public:
 		norDir.X = direction.X / dirScale;
 		norDir.Y = direction.Y / dirScale;
 
-		if (hasFired) {
-			count++;
+		if (count > 0) {
+			count--;
 		}
-		if (count >= 5) {
-			hasFired = false;
-			count = 0;
+		if (count == 0) {
+			count = 20;
+			this->projectiles.push_back(new Fireball((this->GetX() + (this->GetWidth()/2) - 10), (this->GetY() + (this->GetHeight() / 2) - 5), norDir));
 		}
 
 	}

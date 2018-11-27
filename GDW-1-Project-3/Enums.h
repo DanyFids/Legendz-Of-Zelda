@@ -1,28 +1,42 @@
 #pragma once
 enum Direction {
-	Up,
 	Down,
 	Right,
-	Left
+	Left,
+	Up
 };
-
-enum enemyType {
-	E_NULL,
-	STATUE
-
-
-};
-
 
 enum GameState {
 	TITLE,
+	CHARACTER_SEL,
+	CHARACTER_ADD,
+	CHARACTER_RMV,
 	PLAY,
-	MENU,
+	INVENTORY,
 	CREDITS
 };
 
 enum Weapon {
 	Bow,
-	Bomb,
+	//Bomb,
 	Boomerang
+};
+
+enum BtnAction {
+	SELECT_FILE,
+	REGISTER,
+	ERASE,
+	END
+};
+
+enum ProjType {
+	PT_NULL, // Base projectile
+	PT_SWORD,
+	PT_BEAMSWORD,
+	PT_ARROW,
+	PT_BOMB,
+	PT_EXPLOSION,
+	PT_FIREBALL,
+	PT_BOOMERANG
+
 };

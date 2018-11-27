@@ -6,6 +6,8 @@ private:
 	int width, height;
 	int cur_anim = 0;
 	int num_animations = 0;
+	int cur_frame = 0;
+	std::vector<int> num_frames;
 	bool flying;
 	Direction dir;
 
@@ -13,7 +15,7 @@ private:
 public:
 	HANDLE sprite_sheet;
 	int xSpd, ySpd;
-	bool isStatue;
+	
 	Entity() {
 		x = 0;
 		y = 0;
@@ -69,48 +71,7 @@ public:
 	}
 	
 	void draw(HANDLE out) {
-		CHAR_INFO *outBuff = new CHAR_INFO[width * height];
-		CHAR_INFO *transBuff = new CHAR_INFO[width * height];
-
-		//Area to read/write
-		SMALL_RECT screen;
-		screen.Top = 0;
-		screen.Left = 0;
-		screen.Right = width - 1;
-		screen.Bottom = height - 1;
-
-		//Top Left COORD
-		COORD start;
-		start.X = 0;
-		start.Y = 0;
-
-		//Position
-		COORD pos;
-		pos.X = 0;
-		pos.Y = 0;
-
-		//Buffer Size
-		COORD size;
-		size.X = width;
-		size.Y = height;
-
-		ReadConsoleOutput(sprite_sheet, outBuff, size, start, &screen);
-
-		screen.Top = y;
-		screen.Left = x;
-		screen.Right = width + x - 1;
-		screen.Bottom = height + y - 1;
-
-		ReadConsoleOutput(out, transBuff, size, pos, &screen);
-
-		for (int p = 0; p < (width * height); p++) {
-			if (outBuff[p].Attributes == 7) {
-				outBuff[p] = transBuff[p];
-			}
-		}
-
-		WriteConsoleOutput(out, outBuff, size, pos, &screen);
-
+		Sprites.DrawSprite(sprite_sheet, (width+2) * cur_anim, (height + 1) * cur_frame, width, height, out, x, y);
 	}
 
 	void SetNumAnim(int num) {

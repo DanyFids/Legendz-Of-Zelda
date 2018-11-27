@@ -7,12 +7,32 @@ struct Player_Input {
 	bool keySpace;
 };
 
+
 typedef struct _FCOORD {
 	float X;
 	float Y;
 } FCOORD, *FPCOORD;
 
+struct Player_Info {
+	std::string Name = std::string(8, ' ');
+	int MaxLife = 6;
+	int CurLife = 6;
+	int Bombs = 0;
+	int Keys = 0;
+	int Rupees = 0;
+	bool HasMap = false;
+	bool HasCompass = false;
+	bool file_exists = false;
+};
+
+Player_Info PLAYER_FILES[3];
+
+
 Player_Input player_input;
+
+//Class Declarations
+class Projectile;
+
 
 class Player : public Entity {
 private:
@@ -20,8 +40,8 @@ private:
 	bool can_attack = true;
 	float stop_timer = 0;
 public:
-	Player(int x, int y) :Entity(x, y, 30, 16) {
-		SetNumAnim(1);
+	Player(int x, int y) :Entity(x, y, 32, 16) {
+		SetNumAnim(4);
 
 
 		SetSpriteSheet(Sprites.playerSprites);
@@ -77,6 +97,7 @@ private:
 	bool hasFired;
 	FCOORD location;
 public:
+	std::vector<Projectile *> projectiles;
 
 	Enemy(int x, int y, int w, int h, int hp, int dmg) :Entity(x, y, w, h) {
 		this->hp = hp;
@@ -84,12 +105,7 @@ public:
 
 		this->location.X = x;
 		this->location.Y = y;
-		isStatue = true;
-	}
-
-	enemyType getEnum() {
-		isStatue =
-			return E_NULL;
+		
 	}
 
 	void Hurt(int d) {
@@ -124,6 +140,10 @@ public:
 		invuln = i;
 	}
 
+	void move();
+	
+	void draw(HANDLE out);
+
 	virtual void AI(Player p) = 0;
 };
 
@@ -140,12 +160,24 @@ public:
 
 class Projectile : public Entity {
 private:
-	int dmg,speed;
 	float theta, timer;
+	int dmg,speed;
+	Direction dir;
+	ProjType type;
 public:
 	float getTheta()
 	{
 		return theta;
+	}
+
+	ProjType getEnum()
+	{
+		return type;
+	}
+
+	void setEnum(ProjType t)
+	{
+		type = t;
 	}
 
 	int getDamage()
@@ -163,6 +195,11 @@ public:
 		return timer;
 	}
 
+	Direction getDir()
+	{
+		return dir;
+	}
+
 	void setTime(float t)
 	{
 		timer = t;
@@ -178,10 +215,17 @@ public:
 		theta = _theta;
 	}
 
+
 	Projectile(int x, int y, int w, int h, int time, int dmg) :Entity(x, y, w, h) {
-		this->timer = time;
-		this->dmg = dmg;
+	this->timer = time;
+	this->dmg = dmg;
 	}
+
+	void setDir(Direction _dir)
+	{
+		dir = _dir;
+	}
+
 
 	void Hit(Player & p) {
 		p.Hurt(dmg);
