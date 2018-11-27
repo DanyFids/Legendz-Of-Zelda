@@ -9,6 +9,22 @@ struct Player_Input {
 
 Player_Input player_input;
 
+struct Player_Info {
+	std::string Name = std::string(8, ' ');
+	int MaxLife = 6;
+	int CurLife = 6;
+	int Bombs = 0;
+	int Keys = 0;
+	int Rupees = 0;
+	bool HasMap = false;
+	bool HasCompass = false;
+	bool file_exists = false;
+};
+
+Player_Info PLAYER_FILES[3];
+
+Player_Info * player_file;
+
 class Player : public Entity {
 private:
 	int hp = 6;
@@ -96,13 +112,81 @@ public:
 };
 
 class Terrain : public Entity {
+private:
+	float move_timer = MOVE_TIME;
+	float moving_timer = 0;
+	Direction moveDir;
+	bool canMove;
 public:
-	Terrain(int x, int y, int w, int h):Entity(x, y, w, h) {
+	const float MOVE_TIME = 0.05f;
 
+	Terrain(int x, int y, int w, int h, bool cM = false) :Entity(x, y, w, h) {
+		canMove = cM;
+	}
+
+	bool CanMove() {
+		return canMove;
 	}
 
 	void Update(float dt) {
+		if (move_timer > 0) {
+			move_timer -= dt;
+			if (move_timer <= 0) {
+				moving_timer = 2.0f;
+			}
+		}
+		else {
+			if (moving_timer > 0) {
+				switch (GetMvDir()) {
+				case Up:
+					ySpd = -1;
+					xSpd = 0;
+					break;
+				case Down:
+					ySpd = 1;
+					xSpd = 0;
+					break;
+				case Left:
+					ySpd = 0;
+					xSpd = -1;
+					break;
+				case Right:
+					ySpd = 0;
+					xSpd = 1;
+					break;
+				}
+				move();
+				moving_timer -= dt;
+				if (moving_timer <= 0) {
+					canMove = false;
+				}
+			}
+		}
+	}
 
+	bool isMoving() {
+		if (moving_timer > 0) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+
+	void SetMvDir(Direction d) {
+		moveDir = d;
+	}
+
+	Direction GetMvDir() {
+		return moveDir;
+	}
+
+	void SetKeys(int key) {
+		Keys = key;
+	}
+
+	int GetKeys(){
+		return Keys;
 	}
 };
 
@@ -158,5 +242,11 @@ public:
 	void Hit(Enemy & e) {
 		e.Hurt(dmg);
 	}
+	
+};
+
+class PowerUp : public Entity {
+
+	virtual void Effect(Player_Info stats)=0;
 
 };

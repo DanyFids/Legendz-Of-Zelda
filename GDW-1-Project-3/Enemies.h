@@ -1,5 +1,6 @@
 #pragma once
 
+
 class SpikeTrap : public Enemy {
 private:
 	COORD origin;

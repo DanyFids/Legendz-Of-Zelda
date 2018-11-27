@@ -138,7 +138,7 @@ public:
 		CONSOLE_TEXTMODE_BUFFER,
 		NULL);
 
-	void DrawSprite(HANDLE sheet, int sX, int sY, int w, int h, HANDLE dest, int dx, int dy) {
+	/*void DrawSprite(HANDLE sheet, int sX, int sY, int w, int h, HANDLE dest, int dx, int dy) {
 		CHAR_INFO *outBuff = new CHAR_INFO[w * h];
 		CHAR_INFO *transBuff = new CHAR_INFO[w * h];
 
@@ -177,10 +177,10 @@ public:
 			if (outBuff[p].Attributes == 7) {
 				outBuff[p] = transBuff[p];
 			}
-		}*/
+		}
 
 		WriteConsoleOutput(dest, outBuff, size, pos, &screen);
-	}
+	}*/
 
 	bool LoadPlayer() {
 		//anim 1 frame 1

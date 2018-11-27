@@ -18,6 +18,7 @@
 #include "Arrow.h"
 #include "Fireball.h"
 #include "bgMusicManager.h"
+#include "PowerUp.h"
 
 
 const int PLAYER_SPEED = 2;
@@ -35,6 +36,7 @@ HANDLE inputH;
 GameState state = TITLE;
 
 bool Play = true;
+bool stop_watch = false;
 
 // Play Objects
 Player player(0, 0);
@@ -94,6 +96,8 @@ int main() {
 	if (!SetConsoleMode(inputH, consoleMode)) {
 		return 103;
 	}
+
+	
 
 	while (Play) {
 		DWORD unreadInputs;
@@ -421,7 +425,9 @@ void Update() {
 		}
 		
 		for (int t = 0; t < roomTer.size(); t++) {
-			roomTer[t]->HitDetect(&player);
+			if ((roomTer[t]->HitDetect(&player) && roomTer[t]->CanMove()) || roomTer[t]->isMoving()) {
+				roomTer[t]->Update(dt);
+			}
 			for (int e = 0; e < enemies.size(); e++) {
 				roomTer[t]->HitDetect(enemies[e]);
 			}
@@ -434,7 +440,10 @@ void Update() {
 				enemies.erase(enemies.begin() + e);
 			}
 			else {
-				enemies[e]->Update(dt);
+				if (!stop_watch)
+				{
+					enemies[e]->Update(dt);
+				}
 			}
 		}
 		for (int p = 0; p < projectiles.size(); p++) {
@@ -444,6 +453,12 @@ void Update() {
 			else {
 				std::vector<Projectile*>::iterator it = projectiles.begin();
 				projectiles.erase(it + p);
+			}
+		}
+
+		for (int c = 0; c < powerups.size(); c++) {
+			if (powerups[c]->HitDetect(&player)) {
+				powerups[c]->Effect(&player_file);
 			}
 		}
 
@@ -521,3 +536,5 @@ void Load() {
 		}
 	}
 }
+
+std::vector<PowerUp *> powerups;

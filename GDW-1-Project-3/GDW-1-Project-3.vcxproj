@@ -127,6 +127,7 @@
     <ClInclude Include="Fireball.h" />
     <ClInclude Include="FunctionProto.h" />
     <ClInclude Include="CoreClasses.h" />
+    <ClInclude Include="PowerUp.h" />
     <ClInclude Include="SpriteSheets.h" />
     <ClInclude Include="Sword.h" />
     <ClInclude Include="Terrains.h" />
