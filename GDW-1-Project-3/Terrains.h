@@ -206,6 +206,9 @@ private:
 	bool playerHit = false;
 	bool lock = false;
 public:
+	MoveableBlock(int x, int y) : Terrain(x, y, 32, 16) {
+		SetSpriteSheet(Sprites.blockSprites);
+	}
 	bool HitDetect(Entity * other) {
 		bool nope = willHit(other, other->xSpd, other->ySpd);
 		if (!other->IsFlying()) {
@@ -263,6 +266,9 @@ public:
 class BombableWall : public Terrain {
 private:
 public:
+	BombableWall(int x, int y) : Terrain(x, y, 32, 16) {
+		SetSpriteSheet(Sprites.blockSprites);
+	}
 
 	bool HitDetect(Entity * other) {
 		bool nope = willHit(other, other->xSpd, other->ySpd);
@@ -325,7 +331,7 @@ public:
 
 	bool HitDetect(Entity * other) {
 		bool nope = willHit(other, other->xSpd, other->ySpd);
-		if (!IsOpen() && (player_file->Keys == 0)) {
+		if (!IsOpen()) {
 			if (willHit(other, other->xSpd, other->ySpd)) {
 				if (willHit(other, other->xSpd, 0)) {
 					if (other->xSpd > 0) {
@@ -360,7 +366,7 @@ public:
 					}
 				}
 			}
-		else {
+			if(nope && player_file->Keys > 0) {
 				open = true;
 				player_file->Keys -= 1;
 

@@ -239,7 +239,7 @@ public:
 };
 
 class PowerUp : public Entity {
-
+public:
 	virtual void Effect(Player_Info stats)=0;
 
 };
