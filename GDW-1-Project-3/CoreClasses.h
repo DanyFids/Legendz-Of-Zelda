@@ -181,13 +181,6 @@ public:
 		return moveDir;
 	}
 
-	void SetKeys(int key) {
-		Keys = key;
-	}
-
-	int GetKeys(){
-		return Keys;
-	}
 };
 
 class Projectile : public Entity {
