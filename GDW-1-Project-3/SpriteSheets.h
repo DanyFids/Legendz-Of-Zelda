@@ -5498,6 +5498,8 @@ public:
 		// First Row
 		GoToXY(doorSprites, 52, 0);
 		WriteConsole(doorSprites, &"  ", 2, &output, NULL);
+		GoToXY(doorSprites, 30, 0);
+		WriteConsole(doorSprites, &"    ", 4, &output, NULL);
 
 		// Second Row
 		GoToXY(doorSprites, 52, 1);
@@ -5614,6 +5616,10 @@ public:
 		// Sixteenth Row
 		GoToXY(doorSprites, 60, 15);
 		WriteConsole(doorSprites, &"  ", 2, &output, NULL);
+		GoToXY(doorSprites, 8, 15);
+		WriteConsole(doorSprites, &"          ", 10, &output, NULL);
+		GoToXY(doorSprites, 46, 15);
+		WriteConsole(doorSprites, &"          ", 10, &output, NULL);
 
 		// Seventeenth Row
 		GoToXY(doorSprites, 0, 16);
@@ -5638,7 +5644,7 @@ public:
 		GoToXY(doorSprites, 0, 19);
 		WriteConsole(doorSprites, &"                                                                ", 64, &output, NULL);
 
-		SetConsoleTextAttribute(doorSprites, 3 * 16); // Aqua
+		SetConsoleTextAttribute(doorSprites, 11 * 16); // Aqua
 
 		// First Row
 		GoToXY(doorSprites, 10, 0);
@@ -5840,6 +5846,12 @@ public:
 		GoToXY(doorSprites, 56, 14);
 		WriteConsole(doorSprites, &"    ", 4, &output, NULL);
 
+		// Sixteenth Row
+		GoToXY(doorSprites, 4, 15);
+		WriteConsole(doorSprites, &"    ", 4, &output, NULL);
+		GoToXY(doorSprites, 56, 15);
+		WriteConsole(doorSprites, &"    ", 4, &output, NULL);
+
 		// Seventeenth Row
 		GoToXY(doorSprites, 2, 16);
 		WriteConsole(doorSprites, &"                                                            ", 60, &output, NULL);
@@ -5847,6 +5859,749 @@ public:
 		// Eighteenth Row
 		GoToXY(doorSprites, 2, 17);
 		WriteConsole(doorSprites, &"                                                            ", 60, &output, NULL);
+
+		SetConsoleTextAttribute(doorSprites, 0 * 16);
+
+		// First Row
+		GoToXY(doorSprites, 16, 0);
+		WriteConsole(doorSprites, &"  ", 2, &output, NULL);
+		GoToXY(doorSprites, 46, 0);
+		WriteConsole(doorSprites, &"  ", 2, &output, NULL);
+
+		for (int i = 1; i < 12; i++) {
+			GoToXY(doorSprites, 30, i);
+			WriteConsole(doorSprites, &"  ", 2, &output, NULL);
+		}
+
+		for (int i = 7; i < 16; i++) {
+			GoToXY(doorSprites, 18, i);
+			WriteConsole(doorSprites, &"                            ", 28, &output, NULL);
+		}
+
+		GoToXY(doorSprites, 8, 15);
+		WriteConsole(doorSprites, &"                                                      ", 48, &output, NULL);
+
+		// Left Side Door Open
+
+		SetConsoleTextAttribute(doorSprites, 1 * 16);
+
+		for (int i = 0; i < 32; i++) {
+			GoToXY(doorSprites, 132, i);
+			WriteConsole(doorSprites, &"  ", 2, &output, NULL);
+		}
+
+		GoToXY(doorSprites, 134, 0);
+		WriteConsole(doorSprites, &"      ", 6, &output, NULL);
+
+		GoToXY(doorSprites, 134, 31);
+		WriteConsole(doorSprites, &"      ", 6, &output, NULL);
+
+		GoToXY(doorSprites, 140, 30);
+		WriteConsole(doorSprites, &"        ", 8, &output, NULL);
+
+		GoToXY(doorSprites, 148, 29);
+		WriteConsole(doorSprites, &"      ", 6, &output, NULL);
+
+		GoToXY(doorSprites, 154, 28);
+		WriteConsole(doorSprites, &"      ", 6, &output, NULL);
+
+		GoToXY(doorSprites, 160, 27);
+		WriteConsole(doorSprites, &"      ", 6, &output, NULL);
+
+		GoToXY(doorSprites, 166, 26);
+		WriteConsole(doorSprites, &"      ", 6, &output, NULL);
+
+		for (int i = 4; i < 9; i++) {
+			GoToXY(doorSprites, 142, i);
+			WriteConsole(doorSprites, &"    ", 4, &output, NULL);
+		}
+
+		for (int i = 23; i < 28; i++) {
+			GoToXY(doorSprites, 142, i);
+			WriteConsole(doorSprites, &"    ", 4, &output, NULL);
+		}
+
+		for (int i = 5; i < 9; i++) {
+			GoToXY(doorSprites, 146, i);
+			WriteConsole(doorSprites, &"      ", 6, &output, NULL);
+		}
+
+		for (int i = 23; i < 27; i++) {
+			GoToXY(doorSprites, 146, i);
+			WriteConsole(doorSprites, &"      ", 6, &output, NULL);
+		}
+
+		for (int i = 6; i < 9; i++) {
+			GoToXY(doorSprites, 152, i);
+			WriteConsole(doorSprites, &"      ", 6, &output, NULL);
+		}
+
+		for (int i = 23; i < 26; i++) {
+			GoToXY(doorSprites, 152, i);
+			WriteConsole(doorSprites, &"      ", 6, &output, NULL);
+		}
+
+		for (int i = 7; i < 9; i++) {
+			GoToXY(doorSprites, 158, i);
+			WriteConsole(doorSprites, &"      ", 6, &output, NULL);
+		}
+
+		for (int i = 23; i < 25; i++) {
+			GoToXY(doorSprites, 158, i);
+			WriteConsole(doorSprites, &"      ", 6, &output, NULL);
+		}
+
+		GoToXY(doorSprites, 164, 8);
+		WriteConsole(doorSprites, &"      ", 6, &output, NULL);
+
+		GoToXY(doorSprites, 164, 23);
+		WriteConsole(doorSprites, &"      ", 6, &output, NULL);
+
+		SetConsoleTextAttribute(doorSprites, 11 * 16);
+
+		for (int i = 1; i < 31; i++) {
+			GoToXY(doorSprites, 134, i);
+			WriteConsole(doorSprites, &"  ", 2, &output, NULL);
+		}
+
+		GoToXY(doorSprites, 140, 1);
+		WriteConsole(doorSprites, &"        ", 8, &output, NULL);
+
+		GoToXY(doorSprites, 148, 2);
+		WriteConsole(doorSprites, &"      ", 6, &output, NULL);
+
+		GoToXY(doorSprites, 154, 3);
+		WriteConsole(doorSprites, &"      ", 6, &output, NULL);
+
+		GoToXY(doorSprites, 160, 4);
+		WriteConsole(doorSprites, &"      ", 6, &output, NULL);
+
+		GoToXY(doorSprites, 166, 5);
+		WriteConsole(doorSprites, &"      ", 6, &output, NULL);
+
+		GoToXY(doorSprites, 158, 9);
+		WriteConsole(doorSprites, &"            ", 12, &output, NULL);
+
+		SetConsoleTextAttribute(doorSprites, 9 * 16);
+
+		for (int i = 1; i < 31; i++) {
+			GoToXY(doorSprites, 136, i);
+			WriteConsole(doorSprites, &"    ", 4, &output, NULL);
+		}
+
+		for (int i = 2; i < 4; i++) {
+			GoToXY(doorSprites, 140, i);
+			WriteConsole(doorSprites, &"        ", 8, &output, NULL);
+		}
+
+		for (int i = 28; i < 30; i++) {
+			GoToXY(doorSprites, 140, i);
+			WriteConsole(doorSprites, &"        ", 8, &output, NULL);
+		}
+
+		for (int i = 3; i < 5; i++) {
+			GoToXY(doorSprites, 146, i);
+			WriteConsole(doorSprites, &"        ", 8, &output, NULL);
+		}
+
+		for (int i = 27; i < 29; i++) {
+			GoToXY(doorSprites, 146, i);
+			WriteConsole(doorSprites, &"        ", 8, &output, NULL);
+		}
+
+		for (int i = 4; i < 6; i++) {
+			GoToXY(doorSprites, 152, i);
+			WriteConsole(doorSprites, &"        ", 8, &output, NULL);
+		}
+
+		for (int i = 26; i < 28; i++) {
+			GoToXY(doorSprites, 152, i);
+			WriteConsole(doorSprites, &"        ", 8, &output, NULL);
+		}
+
+		for (int i = 5; i < 7; i++) {
+			GoToXY(doorSprites, 158, i);
+			WriteConsole(doorSprites, &"        ", 8, &output, NULL);
+		}
+
+		for (int i = 25; i < 27; i++) {
+			GoToXY(doorSprites, 158, i);
+			WriteConsole(doorSprites, &"        ", 8, &output, NULL);
+		}
+
+		for (int i = 6; i < 8; i++) {
+			GoToXY(doorSprites, 164, i);
+			WriteConsole(doorSprites, &"        ", 8, &output, NULL);
+		}
+
+		for (int i = 24; i < 26; i++) {
+			GoToXY(doorSprites, 164, i);
+			WriteConsole(doorSprites, &"        ", 8, &output, NULL);
+		}
+
+		for (int i = 10; i < 22; i++) {
+			GoToXY(doorSprites, 158, i);
+			WriteConsole(doorSprites, &"            ", 12, &output, NULL);
+		}
+
+		SetConsoleTextAttribute(doorSprites, 0 * 16);
+
+		for (int i = 4; i < 28; i++) {
+			GoToXY(doorSprites, 140, i);
+			WriteConsole(doorSprites, &"  ", 2, &output, NULL);
+		}
+
+		for (int i = 9; i < 23; i++) {
+			GoToXY(doorSprites, 142, i);
+			WriteConsole(doorSprites, &"                ", 16, &output, NULL);
+		}
+
+		GoToXY(doorSprites, 158, 22);
+		WriteConsole(doorSprites, &"            ", 12, &output, NULL);
+
+		HANDLE temp = CreateConsoleScreenBuffer(
+			GENERIC_READ | GENERIC_WRITE,
+			FILE_SHARE_READ | FILE_SHARE_WRITE,
+			NULL,
+			CONSOLE_TEXTMODE_BUFFER,
+			NULL);
+
+		DrawSprite(doorSprites, 132, 0, 40, 32, temp, 0, 0);
+
+		for (int c = 0; c < 32; c++) {
+			GoToXY(doorSprites, 132, c);
+			for (int d = 0; d < 32; d++) {
+				WriteConsole(doorSprites, "  ", 2, NULL, NULL);
+			}
+		}
+
+		DrawSprite(temp, 0, 0, 40, 32, doorSprites, 156, 0);
+
+		// Right Side Door Open
+		for (int c = 0; c < 32; c++)
+			DrawSprite(doorSprites, 194 - (c * 2), 0, 2, 32, doorSprites, 198 + (c * 2), 0);
+
+		SetConsoleTextAttribute(doorSprites, 11 * 16);
+		for (int i = 10; i < 22; i++) {
+			GoToXY(doorSprites, 198, i);
+			WriteConsole(doorSprites, &"  ", 2, &output, NULL);
+		}
+
+		// Top Door Open
+		for (int c = 0; c < 32; c++)
+			DrawSprite(doorSprites, 0, 0 + c, 64, 1, doorSprites, 66, 32 - (c + 1));
+
+		SetConsoleTextAttribute(doorSprites, 0 * 16);
+
+		GoToXY(doorSprites, 84, 32);
+		WriteConsole(doorSprites, &"            ", 12, &output, NULL);
+		GoToXY(doorSprites, 100, 32);
+		WriteConsole(doorSprites, &"            ", 12, &output, NULL);
+
+		// Bottom Door Closed
+
+		SetConsoleTextAttribute(doorSprites, 1 * 16);
+
+		for (int i = 46; i < 50; i++) {
+			GoToXY(doorSprites, 60, i);
+			WriteConsole(doorSprites, &"  ", 2, &output, NULL);
+		}
+
+		for (int i = 43; i < 46; i++) {
+			GoToXY(doorSprites, 58, i);
+			WriteConsole(doorSprites, &"  ", 2, &output, NULL);
+		}
+
+		for (int i = 40; i < 43; i++) {
+			GoToXY(doorSprites, 56, i);
+			WriteConsole(doorSprites, &"  ", 2, &output, NULL);
+		}
+
+		for (int i = 37; i < 40; i++) {
+			GoToXY(doorSprites, 54, i);
+			WriteConsole(doorSprites, &"  ", 2, &output, NULL);
+		}
+
+		for (int i = 34; i < 37; i++) {
+			GoToXY(doorSprites, 52, i);
+			WriteConsole(doorSprites, &"  ", 2, &output, NULL);
+		}
+
+		for (int i = 35; i < 49; i++) {
+			GoToXY(doorSprites, 16, i);
+			WriteConsole(doorSprites, &"                                ", 32, &output, NULL);
+		}
+
+		for (int i = 38; i < 49; i++) {
+			GoToXY(doorSprites, 14, i);
+			WriteConsole(doorSprites, &"  ", 2, &output, NULL);
+			GoToXY(doorSprites, 48, i);
+			WriteConsole(doorSprites, &"  ", 2, &output, NULL);
+		}
+
+		for (int i = 41; i < 49; i++) {
+			GoToXY(doorSprites, 12, i);
+			WriteConsole(doorSprites, &"  ", 2, &output, NULL);
+			GoToXY(doorSprites, 50, i);
+			WriteConsole(doorSprites, &"  ", 2, &output, NULL);
+		}
+
+		for (int i = 44; i < 49; i++) {
+			GoToXY(doorSprites, 10, i);
+			WriteConsole(doorSprites, &"  ", 2, &output, NULL);
+			GoToXY(doorSprites, 52, i);
+			WriteConsole(doorSprites, &"  ", 2, &output, NULL);
+		}
+
+		for (int i = 47; i < 49; i++) {
+			GoToXY(doorSprites, 8, i);
+			WriteConsole(doorSprites, &"  ", 2, &output, NULL);
+			GoToXY(doorSprites, 54, i);
+			WriteConsole(doorSprites, &"  ", 2, &output, NULL);
+		}
+
+		for (int i = 50; i < 54; i++) {
+			GoToXY(doorSprites, 0, i);
+			WriteConsole(doorSprites, &"  ", 2, &output, NULL);
+			GoToXY(doorSprites, 62, i);
+			WriteConsole(doorSprites, &"  ", 2, &output, NULL);
+		}
+
+		GoToXY(doorSprites, 2, 53);
+		WriteConsole(doorSprites, &"                                                            ", 60, &output, NULL);
+
+		SetConsoleTextAttribute(doorSprites, 9 * 16);
+
+		for (int i = 50; i < 52; i++) {
+			GoToXY(doorSprites, 2, i);
+			WriteConsole(doorSprites, &"                                                            ", 60, &output, NULL);
+		}
+
+		for (int i = 34; i < 38; i++) {
+			GoToXY(doorSprites, 12, i);
+			WriteConsole(doorSprites, "    ", 4, &output, NULL);
+			GoToXY(doorSprites, 48, i);
+			WriteConsole(doorSprites, "    ", 4, &output, NULL);
+		}
+
+		for (int i = 37; i < 41; i++) {
+			GoToXY(doorSprites, 10, i);
+			WriteConsole(doorSprites, &"    ", 4, &output, NULL);
+			GoToXY(doorSprites, 50, i);
+			WriteConsole(doorSprites, &"    ", 4, &output, NULL);
+		}
+
+		for (int i = 40; i < 44; i++) {
+			GoToXY(doorSprites, 8, i);
+			WriteConsole(doorSprites, &"    ", 4, &output, NULL);
+			GoToXY(doorSprites, 52, i);
+			WriteConsole(doorSprites, &"    ", 4, &output, NULL);
+		}
+
+		for (int i = 43; i < 47; i++) {
+			GoToXY(doorSprites, 6, i);
+			WriteConsole(doorSprites, &"    ", 4, &output, NULL);
+			GoToXY(doorSprites, 54, i);
+			WriteConsole(doorSprites, &"    ", 4, &output, NULL);
+		}
+
+		for (int i = 46; i < 50; i++) {
+			GoToXY(doorSprites, 4, i);
+			WriteConsole(doorSprites, &"    ", 4, &output, NULL);
+			GoToXY(doorSprites, 56, i);
+			WriteConsole(doorSprites, &"    ", 4, &output, NULL);
+		}
+
+		SetConsoleTextAttribute(doorSprites, 11 * 16);
+
+		GoToXY(doorSprites, 28, 37);
+		WriteConsole(doorSprites, &"        ", 8, &output, NULL);
+
+		GoToXY(doorSprites, 28, 46);
+		WriteConsole(doorSprites, &"        ", 8, &output, NULL);
+
+		GoToXY(doorSprites, 26, 38);
+		WriteConsole(doorSprites, &"  ", 2, &output, NULL);
+
+		GoToXY(doorSprites, 36, 38);
+		WriteConsole(doorSprites, &"  ", 2, &output, NULL);
+
+		GoToXY(doorSprites, 24, 39);
+		WriteConsole(doorSprites, &"  ", 2, &output, NULL);
+
+		GoToXY(doorSprites, 38, 39);
+		WriteConsole(doorSprites, &"  ", 2, &output, NULL);
+
+		GoToXY(doorSprites, 22, 40);
+		WriteConsole(doorSprites, &"  ", 2, &output, NULL);
+
+		GoToXY(doorSprites, 40, 40);
+		WriteConsole(doorSprites, &"  ", 2, &output, NULL);
+
+		GoToXY(doorSprites, 20, 41);
+		WriteConsole(doorSprites, &"  ", 2, &output, NULL);
+
+		GoToXY(doorSprites, 42, 41);
+		WriteConsole(doorSprites, &"  ", 2, &output, NULL);
+
+		GoToXY(doorSprites, 20, 42);
+		WriteConsole(doorSprites, &"  ", 2, &output, NULL);
+
+		GoToXY(doorSprites, 42, 42);
+		WriteConsole(doorSprites, &"  ", 2, &output, NULL);
+
+		GoToXY(doorSprites, 22, 43);
+		WriteConsole(doorSprites, &"  ", 2, &output, NULL);
+
+		GoToXY(doorSprites, 40, 43);
+		WriteConsole(doorSprites, &"  ", 2, &output, NULL);
+
+		GoToXY(doorSprites, 24, 44);
+		WriteConsole(doorSprites, &"  ", 2, &output, NULL);
+
+		GoToXY(doorSprites, 38, 44);
+		WriteConsole(doorSprites, &"  ", 2, &output, NULL);
+
+		GoToXY(doorSprites, 26, 45);
+		WriteConsole(doorSprites, &"  ", 2, &output, NULL);
+
+		GoToXY(doorSprites, 36, 45);
+		WriteConsole(doorSprites, &"  ", 2, &output, NULL);
+
+		for (int i = 46; i < 50; i++) {
+			GoToXY(doorSprites, 2, i);
+			WriteConsole(doorSprites, &"  ", 2, &output, NULL);
+		}
+
+		for (int i = 43; i < 46; i++) {
+			GoToXY(doorSprites, 4, i);
+			WriteConsole(doorSprites, &"  ", 2, &output, NULL);
+		}
+
+		for (int i = 40; i < 43; i++) {
+			GoToXY(doorSprites, 6, i);
+			WriteConsole(doorSprites, &"  ", 2, &output, NULL);
+		}
+
+		for (int i = 37; i < 40; i++) {
+			GoToXY(doorSprites, 8, i);
+			WriteConsole(doorSprites, &"  ", 2, &output, NULL);
+		}
+
+		for (int i = 34; i < 37; i++) {
+			GoToXY(doorSprites, 10, i);
+			WriteConsole(doorSprites, &"  ", 2, &output, NULL);
+		}
+
+		GoToXY(doorSprites, 2, 52);
+		WriteConsole(doorSprites, &"                                                            ", 60, &output, NULL);
+
+		SetConsoleTextAttribute(doorSprites, 0 * 16);
+
+		GoToXY(doorSprites, 16, 34);
+		WriteConsole(doorSprites, &"                                ", 32, &output, NULL);
+
+		for (int i = 34; i < 36; i++) {
+			GoToXY(doorSprites, 32, i);
+			WriteConsole(doorSprites, &"  ", 2, &output, NULL);
+		}
+
+		for (int i = 36; i < 38; i++) {
+			GoToXY(doorSprites, 30, i);
+			WriteConsole(doorSprites, &"  ", 2, &output, NULL);
+		}
+
+		for (int i = 38; i < 40; i++) {
+			GoToXY(doorSprites, 32, i);
+			WriteConsole(doorSprites, &"  ", 2, &output, NULL);
+		}
+
+		for (int i = 40; i < 42; i++) {
+			GoToXY(doorSprites, 30, i);
+			WriteConsole(doorSprites, &"  ", 2, &output, NULL);
+		}
+
+		for (int i = 42; i < 44; i++) {
+			GoToXY(doorSprites, 32, i);
+			WriteConsole(doorSprites, &"  ", 2, &output, NULL);
+		}
+
+		for (int i = 44; i < 46; i++) {
+			GoToXY(doorSprites, 30, i);
+			WriteConsole(doorSprites, &"  ", 2, &output, NULL);
+		}
+
+		for (int i = 46; i < 48; i++) {
+			GoToXY(doorSprites, 32, i);
+			WriteConsole(doorSprites, &"  ", 2, &output, NULL);
+		}
+
+		for (int i = 48; i < 50; i++) {
+			GoToXY(doorSprites, 30, i);
+			WriteConsole(doorSprites, &"  ", 2, &output, NULL);
+		}
+
+		GoToXY(doorSprites, 8, 49);
+		WriteConsole(doorSprites, &"                                                    ", 48, &output, NULL);
+
+		// Top Door Closed
+		for (int c = 0; c < 32; c++)
+			DrawSprite(doorSprites, 0, 32 + c, 64, 1, doorSprites, 66, 66 - (c));
+
+		// Left Door Closed
+		SetConsoleTextAttribute(doorSprites, 1 * 16);
+		for (int i = 34; i < 66; i++) {
+			GoToXY(doorSprites, 156, i);
+			WriteConsole(doorSprites, &"  ", 2, &output, NULL);
+		}
+
+		GoToXY(doorSprites, 158, 34);
+		WriteConsole(doorSprites, &"      ", 6, &output, NULL);
+		GoToXY(doorSprites, 158, 65);
+		WriteConsole(doorSprites, &"      ", 6, &output, NULL);
+
+		GoToXY(doorSprites, 164, 64);
+		WriteConsole(doorSprites, &"        ", 8, &output, NULL);
+		GoToXY(doorSprites, 172, 63);
+		WriteConsole(doorSprites, &"      ", 6, &output, NULL);
+		GoToXY(doorSprites, 178, 62);
+		WriteConsole(doorSprites, &"      ", 6, &output, NULL);
+		GoToXY(doorSprites, 184, 61);
+		WriteConsole(doorSprites, &"      ", 6, &output, NULL);
+		GoToXY(doorSprites, 190, 60);
+		WriteConsole(doorSprites, &"      ", 6, &output, NULL);
+
+		for (int i = 37; i < 62; i++) {
+			GoToXY(doorSprites, 166, i);
+			WriteConsole(doorSprites, &"    ", 4, &output, NULL);
+		}
+
+		for (int i = 38; i < 61; i++) {
+			GoToXY(doorSprites, 170, i);
+			WriteConsole(doorSprites, &"      ", 6, &output, NULL);
+		}
+
+		for (int i = 39; i < 60; i++) {
+			GoToXY(doorSprites, 176, i);
+			WriteConsole(doorSprites, &"      ", 6, &output, NULL);
+		}
+
+		for (int i = 40; i < 59; i++) {
+			GoToXY(doorSprites, 182, i);
+			WriteConsole(doorSprites, &"      ", 6, &output, NULL);
+		}
+
+		for (int i = 41; i < 58; i++) {
+			GoToXY(doorSprites, 188, i);
+			WriteConsole(doorSprites, &"      ", 6, &output, NULL);
+		}
+
+		SetConsoleTextAttribute(doorSprites, 11 * 16);
+
+		for (int i = 35; i < 65; i++) {
+			GoToXY(doorSprites, 158, i);
+			WriteConsole(doorSprites, &"  ", 2, &output, NULL);
+		}
+		GoToXY(doorSprites, 164, 35);
+		WriteConsole(doorSprites, &"        ", 8, &output, NULL);
+		GoToXY(doorSprites, 172, 36);
+		WriteConsole(doorSprites, &"      ", 6, &output, NULL);
+		GoToXY(doorSprites, 178, 37);
+		WriteConsole(doorSprites, &"      ", 6, &output, NULL);
+		GoToXY(doorSprites, 184, 38);
+		WriteConsole(doorSprites, &"      ", 6, &output, NULL);
+		GoToXY(doorSprites, 190, 39);
+		WriteConsole(doorSprites, &"      ", 6, &output, NULL);
+
+		for (int i = 48; i < 52; i++) {
+			GoToXY(doorSprites, 170, i);
+			WriteConsole(doorSprites, &"  ", 2, &output, NULL);
+		}
+
+		GoToXY(doorSprites, 172, 47);
+		WriteConsole(doorSprites, &"  ", 2, &output, NULL);
+		GoToXY(doorSprites, 172, 52);
+		WriteConsole(doorSprites, &"  ", 2, &output, NULL);
+		GoToXY(doorSprites, 174, 46);
+		WriteConsole(doorSprites, &"  ", 2, &output, NULL);
+		GoToXY(doorSprites, 174, 53);
+		WriteConsole(doorSprites, &"  ", 2, &output, NULL);
+		GoToXY(doorSprites, 176, 45);
+		WriteConsole(doorSprites, &"  ", 2, &output, NULL);
+		GoToXY(doorSprites, 176, 54);
+		WriteConsole(doorSprites, &"  ", 2, &output, NULL);
+		GoToXY(doorSprites, 178, 44);
+		WriteConsole(doorSprites, &"    ", 4, &output, NULL);
+		GoToXY(doorSprites, 178, 55);
+		WriteConsole(doorSprites, &"    ", 4, &output, NULL);
+		GoToXY(doorSprites, 186, 47);
+		WriteConsole(doorSprites, &"  ", 2, &output, NULL);
+		GoToXY(doorSprites, 186, 52);
+		WriteConsole(doorSprites, &"  ", 2, &output, NULL);
+		GoToXY(doorSprites, 184, 46);
+		WriteConsole(doorSprites, &"  ", 2, &output, NULL);
+		GoToXY(doorSprites, 184, 53);
+		WriteConsole(doorSprites, &"  ", 2, &output, NULL);
+		GoToXY(doorSprites, 182, 45);
+		WriteConsole(doorSprites, &"  ", 2, &output, NULL);
+		GoToXY(doorSprites, 182, 54);
+		WriteConsole(doorSprites, &"  ", 2, &output, NULL);
+
+		for (int i = 48; i < 52; i++) {
+			GoToXY(doorSprites, 188, i);
+			WriteConsole(doorSprites, &"  ", 2, &output, NULL);
+		}
+
+		SetConsoleTextAttribute(doorSprites, 9 * 16);
+
+		for (int i = 35; i < 65; i++) {
+			GoToXY(doorSprites, 160, i);
+			WriteConsole(doorSprites, &"    ", 4, &output, NULL);
+		}
+
+		for (int i = 36; i < 38; i++) {
+			GoToXY(doorSprites, 164, i);
+			WriteConsole(doorSprites, &"        ", 8, &output, NULL);
+		}
+
+		for (int i = 62; i < 64; i++) {
+			GoToXY(doorSprites, 164, i);
+			WriteConsole(doorSprites, &"        ", 8, &output, NULL);
+		}
+
+		for (int i = 37; i < 39; i++) {
+			GoToXY(doorSprites, 170, i);
+			WriteConsole(doorSprites, &"        ", 8, &output, NULL);
+		}
+
+		for (int i = 61; i < 63; i++) {
+			GoToXY(doorSprites, 170, i);
+			WriteConsole(doorSprites, &"        ", 8, &output, NULL);
+		}
+
+		for (int i = 38; i < 40; i++) {
+			GoToXY(doorSprites, 176, i);
+			WriteConsole(doorSprites, &"        ", 8, &output, NULL);
+		}
+
+		for (int i = 60; i < 62; i++) {
+			GoToXY(doorSprites, 176, i);
+			WriteConsole(doorSprites, &"        ", 8, &output, NULL);
+		}
+
+		for (int i = 39; i < 41; i++) {
+			GoToXY(doorSprites, 182, i);
+			WriteConsole(doorSprites, &"        ", 8, &output, NULL);
+		}
+
+		for (int i = 59; i < 61; i++) {
+			GoToXY(doorSprites, 182, i);
+			WriteConsole(doorSprites, &"        ", 8, &output, NULL);
+		}
+
+		for (int i = 40; i < 42; i++) {
+			GoToXY(doorSprites, 188, i);
+			WriteConsole(doorSprites, &"        ", 8, &output, NULL);
+		}
+
+		for (int i = 58; i < 60; i++) {
+			GoToXY(doorSprites, 188, i);
+			WriteConsole(doorSprites, &"        ", 8, &output, NULL);
+		}
+
+		SetConsoleTextAttribute(doorSprites, 0 * 16);
+
+		for (int i = 38; i < 62; i++) {
+			GoToXY(doorSprites, 164, i);
+			WriteConsole(doorSprites, &"  ", 2, &output, NULL);
+		}
+
+		GoToXY(doorSprites, 164, 49);
+		WriteConsole(doorSprites, &"    ", 4, &output, NULL);
+		GoToXY(doorSprites, 168, 50);
+		WriteConsole(doorSprites, &"    ", 4, &output, NULL);
+
+		GoToXY(doorSprites, 172, 49);
+		WriteConsole(doorSprites, &"    ", 4, &output, NULL);
+		GoToXY(doorSprites, 176, 50);
+		WriteConsole(doorSprites, &"    ", 4, &output, NULL);
+
+		GoToXY(doorSprites, 180, 49);
+		WriteConsole(doorSprites, &"    ", 4, &output, NULL);
+		GoToXY(doorSprites, 184, 50);
+		WriteConsole(doorSprites, &"    ", 4, &output, NULL);
+
+		GoToXY(doorSprites, 188, 49);
+		WriteConsole(doorSprites, &"    ", 4, &output, NULL);
+		GoToXY(doorSprites, 192, 50);
+		WriteConsole(doorSprites, &"    ", 4, &output, NULL);
+
+		for (int i = 42; i < 58; i++) {
+			GoToXY(doorSprites, 194, i);
+			WriteConsole(doorSprites, &"  ", 2, &output, NULL);
+		}
+
+		// Right Side Door Closed
+		for (int c = 0; c < 32; c++)
+			DrawSprite(doorSprites, 194 - (c * 2), 34, 2, 32, doorSprites, 198 + (c * 2), 34);
+
+		// Bottom Door Locked
+		DrawSprite(doorSprites, 0, 32, 64, 40, doorSprites, 0, 66);
+
+		// Left Door Locked
+		DrawSprite(doorSprites, 156, 34, 40, 32, doorSprites, 156, 68);
+
+		SetConsoleTextAttribute(doorSprites, 1 * 16);
+
+		for (int i = 76; i < 90; i++) {
+			GoToXY(doorSprites, 166, i);
+			WriteConsole(doorSprites, &"                            ", 28, &output, NULL);
+		}
+
+		SetConsoleTextAttribute(doorSprites, 0 * 16);
+
+		for (int i = 83; i < 85; i++) {
+			GoToXY(doorSprites, 176, i);
+			WriteConsole(doorSprites, &"              ", 14, &output, NULL);
+		}
+
+		for (int i = 82; i < 86; i++) {
+			GoToXY(doorSprites, 178, i);
+			WriteConsole(doorSprites, &"    ", 4, &output, NULL);
+		}
+
+		SetConsoleTextAttribute(doorSprites, 11 * 16);
+
+		for (int i = 77; i < 91; i++) {
+			GoToXY(doorSprites, 170, i);
+			WriteConsole(doorSprites, &"  ", 2, &output, NULL);
+		}
+
+		GoToXY(doorSprites, 172, 77);
+		WriteConsole(doorSprites, &"      ", 6, &output, NULL);
+
+		GoToXY(doorSprites, 172, 90);
+		WriteConsole(doorSprites, &"      ", 6, &output, NULL);
+
+		GoToXY(doorSprites, 178, 78);
+		WriteConsole(doorSprites, &"        ", 8, &output, NULL);
+
+		GoToXY(doorSprites, 178, 89);
+		WriteConsole(doorSprites, &"        ", 8, &output, NULL);
+
+		GoToXY(doorSprites, 186, 79);
+		WriteConsole(doorSprites, &"        ", 8, &output, NULL);
+
+		GoToXY(doorSprites, 186, 88);
+		WriteConsole(doorSprites, &"        ", 8, &output, NULL);
+
+		// Right Door Locked
+		for (int c = 0; c < 32; c++)
+			DrawSprite(doorSprites, 194 - (c * 2), 66, 2, 34, doorSprites, 198 + (c * 2), 66);
+
+		// Top Door Locked
+		for (int c = 0; c < 32; c++)
+			DrawSprite(doorSprites, 0, 32 + c, 64, 1, doorSprites, 66, 100 - (c));
 
 		return true;
 	}
