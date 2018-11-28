@@ -7,6 +7,20 @@ struct Player_Input {
 	bool keySpace;
 };
 
+struct Player_Info {
+	std::string Name = std::string(8, ' ');
+	int MaxLife = 6;
+	int CurLife = 6;
+	int Bombs = 0;
+	int Keys = 0;
+	int Rupees = 0;
+	bool HasMap = false;
+	bool HasCompass = false;
+	bool file_exists = false;
+};
+
+Player_Info PLAYER_FILES[3];
+
 Player_Input player_input;
 
 struct Player_Info {
@@ -31,8 +45,8 @@ private:
 	bool can_attack = true;
 	float stop_timer = 0;
 public:
-	Player(int x, int y) :Entity(x, y, 30, 16) {
-		SetNumAnim(1);
+	Player(int x, int y) :Entity(x, y, 32, 16) {
+		SetNumAnim(4);
 
 
 		SetSpriteSheet(Sprites.playerSprites);
@@ -185,9 +199,21 @@ public:
 
 class Projectile : public Entity {
 private:
-	int dmg,speed;
 	float theta, timer;
+	int dmg;
+	Direction dir;
+	ProjType type;
 public:
+	ProjType getEnum()
+	{
+		return type;
+	}
+
+	void setEnum(ProjType t)
+	{
+		type = t;
+	}
+
 	float getTheta()
 	{
 		return theta;
@@ -198,14 +224,14 @@ public:
 		return dmg;
 	}
 
-	int getSpeed()
-	{
-		return speed;
-	}
-
 	float getTime()
 	{
 		return timer;
+	}
+
+	Direction getDir()
+	{
+		return dir;
 	}
 
 	void setTime(float t)
@@ -213,20 +239,20 @@ public:
 		timer = t;
 	}
 
-	void setSpeed(int s)
-	{
-		speed = s;
-	}
-
 	void setTheta(float _theta)
 	{
 		theta = _theta;
 	}
 
-	Projectile(int x, int y, int w, int h, int time, int dmg, int speed) :Entity(x, y, w, h) {
+	void setDir(Direction _dir)
+	{
+		dir = _dir;
+	}
+	Projectile(int x, int y, int w, int h, float time, int dmg) :Entity(x, y, w, h) {
 		this->timer = time;
 		this->dmg = dmg;
 	}
+
 
 	void Hit(Player & p) {
 		p.Hurt(dmg);

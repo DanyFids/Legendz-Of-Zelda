@@ -10,9 +10,6 @@
     <ClInclude Include="SpriteSheets.h">
       <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="Sword.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
     <ClInclude Include="FunctionProto.h">
       <Filter>Headers</Filter>
     </ClInclude>
@@ -22,19 +19,22 @@
     <ClInclude Include="Threads.h">
       <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="Arrow.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
     <ClInclude Include="bgMusicManager.h">
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="Enemies.h">
       <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="Fireball.h">
+    <ClInclude Include="Terrains.h">
       <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="Terrains.h">
+    <ClInclude Include="Menus.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="sfxManager.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Projectiles.h">
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="PowerUp.h">

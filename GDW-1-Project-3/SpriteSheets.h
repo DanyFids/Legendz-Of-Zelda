@@ -4,13 +4,23 @@ class SpriteSheets {
 public:
 
 	void DrawSprite(HANDLE sheet, int sX, int sY, int w, int h, HANDLE dest, int dx, int dy) {
+		int drX = 0;
+		if (dx < 0) {
+			drX = -dx;
+		}
+
+		int drY = 0;
+		if (dy < 0) {
+			drY = -dy;
+		}
+
 		CHAR_INFO *outBuff = new CHAR_INFO[w * h];
 		CHAR_INFO *transBuff = new CHAR_INFO[w * h];
 
 		//Area to read/write
 		SMALL_RECT screen;
-		screen.Top = sY;
-		screen.Left = sX;
+		screen.Top = sY + drY;
+		screen.Left = sX + drX;
 		screen.Right = sX + w - 1;
 		screen.Bottom = sY + h - 1;
 
@@ -26,26 +36,33 @@ public:
 
 		//Buffer Size
 		COORD size;
-		size.X = w;
-		size.Y = h;
+		size.X = w - drX;
+		size.Y = h - drY;
 
 		ReadConsoleOutput(sheet, outBuff, size, start, &screen);
 
-		screen.Top = dy;
-		screen.Left = dx;
+		screen.Top = dy + drY;
+		screen.Left = dx + drX;
 		screen.Right = w + dx - 1;
 		screen.Bottom = h + dy - 1;
 
 		ReadConsoleOutput(dest, transBuff, size, pos, &screen);
 
-		/*for (int p = 0; p < (w * h); p++) {
+		for (int p = 0; p < (w * h); p++) {
 			if (outBuff[p].Attributes == 7) {
 				outBuff[p] = transBuff[p];
 			}
-		}*/
+		}
 
 		WriteConsoleOutput(dest, outBuff, size, pos, &screen);
 	}
+
+	HANDLE dodongoSprites = CreateConsoleScreenBuffer(
+		GENERIC_READ | GENERIC_WRITE,
+		FILE_SHARE_READ | FILE_SHARE_WRITE,
+		NULL,
+		CONSOLE_TEXTMODE_BUFFER,
+		NULL);
 
 	HANDLE playerSprites = CreateConsoleScreenBuffer(
 		GENERIC_READ | GENERIC_WRITE,
@@ -110,6 +127,27 @@ public:
 		CONSOLE_TEXTMODE_BUFFER,
 		NULL);
 
+	HANDLE bombSprites = CreateConsoleScreenBuffer(
+		GENERIC_READ | GENERIC_WRITE,
+		FILE_SHARE_READ | FILE_SHARE_WRITE,
+		NULL,
+		CONSOLE_TEXTMODE_BUFFER,
+		NULL);
+
+	HANDLE arrowSprites = CreateConsoleScreenBuffer(
+		GENERIC_READ | GENERIC_WRITE,
+		FILE_SHARE_READ | FILE_SHARE_WRITE,
+		NULL,
+		CONSOLE_TEXTMODE_BUFFER,
+		NULL);
+
+	HANDLE fireballSprites = CreateConsoleScreenBuffer(
+		GENERIC_READ | GENERIC_WRITE,
+		FILE_SHARE_READ | FILE_SHARE_WRITE,
+		NULL,
+		CONSOLE_TEXTMODE_BUFFER,
+		NULL);
+
 	HANDLE holeSprites = CreateConsoleScreenBuffer(
 		GENERIC_READ | GENERIC_WRITE,
 		FILE_SHARE_READ | FILE_SHARE_WRITE,
@@ -131,71 +169,564 @@ public:
 		CONSOLE_TEXTMODE_BUFFER,
 		NULL);
 
-	HANDLE titleScreen = CreateConsoleScreenBuffer(
+	HANDLE heartSprites = CreateConsoleScreenBuffer(
 		GENERIC_READ | GENERIC_WRITE,
 		FILE_SHARE_READ | FILE_SHARE_WRITE,
 		NULL,
 		CONSOLE_TEXTMODE_BUFFER,
 		NULL);
 
-	/*void DrawSprite(HANDLE sheet, int sX, int sY, int w, int h, HANDLE dest, int dx, int dy) {
-		CHAR_INFO *outBuff = new CHAR_INFO[w * h];
-		CHAR_INFO *transBuff = new CHAR_INFO[w * h];
+	HANDLE stopwatchSprites = CreateConsoleScreenBuffer(
+		GENERIC_READ | GENERIC_WRITE,
+		FILE_SHARE_READ | FILE_SHARE_WRITE,
+		NULL,
+		CONSOLE_TEXTMODE_BUFFER,
+		NULL);
 
-		//Area to read/write
-		SMALL_RECT screen;
-		screen.Top = sY;
-		screen.Left = sX;
-		screen.Right = sX + w - 1;
-		screen.Bottom = sY + h - 1;
+	HANDLE titleScreen = CreateConsoleScreenBuffer(
+		GENERIC_READ | GENERIC_WRITE,
+		FILE_SHARE_READ | FILE_SHARE_WRITE,
+		NULL,
+		CONSOLE_TEXTMODE_BUFFER,
+		NULL);
+	HANDLE CharacterScreen = CreateConsoleScreenBuffer(
+		GENERIC_READ | GENERIC_WRITE,
+		FILE_SHARE_READ | FILE_SHARE_WRITE,
+		NULL,
+		CONSOLE_TEXTMODE_BUFFER,
+		NULL);
+	HANDLE GenericScreen = CreateConsoleScreenBuffer(
+		GENERIC_READ | GENERIC_WRITE,
+		FILE_SHARE_READ | FILE_SHARE_WRITE,
+		NULL,
+		CONSOLE_TEXTMODE_BUFFER,
+		NULL);
 
-		//Top Left COORD
-		COORD start;
-		start.X = 0;
-		start.Y = 0;
+	bool LoadDodongo() {
+		SetConsoleScreenBufferSize(dodongoSprites, SCREEN_SIZE);
+		DWORD output;
 
-		//Position
-		COORD pos;
-		pos.X = 0;
-		pos.Y = 0;
+		char mGrad = { (char)177 };
 
-		//Buffer Size
-		COORD size;
-		size.X = w;
-		size.Y = h;
+		// Normal Facing Left First Foot Up
+		SetConsoleTextAttribute(dodongoSprites, 4 * 16 + 14); // Yellow with red
 
-		ReadConsoleOutput(sheet, outBuff, size, start, &screen);
-
-		screen.Top = dy;
-		screen.Left = dx;
-		screen.Right = w + dx - 1;
-		screen.Bottom = h + dy - 1;
-
-		ReadConsoleOutput(dest, transBuff, size, pos, &screen);
-
-		/*for (int p = 0; p < (w * h); p++) {
-			if (outBuff[p].Attributes == 7) {
-				outBuff[p] = transBuff[p];
-			}
+		// First Row
+		GoToXY(dodongoSprites, 18, 0);
+		for (int c = 0; c < 6; c++) {
+			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);;
 		}
 
-		WriteConsoleOutput(dest, outBuff, size, pos, &screen);
-	}*/
+		// Second Row
+		GoToXY(dodongoSprites, 14, 1);
+		for (int c = 0; c < 12; c++) {
+			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
+		}
+
+		// Third Row
+		GoToXY(dodongoSprites, 12, 2);
+		for (int c = 0; c < 14; c++) {
+			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
+		}
+
+		GoToXY(dodongoSprites, 30, 2);
+		for (int c = 0; c < 6; c++) {
+			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
+		}
+		// Fourth Row
+		GoToXY(dodongoSprites, 10, 3);
+		for (int c = 0; c < 2; c++) {
+			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
+		}
+
+		GoToXY(dodongoSprites, 16, 3);
+		for (int c = 0; c < 14; c++) {
+			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
+		}
+
+		GoToXY(dodongoSprites, 28, 3);
+		for (int c = 0; c < 12; c++) {
+			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
+		}
+
+		// Fifth Row
+		GoToXY(dodongoSprites, 8, 4);
+		for (int c = 0; c < 16; c++) {
+			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
+		}
+
+		GoToXY(dodongoSprites, 28, 4);
+		for (int c = 0; c < 16; c++) {
+			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
+		}
+
+		// Sixth Row
+		GoToXY(dodongoSprites, 8, 5);
+		for (int c = 0; c < 2; c++) {
+			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
+		}
+
+		GoToXY(dodongoSprites, 16, 5);
+		for (int c = 0; c < 10; c++) {
+			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
+		}
+
+		GoToXY(dodongoSprites, 28, 5);
+		for (int c = 0; c < 18; c++) {
+			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
+		}
+
+		// Seventh Row
+		GoToXY(dodongoSprites, 4, 6);
+		for (int c = 0; c < 6; c++) {
+			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
+		}
+
+		GoToXY(dodongoSprites, 16, 6);
+		for (int c = 0; c < 10; c++) {
+			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
+		}
+
+		GoToXY(dodongoSprites, 28, 6);
+		for (int c = 0; c < 20; c++) {
+			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
+		}
+
+		// Eighth Row
+		GoToXY(dodongoSprites, 2, 7);
+		for (int c = 0; c < 6; c++) {
+			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
+		}
+
+		GoToXY(dodongoSprites, 14, 7);
+		for (int c = 0; c < 12; c++) {
+			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
+		}
+
+		GoToXY(dodongoSprites, 30, 7);
+		for (int c = 0; c < 20; c++) {
+			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
+		}
+
+		// Ninth Row
+		GoToXY(dodongoSprites, 0, 8);
+		for (int c = 0; c < 16; c++) {
+			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
+		}
+
+		GoToXY(dodongoSprites, 18, 8);
+		for (int c = 0; c < 6; c++) {
+			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
+		}
+
+		GoToXY(dodongoSprites, 26, 8);
+		for (int c = 0; c < 4; c++) {
+			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
+		}
+
+		GoToXY(dodongoSprites, 32, 8);
+		for (int c = 0; c < 8; c++) {
+			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
+		}
+
+		GoToXY(dodongoSprites, 42, 8);
+		for (int c = 0; c < 8; c++) {
+			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
+		}
+
+		// Tenth Row
+		GoToXY(dodongoSprites, 4, 9);
+		for (int c = 0; c < 10; c++) {
+			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
+		}
+
+		GoToXY(dodongoSprites, 16, 9);
+		for (int c = 0; c < 6; c++) {
+			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
+		}
+
+		GoToXY(dodongoSprites, 24, 9);
+		for (int c = 0; c < 6; c++) {
+			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
+		}
+
+		GoToXY(dodongoSprites, 32, 9);
+		for (int c = 0; c < 6; c++) {
+			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
+		}
+
+		GoToXY(dodongoSprites, 40, 9);
+		for (int c = 0; c < 12; c++) {
+			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
+		}
+
+		// Eleventh Row
+		GoToXY(dodongoSprites, 10, 10);
+		for (int c = 0; c < 4; c++) {
+			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
+		}
+
+		GoToXY(dodongoSprites, 16, 10);
+		for (int c = 0; c < 4; c++) {
+			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
+		}
+
+		GoToXY(dodongoSprites, 22, 10);
+		for (int c = 0; c < 8; c++) {
+			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
+		}
+
+		GoToXY(dodongoSprites, 32, 10);
+		for (int c = 0; c < 6; c++) {
+			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
+		}
+
+		GoToXY(dodongoSprites, 40, 10);
+		for (int c = 0; c < 12; c++) {
+			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
+		}
+
+		// Twelfth Row
+		GoToXY(dodongoSprites, 6, 11);
+		for (int c = 0; c < 14; c++) {
+			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
+		}
+
+		GoToXY(dodongoSprites, 22, 11);
+		for (int c = 0; c < 8; c++) {
+			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
+		}
+
+		GoToXY(dodongoSprites, 32, 11);
+		for (int c = 0; c < 6; c++) {
+			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
+		}
+
+		GoToXY(dodongoSprites, 40, 11);
+		for (int c = 0; c < 6; c++) {
+			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
+		}
+
+		GoToXY(dodongoSprites, 48, 11);
+		for (int c = 0; c < 6; c++) {
+			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
+		}
+
+		// Thirteenth Row
+		GoToXY(dodongoSprites, 2, 12);
+		for (int c = 0; c < 16; c++) {
+			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
+		}
+
+		GoToXY(dodongoSprites, 20, 12);
+		for (int c = 0; c < 8; c++) {
+			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
+		}
+
+		GoToXY(dodongoSprites, 34, 12);
+		for (int c = 0; c < 4; c++) {
+			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
+		}
+
+		GoToXY(dodongoSprites, 40, 12);
+		for (int c = 0; c < 6; c++) {
+			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
+		}
+
+		GoToXY(dodongoSprites, 48, 12);
+		for (int c = 0; c < 6; c++) {
+			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
+		}
+
+		// Fourteenth Row
+		GoToXY(dodongoSprites, 6, 13);
+		for (int c = 0; c < 6; c++) {
+			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
+		}
+
+		GoToXY(dodongoSprites, 20, 13);
+		for (int c = 0; c < 8; c++) {
+			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
+		}
+
+		GoToXY(dodongoSprites, 40, 13);
+		for (int c = 0; c < 6; c++) {
+			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
+		}
+
+		GoToXY(dodongoSprites, 50, 13);
+		for (int c = 0; c < 6; c++) {
+			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
+		}
+
+		// Fifteenth Row
+		GoToXY(dodongoSprites, 40, 14);
+		for (int c = 0; c < 6; c++) {
+			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
+		}
+
+		GoToXY(dodongoSprites, 54, 14);
+		for (int c = 0; c < 2; c++) {
+			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
+		}
+
+		SetConsoleTextAttribute(dodongoSprites, 15 * 16); // White
+
+		// Third Row
+		GoToXY(dodongoSprites, 8, 2);
+		WriteConsole(dodongoSprites, &"    ", 4, &output, NULL);
+
+		// Fourth Row
+		GoToXY(dodongoSprites, 0, 3);
+		WriteConsole(dodongoSprites, &"  ", 2, &output, NULL);
+
+		GoToXY(dodongoSprites, 8, 3);
+		WriteConsole(dodongoSprites, &"  ", 2, &output, NULL);
+
+		// Fifth Row
+		GoToXY(dodongoSprites, 0, 4);
+		WriteConsole(dodongoSprites, &"    ", 4, &output, NULL);
+
+		// Sixth Row
+		GoToXY(dodongoSprites, 2, 5);
+		WriteConsole(dodongoSprites, &"    ", 4, &output, NULL);
+
+		GoToXY(dodongoSprites, 14, 5);
+		WriteConsole(dodongoSprites, &"  ", 2, &output, NULL);
+
+		// Seventh Row
+		GoToXY(dodongoSprites, 2, 6);
+		WriteConsole(dodongoSprites, &"  ", 2, &output, NULL);
+
+		GoToXY(dodongoSprites, 12, 6);
+		WriteConsole(dodongoSprites, &"    ", 4, &output, NULL);
+
+		// Eighth Row
+		GoToXY(dodongoSprites, 10, 7);
+		WriteConsole(dodongoSprites, &"    ", 4, &output, NULL);
+
+		SetConsoleTextAttribute(dodongoSprites, 4 * 16 + 6);
+
+		// Third Row
+		GoToXY(dodongoSprites, 26, 2);
+		for (int c = 0; c < 4; c++) {
+			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
+		}
+
+		// Fourth Row
+		GoToXY(dodongoSprites, 12, 3);
+		for (int c = 0; c < 4; c++) {
+			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
+		}
+
+		GoToXY(dodongoSprites, 24, 3);
+		for (int c = 0; c < 4; c++) {
+			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
+		}
+
+		// Fifth Row
+		GoToXY(dodongoSprites, 24, 4);
+		for (int c = 0; c < 4; c++) {
+			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
+		}
+
+		// Sixth Row
+		GoToXY(dodongoSprites, 10, 5);
+		for (int c = 0; c < 4; c++) {
+			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
+		}
+
+		GoToXY(dodongoSprites, 26, 5);
+		for (int c = 0; c < 2; c++) {
+			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
+		}
+
+		// Seventh Row
+		GoToXY(dodongoSprites, 10, 6);
+		for (int c = 0; c < 2; c++) {
+			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
+		}
+
+		GoToXY(dodongoSprites, 26, 6);
+		for (int c = 0; c < 2; c++) {
+			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
+		}
+
+		// Eighth Row
+		GoToXY(dodongoSprites, 8, 7);
+		for (int c = 0; c < 2; c++) {
+			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
+		}
+
+		GoToXY(dodongoSprites, 26, 7);
+		for (int c = 0; c < 4; c++) {
+			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
+		}
+
+		// Ninth Row
+		GoToXY(dodongoSprites, 16, 8);
+		for (int c = 0; c < 2; c++) {
+			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
+		}
+
+		GoToXY(dodongoSprites, 24, 8);
+		for (int c = 0; c < 2; c++) {
+			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
+		}
+
+		GoToXY(dodongoSprites, 30, 8);
+		for (int c = 0; c < 2; c++) {
+			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
+		}
+
+		GoToXY(dodongoSprites, 40, 8);
+		for (int c = 0; c < 2; c++) {
+			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
+		}
+
+		// Tenth Row
+		GoToXY(dodongoSprites, 2, 9);
+		for (int c = 0; c < 2; c++) {
+			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
+		}
+
+		GoToXY(dodongoSprites, 14, 9);
+		for (int c = 0; c < 2; c++) {
+			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
+		}
+
+		GoToXY(dodongoSprites, 22, 9);
+		for (int c = 0; c < 2; c++) {
+			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
+		}
+
+		GoToXY(dodongoSprites, 30, 9);
+		for (int c = 0; c < 2; c++) {
+			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
+		}
+
+		GoToXY(dodongoSprites, 38, 9);
+		for (int c = 0; c < 2; c++) {
+			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
+		}
+
+		// Eleventh Row
+		GoToXY(dodongoSprites, 4, 10);
+		for (int c = 0; c < 6; c++) {
+			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
+		}
+
+		GoToXY(dodongoSprites, 14, 10);
+		for (int c = 0; c < 2; c++) {
+			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
+		}
+
+		GoToXY(dodongoSprites, 20, 10);
+		for (int c = 0; c < 2; c++) {
+			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
+		}
+
+		GoToXY(dodongoSprites, 30, 10);
+		for (int c = 0; c < 2; c++) {
+			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
+		}
+
+		GoToXY(dodongoSprites, 38, 10);
+		for (int c = 0; c < 2; c++) {
+			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
+		}
+
+		// Twelfth Row
+		GoToXY(dodongoSprites, 4, 11);
+		for (int c = 0; c < 2; c++) {
+			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
+		}
+
+		GoToXY(dodongoSprites, 20, 11);
+		for (int c = 0; c < 2; c++) {
+			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
+		}
+
+		GoToXY(dodongoSprites, 30, 11);
+		for (int c = 0; c < 2; c++) {
+			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
+		}
+
+		GoToXY(dodongoSprites, 38, 11);
+		for (int c = 0; c < 2; c++) {
+			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
+		}
+
+		GoToXY(dodongoSprites, 46, 11);
+		for (int c = 0; c < 2; c++) {
+			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
+		}
+
+		// Thirteenth Row
+		GoToXY(dodongoSprites, 18, 12);
+		for (int c = 0; c < 2; c++) {
+			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
+		}
+
+		GoToXY(dodongoSprites, 28, 12);
+		for (int c = 0; c < 6; c++) {
+			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
+		}
+
+		GoToXY(dodongoSprites, 38, 12);
+		for (int c = 0; c < 2; c++) {
+			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
+		}
+
+		GoToXY(dodongoSprites, 46, 12);
+		for (int c = 0; c < 2; c++) {
+			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
+		}
+
+		// Fourteenth Row
+		GoToXY(dodongoSprites, 14, 13);
+		for (int c = 0; c < 6; c++) {
+			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
+		}
+
+		GoToXY(dodongoSprites, 30, 13);
+		for (int c = 0; c < 10; c++) {
+			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
+		}
+
+		GoToXY(dodongoSprites, 46, 13);
+		for (int c = 0; c < 4; c++) {
+			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
+		}
+
+		// Fifteenth Row
+		GoToXY(dodongoSprites, 14, 14);
+		for (int c = 0; c < 10; c++) {
+			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
+		}
+
+		GoToXY(dodongoSprites, 38, 14);
+		for (int c = 0; c < 2; c++) {
+			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
+		}
+
+		GoToXY(dodongoSprites, 48, 14);
+		for (int c = 0; c < 6; c++) {
+			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
+		}
+
+		return true;
+	}
 
 	bool LoadPlayer() {
 		//anim 1 frame 1
+		SetConsoleScreenBufferSize(playerSprites, SCREEN_SIZE);
 
 		DWORD output;
-		for (int i = 0; i < 16; i++) {
-			GoToXY(playerSprites, 0, i);
-			WriteConsole(playerSprites, &"                             ", 30, &output, NULL);
-		}
-		SetConsoleTextAttribute(playerSprites, 7);
-		
-		GoToXY(playerSprites, 5, 3);
-		WriteConsole(playerSprites, &"        ", 8, &output, NULL);
 
-		// Facing forward, shield
+		char mGrad = { (char)177 };
+
+		// Facing forward, shield, Left Foot
 		SetConsoleTextAttribute(playerSprites, 10 * 16); // Green
 
 		// First Row
@@ -256,99 +787,155 @@ public:
 		GoToXY(playerSprites, 22, 13);
 		WriteConsole(playerSprites, &"  ", 2, &output, NULL);
 
-		SetConsoleTextAttribute(playerSprites, 4 * 16); // Red (dark brown)
+		SetConsoleTextAttribute(playerSprites, 4 * 16 + 6); // Red with dark yellow
 
 		// Third Row
 		GoToXY(playerSprites, 10, 2);
-		WriteConsole(playerSprites, &"        ", 8, &output, NULL);
-		GoToXY(playerSprites, 18, 2);
-		WriteConsole(playerSprites, &"    ", 4, &output, NULL);
+		for (int c = 0; c < 12; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
 
 		// Fourth Row
 		GoToXY(playerSprites, 8, 3);
-		WriteConsole(playerSprites, &"        ", 8, &output, NULL);
-		GoToXY(playerSprites, 16, 3);
-		WriteConsole(playerSprites, &"        ", 8, &output, NULL);
+		for (int c = 0; c < 16; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
 
 		// Fifth Row
 		GoToXY(playerSprites, 8, 4);
-		WriteConsole(playerSprites, &"  ", 2, &output, NULL);
+		for (int c = 0; c < 2; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
 		GoToXY(playerSprites, 22, 4);
-		WriteConsole(playerSprites, &"  ", 2, &output, NULL);
+		for (int c = 0; c < 2; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
 
 		// Sixth Row
 		GoToXY(playerSprites, 8, 5);
-		WriteConsole(playerSprites, &"  ", 2, &output, NULL);
+		for (int c = 0; c < 2; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
 		GoToXY(playerSprites, 12, 5);
-		WriteConsole(playerSprites, &"  ", 2, &output, NULL);
+		for (int c = 0; c < 2; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
 		GoToXY(playerSprites, 18, 5);
-		WriteConsole(playerSprites, &"  ", 2, &output, NULL);
+		for (int c = 0; c < 2; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
 		GoToXY(playerSprites, 22, 5);
-		WriteConsole(playerSprites, &"  ", 2, &output, NULL);
+		for (int c = 0; c < 2; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
 
 		// Seventh Row
 		GoToXY(playerSprites, 26, 6);
-		WriteConsole(playerSprites, &"  ", 2, &output, NULL);
+		for (int c = 0; c < 2; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
 
 		// Eighth Row
 		GoToXY(playerSprites, 14, 7);
-		WriteConsole(playerSprites, &"    ", 4, &output, NULL);
+		for (int c = 0; c < 4; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
 		GoToXY(playerSprites, 26, 7);
-		WriteConsole(playerSprites, &"  ", 2, &output, NULL);
+		for (int c = 0; c < 2; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
 
 		// Ninth Row
 		GoToXY(playerSprites, 2, 8);
-		WriteConsole(playerSprites, &"          ", 10, &output, NULL);
+		for (int c = 0; c < 10; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
 		GoToXY(playerSprites, 24, 8);
-		WriteConsole(playerSprites, &"      ", 6, &output, NULL);
+		for (int c = 0; c < 6; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
 
 		// Tenth Row
 		GoToXY(playerSprites, 0, 9);
-		WriteConsole(playerSprites, &"    ", 4, &output, NULL);
+		for (int c = 0; c < 4; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
 		GoToXY(playerSprites, 6, 9);
-		WriteConsole(playerSprites, &"        ", 8, &output, NULL);
+		for (int c = 0; c < 8; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
 		GoToXY(playerSprites, 26, 9);
-		WriteConsole(playerSprites, &"    ", 4, &output, NULL);
+		for (int c = 0; c < 4; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
 
 		// Eleventh Row
 		GoToXY(playerSprites, 0, 10);
-		WriteConsole(playerSprites, &"  ", 2, &output, NULL);
+		for (int c = 0; c < 2; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
 		GoToXY(playerSprites, 8, 10);
-		WriteConsole(playerSprites, &"    ", 4, &output, NULL);
+		for (int c = 0; c < 4; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
 		GoToXY(playerSprites, 14, 10);
-		WriteConsole(playerSprites, &"    ", 4, &output, NULL);
+		for (int c = 0; c < 4; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
 		GoToXY(playerSprites, 28, 10);
-		WriteConsole(playerSprites, &"  ", 2, &output, NULL);
+		for (int c = 0; c < 2; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
 
 		// Twelfth Row
 		GoToXY(playerSprites, 0, 11);
-		WriteConsole(playerSprites, &"    ", 4, &output, NULL);
+		for (int c = 0; c < 4; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
 		GoToXY(playerSprites, 6, 11);
-		WriteConsole(playerSprites, &"      ", 6, &output, NULL);
+		for (int c = 0; c < 6; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
 		GoToXY(playerSprites, 16, 11);
-		WriteConsole(playerSprites, &"        ", 8, &output, NULL);
+		for (int c = 0; c < 8; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
 
 		// Thirteenth Row
 		GoToXY(playerSprites, 0, 12);
-		WriteConsole(playerSprites, &"    ", 4, &output, NULL);
+		for (int c = 0; c < 4; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
 		GoToXY(playerSprites, 6, 12);
-		WriteConsole(playerSprites, &"      ", 6, &output, NULL);
+		for (int c = 0; c < 6; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
 		GoToXY(playerSprites, 14, 12);
-		WriteConsole(playerSprites, &"    ", 4, &output, NULL);
+		for (int c = 0; c < 4; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
 
 		// Fourteenth Row
 		GoToXY(playerSprites, 0, 13);
-		WriteConsole(playerSprites, &"            ", 12, &output, NULL);
+		for (int c = 0; c < 12; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
 
 		// Fifteenth Row
 		GoToXY(playerSprites, 12, 14);
-		WriteConsole(playerSprites, &"  ", 2, &output, NULL);
+		for (int c = 0; c < 2; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
 		GoToXY(playerSprites, 18, 14);
-		WriteConsole(playerSprites, &"      ", 6, &output, NULL);
+		for (int c = 0; c < 6; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
 
 		// Sixteenth Row
 		GoToXY(playerSprites, 8, 15);
-		WriteConsole(playerSprites, &"      ", 6, &output, NULL);
+		for (int c = 0; c < 6; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
 
 		SetConsoleTextAttribute(playerSprites, 14 * 16); // Light Yellow (Light brown)
 
@@ -439,11 +1026,1795 @@ public:
 		// Fifteenth Row
 		GoToXY(playerSprites, 2, 14);
 		WriteConsole(playerSprites, &"          ", 10, &output, NULL);
+
+		// Facing Right, Shield, Standing
+
+		SetConsoleTextAttribute(playerSprites, 10 * 16); // Green
+
+		// First Row
+		GoToXY(playerSprites, 44, 0);
+		WriteConsole(playerSprites, &"        ", 8, &output, NULL);
+
+		// Second Row
+		GoToXY(playerSprites, 40, 1);
+		WriteConsole(playerSprites, &"          ", 10, &output, NULL);
+
+		// Third Row
+		GoToXY(playerSprites, 36, 2);
+		WriteConsole(playerSprites, &"      ", 6, &output, NULL);
+		GoToXY(playerSprites, 44, 2);
+		WriteConsole(playerSprites, &"    ", 4, &output, NULL);
+
+		// Fourth Row
+		GoToXY(playerSprites, 34, 3);
+		WriteConsole(playerSprites, &"        ", 8, &output, NULL);
+
+		// Fifth Row
+		GoToXY(playerSprites, 34, 4);
+		WriteConsole(playerSprites, &"  ", 2, &output, NULL);
+		GoToXY(playerSprites, 38, 4);
+		WriteConsole(playerSprites, &"    ", 4, &output, NULL);
+		GoToXY(playerSprites, 54, 4);
+		WriteConsole(playerSprites, &"  ", 2, &output, NULL);
+
+		// Sixth Row
+		GoToXY(playerSprites, 38, 5);
+		WriteConsole(playerSprites, &"  ", 2, &output, NULL);
+
+		// Eighth Row
+		GoToXY(playerSprites, 42, 7);
+		WriteConsole(playerSprites, &"        ", 8, &output, NULL);
+
+		// Ninth Row
+		GoToXY(playerSprites, 40, 8);
+		WriteConsole(playerSprites, &"              ", 14, &output, NULL);
+
+		// Tenth Row
+		GoToXY(playerSprites, 42, 9);
+		WriteConsole(playerSprites, &"  ", 2, &output, NULL);
+		GoToXY(playerSprites, 50, 9);
+		WriteConsole(playerSprites, &"      ", 6, &output, NULL);
+
+		// Eleventh Row
+		GoToXY(playerSprites, 50, 10);
+		WriteConsole(playerSprites, &"      ", 6, &output, NULL);
+
+		// Twelfth Row
+		GoToXY(playerSprites, 48, 11);
+		WriteConsole(playerSprites, &"      ", 6, &output, NULL);
+
+		// Thirteenth Row
+		GoToXY(playerSprites, 38, 12);
+		WriteConsole(playerSprites, &"  ", 2, &output, NULL);
+		GoToXY(playerSprites, 44, 12);
+		WriteConsole(playerSprites, &"    ", 4, &output, NULL);
+
+		// Fourteenth Row
+		GoToXY(playerSprites, 36, 13);
+		WriteConsole(playerSprites, &"                    ", 20, &output, NULL);
+
+		SetConsoleTextAttribute(playerSprites, 14 * 16); // Light Yellow
+
+		// Third Row
+		GoToXY(playerSprites, 42, 2);
+		WriteConsole(playerSprites, &"  ", 2, &output, NULL);
+
+		// Fourth Row
+		GoToXY(playerSprites, 42, 3);
+		WriteConsole(playerSprites, &"    ", 4, &output, NULL);
+
+		// Fifth Row
+		GoToXY(playerSprites, 42, 4);
+		WriteConsole(playerSprites, &"      ", 6, &output, NULL);
+		GoToXY(playerSprites, 50, 4);
+		WriteConsole(playerSprites, &"    ", 4, &output, NULL);
+		GoToXY(playerSprites, 56, 4);
+		WriteConsole(playerSprites, &"  ", 2, &output, NULL);
+
+		// Sixth Row
+		GoToXY(playerSprites, 44, 5);
+		WriteConsole(playerSprites, &"    ", 4, &output, NULL);
+		GoToXY(playerSprites, 50, 5);
+		WriteConsole(playerSprites, &"    ", 4, &output, NULL);
+		GoToXY(playerSprites, 56, 5);
+		WriteConsole(playerSprites, &"      ", 6, &output, NULL);
+
+		// Seventh Row
+		GoToXY(playerSprites, 46, 6);
+		WriteConsole(playerSprites, &"            ", 12, &output, NULL);
+
+		// Eighth Row
+		GoToXY(playerSprites, 50, 7);
+		WriteConsole(playerSprites, &"        ", 8, &output, NULL);
+
+		// Ninth Row
+		GoToXY(playerSprites, 60, 8);
+		WriteConsole(playerSprites, &"  ", 2, &output, NULL);
+
+		// Tenth Row
+		GoToXY(playerSprites, 44, 9);
+		WriteConsole(playerSprites, &"      ", 6, &output, NULL);
+		GoToXY(playerSprites, 60, 9);
+		WriteConsole(playerSprites, &"  ", 2, &output, NULL);
+
+		// Eleventh Row
+		GoToXY(playerSprites, 44, 10);
+		WriteConsole(playerSprites, &"      ", 6, &output, NULL);
+
+		// Twelfth Row
+		GoToXY(playerSprites, 44, 11);
+		WriteConsole(playerSprites, &"    ", 4, &output, NULL);
+
+		SetConsoleTextAttribute(playerSprites, 4 * 16 + 6); // Red with yellow
+
+		// Second Row
+		GoToXY(playerSprites, 50, 1);
+		for (int c = 0; c < 8; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+
+		// Third Row
+		GoToXY(playerSprites, 48, 2);
+		for (int c = 0; c < 12; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+
+		// Fourth Row
+		GoToXY(playerSprites, 46, 3);
+		for (int c = 0; c < 12; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+
+		// Fifth Row
+		GoToXY(playerSprites, 48, 4);
+		for (int c = 0; c < 2; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+		GoToXY(playerSprites, 62, 4);
+		for (int c = 0; c < 2; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+
+		// Sixth Row
+		GoToXY(playerSprites, 40, 5);
+		for (int c = 0; c < 4; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+		GoToXY(playerSprites, 48, 5);
+		for (int c = 0; c < 2; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+		GoToXY(playerSprites, 54, 5);
+		for (int c = 0; c < 2; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+		GoToXY(playerSprites, 62, 5);
+		for (int c = 0; c < 2; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+
+		// Seventh Row
+		GoToXY(playerSprites, 40, 6);
+		for (int c = 0; c < 6; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+		GoToXY(playerSprites, 62, 6);
+		for (int c = 0; c < 2; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+
+		// Eighth Row
+		GoToXY(playerSprites, 62, 7);
+		for (int c = 0; c < 2; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+
+		// Ninth Row
+		GoToXY(playerSprites, 38, 8);
+		for (int c = 0; c < 2; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+		GoToXY(playerSprites, 54, 8);
+		for (int c = 0; c < 6; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+		GoToXY(playerSprites, 62, 8);
+		for (int c = 0; c < 2; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+
+		// Tenth Row
+		GoToXY(playerSprites, 36, 9);
+		for (int c = 0; c < 6; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+		GoToXY(playerSprites, 56, 9);
+		for (int c = 0; c < 4; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+		GoToXY(playerSprites, 62, 9);
+		for (int c = 0; c < 2; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+
+		// Eleventh Row
+		GoToXY(playerSprites, 36, 10);
+		for (int c = 0; c < 8; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+		GoToXY(playerSprites, 56, 10);
+		for (int c = 0; c < 4; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+		GoToXY(playerSprites, 62, 10);
+		for (int c = 0; c < 2; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+
+		// Twelfth Row
+		GoToXY(playerSprites, 36, 11);
+		for (int c = 0; c < 8; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+		GoToXY(playerSprites, 54, 11);
+		for (int c = 0; c < 2; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+		GoToXY(playerSprites, 62, 11);
+		for (int c = 0; c < 2; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+
+		// Thirteenth Row
+		GoToXY(playerSprites, 40, 12);
+		for (int c = 0; c < 4; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+		GoToXY(playerSprites, 48, 12);
+		for (int c = 0; c < 8; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+		GoToXY(playerSprites, 62, 12);
+		for (int c = 0; c < 2; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+
+		// Fifteenth Row
+		GoToXY(playerSprites, 42, 14);
+		for (int c = 0; c < 8; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+
+		// Sixteenth Row
+		GoToXY(playerSprites, 42, 15);
+		for (int c = 0; c < 10; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+
+		// Facing Left, Shield, Standing
+
+		SetConsoleTextAttribute(playerSprites, 10 * 16); // Green
+
+		// First Row
+		GoToXY(playerSprites, 80, 0);
+		WriteConsole(playerSprites, &"        ", 8, &output, NULL);
+
+		// Second Row
+		GoToXY(playerSprites, 82, 1);
+		WriteConsole(playerSprites, &"          ", 10, &output, NULL);
+
+		// Third Row
+		GoToXY(playerSprites, 90, 2);
+		WriteConsole(playerSprites, &"      ", 6, &output, NULL);
+		GoToXY(playerSprites, 84, 2);
+		WriteConsole(playerSprites, &"    ", 4, &output, NULL);
+
+		// Fourth Row
+		GoToXY(playerSprites, 90, 3);
+		WriteConsole(playerSprites, &"        ", 8, &output, NULL);
+
+		// Fifth Row
+		GoToXY(playerSprites, 96, 4);
+		WriteConsole(playerSprites, &"  ", 2, &output, NULL);
+		GoToXY(playerSprites, 90, 4);
+		WriteConsole(playerSprites, &"    ", 4, &output, NULL);
+		GoToXY(playerSprites, 76, 4);
+		WriteConsole(playerSprites, &"  ", 2, &output, NULL);
+
+		// Sixth Row
+		GoToXY(playerSprites, 92, 5);
+		WriteConsole(playerSprites, &"  ", 2, &output, NULL);
+
+		// Eighth Row
+		GoToXY(playerSprites, 82, 7);
+		WriteConsole(playerSprites, &"        ", 8, &output, NULL);
+
+		// Ninth Row
+		GoToXY(playerSprites, 78, 8);
+		WriteConsole(playerSprites, &"              ", 14, &output, NULL);
+
+		// Tenth Row
+		GoToXY(playerSprites, 88, 9);
+		WriteConsole(playerSprites, &"  ", 2, &output, NULL);
+		GoToXY(playerSprites, 76, 9);
+		WriteConsole(playerSprites, &"      ", 6, &output, NULL);
+
+		// Eleventh Row
+		GoToXY(playerSprites, 76, 10);
+		WriteConsole(playerSprites, &"      ", 6, &output, NULL);
+
+		// Twelfth Row
+		GoToXY(playerSprites, 78, 11);
+		WriteConsole(playerSprites, &"      ", 6, &output, NULL);
+
+		// Thirteenth Row
+		GoToXY(playerSprites, 92, 12);
+		WriteConsole(playerSprites, &"  ", 2, &output, NULL);
+		GoToXY(playerSprites, 84, 12);
+		WriteConsole(playerSprites, &"    ", 4, &output, NULL);
+
+		// Fourteenth Row
+		GoToXY(playerSprites, 76, 13);
+		WriteConsole(playerSprites, &"                    ", 20, &output, NULL);
+
+		SetConsoleTextAttribute(playerSprites, 14 * 16); // Light Yellow
+
+		// Third Row
+		GoToXY(playerSprites, 88, 2);
+		WriteConsole(playerSprites, &"  ", 2, &output, NULL);
+
+		// Fourth Row
+		GoToXY(playerSprites, 86, 3);
+		WriteConsole(playerSprites, &"    ", 4, &output, NULL);
+
+		// Fifth Row
+		GoToXY(playerSprites, 84, 4);
+		WriteConsole(playerSprites, &"      ", 6, &output, NULL);
+		GoToXY(playerSprites, 78, 4);
+		WriteConsole(playerSprites, &"    ", 4, &output, NULL);
+		GoToXY(playerSprites, 74, 4);
+		WriteConsole(playerSprites, &"  ", 2, &output, NULL);
+
+		// Sixth Row
+		GoToXY(playerSprites, 84, 5);
+		WriteConsole(playerSprites, &"    ", 4, &output, NULL);
+		GoToXY(playerSprites, 78, 5);
+		WriteConsole(playerSprites, &"    ", 4, &output, NULL);
+		GoToXY(playerSprites, 70, 5);
+		WriteConsole(playerSprites, &"      ", 6, &output, NULL);
+
+		// Seventh Row
+		GoToXY(playerSprites, 74, 6);
+		WriteConsole(playerSprites, &"            ", 12, &output, NULL);
+
+		// Eighth Row
+		GoToXY(playerSprites, 74, 7);
+		WriteConsole(playerSprites, &"        ", 8, &output, NULL);
+
+		// Ninth Row
+		GoToXY(playerSprites, 70, 8);
+		WriteConsole(playerSprites, &"  ", 2, &output, NULL);
+
+		// Tenth Row
+		GoToXY(playerSprites, 82, 9);
+		WriteConsole(playerSprites, &"      ", 6, &output, NULL);
+		GoToXY(playerSprites, 70, 9);
+		WriteConsole(playerSprites, &"  ", 2, &output, NULL);
+
+		// Eleventh Row
+		GoToXY(playerSprites, 82, 10);
+		WriteConsole(playerSprites, &"      ", 6, &output, NULL);
+
+		// Twelfth Row
+		GoToXY(playerSprites, 84, 11);
+		WriteConsole(playerSprites, &"    ", 4, &output, NULL);
+
+		SetConsoleTextAttribute(playerSprites, 4 * 16 + 6); // Red with yellow
+
+		// Second Row
+		GoToXY(playerSprites, 74, 1);
+		for (int c = 0; c < 8; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+
+		// Third Row
+		GoToXY(playerSprites, 72, 2);
+		for (int c = 0; c < 12; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+
+		// Fourth Row
+		GoToXY(playerSprites, 74, 3);
+		for (int c = 0; c < 12; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+
+		// Fifth Row
+		GoToXY(playerSprites, 82, 4);
+		for (int c = 0; c < 2; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+		GoToXY(playerSprites, 68, 4);
+		for (int c = 0; c < 2; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+
+		// Sixth Row
+		GoToXY(playerSprites, 88, 5);
+		for (int c = 0; c < 4; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+		GoToXY(playerSprites, 82, 5);
+		for (int c = 0; c < 2; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+		GoToXY(playerSprites, 76, 5);
+		for (int c = 0; c < 2; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+		GoToXY(playerSprites, 68, 5);
+		for (int c = 0; c < 2; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+
+		// Seventh Row
+		GoToXY(playerSprites, 86, 6);
+		for (int c = 0; c < 6; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+		GoToXY(playerSprites, 68, 6);
+		for (int c = 0; c < 2; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+
+		// Eighth Row
+		GoToXY(playerSprites, 68, 7);
+		for (int c = 0; c < 2; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+
+		// Ninth Row
+		GoToXY(playerSprites, 92, 8);
+		for (int c = 0; c < 2; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+		GoToXY(playerSprites, 72, 8);
+		for (int c = 0; c < 6; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+		GoToXY(playerSprites, 68, 8);
+		for (int c = 0; c < 2; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+
+		// Tenth Row
+		GoToXY(playerSprites, 90, 9);
+		for (int c = 0; c < 6; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+		GoToXY(playerSprites, 72, 9);
+		for (int c = 0; c < 4; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+		GoToXY(playerSprites, 68, 9);
+		for (int c = 0; c < 2; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+
+		// Eleventh Row
+		GoToXY(playerSprites, 88, 10);
+		for (int c = 0; c < 8; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+		GoToXY(playerSprites, 72, 10);
+		for (int c = 0; c < 4; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+		GoToXY(playerSprites, 68, 10);
+		for (int c = 0; c < 2; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+
+		// Twelfth Row
+		GoToXY(playerSprites, 88, 11);
+		for (int c = 0; c < 8; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+		GoToXY(playerSprites, 76, 11);
+		for (int c = 0; c < 2; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+		GoToXY(playerSprites, 68, 11);
+		for (int c = 0; c < 2; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+
+		// Thirteenth Row
+		GoToXY(playerSprites, 88, 12);
+		for (int c = 0; c < 4; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+		GoToXY(playerSprites, 76, 12);
+		for (int c = 0; c < 8; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+		GoToXY(playerSprites, 68, 12);
+		for (int c = 0; c < 2; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+
+		// Fifteenth Row
+		GoToXY(playerSprites, 82, 14);
+		for (int c = 0; c < 8; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+
+		// Sixteenth Row
+		GoToXY(playerSprites, 80, 15);
+		for (int c = 0; c < 10; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+
+		// Facing Back, Shield, Left Foot Back
+
+		SetConsoleTextAttribute(playerSprites, 10 * 16); // Green
+
+		// First Row
+		GoToXY(playerSprites, 108, 0);
+		WriteConsole(playerSprites, &"                ", 16, &output, NULL);
+
+		// Second Row
+		GoToXY(playerSprites, 106, 1);
+		WriteConsole(playerSprites, &"                    ", 20, &output, NULL);
+
+		// Third Row
+		GoToXY(playerSprites, 106, 2);
+		WriteConsole(playerSprites, &"                    ", 20, &output, NULL);
+
+		// Fourth Row
+		GoToXY(playerSprites, 104, 3);
+		WriteConsole(playerSprites, &"                        ", 24, &output, NULL);
+
+		// Fifth Row
+		GoToXY(playerSprites, 106, 4);
+		WriteConsole(playerSprites, &"                    ", 20, &output, NULL);
+
+		// Sixth Row
+		GoToXY(playerSprites, 112, 5);
+		WriteConsole(playerSprites, &"         ", 8, &output, NULL);
+
+		// Seventh Row
+		GoToXY(playerSprites, 114, 6);
+		WriteConsole(playerSprites, &"     ", 4, &output, NULL);
+
+		// Eighth Row
+		GoToXY(playerSprites, 106, 7);
+		WriteConsole(playerSprites, &"  ", 2, &output, NULL);
+		GoToXY(playerSprites, 124, 7);
+		WriteConsole(playerSprites, &"  ", 2, &output, NULL);
+
+		// Ninth Row
+		GoToXY(playerSprites, 106, 8);
+		WriteConsole(playerSprites, &"                  ", 18, &output, NULL);
+
+		// Tenth Row
+		GoToXY(playerSprites, 106, 9);
+		WriteConsole(playerSprites, &"                  ", 18, &output, NULL);
+
+		// Eleventh Row
+		GoToXY(playerSprites, 108, 10);
+		WriteConsole(playerSprites, &"                ", 16, &output, NULL);
+
+		// Twelfth Row
+		GoToXY(playerSprites, 104, 11);
+		WriteConsole(playerSprites, &"    ", 4, &output, NULL);
+		GoToXY(playerSprites, 124, 11);
+		WriteConsole(playerSprites, &"  ", 2, &output, NULL);
+
+		// Thirteenth Row
+		GoToXY(playerSprites, 104, 12);
+		WriteConsole(playerSprites, &"                        ", 24, &output, NULL);
+
+		// Fourteenth Row
+		GoToXY(playerSprites, 110, 13);
+		WriteConsole(playerSprites, &"              ", 14, &output, NULL);
+
+		SetConsoleTextAttribute(playerSprites, 14 * 16); // Light Yellow
+
+		// Third Row
+		GoToXY(playerSprites, 102, 2);
+		WriteConsole(playerSprites, &"  ", 2, &output, NULL);
+		GoToXY(playerSprites, 128, 2);
+		WriteConsole(playerSprites, &"  ", 2, &output, NULL);
+
+		// Fourth Row
+		GoToXY(playerSprites, 102, 3);
+		WriteConsole(playerSprites, &"  ", 2, &output, NULL);
+		GoToXY(playerSprites, 128, 3);
+		WriteConsole(playerSprites, &"  ", 2, &output, NULL);
+
+		// Fifth Row
+		GoToXY(playerSprites, 102, 4);
+		WriteConsole(playerSprites, &"  ", 2, &output, NULL);
+		GoToXY(playerSprites, 128, 4);
+		WriteConsole(playerSprites, &"  ", 2, &output, NULL);
+
+		// Sixth Row
+		GoToXY(playerSprites, 102, 5);
+		WriteConsole(playerSprites, &"    ", 4, &output, NULL);
+		GoToXY(playerSprites, 126, 5);
+		WriteConsole(playerSprites, &"    ", 4, &output, NULL);
+
+		// Seventh Row
+		GoToXY(playerSprites, 104, 6);
+		WriteConsole(playerSprites, &"  ", 2, &output, NULL);
+		GoToXY(playerSprites, 126, 6);
+		WriteConsole(playerSprites, &"  ", 2, &output, NULL);
+
+		// Tenth Row
+		GoToXY(playerSprites, 128, 9);
+		WriteConsole(playerSprites, &"  ", 2, &output, NULL);
+
+		// Eleventh Row
+		GoToXY(playerSprites, 128, 10);
+		WriteConsole(playerSprites, &"  ", 2, &output, NULL);
+
+		// Twelfth Row
+		GoToXY(playerSprites, 126, 11);
+		WriteConsole(playerSprites, &"    ", 4, &output, NULL);
+
+		SetConsoleTextAttribute(playerSprites, 4 * 16 + 6);
+
+		// Fifth Row
+		GoToXY(playerSprites, 104, 4);
+		for (int c = 0; c < 2; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+		GoToXY(playerSprites, 126, 4);
+		for (int c = 0; c < 2; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+
+		// Sixth Row
+		GoToXY(playerSprites, 106, 5);
+		for (int c = 0; c < 6; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+		GoToXY(playerSprites, 120, 5);
+		for (int c = 0; c < 6; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+
+		// Seventh Row
+		GoToXY(playerSprites, 106, 6);
+		for (int c = 0; c < 8; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+		GoToXY(playerSprites, 118, 6);
+		for (int c = 0; c < 8; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+
+		// Eighth Row
+		GoToXY(playerSprites, 104, 7);
+		for (int c = 0; c < 2; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+		GoToXY(playerSprites, 108, 7);
+		for (int c = 0; c < 16; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+		GoToXY(playerSprites, 126, 7);
+		for (int c = 0; c < 2; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+
+		// Ninth Row
+		GoToXY(playerSprites, 102, 8);
+		for (int c = 0; c < 4; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+		GoToXY(playerSprites, 124, 8);
+		for (int c = 0; c < 4; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+
+		// Tenth Row
+		GoToXY(playerSprites, 102, 9);
+		for (int c = 0; c < 4; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+		GoToXY(playerSprites, 124, 9);
+		for (int c = 0; c < 4; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+
+		// Eleventh Row
+		GoToXY(playerSprites, 104, 10);
+		for (int c = 0; c < 4; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+		GoToXY(playerSprites, 124, 10);
+		for (int c = 0; c < 4; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+
+		// Twelfth Row
+		GoToXY(playerSprites, 108, 11);
+		for (int c = 0; c < 16; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+
+		// Fourteenth Row
+		GoToXY(playerSprites, 104, 13);
+		for (int c = 0; c < 6; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+		GoToXY(playerSprites, 124, 13);
+		for (int c = 0; c < 2; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+
+		// Fifteenth Row
+		GoToXY(playerSprites, 104, 14);
+		for (int c = 0; c < 8; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+		GoToXY(playerSprites, 120, 14);
+		for (int c = 0; c < 4; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+
+		// Sixteenth Row
+		GoToXY(playerSprites, 106, 15);
+		for (int c = 0; c < 4; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+
+		// Facing Back, Shield, Right Foot Back
+
+		SetConsoleTextAttribute(playerSprites, 10 * 16); // Green
+
+		// First Row
+		GoToXY(playerSprites, 140, 0);
+		WriteConsole(playerSprites, &"                ", 16, &output, NULL);
+
+		// Second Row
+		GoToXY(playerSprites, 138, 1);
+		WriteConsole(playerSprites, &"                    ", 20, &output, NULL);
+
+		// Third Row
+		GoToXY(playerSprites, 138, 2);
+		WriteConsole(playerSprites, &"                    ", 20, &output, NULL);
+
+		// Fourth Row
+		GoToXY(playerSprites, 136, 3);
+		WriteConsole(playerSprites, &"                        ", 24, &output, NULL);
+
+		// Fifth Row
+		GoToXY(playerSprites, 138, 4);
+		WriteConsole(playerSprites, &"                    ", 20, &output, NULL);
+
+		// Sixth Row
+		GoToXY(playerSprites, 144, 5);
+		WriteConsole(playerSprites, &"         ", 8, &output, NULL);
+
+		// Seventh Row
+		GoToXY(playerSprites, 146, 6);
+		WriteConsole(playerSprites, &"     ", 4, &output, NULL);
+
+		// Eighth Row
+		GoToXY(playerSprites, 138, 7);
+		WriteConsole(playerSprites, &"  ", 2, &output, NULL);
+		GoToXY(playerSprites, 156, 7);
+		WriteConsole(playerSprites, &"  ", 2, &output, NULL);
+
+		// Ninth Row
+		GoToXY(playerSprites, 140, 8);
+		WriteConsole(playerSprites, &"                  ", 18, &output, NULL);
+
+		// Tenth Row
+		GoToXY(playerSprites, 140, 9);
+		WriteConsole(playerSprites, &"                  ", 18, &output, NULL);
+
+		// Eleventh Row
+		GoToXY(playerSprites, 140, 10);
+		WriteConsole(playerSprites, &"                ", 16, &output, NULL);
+
+		// Twelfth Row
+		GoToXY(playerSprites, 138, 11);
+		WriteConsole(playerSprites, &"  ", 2, &output, NULL);
+		GoToXY(playerSprites, 156, 11);
+		WriteConsole(playerSprites, &"    ", 4, &output, NULL);
+
+		// Thirteenth Row
+		GoToXY(playerSprites, 136, 12);
+		WriteConsole(playerSprites, &"                        ", 24, &output, NULL);
+
+		// Fourteenth Row
+		GoToXY(playerSprites, 140, 13);
+		WriteConsole(playerSprites, &"              ", 14, &output, NULL);
+
+		SetConsoleTextAttribute(playerSprites, 14 * 16); // Light Yellow
+
+		// Third Row
+		GoToXY(playerSprites, 134, 2);
+		WriteConsole(playerSprites, &"  ", 2, &output, NULL);
+		GoToXY(playerSprites, 160, 2);
+		WriteConsole(playerSprites, &"  ", 2, &output, NULL);
+
+		// Fourth Row
+		GoToXY(playerSprites, 134, 3);
+		WriteConsole(playerSprites, &"  ", 2, &output, NULL);
+		GoToXY(playerSprites, 160, 3);
+		WriteConsole(playerSprites, &"  ", 2, &output, NULL);
+
+		// Fifth Row
+		GoToXY(playerSprites, 134, 4);
+		WriteConsole(playerSprites, &"  ", 2, &output, NULL);
+		GoToXY(playerSprites, 160, 4);
+		WriteConsole(playerSprites, &"  ", 2, &output, NULL);
+
+		// Sixth Row
+		GoToXY(playerSprites, 134, 5);
+		WriteConsole(playerSprites, &"    ", 4, &output, NULL);
+		GoToXY(playerSprites, 158, 5);
+		WriteConsole(playerSprites, &"    ", 4, &output, NULL);
+
+		// Seventh Row
+		GoToXY(playerSprites, 136, 6);
+		WriteConsole(playerSprites, &"  ", 2, &output, NULL);
+		GoToXY(playerSprites, 158, 6);
+		WriteConsole(playerSprites, &"  ", 2, &output, NULL);
+
+		// Tenth Row
+		GoToXY(playerSprites, 134, 9);
+		WriteConsole(playerSprites, &"  ", 2, &output, NULL);
+
+		// Eleventh Row
+		GoToXY(playerSprites, 134, 10);
+		WriteConsole(playerSprites, &"  ", 2, &output, NULL);
+
+		// Twelfth Row
+		GoToXY(playerSprites, 134, 11);
+		WriteConsole(playerSprites, &"    ", 4, &output, NULL);
+
+		SetConsoleTextAttribute(playerSprites, 4 * 16 + 6);
+
+		// Fifth Row
+		GoToXY(playerSprites, 136, 4);
+		for (int c = 0; c < 2; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+		GoToXY(playerSprites, 158, 4);
+		for (int c = 0; c < 2; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+
+		// Sixth Row
+		GoToXY(playerSprites, 138, 5);
+		for (int c = 0; c < 6; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+		GoToXY(playerSprites, 152, 5);
+		for (int c = 0; c < 6; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+
+		// Seventh Row
+		GoToXY(playerSprites, 138, 6);
+		for (int c = 0; c < 8; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+		GoToXY(playerSprites, 150, 6);
+		for (int c = 0; c < 8; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+
+		// Eighth Row
+		GoToXY(playerSprites, 136, 7);
+		for (int c = 0; c < 2; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+		GoToXY(playerSprites, 140, 7);
+		for (int c = 0; c < 16; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+		GoToXY(playerSprites, 158, 7);
+		for (int c = 0; c < 2; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+
+		// Ninth Row
+		GoToXY(playerSprites, 136, 8);
+		for (int c = 0; c < 4; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+		GoToXY(playerSprites, 158, 8);
+		for (int c = 0; c < 4; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+
+		// Tenth Row
+		GoToXY(playerSprites, 136, 9);
+		for (int c = 0; c < 4; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+		GoToXY(playerSprites, 158, 9);
+		for (int c = 0; c < 4; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+
+		// Eleventh Row
+		GoToXY(playerSprites, 136, 10);
+		for (int c = 0; c < 4; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+		GoToXY(playerSprites, 156, 10);
+		for (int c = 0; c < 4; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+
+		// Twelfth Row
+		GoToXY(playerSprites, 140, 11);
+		for (int c = 0; c < 16; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+
+		// Fourteenth Row
+		GoToXY(playerSprites, 138, 13);
+		for (int c = 0; c < 2; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+		GoToXY(playerSprites, 154, 13);
+		for (int c = 0; c < 6; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+
+		// Fifteenth Row
+		GoToXY(playerSprites, 140, 14);
+		for (int c = 0; c < 4; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+		GoToXY(playerSprites, 152, 14);
+		for (int c = 0; c < 8; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+
+		// Sixteenth Row
+		GoToXY(playerSprites, 154, 15);
+		for (int c = 0; c < 4; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+
+		// Facing forward, shield, Right Foot
+		SetConsoleTextAttribute(playerSprites, 10 * 16); // Green
+
+		// First Row
+		GoToXY(playerSprites, 176, 0);
+		WriteConsole(playerSprites, &"        ", 8, &output, NULL);
+		GoToXY(playerSprites, 180, 0);
+		WriteConsole(playerSprites, &"        ", 8, &output, NULL);
+
+		// Second Row
+		GoToXY(playerSprites, 174, 1);
+		WriteConsole(playerSprites, &"        ", 8, &output, NULL);
+		GoToXY(playerSprites, 182, 1);
+		WriteConsole(playerSprites, &"        ", 8, &output, NULL);
+
+		// Third Row
+		GoToXY(playerSprites, 174, 2);
+		WriteConsole(playerSprites, &"  ", 2, &output, NULL);
+		GoToXY(playerSprites, 188, 2);
+		WriteConsole(playerSprites, &"  ", 2, &output, NULL);
+
+		// Fifth Row
+		GoToXY(playerSprites, 178, 4);
+		WriteConsole(playerSprites, &"  ", 2, &output, NULL);
+		GoToXY(playerSprites, 184, 4);
+		WriteConsole(playerSprites, &"  ", 2, &output, NULL);
+
+		// Eighth Row
+		GoToXY(playerSprites, 172, 7);
+		WriteConsole(playerSprites, &"    ", 4, &output, NULL);
+		GoToXY(playerSprites, 188, 7);
+		WriteConsole(playerSprites, &"    ", 4, &output, NULL);
+
+		// Ninth Row
+		GoToXY(playerSprites, 186, 8);
+		WriteConsole(playerSprites, &"      ", 6, &output, NULL);
+
+		// Tenth Row
+		GoToXY(playerSprites, 180, 9);
+		WriteConsole(playerSprites, &"        ", 8, &output, NULL);
+		GoToXY(playerSprites, 188, 9);
+		WriteConsole(playerSprites, &"    ", 4, &output, NULL);
+
+		// Eleventh Row
+		GoToXY(playerSprites, 186, 10);
+		WriteConsole(playerSprites, &"      ", 4, &output, NULL);
+
+		// Twelfth Row
+		GoToXY(playerSprites, 182, 11);
+		WriteConsole(playerSprites, &"  ", 2, &output, NULL);
+		GoToXY(playerSprites, 190, 11);
+		WriteConsole(playerSprites, &"  ", 2, &output, NULL);
+
+		// Thirteenth Row
+		GoToXY(playerSprites, 184, 12);
+		WriteConsole(playerSprites, &"        ", 8, &output, NULL);
+
+		// Fourteenth Row
+		GoToXY(playerSprites, 180, 13);
+		WriteConsole(playerSprites, &"        ", 8, &output, NULL);
+		GoToXY(playerSprites, 188, 13);
+		WriteConsole(playerSprites, &"  ", 2, &output, NULL);
+
+		SetConsoleTextAttribute(playerSprites, 4 * 16 + 6); // Red with dark yellow
+
+		// Third Row
+		GoToXY(playerSprites, 176, 2);
+		for (int c = 0; c < 12; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+
+		// Fourth Row
+		GoToXY(playerSprites, 174, 3);
+		for (int c = 0; c < 16; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+
+		// Fifth Row
+		GoToXY(playerSprites, 174, 4);
+		for (int c = 0; c < 2; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+		GoToXY(playerSprites, 188, 4);
+		for (int c = 0; c < 2; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+
+		// Sixth Row
+		GoToXY(playerSprites, 174, 5);
+		for (int c = 0; c < 2; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+		GoToXY(playerSprites, 178, 5);
+		for (int c = 0; c < 2; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+		GoToXY(playerSprites, 184, 5);
+		for (int c = 0; c < 2; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+		GoToXY(playerSprites, 188, 5);
+		for (int c = 0; c < 2; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+
+		// Seventh Row
+		GoToXY(playerSprites, 192, 6);
+		for (int c = 0; c < 2; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+
+		// Eighth Row
+		GoToXY(playerSprites, 180, 7);
+		for (int c = 0; c < 4; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+		GoToXY(playerSprites, 190, 7);
+		for (int c = 0; c < 4; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+
+		// Ninth Row
+		GoToXY(playerSprites, 170, 8);
+		for (int c = 0; c < 10; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+
+		// Tenth Row
+		GoToXY(playerSprites, 168, 9);
+		for (int c = 0; c < 4; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+		GoToXY(playerSprites, 174, 9);
+		for (int c = 0; c < 8; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+
+		// Eleventh Row
+		GoToXY(playerSprites, 168, 10);
+		for (int c = 0; c < 2; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+		GoToXY(playerSprites, 176, 10);
+		for (int c = 0; c < 4; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+		GoToXY(playerSprites, 182, 10);
+		for (int c = 0; c < 4; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+		GoToXY(playerSprites, 190, 10);
+		for (int c = 0; c < 2; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+
+		// Twelfth Row
+		GoToXY(playerSprites, 168, 11);
+		for (int c = 0; c < 4; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+		GoToXY(playerSprites, 174, 11);
+		for (int c = 0; c < 6; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+		GoToXY(playerSprites, 184, 11);
+		for (int c = 0; c < 6; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+
+		// Thirteenth Row
+		GoToXY(playerSprites, 168, 12);
+		for (int c = 0; c < 4; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+		GoToXY(playerSprites, 174, 12);
+		for (int c = 0; c < 6; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+		GoToXY(playerSprites, 182, 12);
+		for (int c = 0; c < 4; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+
+		// Fourteenth Row
+		GoToXY(playerSprites, 168, 13);
+		for (int c = 0; c < 12; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+		GoToXY(playerSprites, 188, 13);
+		for (int c = 0; c < 2; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+
+		// Fifteenth Row
+		GoToXY(playerSprites, 184, 14);
+		for (int c = 0; c < 6; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+
+		// Sixteenth Row
+		GoToXY(playerSprites, 184, 15);
+		for (int c = 0; c < 6; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+
+		SetConsoleTextAttribute(playerSprites, 14 * 16); // Light Yellow (Light brown)
+
+		// Third Row
+		GoToXY(playerSprites, 170, 2);
+		WriteConsole(playerSprites, &"  ", 2, &output, NULL);
+		GoToXY(playerSprites, 192, 2);
+		WriteConsole(playerSprites, &"  ", 2, &output, NULL);
+
+		// Fourth Row
+		GoToXY(playerSprites, 170, 3);
+		WriteConsole(playerSprites, &"  ", 2, &output, NULL);
+		GoToXY(playerSprites, 192, 3);
+		WriteConsole(playerSprites, &"  ", 2, &output, NULL);
+
+		// Fifth Row
+		GoToXY(playerSprites, 170, 4);
+		WriteConsole(playerSprites, &"    ", 4, &output, NULL);
+		GoToXY(playerSprites, 176, 4);
+		WriteConsole(playerSprites, &"  ", 2, &output, NULL);
+		GoToXY(playerSprites, 180, 4);
+		WriteConsole(playerSprites, &"     ", 4, &output, NULL);
+		GoToXY(playerSprites, 186, 4);
+		WriteConsole(playerSprites, &"  ", 2, &output, NULL);
+		GoToXY(playerSprites, 190, 4);
+		WriteConsole(playerSprites, &"    ", 4, &output, NULL);
+
+		// Sixth Row
+		GoToXY(playerSprites, 170, 5);
+		WriteConsole(playerSprites, &"    ", 4, &output, NULL);
+		GoToXY(playerSprites, 176, 5);
+		WriteConsole(playerSprites, &"  ", 2, &output, NULL);
+		GoToXY(playerSprites, 180, 5);
+		WriteConsole(playerSprites, &"     ", 4, &output, NULL);
+		GoToXY(playerSprites, 186, 5);
+		WriteConsole(playerSprites, &"  ", 2, &output, NULL);
+		GoToXY(playerSprites, 190, 5);
+		WriteConsole(playerSprites, &"    ", 4, &output, NULL);
+
+		// Seventh Row
+		GoToXY(playerSprites, 172, 6);
+		WriteConsole(playerSprites, &"                    ", 20, &output, NULL);
+
+		// Eighth Row
+		GoToXY(playerSprites, 184, 7);
+		WriteConsole(playerSprites, &"    ", 4, &output, NULL);
+		GoToXY(playerSprites, 176, 7);
+		WriteConsole(playerSprites, &"    ", 4, &output, NULL);
+
+		// Ninth Row
+		GoToXY(playerSprites, 180, 8);
+		WriteConsole(playerSprites, &"      ", 6, &output, NULL);
+		GoToXY(playerSprites, 192, 8);
+		WriteConsole(playerSprites, &"  ", 2, &output, NULL);
+
+		// Tenth Row
+		GoToXY(playerSprites, 172, 9);
+		WriteConsole(playerSprites, &"  ", 2, &output, NULL);
+		GoToXY(playerSprites, 192, 9);
+		WriteConsole(playerSprites, &"  ", 2, &output, NULL);
+
+		// Eleventh Row
+		GoToXY(playerSprites, 170, 10);
+		WriteConsole(playerSprites, &"      ", 6, &output, NULL);
+		GoToXY(playerSprites, 180, 10);
+		WriteConsole(playerSprites, &"  ", 2, &output, NULL);
+
+		// Twelfth Row
+		GoToXY(playerSprites, 172, 11);
+		WriteConsole(playerSprites, &"  ", 2, &output, NULL);
+		GoToXY(playerSprites, 180, 11);
+		WriteConsole(playerSprites, &"  ", 2, &output, NULL);
+
+		// Thirteenth Row
+		GoToXY(playerSprites, 172, 12);
+		WriteConsole(playerSprites, &"  ", 2, &output, NULL);
+		GoToXY(playerSprites, 180, 12);
+		WriteConsole(playerSprites, &"  ", 2, &output, NULL);
+
+		// Fourteenth Row
+		GoToXY(playerSprites, 180, 13);
+		WriteConsole(playerSprites, &"  ", 2, &output, NULL);
+
+		// Fifteenth Row
+		GoToXY(playerSprites, 170, 14);
+		WriteConsole(playerSprites, &"          ", 10, &output, NULL);
+
+		// Facing Right, Shield, Walking
+
+		SetConsoleTextAttribute(playerSprites, 10 * 16); // Green
+
+		// First Row
+		GoToXY(playerSprites, 44, 17);
+		WriteConsole(playerSprites, &"        ", 8, &output, NULL);
+
+		// Second Row
+		GoToXY(playerSprites, 40, 18);
+		WriteConsole(playerSprites, &"          ", 10, &output, NULL);
+
+		// Third Row
+		GoToXY(playerSprites, 36, 19);
+		WriteConsole(playerSprites, &"      ", 6, &output, NULL);
+		GoToXY(playerSprites, 44, 19);
+		WriteConsole(playerSprites, &"    ", 4, &output, NULL);
+
+		// Fourth Row
+		GoToXY(playerSprites, 34, 20);
+		WriteConsole(playerSprites, &"        ", 8, &output, NULL);
+
+		// Fifth Row
+		GoToXY(playerSprites, 34, 21);
+		WriteConsole(playerSprites, &"  ", 2, &output, NULL);
+		GoToXY(playerSprites, 38, 21);
+		WriteConsole(playerSprites, &"    ", 4, &output, NULL);
+		GoToXY(playerSprites, 54, 21);
+		WriteConsole(playerSprites, &"  ", 2, &output, NULL);
+
+		// Sixth Row
+		GoToXY(playerSprites, 38, 22);
+		WriteConsole(playerSprites, &"  ", 2, &output, NULL);
+
+		// Eighth Row
+		GoToXY(playerSprites, 42, 24);
+		WriteConsole(playerSprites, &"        ", 8, &output, NULL);
+
+		// Ninth Row
+		GoToXY(playerSprites, 38, 25);
+		WriteConsole(playerSprites, &"              ", 14, &output, NULL);
+
+		// Tenth Row
+		GoToXY(playerSprites, 42, 26);
+		WriteConsole(playerSprites, &"  ", 2, &output, NULL);
+		GoToXY(playerSprites, 50, 26);
+		WriteConsole(playerSprites, &"      ", 6, &output, NULL);
+
+		// Eleventh Row
+		GoToXY(playerSprites, 36, 27);
+		WriteConsole(playerSprites, &"  ", 2, &output, NULL);
+		GoToXY(playerSprites, 50, 27);
+		WriteConsole(playerSprites, &"      ", 6, &output, NULL);
+
+		// Twelfth Row
+		GoToXY(playerSprites, 36, 28);
+		WriteConsole(playerSprites, &"    ", 4, &output, NULL);
+		GoToXY(playerSprites, 48, 28);
+		WriteConsole(playerSprites, &"      ", 6, &output, NULL);
+
+		// Thirteenth Row
+		GoToXY(playerSprites, 34, 29);
+		WriteConsole(playerSprites, &"              ", 14, &output, NULL);
+		GoToXY(playerSprites, 56, 29);
+		WriteConsole(playerSprites, &"  ", 2, &output, NULL);
+
+		// Fourteenth Row
+		GoToXY(playerSprites, 36, 30);
+		WriteConsole(playerSprites, &"                    ", 20, &output, NULL);
+
+		SetConsoleTextAttribute(playerSprites, 14 * 16); // Light Yellow
+
+		// Third Row
+		GoToXY(playerSprites, 42, 19);
+		WriteConsole(playerSprites, &"  ", 2, &output, NULL);
+
+		// Fourth Row
+		GoToXY(playerSprites, 42, 20);
+		WriteConsole(playerSprites, &"    ", 4, &output, NULL);
+
+		// Fifth Row
+		GoToXY(playerSprites, 42, 21);
+		WriteConsole(playerSprites, &"      ", 6, &output, NULL);
+		GoToXY(playerSprites, 50, 21);
+		WriteConsole(playerSprites, &"    ", 4, &output, NULL);
+		GoToXY(playerSprites, 56, 21);
+		WriteConsole(playerSprites, &"  ", 2, &output, NULL);
+
+		// Sixth Row
+		GoToXY(playerSprites, 44, 22);
+		WriteConsole(playerSprites, &"    ", 4, &output, NULL);
+		GoToXY(playerSprites, 50, 22);
+		WriteConsole(playerSprites, &"    ", 4, &output, NULL);
+		GoToXY(playerSprites, 56, 22);
+		WriteConsole(playerSprites, &"      ", 6, &output, NULL);
+
+		// Seventh Row
+		GoToXY(playerSprites, 46, 23);
+		WriteConsole(playerSprites, &"            ", 12, &output, NULL);
+
+		// Eighth Row
+		GoToXY(playerSprites, 50, 24);
+		WriteConsole(playerSprites, &"        ", 8, &output, NULL);
+
+		// Ninth Row
+		GoToXY(playerSprites, 48, 25);
+		WriteConsole(playerSprites, &"      ", 6, &output, NULL);
+		GoToXY(playerSprites, 58, 25);
+		WriteConsole(playerSprites, &"  ", 2, &output, NULL);
+
+		// Tenth Row
+		GoToXY(playerSprites, 48, 26);
+		WriteConsole(playerSprites, &"      ", 6, &output, NULL);
+		GoToXY(playerSprites, 58, 26);
+		WriteConsole(playerSprites, &"  ", 2, &output, NULL);
+
+		// Eleventh Row
+		GoToXY(playerSprites, 48, 27);
+		WriteConsole(playerSprites, &"    ", 4, &output, NULL);
+
+		SetConsoleTextAttribute(playerSprites, 4 * 16 + 6); // Red with yellow
+
+		// Second Row
+		GoToXY(playerSprites, 50, 18);
+		for (int c = 0; c < 8; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+
+		// Third Row
+		GoToXY(playerSprites, 48, 19);
+		for (int c = 0; c < 12; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+
+		// Fourth Row
+		GoToXY(playerSprites, 46, 20);
+		for (int c = 0; c < 12; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+
+		// Fifth Row
+		GoToXY(playerSprites, 48, 21);
+		for (int c = 0; c < 2; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+
+		// Sixth Row
+		GoToXY(playerSprites, 40, 22);
+		for (int c = 0; c < 4; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+		GoToXY(playerSprites, 48, 22);
+		for (int c = 0; c < 2; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+		GoToXY(playerSprites, 54, 22);
+		for (int c = 0; c < 2; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+
+		// Seventh Row
+		GoToXY(playerSprites, 40, 23);
+		for (int c = 0; c < 6; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+		GoToXY(playerSprites, 60, 23);
+		for (int c = 0; c < 2; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+
+		// Eighth Row
+		GoToXY(playerSprites, 60, 24);
+		for (int c = 0; c < 2; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+
+		// Ninth Row
+		GoToXY(playerSprites, 40, 25);
+		for (int c = 0; c < 4; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+		GoToXY(playerSprites, 54, 25);
+		for (int c = 0; c < 4; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+		GoToXY(playerSprites, 60, 25);
+		for (int c = 0; c < 2; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+
+		// Tenth Row
+		GoToXY(playerSprites, 38, 26);
+		for (int c = 0; c < 10; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+		GoToXY(playerSprites, 56, 26);
+		for (int c = 0; c < 2; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+		GoToXY(playerSprites, 60, 26);
+		for (int c = 0; c < 2; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+
+		// Eleventh Row
+		GoToXY(playerSprites, 38, 27);
+		for (int c = 0; c < 10; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+		GoToXY(playerSprites, 56, 27);
+		for (int c = 0; c < 2; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+		GoToXY(playerSprites, 60, 27);
+		for (int c = 0; c < 2; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+
+		// Twelfth Row
+		GoToXY(playerSprites, 40, 28);
+		for (int c = 0; c < 8; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+		GoToXY(playerSprites, 54, 28);
+		for (int c = 0; c < 2; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+		GoToXY(playerSprites, 60, 28);
+		for (int c = 0; c < 2; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+
+		// Thirteenth Row
+		GoToXY(playerSprites, 48, 29);
+		for (int c = 0; c < 8; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+		GoToXY(playerSprites, 60, 29);
+		for (int c = 0; c < 2; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+		GoToXY(playerSprites, 34, 29);
+		for (int c = 0; c < 4; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+
+		// Fourteenth Row
+		GoToXY(playerSprites, 34, 30);
+		for (int c = 0; c < 6; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+		GoToXY(playerSprites, 56, 30);
+		for (int c = 0; c < 4; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+
+		// Fifteenth Row
+		GoToXY(playerSprites, 36, 31);
+		for (int c = 0; c < 6; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+		GoToXY(playerSprites, 52, 31);
+		for (int c = 0; c < 6; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+
+		// Facing Left, Shield, Walking
+
+		SetConsoleTextAttribute(playerSprites, 10 * 16); // Green
+
+		// First Row
+		GoToXY(playerSprites, 10, 17);
+		WriteConsole(playerSprites, &"        ", 8, &output, NULL);
+
+		// Second Row
+		GoToXY(playerSprites, 12, 18);
+		WriteConsole(playerSprites, &"          ", 10, &output, NULL);
+
+		// Third Row
+		GoToXY(playerSprites, 20, 19);
+		WriteConsole(playerSprites, &"      ", 6, &output, NULL);
+		GoToXY(playerSprites, 14, 19);
+		WriteConsole(playerSprites, &"    ", 4, &output, NULL);
+
+		// Fourth Row
+		GoToXY(playerSprites, 20, 20);
+		WriteConsole(playerSprites, &"        ", 8, &output, NULL);
+
+		// Fifth Row
+		GoToXY(playerSprites, 26, 21);
+		WriteConsole(playerSprites, &"  ", 2, &output, NULL);
+		GoToXY(playerSprites, 20, 21);
+		WriteConsole(playerSprites, &"    ", 4, &output, NULL);
+		GoToXY(playerSprites, 6, 21);
+		WriteConsole(playerSprites, &"  ", 2, &output, NULL);
+
+		// Sixth Row
+		GoToXY(playerSprites, 22, 22);
+		WriteConsole(playerSprites, &"  ", 2, &output, NULL);
+
+		// Eighth Row
+		GoToXY(playerSprites, 12, 24);
+		WriteConsole(playerSprites, &"        ", 8, &output, NULL);
+
+		// Ninth Row
+		GoToXY(playerSprites, 10, 25);
+		WriteConsole(playerSprites, &"              ", 14, &output, NULL);
+
+		// Tenth Row
+		GoToXY(playerSprites, 6, 26);
+		WriteConsole(playerSprites, &"  ", 2, &output, NULL);
+		GoToXY(playerSprites, 12, 26);
+		WriteConsole(playerSprites, &"      ", 6, &output, NULL);
+
+		// Eleventh Row
+		GoToXY(playerSprites, 6, 27);
+		WriteConsole(playerSprites, &"    ", 4, &output, NULL);
+		GoToXY(playerSprites, 20, 27);
+		WriteConsole(playerSprites, &"      ", 6, &output, NULL);
+
+		// Twelfth Row
+		GoToXY(playerSprites, 22, 28);
+		WriteConsole(playerSprites, &"    ", 4, &output, NULL);
+		GoToXY(playerSprites, 8, 28);
+		WriteConsole(playerSprites, &"      ", 6, &output, NULL);
+
+		// Thirteenth Row
+		GoToXY(playerSprites, 10, 29);
+		WriteConsole(playerSprites, &"              ", 14, &output, NULL);
+		GoToXY(playerSprites, 4, 29);
+		WriteConsole(playerSprites, &"  ", 2, &output, NULL);
+
+		// Fourteenth Row
+		GoToXY(playerSprites, 2, 30);
+		WriteConsole(playerSprites, &"                    ", 20, &output, NULL);
+
+		SetConsoleTextAttribute(playerSprites, 14 * 16); // Light Yellow
+
+		// Third Row
+		GoToXY(playerSprites, 18, 19);
+		WriteConsole(playerSprites, &"  ", 2, &output, NULL);
+
+		// Fourth Row
+		GoToXY(playerSprites, 16, 20);
+		WriteConsole(playerSprites, &"    ", 4, &output, NULL);
+
+		// Fifth Row
+		GoToXY(playerSprites, 14, 21);
+		WriteConsole(playerSprites, &"      ", 6, &output, NULL);
+		GoToXY(playerSprites, 8, 21);
+		WriteConsole(playerSprites, &"    ", 4, &output, NULL);
+		GoToXY(playerSprites, 4, 21);
+		WriteConsole(playerSprites, &"  ", 2, &output, NULL);
+
+		// Sixth Row
+		GoToXY(playerSprites, 8, 22);
+		WriteConsole(playerSprites, &"    ", 4, &output, NULL);
+		GoToXY(playerSprites, 14, 22);
+		WriteConsole(playerSprites, &"    ", 4, &output, NULL);
+		GoToXY(playerSprites, 0, 22);
+		WriteConsole(playerSprites, &"      ", 6, &output, NULL);
+
+		// Seventh Row
+		GoToXY(playerSprites, 4, 23);
+		WriteConsole(playerSprites, &"            ", 12, &output, NULL);
+
+		// Eighth Row
+		GoToXY(playerSprites, 4, 24);
+		WriteConsole(playerSprites, &"        ", 8, &output, NULL);
+
+		// Ninth Row
+		GoToXY(playerSprites, 8, 25);
+		WriteConsole(playerSprites, &"      ", 6, &output, NULL);
+		GoToXY(playerSprites, 2, 25);
+		WriteConsole(playerSprites, &"  ", 2, &output, NULL);
+
+		// Tenth Row
+		GoToXY(playerSprites, 8, 26);
+		WriteConsole(playerSprites, &"      ", 6, &output, NULL);
+		GoToXY(playerSprites, 2, 26);
+		WriteConsole(playerSprites, &"  ", 2, &output, NULL);
+
+		// Eleventh Row
+		GoToXY(playerSprites, 10, 27);
+		WriteConsole(playerSprites, &"    ", 4, &output, NULL);
+
+		SetConsoleTextAttribute(playerSprites, 4 * 16 + 6); // Red with yellow
+
+		// Second Row
+		GoToXY(playerSprites, 4, 18);
+		for (int c = 0; c < 8; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+
+		// Third Row
+		GoToXY(playerSprites, 2, 19);
+		for (int c = 0; c < 12; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+
+		// Fourth Row
+		GoToXY(playerSprites, 4, 20);
+		for (int c = 0; c < 12; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+
+		// Fifth Row
+		GoToXY(playerSprites, 12, 21);
+		for (int c = 0; c < 2; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+
+		// Sixth Row
+		GoToXY(playerSprites, 18, 22);
+		for (int c = 0; c < 4; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+		GoToXY(playerSprites, 12, 22);
+		for (int c = 0; c < 2; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+		GoToXY(playerSprites, 6, 22);
+		for (int c = 0; c < 2; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+
+		// Seventh Row
+		GoToXY(playerSprites, 16, 23);
+		for (int c = 0; c < 6; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+		GoToXY(playerSprites, 0, 23);
+		for (int c = 0; c < 2; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+
+		// Eighth Row
+		GoToXY(playerSprites, 0, 24);
+		for (int c = 0; c < 2; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+
+		// Ninth Row
+		GoToXY(playerSprites, 4, 25);
+		for (int c = 0; c < 4; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+		GoToXY(playerSprites, 18, 25);
+		for (int c = 0; c < 4; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+		GoToXY(playerSprites, 0, 25);
+		for (int c = 0; c < 2; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+
+		// Tenth Row
+		GoToXY(playerSprites, 14, 26);
+		for (int c = 0; c < 10; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+		GoToXY(playerSprites, 4, 26);
+		for (int c = 0; c < 2; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+		GoToXY(playerSprites, 0, 26);
+		for (int c = 0; c < 2; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+
+		// Eleventh Row
+		GoToXY(playerSprites, 14, 27);
+		for (int c = 0; c < 10; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+		GoToXY(playerSprites, 4, 27);
+		for (int c = 0; c < 2; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+		GoToXY(playerSprites, 0, 27);
+		for (int c = 0; c < 2; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+
+		// Twelfth Row
+		GoToXY(playerSprites, 14, 28);
+		for (int c = 0; c < 8; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+		GoToXY(playerSprites, 6, 28);
+		for (int c = 0; c < 2; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+		GoToXY(playerSprites, 0, 28);
+		for (int c = 0; c < 2; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+
+		// Thirteenth Row
+		GoToXY(playerSprites, 6, 29);
+		for (int c = 0; c < 8; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+		GoToXY(playerSprites, 0, 29);
+		for (int c = 0; c < 2; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+		GoToXY(playerSprites, 24, 29);
+		for (int c = 0; c < 4; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+
+		// Fourteenth Row
+		GoToXY(playerSprites, 22, 30);
+		for (int c = 0; c < 6; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+		GoToXY(playerSprites, 2, 30);
+		for (int c = 0; c < 4; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+
+		// Fifteenth Row
+		GoToXY(playerSprites, 4, 31);
+		for (int c = 0; c < 6; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+		GoToXY(playerSprites, 20, 31);
+		for (int c = 0; c < 6; c++) {
+			WriteConsole(playerSprites, &mGrad, 1, &output, NULL);
+		}
+
 		return true;
 	}
 
 	bool LoadKeese() {
-		//anim 1 frame 1
+		SetConsoleScreenBufferSize(keeseSprites, SCREEN_SIZE);
 
 		DWORD output;
 
@@ -538,82 +2909,188 @@ public:
 		GoToXY(keeseSprites, 18, 1);
 		WriteConsole(keeseSprites, &"  ", 2, &output, NULL);
 
+		// Wings in
+		SetConsoleTextAttribute(keeseSprites, 1 * 16); // Blue
+
+		// First Row
+		GoToXY(keeseSprites, 38, 0);
+		WriteConsole(keeseSprites, &"    ", 4, &output, NULL);
+		GoToXY(keeseSprites, 46, 0);
+		WriteConsole(keeseSprites, &"    ", 4, &output, NULL);
+
+		// Second Row
+		GoToXY(keeseSprites, 38, 1);
+		WriteConsole(keeseSprites, &"  ", 2, &output, NULL);
+		GoToXY(keeseSprites, 42, 1);
+		WriteConsole(keeseSprites, &"    ", 4, &output, NULL);
+		GoToXY(keeseSprites, 48, 1);
+		WriteConsole(keeseSprites, &"  ", 2, &output, NULL);
+
+		// Third Row
+		GoToXY(keeseSprites, 36, 2);
+		WriteConsole(keeseSprites, &"                ", 16, &output, NULL);
+
+		// Fourth Row
+		GoToXY(keeseSprites, 36, 3);
+		WriteConsole(keeseSprites, &"                ", 16, &output, NULL);
+
+		// Fifth Row
+		GoToXY(keeseSprites, 34, 4);
+		WriteConsole(keeseSprites, &"                    ", 20, &output, NULL);
+
+		// Sixth Row
+		GoToXY(keeseSprites, 34, 5);
+		WriteConsole(keeseSprites, &"                    ", 20, &output, NULL);
+
+		// Seventh Row
+		GoToXY(keeseSprites, 34, 6);
+		WriteConsole(keeseSprites, &"                    ", 20, &output, NULL);
+
+		// Eighth Row
+		GoToXY(keeseSprites, 36, 7);
+		WriteConsole(keeseSprites, &"      ", 6, &output, NULL);
+		GoToXY(keeseSprites, 46, 7);
+		WriteConsole(keeseSprites, &"      ", 6, &output, NULL);
+
+		// Ninth Row
+		GoToXY(keeseSprites, 36, 8);
+		WriteConsole(keeseSprites, &"    ", 4, &output, NULL);
+		GoToXY(keeseSprites, 48, 8);
+		WriteConsole(keeseSprites, &"    ", 4, &output, NULL);
+
+		//Tenth Row
+		GoToXY(keeseSprites, 38, 9);
+		WriteConsole(keeseSprites, &"  ", 2, &output, NULL);
+		GoToXY(keeseSprites, 48, 9);
+		WriteConsole(keeseSprites, &"  ", 2, &output, NULL);
+
+		SetConsoleTextAttribute(keeseSprites, 9 * 16); // Light Blue
+
+		GoToXY(keeseSprites, 40, 2);
+		WriteConsole(keeseSprites, &"  ", 2, &output, NULL);
+		GoToXY(keeseSprites, 46, 2);
+		WriteConsole(keeseSprites, &"  ", 2, &output, NULL);
+		GoToXY(keeseSprites, 40, 1);
+		WriteConsole(keeseSprites, &"  ", 2, &output, NULL);
+		GoToXY(keeseSprites, 46, 1);
+		WriteConsole(keeseSprites, &"  ", 2, &output, NULL);
 		return true;
 	}
 
 	bool LoadRope() {
 
+		SetConsoleScreenBufferSize(ropeSprites, SCREEN_SIZE);
+
 		DWORD output;
 
+		char mGrad = { (char)177 };
 
 		// Facing left, tail extended
-		SetConsoleTextAttribute(ropeSprites, 6 * 16); // Yellow (orange (why doesn't this exist?))
+		SetConsoleTextAttribute(ropeSprites, 4 * 16 + 14); // Yellow with red
 
 		// First Row
 		GoToXY(ropeSprites, 6, 0);
-		WriteConsole(ropeSprites, &"        ", 8, &output, NULL);
+		for (int c = 0; c < 8; c++) {
+			WriteConsole(ropeSprites, &mGrad, 1, &output, NULL);
+		}
 
 		// Second Row
 		GoToXY(ropeSprites, 4, 1);
-		WriteConsole(ropeSprites, &"  ", 2, &output, NULL);
+		for (int c = 0; c < 2; c++) {
+			WriteConsole(ropeSprites, &mGrad, 1, &output, NULL);
+		}
 		GoToXY(ropeSprites, 10, 1);
-		WriteConsole(ropeSprites, &"      ", 6, &output, NULL);
+		for (int c = 0; c < 6; c++) {
+			WriteConsole(ropeSprites, &mGrad, 1, &output, NULL);
+		}
 
 		// Third Row
 		GoToXY(ropeSprites, 10, 2);
-		WriteConsole(ropeSprites, &"      ", 6, &output, NULL);
+		for (int c = 0; c < 6; c++) {
+			WriteConsole(ropeSprites, &mGrad, 1, &output, NULL);
+		}
 
 		// Fourth Row
 		GoToXY(ropeSprites, 8, 3);
-		WriteConsole(ropeSprites, &"          ", 10, &output, NULL);
+		for (int c = 0; c < 10; c++) {
+			WriteConsole(ropeSprites, &mGrad, 1, &output, NULL);
+		}
 
 		// Fifth Row
 		GoToXY(ropeSprites, 0, 4);
-		WriteConsole(ropeSprites, &"                    ", 20, &output, NULL);
+		for (int c = 0; c < 20; c++) {
+			WriteConsole(ropeSprites, &mGrad, 1, &output, NULL);
+		}
 
 		// Sixth Row
 		GoToXY(ropeSprites, 8, 5);
-		WriteConsole(ropeSprites, &"            ", 12, &output, NULL);
+		for (int c = 0; c < 12; c++) {
+			WriteConsole(ropeSprites, &mGrad, 1, &output, NULL);
+		}
 
 		// Seventh Row
 		GoToXY(ropeSprites, 10, 6);
-		WriteConsole(ropeSprites, &"          ", 10, &output, NULL);
+		for (int c = 0; c < 10; c++) {
+			WriteConsole(ropeSprites, &mGrad, 1, &output, NULL);
+		}
 
 		// Eighth Row
 		GoToXY(ropeSprites, 2, 7);
-		WriteConsole(ropeSprites, &"                ", 16, &output, NULL);
+		for (int c = 0; c < 16; c++) {
+			WriteConsole(ropeSprites, &mGrad, 1, &output, NULL);
+		}
 
 		// Ninth Row
 		GoToXY(ropeSprites, 6, 8);
-		WriteConsole(ropeSprites, &"        ", 8, &output, NULL);
+		for (int c = 0; c < 8; c++) {
+			WriteConsole(ropeSprites, &mGrad, 1, &output, NULL);
+		}
 
 		// Tenth Row
 		GoToXY(ropeSprites, 10, 9);
-		WriteConsole(ropeSprites, &"  ", 2, &output, NULL);
+		for (int c = 0; c < 2; c++) {
+			WriteConsole(ropeSprites, &mGrad, 1, &output, NULL);
+		}
 
 		// Eleventh Row
 		GoToXY(ropeSprites, 6, 10);
-		WriteConsole(ropeSprites, &"      ", 6, &output, NULL);
+		for (int c = 0; c < 6; c++) {
+			WriteConsole(ropeSprites, &mGrad, 1, &output, NULL);
+		}
 		GoToXY(ropeSprites, 16, 10);
-		WriteConsole(ropeSprites, &"      ", 6, &output, NULL);
+		for (int c = 0; c < 6; c++) {
+			WriteConsole(ropeSprites, &mGrad, 1, &output, NULL);
+		}
 
 		// Twelfth Row
 		GoToXY(ropeSprites, 6, 11);
-		WriteConsole(ropeSprites, &"                  ", 18, &output, NULL);
+		for (int c = 0; c < 18; c++) {
+			WriteConsole(ropeSprites, &mGrad, 1, &output, NULL);
+		}
 
 		// Thirteenth Row
 		GoToXY(ropeSprites, 4, 12);
-		WriteConsole(ropeSprites, &"              ", 14, &output, NULL);
+		for (int c = 0; c < 14; c++) {
+			WriteConsole(ropeSprites, &mGrad, 1, &output, NULL);
+		}
 		GoToXY(ropeSprites, 22, 12);
-		WriteConsole(ropeSprites, &"    ", 4, &output, NULL);
+		for (int c = 0; c < 4; c++) {
+			WriteConsole(ropeSprites, &mGrad, 1, &output, NULL);
+		}
 		GoToXY(ropeSprites, 28, 12);
-		WriteConsole(ropeSprites, &"  ", 2, &output, NULL);
+		for (int c = 0; c < 2; c++) {
+			WriteConsole(ropeSprites, &mGrad, 1, &output, NULL);
+		}
 
 		// Fourteenth Row
 		GoToXY(ropeSprites, 6, 13);
-		WriteConsole(ropeSprites, &"        ", 8, &output, NULL);
+		for (int c = 0; c < 8; c++) {
+			WriteConsole(ropeSprites, &mGrad, 1, &output, NULL);
+		}
 		GoToXY(ropeSprites, 24, 13);
-		WriteConsole(ropeSprites, &"    ", 4, &output, NULL);
+		for (int c = 0; c < 4; c++) {
+			WriteConsole(ropeSprites, &mGrad, 1, &output, NULL);
+		}
 
 		SetConsoleTextAttribute(ropeSprites, 4 * 16); // Red
 
@@ -660,6 +3137,8 @@ public:
 	}
 
 	bool LoadSpikeTrap() {
+
+		SetConsoleScreenBufferSize(spiketrapSprites, SCREEN_SIZE);
 
 		DWORD output;
 
@@ -822,6 +3301,7 @@ public:
 	}
 
 	bool LoadGel() {
+		SetConsoleScreenBufferSize(gelSprites, SCREEN_SIZE);
 
 		DWORD output;
 
@@ -880,6 +3360,7 @@ public:
 	}
 
 	bool LoadBlock() {
+		SetConsoleScreenBufferSize(blockSprites, SCREEN_SIZE);
 
 		DWORD output;
 
@@ -1102,88 +3583,252 @@ public:
 
 	bool LoadSword() {
 
+		SetConsoleScreenBufferSize(swordSprites, SCREEN_SIZE);
+
 		DWORD output;
 
+		// Upright
 		SetConsoleTextAttribute(swordSprites, 8 * 16); // Grey
 
 		// First Row
-		GoToXY(swordSprites, 6, 0);
+		GoToXY(swordSprites, 14, 0);
 		WriteConsole(swordSprites, &"  ", 2, &output, NULL);
 
 		// Second Row
-		GoToXY(swordSprites, 4, 1);
+		GoToXY(swordSprites, 12, 1);
 		WriteConsole(swordSprites, &"      ", 6, &output, NULL);
 
 		// Third Row
-		GoToXY(swordSprites, 4, 2);
+		GoToXY(swordSprites, 12, 2);
 		WriteConsole(swordSprites, &"      ", 6, &output, NULL);
 
 		// Fourth Row
-		GoToXY(swordSprites, 4, 3);
+		GoToXY(swordSprites, 12, 3);
 		WriteConsole(swordSprites, &"      ", 6, &output, NULL);
 
 		// Fifth Row
-		GoToXY(swordSprites, 4, 4);
+		GoToXY(swordSprites, 12, 4);
 		WriteConsole(swordSprites, &"      ", 6, &output, NULL);
 
 		// Sixth Row
-		GoToXY(swordSprites, 4, 5);
+		GoToXY(swordSprites, 12, 5);
 		WriteConsole(swordSprites, &"      ", 6, &output, NULL);
 
 		// Seventh Row
-		GoToXY(swordSprites, 4, 6);
+		GoToXY(swordSprites, 12, 6);
 		WriteConsole(swordSprites, &"      ", 6, &output, NULL);
 
 		// Eighth Row
-		GoToXY(swordSprites, 4, 7);
+		GoToXY(swordSprites, 12, 7);
 		WriteConsole(swordSprites, &"      ", 6, &output, NULL);
 
 		// Ninth Row
-		GoToXY(swordSprites, 4, 8);
+		GoToXY(swordSprites, 12, 8);
 		WriteConsole(swordSprites, &"      ", 6, &output, NULL);
 
 		// Tenth Row
-		GoToXY(swordSprites, 4, 9);
+		GoToXY(swordSprites, 12, 9);
 		WriteConsole(swordSprites, &"      ", 6, &output, NULL);
 
 		// Eleventh Row
-		GoToXY(swordSprites, 4, 10);
+		GoToXY(swordSprites, 12, 10);
 		WriteConsole(swordSprites, &"      ", 6, &output, NULL);
 
 		SetConsoleTextAttribute(swordSprites, 10 * 16); // Green
 
 		// Twelfth Row
-		GoToXY(swordSprites, 0, 11);
+		GoToXY(swordSprites, 8, 11);
 		WriteConsole(swordSprites, &"              ", 14, &output, NULL);
 
 		// Thirteenth Row
-		GoToXY(swordSprites, 0, 12);
+		GoToXY(swordSprites, 8, 12);
 		WriteConsole(swordSprites, &"  ", 2, &output, NULL);
-		GoToXY(swordSprites, 12, 12);
+		GoToXY(swordSprites, 20, 12);
 		WriteConsole(swordSprites, &"  ", 2, &output, NULL);
 
 		// Fourteenth Row
-		GoToXY(swordSprites, 4, 13);
+		GoToXY(swordSprites, 12, 13);
 		WriteConsole(swordSprites, &"      ", 6, &output, NULL);
 
 		// Sixteenth Row
-		GoToXY(swordSprites, 4, 15);
+		GoToXY(swordSprites, 12, 15);
 		WriteConsole(swordSprites, &"      ", 6, &output, NULL);
 
 		SetConsoleTextAttribute(swordSprites, 14 * 16); // Light Yellow
 
 		// Thirteenth Row
-		GoToXY(swordSprites, 4, 12);
+		GoToXY(swordSprites, 12, 12);
 		WriteConsole(swordSprites, &"      ", 6, &output, NULL);
 
 		// Fifteenth Row
-		GoToXY(swordSprites, 4, 14);
+		GoToXY(swordSprites, 12, 14);
 		WriteConsole(swordSprites, &"      ", 6, &output, NULL);
 
+		// Down
+		SetConsoleTextAttribute(swordSprites, 8 * 16); // Grey
+
+		// First Row
+		GoToXY(swordSprites, 50, 15);
+		WriteConsole(swordSprites, &"  ", 2, &output, NULL);
+
+		// Second Row
+		GoToXY(swordSprites, 48, 14);
+		WriteConsole(swordSprites, &"      ", 6, &output, NULL);
+
+		// Third Row
+		GoToXY(swordSprites, 48, 13);
+		WriteConsole(swordSprites, &"      ", 6, &output, NULL);
+
+		// Fourth Row
+		GoToXY(swordSprites, 48, 12);
+		WriteConsole(swordSprites, &"      ", 6, &output, NULL);
+
+		// Fifth Row
+		GoToXY(swordSprites, 48, 11);
+		WriteConsole(swordSprites, &"      ", 6, &output, NULL);
+
+		// Sixth Row
+		GoToXY(swordSprites, 48, 10);
+		WriteConsole(swordSprites, &"      ", 6, &output, NULL);
+
+		// Seventh Row
+		GoToXY(swordSprites, 48, 9);
+		WriteConsole(swordSprites, &"      ", 6, &output, NULL);
+
+		// Eighth Row
+		GoToXY(swordSprites, 48, 8);
+		WriteConsole(swordSprites, &"      ", 6, &output, NULL);
+
+		// Ninth Row
+		GoToXY(swordSprites, 48, 7);
+		WriteConsole(swordSprites, &"      ", 6, &output, NULL);
+
+		// Tenth Row
+		GoToXY(swordSprites, 48, 6);
+		WriteConsole(swordSprites, &"      ", 6, &output, NULL);
+
+		// Eleventh Row
+		GoToXY(swordSprites, 48, 5);
+		WriteConsole(swordSprites, &"      ", 6, &output, NULL);
+
+		SetConsoleTextAttribute(swordSprites, 10 * 16); // Green
+
+		// Twelfth Row
+		GoToXY(swordSprites, 44, 4);
+		WriteConsole(swordSprites, &"              ", 14, &output, NULL);
+
+		// Thirteenth Row
+		GoToXY(swordSprites, 44, 3);
+		WriteConsole(swordSprites, &"  ", 2, &output, NULL);
+		GoToXY(swordSprites, 56, 3);
+		WriteConsole(swordSprites, &"  ", 2, &output, NULL);
+
+		// Fourteenth Row
+		GoToXY(swordSprites, 48, 2);
+		WriteConsole(swordSprites, &"      ", 6, &output, NULL);
+
+		// Sixteenth Row
+		GoToXY(swordSprites, 48, 0);
+		WriteConsole(swordSprites, &"      ", 6, &output, NULL);
+
+		SetConsoleTextAttribute(swordSprites, 14 * 16); // Light Yellow
+
+		// Thirteenth Row
+		GoToXY(swordSprites, 48, 3);
+		WriteConsole(swordSprites, &"      ", 6, &output, NULL);
+
+		// Fifteenth Row
+		GoToXY(swordSprites, 48, 1);
+		WriteConsole(swordSprites, &"      ", 6, &output, NULL);
+
+		// Right
+		SetConsoleTextAttribute(swordSprites, 8 * 16); // Grey
+
+		for (int i = 6; i < 9; i++) {
+			GoToXY(swordSprites, 78, i);
+			WriteConsole(swordSprites, &"                    ", 20, &output, NULL);
+		}
+
+		GoToXY(swordSprites, 98, 7);
+		WriteConsole(swordSprites, &"  ", 2, &output, NULL);
+
+		SetConsoleTextAttribute(swordSprites, 10 * 16); // Green
+
+		GoToXY(swordSprites, 74, 4);
+		WriteConsole(swordSprites, &"    ", 4, &output, NULL);
+
+		GoToXY(swordSprites, 76, 5);
+		WriteConsole(swordSprites, &"  ", 2, &output, NULL);
+
+		for (int i = 6; i < 9; i++) {
+			GoToXY(swordSprites, 68, i);
+			WriteConsole(swordSprites, &"          ", 10, &output, NULL);
+		}
+
+		GoToXY(swordSprites, 76, 9);
+		WriteConsole(swordSprites, &"  ", 2, &output, NULL);
+
+		GoToXY(swordSprites, 74, 10);
+		WriteConsole(swordSprites, &"    ", 4, &output, NULL);
+
+		SetConsoleTextAttribute(swordSprites, 14 * 16); // Light Yellow
+
+		for (int i = 6; i < 9; i++) {
+			GoToXY(swordSprites, 70, i);
+			WriteConsole(swordSprites, &"  ", 2, &output, NULL);
+		}
+
+		for (int i = 6; i < 9; i++) {
+			GoToXY(swordSprites, 74, i);
+			WriteConsole(swordSprites, &"  ", 2, &output, NULL);
+		}
+
+		// Left
+		SetConsoleTextAttribute(swordSprites, 8 * 16); // Grey
+
+		for (int i = 6; i < 9; i++) {
+			GoToXY(swordSprites, 104, i);
+			WriteConsole(swordSprites, &"                    ", 20, &output, NULL);
+		}
+
+		GoToXY(swordSprites, 102, 7);
+		WriteConsole(swordSprites, &"  ", 2, &output, NULL);
+
+		SetConsoleTextAttribute(swordSprites, 10 * 16); // Green
+
+		GoToXY(swordSprites, 124, 4);
+		WriteConsole(swordSprites, &"    ", 4, &output, NULL);
+
+		GoToXY(swordSprites, 124, 5);
+		WriteConsole(swordSprites, &"  ", 2, &output, NULL);
+
+		for (int i = 6; i < 9; i++) {
+			GoToXY(swordSprites, 124, i);
+			WriteConsole(swordSprites, &"          ", 10, &output, NULL);
+		}
+
+		GoToXY(swordSprites, 124, 9);
+		WriteConsole(swordSprites, &"  ", 2, &output, NULL);
+
+		GoToXY(swordSprites, 124, 10);
+		WriteConsole(swordSprites, &"    ", 4, &output, NULL);
+
+		SetConsoleTextAttribute(swordSprites, 14 * 16); // Light Yellow
+
+		for (int i = 6; i < 9; i++) {
+			GoToXY(swordSprites, 126, i);
+			WriteConsole(swordSprites, &"  ", 2, &output, NULL);
+		}
+
+		for (int i = 6; i < 9; i++) {
+			GoToXY(swordSprites, 130, i);
+			WriteConsole(swordSprites, &"  ", 2, &output, NULL);
+		}
 		return true;
 	}
 
 	bool LoadHole() {
+		SetConsoleScreenBufferSize(holeSprites, SCREEN_SIZE);
 
 		DWORD output;
 
@@ -1197,6 +3842,8 @@ public:
 	}
 
 	bool LoadFloor() {
+
+		SetConsoleScreenBufferSize(floorSprites, SCREEN_SIZE);
 
 		DWORD output;
 
@@ -1241,7 +3888,7 @@ public:
 
 		SetConsoleTextAttribute(floorSprites, 1 * 16);
 
-		GoToXY(floorSprites, 46, 0);
+		GoToXY(floorSprites, 48, 0);
 		WriteConsole(floorSprites, &"  ", 2, &output, NULL);
 
 		GoToXY(floorSprites, 40, 1);
@@ -1251,6 +3898,23 @@ public:
 		WriteConsole(floorSprites, &"  ", 2, &output, NULL);
 
 		GoToXY(floorSprites, 42, 4);
+		WriteConsole(floorSprites, &"  ", 2, &output, NULL);
+
+		GoToXY(floorSprites, 46, 5);
+		WriteConsole(floorSprites, &"  ", 2, &output, NULL);
+
+		GoToXY(floorSprites, 38, 6);
+		WriteConsole(floorSprites, &"  ", 2, &output, NULL);
+
+		SetConsoleTextAttribute(floorSprites, 11 * 16);
+
+		GoToXY(floorSprites, 34, 1);
+		WriteConsole(floorSprites, &"  ", 2, &output, NULL);
+
+		GoToXY(floorSprites, 46, 3);
+		WriteConsole(floorSprites, &"  ", 2, &output, NULL);
+
+		GoToXY(floorSprites, 44, 7);
 		WriteConsole(floorSprites, &"  ", 2, &output, NULL);
 
 		return true;
@@ -2866,6 +5530,8 @@ public:
 
 	bool LoadDoor() {
 
+		SetConsoleScreenBufferSize(doorSprites, SCREEN_SIZE);
+
 		DWORD output;
 
 		// Door Open Bottom Screen (64 across)
@@ -3227,6 +5893,300 @@ public:
 		return true;
 	}
 
+	bool LoadBrick() {
+
+		SetConsoleScreenBufferSize(brickSprites, SCREEN_SIZE);
+
+		DWORD output;
+
+		SetConsoleTextAttribute(brickSprites, 9 * 16);
+
+		for (int i = 0; i < 8; i++) {
+			GoToXY(brickSprites, 0, i);
+			WriteConsole(brickSprites, &"                ", 16, &output, NULL);
+		}
+
+		SetConsoleTextAttribute(brickSprites, 1 * 16);
+
+		GoToXY(brickSprites, 0, 3);
+		WriteConsole(brickSprites, &"                ", 16, &output, NULL);
+
+		for (int i = 0; i < 3; i++) {
+			GoToXY(brickSprites, 2, i);
+			WriteConsole(brickSprites, "  ", 2, &output, NULL);
+		}
+
+		for (int i = 4; i < 8; i++) {
+			GoToXY(brickSprites, 10, i);
+			WriteConsole(brickSprites, "  ", 2, &output, NULL);
+		}
+
+		GoToXY(brickSprites, 0, 7);
+		WriteConsole(brickSprites, "                ", 16, &output, NULL);
+
+		SetConsoleTextAttribute(brickSprites, 11 * 16);
+
+		GoToXY(brickSprites, 4, 0);
+		WriteConsole(brickSprites, "  ", 2, &output, NULL);
+
+		GoToXY(brickSprites, 12, 4);
+		WriteConsole(brickSprites, "  ", 2, &output, NULL);
+
+		return true;
+	}
+
+	bool LoadHeart() {
+
+		SetConsoleScreenBufferSize(heartSprites, SCREEN_SIZE);
+
+		DWORD output;
+
+		// Full Heart
+		SetConsoleTextAttribute(heartSprites, 4 * 16 + 15); // Red with white
+
+		// First Row
+		GoToXY(heartSprites, 2, 0);
+		WriteConsole(heartSprites, "    ", 4, &output, NULL);
+
+		GoToXY(heartSprites, 8, 0);
+		WriteConsole(heartSprites, "    ", 4, &output, NULL);
+
+		for (int i = 1; i < 5; i++) {
+			GoToXY(heartSprites, 0, i);
+			WriteConsole(heartSprites, "              ", 14, &output, NULL);
+		}
+
+		// Sixth Row
+		GoToXY(heartSprites, 2, 5);
+		WriteConsole(heartSprites, "          ", 10, &output, NULL);
+
+		// Seventh Row
+		GoToXY(heartSprites, 4, 6);
+		WriteConsole(heartSprites, "      ", 6, &output, NULL);
+
+		// Eighth Row
+		GoToXY(heartSprites, 6, 7);
+		WriteConsole(heartSprites, "  ", 2, &output, NULL);
+
+		// Half Heart
+		char mGrad = { (char)177 };
+
+		// First Row
+		GoToXY(heartSprites, 18, 0);
+		WriteConsole(heartSprites, "    ", 4, &output, NULL);
+
+		GoToXY(heartSprites, 24, 0);
+		for (int c = 0; c < 4; c++) {
+			WriteConsole(heartSprites, &mGrad, 1, &output, NULL);
+		}
+
+		for (int i = 1; i < 5; i++) {
+			GoToXY(heartSprites, 16, i);
+			WriteConsole(heartSprites, "              ", 14, &output, NULL);
+		}
+
+		// Second Row
+		GoToXY(heartSprites, 24, 1);
+		for (int c = 0; c < 6; c++) {
+			WriteConsole(heartSprites, &mGrad, 1, &output, NULL);
+		}
+
+		// Third Row
+		GoToXY(heartSprites, 22, 2);
+		for (int c = 0; c < 8; c++) {
+			WriteConsole(heartSprites, &mGrad, 1, &output, NULL);
+		}
+
+		// Fourth Row
+		GoToXY(heartSprites, 24, 3);
+		for (int c = 0; c < 6; c++) {
+			WriteConsole(heartSprites, &mGrad, 1, &output, NULL);
+		}
+
+		// Fifth Row
+		GoToXY(heartSprites, 22, 4);
+		for (int c = 0; c < 8; c++) {
+			WriteConsole(heartSprites, &mGrad, 1, &output, NULL);
+		}
+
+		// Sixth Row
+		GoToXY(heartSprites, 18, 5);
+		WriteConsole(heartSprites, "          ", 10, &output, NULL);
+
+		GoToXY(heartSprites, 24, 5);
+		for (int c = 0; c < 4; c++) {
+			WriteConsole(heartSprites, &mGrad, 1, &output, NULL);
+		}
+
+		// Seventh Row
+		GoToXY(heartSprites, 20, 6);
+		WriteConsole(heartSprites, "      ", 6, &output, NULL);
+
+		GoToXY(heartSprites, 22, 6);
+		for (int c = 0; c < 4; c++) {
+			WriteConsole(heartSprites, &mGrad, 1, &output, NULL);
+		}
+
+		// Eighth Row
+		GoToXY(heartSprites, 22, 7);
+		WriteConsole(heartSprites, "  ", 2, &output, NULL);
+
+		// Empty Heart
+		SetConsoleTextAttribute(heartSprites, 4 * 16 + 15); // Red with white
+
+		// First Row
+		GoToXY(heartSprites, 34, 0);
+		WriteConsole(heartSprites, &mGrad, 4, &output, NULL);
+
+		GoToXY(heartSprites, 40, 0);
+		WriteConsole(heartSprites, &mGrad, 4, &output, NULL);
+
+		for (int i = 1; i < 5; i++) {
+			GoToXY(heartSprites, 32, i);
+			WriteConsole(heartSprites, &mGrad, 14, &output, NULL);
+		}
+
+		// Sixth Row
+		GoToXY(heartSprites, 34, 5);
+		WriteConsole(heartSprites, &mGrad, 10, &output, NULL);
+
+		// Seventh Row
+		GoToXY(heartSprites, 36, 6);
+		WriteConsole(heartSprites, &mGrad, 6, &output, NULL);
+
+		// Eighth Row
+		GoToXY(heartSprites, 38, 7);
+		WriteConsole(heartSprites, &mGrad, 2, &output, NULL);
+
+		return true;
+	}
+
+	bool LoadStopwatch() {
+
+		SetConsoleScreenBufferSize(stopwatchSprites, SCREEN_SIZE);
+
+		DWORD output;
+
+		SetConsoleTextAttribute(stopwatchSprites, 15 * 16); // White
+
+		GoToXY(stopwatchSprites, 10, 2);
+		WriteConsole(stopwatchSprites, "  ", 2, &output, NULL);
+
+		GoToXY(stopwatchSprites, 8, 4);
+		WriteConsole(stopwatchSprites, "  ", 2, &output, NULL);
+		GoToXY(stopwatchSprites, 12, 4);
+		WriteConsole(stopwatchSprites, "  ", 2, &output, NULL);
+
+		GoToXY(stopwatchSprites, 6, 5);
+		WriteConsole(stopwatchSprites, "          ", 10, &output, NULL);
+
+		GoToXY(stopwatchSprites, 2, 8);
+		WriteConsole(stopwatchSprites, "  ", 2, &output, NULL);
+		GoToXY(stopwatchSprites, 18, 8);
+		WriteConsole(stopwatchSprites, "  ", 2, &output, NULL);
+
+		GoToXY(stopwatchSprites, 2, 10);
+		WriteConsole(stopwatchSprites, "  ", 2, &output, NULL);
+		GoToXY(stopwatchSprites, 18, 10);
+		WriteConsole(stopwatchSprites, "  ", 2, &output, NULL);
+
+		GoToXY(stopwatchSprites, 6, 13);
+		WriteConsole(stopwatchSprites, "          ", 10, &output, NULL);
+
+		GoToXY(stopwatchSprites, 8, 14);
+		WriteConsole(stopwatchSprites, "  ", 2, &output, NULL);
+		GoToXY(stopwatchSprites, 12, 14);
+		WriteConsole(stopwatchSprites, "  ", 2, &output, NULL);
+
+		for (int i = 6; i < 13; i++) {
+			GoToXY(stopwatchSprites, 4, i);
+			WriteConsole(stopwatchSprites, "              ", 14, &output, NULL);
+		}
+
+		SetConsoleTextAttribute(stopwatchSprites, 4 * 16); // Red
+		for (int i = 0; i < 2; i++) {
+			GoToXY(stopwatchSprites, 6, i);
+			WriteConsole(stopwatchSprites, "          ", 10, &output, NULL);
+		}
+
+		GoToXY(stopwatchSprites, 6, 3);
+		WriteConsole(stopwatchSprites, "          ", 10, &output, NULL);
+
+		GoToXY(stopwatchSprites, 4, 4);
+		WriteConsole(stopwatchSprites, "    ", 4, &output, NULL);
+		GoToXY(stopwatchSprites, 10, 4);
+		WriteConsole(stopwatchSprites, "  ", 2, &output, NULL);
+		GoToXY(stopwatchSprites, 14, 4);
+		WriteConsole(stopwatchSprites, "    ", 4, &output, NULL);
+
+		GoToXY(stopwatchSprites, 2, 5);
+		WriteConsole(stopwatchSprites, "    ", 4, &output, NULL);
+		GoToXY(stopwatchSprites, 16, 5);
+		WriteConsole(stopwatchSprites, "    ", 4, &output, NULL);
+
+		GoToXY(stopwatchSprites, 2, 6);
+		WriteConsole(stopwatchSprites, "  ", 2, &output, NULL);
+		GoToXY(stopwatchSprites, 18, 6);
+		WriteConsole(stopwatchSprites, "  ", 2, &output, NULL);
+
+		GoToXY(stopwatchSprites, 0, 7);
+		WriteConsole(stopwatchSprites, "    ", 4, &output, NULL);
+		GoToXY(stopwatchSprites, 6, 7);
+		WriteConsole(stopwatchSprites, "  ", 2, &output, NULL);
+		GoToXY(stopwatchSprites, 14, 7);
+		WriteConsole(stopwatchSprites, "  ", 2, &output, NULL);
+		GoToXY(stopwatchSprites, 18, 7);
+		WriteConsole(stopwatchSprites, "    ", 4, &output, NULL);
+
+		GoToXY(stopwatchSprites, 0, 8);
+		WriteConsole(stopwatchSprites, "  ", 2, &output, NULL);
+		GoToXY(stopwatchSprites, 8, 8);
+		WriteConsole(stopwatchSprites, "  ", 2, &output, NULL);
+		GoToXY(stopwatchSprites, 12, 8);
+		WriteConsole(stopwatchSprites, "  ", 2, &output, NULL);
+		GoToXY(stopwatchSprites, 20, 8);
+		WriteConsole(stopwatchSprites, "  ", 2, &output, NULL);
+
+		GoToXY(stopwatchSprites, 0, 9);
+		WriteConsole(stopwatchSprites, "    ", 4, &output, NULL);
+		GoToXY(stopwatchSprites, 10, 9);
+		WriteConsole(stopwatchSprites, "  ", 2, &output, NULL);
+		GoToXY(stopwatchSprites, 18, 9);
+		WriteConsole(stopwatchSprites, "    ", 4, &output, NULL);
+
+		GoToXY(stopwatchSprites, 0, 10);
+		WriteConsole(stopwatchSprites, "  ", 2, &output, NULL);
+		GoToXY(stopwatchSprites, 20, 10);
+		WriteConsole(stopwatchSprites, "  ", 2, &output, NULL);
+
+		GoToXY(stopwatchSprites, 0, 11);
+		WriteConsole(stopwatchSprites, "    ", 4, &output, NULL);
+		GoToXY(stopwatchSprites, 18, 11);
+		WriteConsole(stopwatchSprites, "    ", 4, &output, NULL);
+
+		GoToXY(stopwatchSprites, 2, 12);
+		WriteConsole(stopwatchSprites, "  ", 2, &output, NULL);
+		GoToXY(stopwatchSprites, 18, 12);
+		WriteConsole(stopwatchSprites, "  ", 2, &output, NULL);
+
+		GoToXY(stopwatchSprites, 2, 13);
+		WriteConsole(stopwatchSprites, "    ", 4, &output, NULL);
+		GoToXY(stopwatchSprites, 16, 13);
+		WriteConsole(stopwatchSprites, "    ", 4, &output, NULL);
+
+		GoToXY(stopwatchSprites, 4, 14);
+		WriteConsole(stopwatchSprites, "    ", 4, &output, NULL);
+		GoToXY(stopwatchSprites, 10, 14);
+		WriteConsole(stopwatchSprites, "  ", 2, &output, NULL);
+		GoToXY(stopwatchSprites, 14, 14);
+		WriteConsole(stopwatchSprites, "    ", 4, &output, NULL);
+
+		GoToXY(stopwatchSprites, 6, 15);
+		WriteConsole(stopwatchSprites, "          ", 10, &output, NULL);
+
+		return true;
+	}
+
 	bool LoadTitle() {
 		// Set screen size
 		SetConsoleScreenBufferSize(titleScreen, SCREEN_SIZE);
@@ -3236,11 +6196,13 @@ public:
 		CONSOLE_SCREEN_BUFFER_INFO scrn;
 		DWORD buff;
 
+		char lGrad = (char) 176;
+
 		GetConsoleScreenBufferInfo(titleScreen, &scrn);
 
 		//Fills Console with 
 		FillConsoleOutputCharacterA(
-			titleScreen, (char) 176, scrn.dwSize.X * scrn.dwSize.Y, origin, &buff
+			titleScreen, lGrad, scrn.dwSize.X * scrn.dwSize.Y, origin, &buff
 		);
 
 		//Returns text colors to default
@@ -3253,7 +6215,7 @@ public:
 		DWORD output;
 		SetConsoleTextAttribute(titleScreen, (14 * 16) + 6);
 
-		std::string lGrad = { (char)176 };
+		
 		GoToXY(titleScreen, 186, 56);
 		for (int c = 0; c < 136; c++) {
 			WriteConsole(titleScreen, &lGrad, 1, &output, NULL);
@@ -3382,6 +6344,67 @@ public:
 		}
 
 		DrawTextSprites(titleScreen, "Push Enter Button", 128, 159, 0);
+		return true;
+	}
+
+	bool LoadCharacterMenu() {
+		SetConsoleScreenBufferSize(CharacterScreen, SCREEN_SIZE);
+		DrawTextSprites(CharacterScreen, "- S E L E C T -", 128, 40);
+		DrawTextSprites(CharacterScreen, "Name", 176, 64);
+		DrawTextSprites(CharacterScreen, "Life", 322, 64);
+
+
+		SetConsoleTextAttribute(CharacterScreen, 1*16);
+		//top line
+		GoToXY(CharacterScreen, 56, 67);
+		for (int c = 0; c < 104; c++) {
+			WriteConsole(CharacterScreen, &" ", 1, NULL, NULL);
+		}
+		GoToXY(CharacterScreen, 56, 68);
+		for (int c = 0; c < 104; c++) {
+			WriteConsole(CharacterScreen, &" ", 1, NULL, NULL);
+		}
+
+		GoToXY(CharacterScreen, 256, 67);
+		for (int c = 0; c < 48; c++) {
+			WriteConsole(CharacterScreen, &" ", 1, NULL, NULL);
+		}
+		GoToXY(CharacterScreen, 256, 68);
+		for (int c = 0; c < 48; c++) {
+			WriteConsole(CharacterScreen, &" ", 1, NULL, NULL);
+		}
+
+		GoToXY(CharacterScreen, 400, 67);
+		for (int c = 0; c < 56; c++) {
+			WriteConsole(CharacterScreen, &" ", 1, NULL, NULL);
+		}
+		GoToXY(CharacterScreen, 400, 68);
+		for (int c = 0; c < 56; c++) {
+			WriteConsole(CharacterScreen, &" ", 1, NULL, NULL);
+		}
+
+		//left line
+		for (int c = 0; c < 136; c++) {
+			GoToXY(CharacterScreen, 54, 68+c);
+			WriteConsole(CharacterScreen, &"    ", 4, NULL, NULL);
+		}
+
+		//right line
+		for (int c = 0; c < 136; c++) {
+			GoToXY(CharacterScreen, 454, 68 + c);
+			WriteConsole(CharacterScreen, &"    ", 4, NULL, NULL);
+		}
+
+		//bottom line
+		GoToXY(CharacterScreen, 56, 203);
+		for (int c = 0; c < 200; c++) {
+			WriteConsole(CharacterScreen, &"  ", 2, NULL, NULL);
+		}
+		GoToXY(CharacterScreen, 56, 204);
+		for (int c = 0; c < 200; c++) {
+			WriteConsole(CharacterScreen, &"  ", 2, NULL, NULL);
+		}
+
 		return true;
 	}
 
@@ -4527,6 +7550,18 @@ public:
 			GoToXY(out, x + 4, y + 6);
 			WriteConsole(out, &"    ", 4, &output, NULL);
 			break;
+		case '-':
+			//line 1
+			//line 2
+			//line 3
+			//line 4
+			GoToXY(out, x, y + 3);
+			WriteConsole(out, &"            ", 12, &output, NULL);
+			//line 5
+			//line 6
+
+			//line 7
+			break;
 		default:
 
 			break;
@@ -4540,46 +7575,1272 @@ public:
 		}
 	}
 
-	bool LoadBrick() {
+	bool LoadGenericMenu() {
+		SetConsoleScreenBufferSize(GenericScreen, SCREEN_SIZE);
+
+		SetConsoleTextAttribute(GenericScreen, 1 * 16);
+		//top line
+		GoToXY(GenericScreen, 56, 67);
+		for (int c = 0; c < 200; c++) {
+			WriteConsole(GenericScreen, &"  ", 2, NULL, NULL);
+		}
+		GoToXY(GenericScreen, 56, 68);
+		for (int c = 0; c < 200; c++) {
+			WriteConsole(GenericScreen, &"  ", 2, NULL, NULL);
+		}
+
+		//left line
+		for (int c = 0; c < 136; c++) {
+			GoToXY(GenericScreen, 54, 68 + c);
+			WriteConsole(GenericScreen, &"    ", 4, NULL, NULL);
+		}
+
+		//right line
+		for (int c = 0; c < 136; c++) {
+			GoToXY(GenericScreen, 454, 68 + c);
+			WriteConsole(GenericScreen, &"    ", 4, NULL, NULL);
+		}
+
+		//bottom line
+		GoToXY(GenericScreen, 56, 203);
+		for (int c = 0; c < 200; c++) {
+			WriteConsole(GenericScreen, &"  ", 2, NULL, NULL);
+		}
+		GoToXY(GenericScreen, 56, 204);
+		for (int c = 0; c < 200; c++) {
+			WriteConsole(GenericScreen, &"  ", 2, NULL, NULL);
+		}
+		return true;
+	}
+	bool LoadBomb() { // Anthony's Attempt
 
 		DWORD output;
 
-		SetConsoleTextAttribute(brickSprites, 9 * 16);
+		// SetConsoleTextAttribute(bombSprites, 1 * 16); // Colour
 
-		for (int i = 0; i < 8; i++) {
-			GoToXY(brickSprites, 0, i);
-			WriteConsole(brickSprites, &"                ", 16, &output, NULL);
+		for (int i = 0; i < 14; i++) {// Draws Row (i = y size)
+			GoToXY(bombSprites, 0, i);	 //Position of pixel
+			for (int c = 0; c < 14; c++) { // Draws Col (c = x size)
+				
+				
+
+				if (i == 0)//row
+				{
+					if (c == 8)//col
+					{
+						SetConsoleTextAttribute(bombSprites, 15 * 16); // White
+						WriteConsole(bombSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					else
+					{
+						SetConsoleTextAttribute(bombSprites, 7);
+						WriteConsole(bombSprites, &"  ", 2, &output, NULL);
+					}
+
+				}
+				if (i == 1)//row
+				{
+					if (c == 8)//col
+					{
+						SetConsoleTextAttribute(bombSprites, 15 * 16); // White
+						WriteConsole(bombSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					else
+					{
+						SetConsoleTextAttribute(bombSprites, 7);
+						WriteConsole(bombSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 2)//row
+				{
+					if (c == 9)//col
+					{
+						SetConsoleTextAttribute(bombSprites, 15 * 16); // White
+						WriteConsole(bombSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					else
+					{
+						SetConsoleTextAttribute(bombSprites, 7);
+						WriteConsole(bombSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 3)//row
+				{
+					if (c == 10)//col
+					{
+						SetConsoleTextAttribute(bombSprites, 15 * 16); // White
+						WriteConsole(bombSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					else
+					{
+						SetConsoleTextAttribute(bombSprites, 7);
+						WriteConsole(bombSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 4)//row
+				{
+					if (c == 10)//col
+					{
+						SetConsoleTextAttribute(bombSprites, 15 * 16); // White
+						WriteConsole(bombSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					else
+					{
+						SetConsoleTextAttribute(bombSprites, 7);
+						WriteConsole(bombSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 5)//row
+				{
+					if (c == 9)//col
+					{
+						SetConsoleTextAttribute(bombSprites, 15 * 16); // White
+						WriteConsole(bombSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					else
+					{
+						SetConsoleTextAttribute(bombSprites, 7);
+						WriteConsole(bombSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 6)//row
+				{
+					if (c > 4 && c < 9)//col
+					{
+						SetConsoleTextAttribute(bombSprites, 1 * 16); // Blue
+						WriteConsole(bombSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					else
+					{
+						SetConsoleTextAttribute(bombSprites, 7);
+						WriteConsole(bombSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 7)//row
+				{
+					if (c > 3 && c < 10)//col
+					{
+						if (c == 5 || c == 6)
+						{
+							SetConsoleTextAttribute(bombSprites, 9 * 16); // Blue
+							WriteConsole(bombSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+						}
+						else {
+							SetConsoleTextAttribute(bombSprites, 1 * 16); // Blue
+							WriteConsole(bombSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+						}
+					}
+					else
+					{
+						SetConsoleTextAttribute(bombSprites, 7);
+						WriteConsole(bombSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 8)//row
+				{
+					if (c > 2 && c < 11)//col
+					{
+						if (c == 3)
+						{
+							SetConsoleTextAttribute(bombSprites, 1 * 16); // Blue
+							WriteConsole(bombSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+						}
+						if (c == 4 || c == 6)
+						{
+							SetConsoleTextAttribute(bombSprites, 9 * 16); // Blue
+							WriteConsole(bombSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+						}
+						if (c == 5)
+						{
+							SetConsoleTextAttribute(bombSprites, 15 * 16); // Blue
+							WriteConsole(bombSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+						}
+						if (c > 6 && c < 11)
+						{
+							SetConsoleTextAttribute(bombSprites, 1 * 16); // Blue
+							WriteConsole(bombSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+						}
+					}
+					else
+					{
+						SetConsoleTextAttribute(bombSprites, 7);
+						WriteConsole(bombSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				
+				if (i == 9) {
+					if (c > 2 && c < 11)
+					{
+						if (c == 4 || c == 5)
+						{
+							SetConsoleTextAttribute(bombSprites, 9 * 16); // Blue
+							WriteConsole(bombSprites, &"  ", 2, &output, NULL);
+						}
+						else {
+							SetConsoleTextAttribute(bombSprites, 1 * 16); // Blue
+							WriteConsole(bombSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+						}
+					
+					}
+					else
+					{
+						SetConsoleTextAttribute(bombSprites, 7);
+						WriteConsole(bombSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 10 || i == 11)
+				{
+					if (c > 2 && c < 11)//col
+					{
+							SetConsoleTextAttribute(bombSprites, 1 * 16); // Blue
+							WriteConsole(bombSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					else
+					{
+						SetConsoleTextAttribute(bombSprites, 7);
+						WriteConsole(bombSprites, &"  ", 2, &output, NULL);
+					}
+				}
+
+				if (i == 12)//row
+				{
+					if (c > 3 && c < 10)//col
+					{
+						SetConsoleTextAttribute(bombSprites, 1 * 16); // Blue
+						WriteConsole(bombSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					else
+					{
+						SetConsoleTextAttribute(bombSprites, 7);
+						WriteConsole(bombSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 13)//row
+				{
+					if (c > 4 && c < 9)//col
+					{
+						SetConsoleTextAttribute(bombSprites, 1 * 16); // Blue
+						WriteConsole(bombSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					else
+					{
+						SetConsoleTextAttribute(bombSprites, 7);
+						WriteConsole(bombSprites, &"  ", 2, &output, NULL);
+					}
+				}
+			}
 		}
 
-		SetConsoleTextAttribute(brickSprites, 1 * 16);
+		//Red Frame
+		for (int i = 0; i < 14; i++) {// Draws Row (i = y size)
+			GoToXY(bombSprites, 0, i+15);	 //Position of pixel
+			for (int c = 0; c < 14; c++) { // Draws Col (c = x size)
 
-		GoToXY(brickSprites, 0, 3);
-		WriteConsole(brickSprites, &"                ", 16, &output, NULL);
+				if (i == 0)//row
+				{
+					if (c == 8 )//col
+					{
+						SetConsoleTextAttribute(bombSprites, 15 * 16); // White
+						WriteConsole(bombSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					else
+					{
+						SetConsoleTextAttribute(bombSprites, 7);
+						WriteConsole(bombSprites, &"  ", 2, &output, NULL);
+					}
 
-		for (int i = 0; i < 3; i++) {
-			GoToXY(brickSprites, 2, i);
-			WriteConsole(brickSprites, "  ", 2, &output, NULL);
+				}
+				if (i == 1)//row
+				{
+					if (c == 8 )//col
+					{
+						SetConsoleTextAttribute(bombSprites, 15 * 16); // White
+						WriteConsole(bombSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					else
+					{
+						SetConsoleTextAttribute(bombSprites, 7);
+						WriteConsole(bombSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 2)//row
+				{
+					if (c == 9 )//col
+					{
+						SetConsoleTextAttribute(bombSprites, 15 * 16); // White
+						WriteConsole(bombSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					else
+					{
+						SetConsoleTextAttribute(bombSprites, 7);
+						WriteConsole(bombSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 3)//row
+				{
+					if (c == 10 )//col
+					{
+						SetConsoleTextAttribute(bombSprites, 15 * 16); // White
+						WriteConsole(bombSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					else
+					{
+						SetConsoleTextAttribute(bombSprites, 7);
+						WriteConsole(bombSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 4)//row
+				{
+					if (c == 10)//col
+					{
+						SetConsoleTextAttribute(bombSprites, 15 * 16); // White
+						WriteConsole(bombSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					else
+					{
+						SetConsoleTextAttribute(bombSprites, 7);
+						WriteConsole(bombSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 5)//row
+				{
+					if (c == 9 )//col
+					{
+						SetConsoleTextAttribute(bombSprites, 15 * 16); // White
+						WriteConsole(bombSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					else
+					{
+						SetConsoleTextAttribute(bombSprites, 7);
+						WriteConsole(bombSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 6)//row
+				{
+					if (c > 4  && c < 9 )//col
+					{
+						SetConsoleTextAttribute(bombSprites, 4 * 16); // RED
+						WriteConsole(bombSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					else
+					{
+						SetConsoleTextAttribute(bombSprites, 7);
+						WriteConsole(bombSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 7)//row
+				{
+					if (c > 3  && c < 10)//col
+					{
+						if (c == 5 || c == 6 )
+						{
+							SetConsoleTextAttribute(bombSprites, 12 * 16); // RED
+							WriteConsole(bombSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+						}
+						else {
+							SetConsoleTextAttribute(bombSprites, 4 * 16); // RED
+							WriteConsole(bombSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+						}
+					}
+					else
+					{
+						SetConsoleTextAttribute(bombSprites, 7);
+						WriteConsole(bombSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 8)//row
+				{
+					if (c > 2 && c < 11)//col
+					{
+						if (c == 3)
+						{
+							SetConsoleTextAttribute(bombSprites, 4 * 16); // RED
+							WriteConsole(bombSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+						}
+						if (c == 4 || c == 6 )
+						{
+							SetConsoleTextAttribute(bombSprites, 12 * 16); // RED
+							WriteConsole(bombSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+						}
+						if (c == 5)
+						{
+							SetConsoleTextAttribute(bombSprites, 15 * 16); // WHITE
+							WriteConsole(bombSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+						}
+						if (c > 6 && c < 11)
+						{
+							SetConsoleTextAttribute(bombSprites, 4 * 16); // RED
+							WriteConsole(bombSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+						}
+					}
+					else
+					{
+						SetConsoleTextAttribute(bombSprites, 7);
+						WriteConsole(bombSprites, &"  ", 2, &output, NULL);
+					}
+				}
+
+				if (i == 9) {
+					if (c > 2 && c < 11)
+					{
+						if (c == 4 || c == 5)
+						{
+							SetConsoleTextAttribute(bombSprites, 12 * 16); // RED
+							WriteConsole(bombSprites, &"  ", 2, &output, NULL);
+						}
+						else {
+							SetConsoleTextAttribute(bombSprites, 4 * 16); // RED
+							WriteConsole(bombSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+						}
+
+					}
+					else
+					{
+						SetConsoleTextAttribute(bombSprites, 7);
+						WriteConsole(bombSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 10  || i == 11)
+				{
+					if (c > 2 && c < 11)//col
+					{
+						SetConsoleTextAttribute(bombSprites, 4 * 16); // RED
+						WriteConsole(bombSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					else
+					{
+						SetConsoleTextAttribute(bombSprites, 7);
+						WriteConsole(bombSprites, &"  ", 2, &output, NULL);
+					}
+				}
+
+				if (i == 12)//row
+				{
+					if (c > 3 && c < 10)//col
+					{
+						SetConsoleTextAttribute(bombSprites, 4 * 16); // RED
+						WriteConsole(bombSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					else
+					{
+						SetConsoleTextAttribute(bombSprites, 7);
+						WriteConsole(bombSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 13)//row 14
+				{
+					if (c > 4 && c < 9)//col
+					{
+						SetConsoleTextAttribute(bombSprites, 4 * 16); // RED
+						WriteConsole(bombSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					else
+					{
+						SetConsoleTextAttribute(bombSprites, 7);
+						WriteConsole(bombSprites, &"  ", 2, &output, NULL);
+					}
+				}
+
+			}
+		}
+		return true;
+	}
+
+	bool LoadArrow() { // Anthony's Attempt
+		DWORD output;
+		// SetConsoleTextAttribute(bombSprites, 1 * 16); // Colour
+
+		//Down
+		for (int i = 0; i < 17; i++) {// Draws Row (i = y size)
+			GoToXY(arrowSprites, 0, i);	 //Position of pixel
+			for (int c = 0; c < 17; c++) { // Draws Col (c = x size)
+				if (i == 0)
+				{
+						SetConsoleTextAttribute(arrowSprites, 7);
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL);
+			    }
+				if (i == 1) {
+					if (c == 6 || c == 10)//col
+					{
+						SetConsoleTextAttribute(arrowSprites, 22 * 16); // Orange
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					if (c == 7 || c == 9)//col
+					{
+						SetConsoleTextAttribute(arrowSprites, 7); // Empty
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					if (c == 8)//col
+					{
+						SetConsoleTextAttribute(arrowSprites, 2 * 16); // Green
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					if(c < 6)
+					{
+						SetConsoleTextAttribute(arrowSprites, 7);
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL);
+					}
+					if (c > 10)
+					{
+						SetConsoleTextAttribute(arrowSprites, 7);
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 2) {
+					if (c == 7 || c == 9)//col
+					{
+						SetConsoleTextAttribute(arrowSprites, 22 * 16); // Orange
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					if (c == 8)//col
+					{
+						SetConsoleTextAttribute(arrowSprites, 2 * 16); // Green
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					if (c < 7)
+					{
+						SetConsoleTextAttribute(arrowSprites, 7);  //Empty
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL);
+					}
+					if (c > 9)
+					{
+						SetConsoleTextAttribute(arrowSprites, 7);
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 3) {
+					if (c == 6 || c == 10)//col
+					{
+						SetConsoleTextAttribute(arrowSprites, 22 * 16); // Orange
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					if (c == 7 || c == 9)//col
+					{
+						SetConsoleTextAttribute(arrowSprites, 8 * 16); // Dark Grey
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					if (c == 8)//col
+					{
+						SetConsoleTextAttribute(arrowSprites, 2 * 16); // Green
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					if (c < 6)
+					{
+						SetConsoleTextAttribute(arrowSprites, 7);
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL);
+					}
+					if (c > 10)
+					{
+						SetConsoleTextAttribute(arrowSprites, 7);
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 4) {
+					if (c == 7 || c == 9)//col
+					{
+						SetConsoleTextAttribute(arrowSprites, 22 * 16); // Orange
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					if (c == 8)//col
+					{
+						SetConsoleTextAttribute(arrowSprites, 2 * 16); // Green
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					if (c < 7)
+					{
+						SetConsoleTextAttribute(arrowSprites, 7);
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL);
+					}
+					if (c > 9)
+					{
+						SetConsoleTextAttribute(arrowSprites, 7);
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 5) {
+					if (c == 6 || c == 10)//col
+					{
+						SetConsoleTextAttribute(arrowSprites, 22 * 16); // Orange
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					if (c == 7 || c == 9)//col
+					{
+						SetConsoleTextAttribute(arrowSprites, 8 * 16); // Dark Grey
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					if (c == 8)//col
+					{
+						SetConsoleTextAttribute(arrowSprites, 2 * 16); // Orange
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					if (c < 6)
+					{
+						SetConsoleTextAttribute(arrowSprites, 7);
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL);
+					}
+					if (c > 10)
+					{
+						SetConsoleTextAttribute(arrowSprites, 7);
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 6) {
+					if (c == 7 || c == 9)//col
+					{
+						SetConsoleTextAttribute(arrowSprites, 22 * 16); // Orange
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					if (c == 8)//col
+					{
+						SetConsoleTextAttribute(arrowSprites, 2 * 16); // Green
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					if (c < 7)
+					{
+						SetConsoleTextAttribute(arrowSprites, 7);  //Empty
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL);
+					}
+					if (c > 9)
+					{
+						SetConsoleTextAttribute(arrowSprites, 7);
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 7 || i == 8 || i == 9 || i == 10 || i == 11 || i == 12) {
+					if (c == 8)//col
+					{
+						SetConsoleTextAttribute(arrowSprites, 2 * 16); // Green
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					else{
+						SetConsoleTextAttribute(arrowSprites, 7);  //Empty
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 13) {
+					if (c == 7)//col
+					{
+						SetConsoleTextAttribute(arrowSprites, 15 * 16); //Pale 
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					if (c == 8)//col
+					{
+						SetConsoleTextAttribute(arrowSprites, 2 * 16); // Green
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					if (c == 9)//col
+					{
+						SetConsoleTextAttribute(arrowSprites, 15 * 16); //Pale 
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					if (c < 7)
+					{
+						SetConsoleTextAttribute(arrowSprites, 7);  //Empty
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL);
+					}
+					if(c > 9)
+					{
+						SetConsoleTextAttribute(arrowSprites, 7);  //Empty
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 14) {
+					if (c > 6 && c < 10)//col
+					{
+						SetConsoleTextAttribute(arrowSprites, 15 * 16); //Pale 
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					else{
+						SetConsoleTextAttribute(arrowSprites, 7);  //Empty
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 15 || i == 16) {
+					if (c == 8)//col
+					{
+						SetConsoleTextAttribute(arrowSprites, 15 * 16); //Pale 
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					else
+					{
+						SetConsoleTextAttribute(arrowSprites, 7);  //Empty
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL);
+					}
+				}
+
+
+			}
 		}
 
-		for (int i = 4; i < 8; i++) {
-			GoToXY(brickSprites, 10, i);
-			WriteConsole(brickSprites, "  ", 2, &output, NULL);
+
+		/////////////////////////////////////////////////////////////////////////////////////////////////////
+
+		//Right
+		for (int i = 0; i < 17; i++) {// Draws Row (i = y size)
+			GoToXY(arrowSprites, 35, i);	 //Position of pixel
+			for (int c = 0; c < 17; c++) { // Draws Col (c = x size)
+
+				if (i == 0 || i == 1 || i == 2 || i == 3 || i == 4 || i == 5)
+				{
+					if (c >= 0 && c < 17)
+					{
+						SetConsoleTextAttribute(arrowSprites, 7);
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 6) {
+					if (c == 1 || c == 3 || c == 5)//col
+					{
+						SetConsoleTextAttribute(arrowSprites, 6 * 16); // Orange
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					else
+					{
+						SetConsoleTextAttribute(arrowSprites, 7);
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 7) {
+					if (c == 2 || c == 4 || c == 6)//col
+					{
+						SetConsoleTextAttribute(arrowSprites, 22 * 16); // Orange
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					if (c == 3 || c == 5)//col
+					{
+						SetConsoleTextAttribute(arrowSprites, 8 * 16); // dark grey
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					if (c == 13 || c == 14)//col
+					{
+						SetConsoleTextAttribute(arrowSprites, 15 * 16); // White
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					if (c == 0 || c == 1)//col
+					{
+						SetConsoleTextAttribute(arrowSprites, 7); // Empty
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					if (c > 6 && c < 13)
+					{
+						SetConsoleTextAttribute(arrowSprites, 7);
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 8) {
+					if (c > 0 && c < 14)//col
+					{
+						SetConsoleTextAttribute(arrowSprites, 2 * 16); // Green
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					if (c > 13 && c < 17)//col
+					{
+						SetConsoleTextAttribute(arrowSprites, 15 * 16); // White
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					if (c == 0)
+					{
+						SetConsoleTextAttribute(arrowSprites, 7);
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 9) {
+					if (c == 2 || c == 4 || c == 6)//col
+					{
+						SetConsoleTextAttribute(arrowSprites, 22 * 16); // Orange
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					if (c == 3 || c == 5)//col
+					{
+						SetConsoleTextAttribute(arrowSprites, 8 * 16); // dark grey
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					if (c == 13 || c == 14)//col
+					{
+						SetConsoleTextAttribute(arrowSprites, 15 * 16); //white
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					if (c == 1 || c == 0)//col
+					{
+						SetConsoleTextAttribute(arrowSprites, 7); // Empty
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					if (c > 6 && c < 13)
+					{
+						SetConsoleTextAttribute(arrowSprites, 7);
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 10) {
+					if (c == 1 || c == 3 || c == 5)//col
+					{
+						SetConsoleTextAttribute(arrowSprites, 22 * 16); // Orange
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					if (c == 0 || c == 2 || c == 4)//col
+					{
+						SetConsoleTextAttribute(arrowSprites, 7); // Empty
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					if (c > 5)
+					{
+						SetConsoleTextAttribute(arrowSprites, 7);
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i > 10 && i < 17) {
+					SetConsoleTextAttribute(arrowSprites, 7);
+					WriteConsole(arrowSprites, &"  ", 2, &output, NULL);
+				}
+				
+
+
+			}
+		}// Right
+
+		//Left
+		for (int i = 0; i < 17; i++) {// Draws Row (i = y size)
+			GoToXY(arrowSprites, 71, i);	 //Position of pixel
+			for (int c = 0; c < 17; c++) { // Draws Col (c = x size)
+
+				if (i == 0 || i == 1 || i == 2 || i == 3 || i == 4 || i == 5)
+				{
+					if (c >= 0 && c < 17)
+					{
+						SetConsoleTextAttribute(arrowSprites, 7);
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 6) {
+					if (c == 15 || c == 13 || c == 11)//col
+					{
+						SetConsoleTextAttribute(arrowSprites, 6 * 16); // Orange
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					else
+					{
+						SetConsoleTextAttribute(arrowSprites, 7);
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 7) {
+					if (c == 14 || c == 12 || c == 10)//col
+					{
+						SetConsoleTextAttribute(arrowSprites, 22 * 16); // Orange
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					if (c == 13 || c == 11)//col
+					{
+						SetConsoleTextAttribute(arrowSprites, 8 * 16); // dark grey
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					if (c == 2 || c == 3)//col
+					{
+						SetConsoleTextAttribute(arrowSprites, 15 * 16); // White
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					if (c == 0 || c == 1)//col
+					{
+						SetConsoleTextAttribute(arrowSprites, 7); // Empty
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					if (c > 3 && c < 10)
+					{
+						SetConsoleTextAttribute(arrowSprites, 7);
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 8) {
+					if (c > 3 && c < 17)//col
+					{
+						SetConsoleTextAttribute(arrowSprites, 2 * 16); // Green
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					if (c >= 0 && c < 3)//col
+					{
+						SetConsoleTextAttribute(arrowSprites, 15 * 16); // White
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					if (c == 16)
+					{
+						SetConsoleTextAttribute(arrowSprites, 7);
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 9) {
+					if (c == 14 || c == 12 || c == 10)//col
+					{
+						SetConsoleTextAttribute(arrowSprites, 22 * 16); // Orange
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					if (c == 13 || c == 11)//col
+					{
+						SetConsoleTextAttribute(arrowSprites, 8 * 16); // dark grey
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					if (c == 2 || c == 3)//col
+					{
+						SetConsoleTextAttribute(arrowSprites, 15 * 16); //white
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					if (c == 0 || c == 1)//col
+					{
+						SetConsoleTextAttribute(arrowSprites, 7); // Empty
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					if (c > 3 && c < 10)
+					{
+						SetConsoleTextAttribute(arrowSprites, 7);
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 10) {
+					if (c == 15 || c == 13 || c == 11)//col
+					{
+						SetConsoleTextAttribute(arrowSprites, 22 * 16); // Orange
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					else
+					{
+						SetConsoleTextAttribute(arrowSprites, 7); // Empty
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+				}
+				if (i > 10 && i < 17) {
+					SetConsoleTextAttribute(arrowSprites, 7);
+					WriteConsole(arrowSprites, &"  ", 2, &output, NULL);
+				}
+
+
+
+			}
 		}
 
-		GoToXY(brickSprites, 0, 7);
-		WriteConsole(brickSprites, "                ", 16, &output, NULL);
+		//Up
+		for (int i = 0; i < 17; i++) {// Draws Row (i = y size)
+			GoToXY(arrowSprites, 107, i);	 //Position of pixel
+			for (int c = 0; c < 17; c++) { // Draws Col (c = x size)
+				if (i == 16)
+				{
+					SetConsoleTextAttribute(arrowSprites, 7);
+					WriteConsole(arrowSprites, &"  ", 2, &output, NULL);
+				}
+				if (i == 15) {
+					if (c == 6 || c == 10)//col
+					{
+						SetConsoleTextAttribute(arrowSprites, 22 * 16); // Orange
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					if (c == 7 || c == 9)//col
+					{
+						SetConsoleTextAttribute(arrowSprites, 7); // Empty
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					if (c == 8)//col
+					{
+						SetConsoleTextAttribute(arrowSprites, 2 * 16); // Green
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					if (c < 6)
+					{
+						SetConsoleTextAttribute(arrowSprites, 7);
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL);
+					}
+					if (c > 10)
+					{
+						SetConsoleTextAttribute(arrowSprites, 7);
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 14) {
+					if (c == 7 || c == 9)//col
+					{
+						SetConsoleTextAttribute(arrowSprites, 22 * 16); // Orange
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					if (c == 8)//col
+					{
+						SetConsoleTextAttribute(arrowSprites, 2 * 16); // Green
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					if (c < 7)
+					{
+						SetConsoleTextAttribute(arrowSprites, 7);  //Empty
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL);
+					}
+					if (c > 9)
+					{
+						SetConsoleTextAttribute(arrowSprites, 7);
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 13) {
+					if (c == 6 || c == 10)//col
+					{
+						SetConsoleTextAttribute(arrowSprites, 22 * 16); // Orange
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					if (c == 7 || c == 9)//col
+					{
+						SetConsoleTextAttribute(arrowSprites, 8 * 16); // Dark Grey
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					if (c == 8)//col
+					{
+						SetConsoleTextAttribute(arrowSprites, 2 * 16); // Green
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					if (c < 6)
+					{
+						SetConsoleTextAttribute(arrowSprites, 7);
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL);
+					}
+					if (c > 10)
+					{
+						SetConsoleTextAttribute(arrowSprites, 7);
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 12) {
+					if (c == 7 || c == 9)//col
+					{
+						SetConsoleTextAttribute(arrowSprites, 22 * 16); // Orange
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					if (c == 8)//col
+					{
+						SetConsoleTextAttribute(arrowSprites, 2 * 16); // Green
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					if (c < 7)
+					{
+						SetConsoleTextAttribute(arrowSprites, 7);
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL);
+					}
+					if (c > 9)
+					{
+						SetConsoleTextAttribute(arrowSprites, 7);
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 11) {
+					if (c == 6 || c == 10)//col
+					{
+						SetConsoleTextAttribute(arrowSprites, 22 * 16); // Orange
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					if (c == 7 || c == 9)//col
+					{
+						SetConsoleTextAttribute(arrowSprites, 8 * 16); // Dark Grey
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					if (c == 8)//col
+					{
+						SetConsoleTextAttribute(arrowSprites, 2 * 16); // Orange
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					if (c < 6)
+					{
+						SetConsoleTextAttribute(arrowSprites, 7);
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL);
+					}
+					if (c > 10)
+					{
+						SetConsoleTextAttribute(arrowSprites, 7);
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 10) {
+					if (c == 7 || c == 9)//col
+					{
+						SetConsoleTextAttribute(arrowSprites, 22 * 16); // Orange
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					if (c == 8)//col
+					{
+						SetConsoleTextAttribute(arrowSprites, 2 * 16); // Green
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					if (c < 7)
+					{
+						SetConsoleTextAttribute(arrowSprites, 7);  //Empty
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL);
+					}
+					if (c > 9)
+					{
+						SetConsoleTextAttribute(arrowSprites, 7);
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i > 3 && i < 10) {
+					if (c == 8)//col
+					{
+						SetConsoleTextAttribute(arrowSprites, 2 * 16); // Green
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					else {
+						SetConsoleTextAttribute(arrowSprites, 7);  //Empty
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 3) {
+					if (c == 7)//col
+					{
+						SetConsoleTextAttribute(arrowSprites, 15 * 16); //Pale 
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					if (c == 8)//col
+					{
+						SetConsoleTextAttribute(arrowSprites, 2 * 16); // Green
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					if (c == 9)//col
+					{
+						SetConsoleTextAttribute(arrowSprites, 15 * 16); //Pale 
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					if (c < 7)
+					{
+						SetConsoleTextAttribute(arrowSprites, 7);  //Empty
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL);
+					}
+					if (c > 9)
+					{
+						SetConsoleTextAttribute(arrowSprites, 7);  //Empty
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 2) {
+					if (c > 6 && c < 10)//col
+					{
+						SetConsoleTextAttribute(arrowSprites, 15 * 16); //Pale 
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					else {
+						SetConsoleTextAttribute(arrowSprites, 7);  //Empty
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 1 || i == 0) {
+					if (c == 8)//col
+					{
+						SetConsoleTextAttribute(arrowSprites, 15 * 16); //Pale 
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					else
+					{
+						SetConsoleTextAttribute(arrowSprites, 7);  //Empty
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL);
+					}
+				}
 
-		SetConsoleTextAttribute(brickSprites, 11 * 16);
 
-		GoToXY(brickSprites, 4, 0);
-		WriteConsole(brickSprites, "  ", 2, &output, NULL);
-
-		GoToXY(brickSprites, 12, 4);
-		WriteConsole(brickSprites, "  ", 2, &output, NULL);
+			}
+		}
 
 		return true;
 	}
 
+	bool LoadFireball() { // Anthony's Attempt
+
+		DWORD output;
+
+		// SetConsoleTextAttribute(bombSprites, 1 * 16); // Colour
+
+		for (int i = 0; i < 10; i++) {// Draws Row (i = y size)
+			GoToXY(fireballSprites, 0, i);	 //Position of pixel
+			for (int c = 0; c < 10; c++) { // Draws Col (c = x size)
+				if (i == 0 || i == 9) {
+					if (c > 2 && c < 7)//col
+					{
+						SetConsoleTextAttribute(fireballSprites, 12 * 16); //RED 
+						WriteConsole(fireballSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					else
+					{
+						SetConsoleTextAttribute(fireballSprites, 7);  //Empty
+						WriteConsole(fireballSprites, &"  ", 2, &output, NULL);
+					}
+				}
+
+				if (i == 1 || i == 8) {
+					if (c > 1 && c < 8)//col
+					{
+						SetConsoleTextAttribute(fireballSprites, 12 * 16); //RED 
+						WriteConsole(fireballSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					else
+					{
+						SetConsoleTextAttribute(fireballSprites, 7);  //Empty
+						WriteConsole(fireballSprites, &"  ", 2, &output, NULL);
+					}
+				}
+
+				if (i == 2 || i == 7) {
+					if (c == 2 || c == 3 || c == 6 || c == 7)//col
+					{
+						SetConsoleTextAttribute(fireballSprites, 12 * 16); //RED 
+						WriteConsole(fireballSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					if(c == 0 || c == 1)
+					{
+						SetConsoleTextAttribute(fireballSprites, 7);  //Empty
+						WriteConsole(fireballSprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 4 || c == 5)
+					{
+						SetConsoleTextAttribute(fireballSprites, 22 * 16);  //Orange
+						WriteConsole(fireballSprites, &"  ", 2, &output, NULL);
+					}
+				}
+
+				if (i == 3 || i == 6) {// Row 4
+					if (c == 1 || c == 2 || c == 7 || c == 8)//col
+					{
+						SetConsoleTextAttribute(fireballSprites, 12 * 16); //RED 
+						WriteConsole(fireballSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					if (c == 0)
+					{
+						SetConsoleTextAttribute(fireballSprites, 7);  //Empty
+						WriteConsole(fireballSprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 3 || c == 4 || c == 5 || c == 6)
+					{
+						SetConsoleTextAttribute(fireballSprites, 22 * 16);  //Orange
+						WriteConsole(fireballSprites, &"  ", 2, &output, NULL);
+					}
+				}
+
+				if (i == 4 || i == 5) {
+					if (c == 1 || c == 2 || c == 7 || c == 8)//col
+					{
+						SetConsoleTextAttribute(fireballSprites, 12 * 16); //RED 
+						WriteConsole(fireballSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					if (c == 0)
+					{
+						SetConsoleTextAttribute(fireballSprites, 7);  //Empty
+						WriteConsole(fireballSprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 3 || c == 6)
+					{
+						SetConsoleTextAttribute(fireballSprites, 22 * 16);  //Orange
+						WriteConsole(fireballSprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 4 || c == 5)
+					{
+						SetConsoleTextAttribute(fireballSprites, 15 * 16);  //White
+						WriteConsole(fireballSprites, &"  ", 2, &output, NULL);
+					}
+				}
+
+				
+			}
+		}
+
+		return true;
+	}
 };
 
 SpriteSheets Sprites;
