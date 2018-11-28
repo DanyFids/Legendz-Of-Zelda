@@ -7,7 +7,7 @@ DWORD WINAPI DrawThread(LPVOID lpParameter)
 	return 0;
 }
 
-const int TO_LOAD = 22;
+const int TO_LOAD = 23;
 int LOADED = 0;
 DWORD WINAPI LoadThread(LPVOID lpParameter)
 {
@@ -60,6 +60,9 @@ DWORD WINAPI LoadThread(LPVOID lpParameter)
 		LOADED++;
 	}
 	if (Sprites.LoadFireball()) {
+		LOADED++;
+	}
+	if (Sprites.LoadStatue()) {
 		LOADED++;
 	}
 

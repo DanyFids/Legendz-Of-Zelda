@@ -161,9 +161,10 @@ class Explosion : public Projectile {
 private:
 	
 
-public:	   // x,y coord,                  width*2,height,lifetime, damage, speed 
-	Explosion(int x, int y) : Projectile(x, y, 32, 7, 1.0f, 3) {
+public:	   // x,y coord,                  width*2,height,lifetime, damage, 
+	Explosion(int x, int y) : Projectile(x, y, 32, 7, 2.0f, 3) {
 		this->setEnum(PT_EXPLOSION);
+		
 		 
 	}
 
@@ -188,11 +189,13 @@ private:
 	int startX;
 	int startY;
 	float startTime;
+	bool rebounded = false;
 
-public:	   // x,y coord,                  width*2,height,		   || lifetime, damage, speed 
-	Boomerang(int x, int y, int x_spd, int y_spd, Direction _dir) : Projectile(x, y, 32, 7, 10, 1) {
-		this->setDir(_dir);
+public:	   // x,y coord,                  width*2,height,		   || lifetime, damage,  
+	Boomerang(int x, int y, int x_spd, int y_spd) : Projectile(x, y, 20, 10, 5.0f, 1) {
+		//this->setDir(_dir);
 		this->setEnum(PT_BOOMERANG);
+		this->SetSpriteSheet(Sprites.fireballSprites);
 
 		xSpd = x_spd;
 		ySpd = y_spd;
@@ -207,33 +210,29 @@ public:	   // x,y coord,                  width*2,height,		   || lifetime, damag
 		return willHit(e, 0, 0);
 	}
 
+	void rebound() {
+
+		if (this->getTime() <= (this->startTime / 2)&& !rebounded)
+		{
+			this->xSpd *=(-1);
+			this->ySpd *=(-1);
+			rebounded = true;
+		}
+	}
+
 	void Update(float dt)
 	{
 		move();
+		rebound();
 		this->setTime(this->getTime() - dt);
-	}
-
-	void rebound() {
-
-		if (this->getTime() == startTime / 2)
+		
+		if (this->GetX() == this->startX && this->GetY() == this->startY)
 		{
-			switch (this->GetDir())
-			{
-			case Left:
-				this->SetDir(Right);
-				break;
-			case Right:
-				this->SetDir(Left);
-				break;
-			case Up:
-				this->SetDir(Down);
-				break;
-			case Down:
-				this->SetDir(Up);
-				break;
-			}
+			this->setTime(0.0f);
 		}
 	}
+
+	
 	
 
 };

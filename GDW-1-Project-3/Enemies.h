@@ -7,9 +7,9 @@ private:
 	bool l = false, r = false, u = false, d = false;
 public:
 	SpikeTrap(int x, int y) :Enemy(x, y, 32, 16, 1, 1) {
-		SetNumAnim(1);
-		
-		SetSpriteSheet(Sprites.spiketrapSprites);
+		SetNumAnim(2);
+		this->SetCurAnim(1);
+		SetSpriteSheet(Sprites.statueSprites);
 
 		origin.X = x;
 		origin.Y = y;

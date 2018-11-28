@@ -48,7 +48,7 @@ Player player(0, 0);
 Player_Info * player_file;
 // Non-Player entities
 std::vector<Enemy*> enemies = {new Rope(80, 10),new SpikeTrap(400, 3),new SpikeTrap(400, 200),new Gel(50, 50), new Keese(100, 100) };
-std::vector<Projectile*> projectiles = {new Bomb(150,150), new Arrow(190,150,0,0,Down), new Fireball(230,150,0.0f,0.0f)};
+std::vector<Projectile*> projectiles = {new Bomb(150,150), new Arrow(190,150,0,0,Down), new Fireball(230,150,0.0f,0.0f), new Boomerang(250,150,0.0f,-2.0f)};
 std::vector<Terrain*> roomTer = {new Wall(20,100), new Wall(52, 100), new Wall(84, 100)};
 
 // Menus
@@ -512,7 +512,7 @@ void Update() {
 			for (int p = 0; p < projectiles.size(); p++) {
 				if (projectiles[p]->HitDetect(enemies[e])) {
 					projectiles[p]->Hit(*enemies[e]);
-					if (projectiles[p]->getEnum() == PT_ARROW) {
+					if (projectiles[p]->getEnum() == PT_ARROW) { //Removing Projectiles When they strike an Entity
 						std::vector<Projectile*>::iterator it = projectiles.begin();
 						projectiles.erase(it + p);
 						delete projectiles[p];
@@ -538,11 +538,17 @@ void Update() {
 				enemies[e]->Update(dt);
 			}
 		}
-		for (int p = 0; p < projectiles.size(); p++) {
+		for (int p = 0; p < projectiles.size(); p++) {	// When projectiles removed by Lifetime
 			projectiles[p]->Update(dt);
 			if (projectiles[p]->getTime() <= 0){
 				std::vector<Projectile*>::iterator it = projectiles.begin();
+				if (projectiles[p]->getEnum() == PT_BOMB)
+				{
+					projectiles.push_back(new Explosion(projectiles[p]->GetX(),projectiles[p]->GetY()));
+				}
+				delete projectiles[p];
 				projectiles.erase(it + p);
+				
 			}
 		}
 

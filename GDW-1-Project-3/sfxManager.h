@@ -24,6 +24,7 @@ public:
 	}
 
 	bool LoadTitleTheme() {
+		
 		return titleThemeBGM.loadFromFile("BGM\\TitleThemeLoZ.wav");
 	}
 
@@ -34,19 +35,25 @@ public:
 
 	// SFX/BGM Players
 
+	void StopMusic() {
+		music.stop();
+	}
+
 	void PlayTitleTheme() {	//These aren't loaded, they are just streamed.
+		music.stop();
 		music.setBuffer(titleThemeBGM);
+		music.setLoop(true);
 		music.play();
 	}
 
 	void PlayDungeonTheme() {
+		music.stop();
 		music.setBuffer(dungeonThemeBGM);
+		music.setLoop(true);
 		music.play();
 	}
 
-	void StopMusic() {
-		music.stop();
-	}
+	
 
 	void PlaySwing() {
 		sound.setBuffer(swingSound);
@@ -61,4 +68,5 @@ public:
 };
 
 SoundManager sounds;
+
 

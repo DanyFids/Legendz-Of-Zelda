@@ -185,4 +185,8 @@ public:
 		e.Hurt(dmg);
 	}
 
+	void Hit() {
+
+	}
+
 };

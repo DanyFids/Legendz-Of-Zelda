@@ -148,6 +148,13 @@ public:
 		CONSOLE_TEXTMODE_BUFFER,
 		NULL);
 
+	HANDLE statueSprites = CreateConsoleScreenBuffer(
+		GENERIC_READ | GENERIC_WRITE,
+		FILE_SHARE_READ | FILE_SHARE_WRITE,
+		NULL,
+		CONSOLE_TEXTMODE_BUFFER,
+		NULL);
+
 	HANDLE holeSprites = CreateConsoleScreenBuffer(
 		GENERIC_READ | GENERIC_WRITE,
 		FILE_SHARE_READ | FILE_SHARE_WRITE,
@@ -8839,6 +8846,327 @@ public:
 
 				
 			}
+		}
+
+		return true;
+	}
+
+	bool LoadStatue() { // Anthony's Attempt
+
+		DWORD output;
+
+		// SetConsoleTextAttribute(bombSprites, 1 * 16); // Colour
+
+		for (int i = 0; i < 16; i++) {// Draws Row (i = y size)
+			GoToXY(statueSprites, 0, i);	 //Position of pixel
+			for (int c = 0; c < 16; c++) { // Draws Col (c = x size)
+				if (i == 0) {
+					if (c == 0)
+					{
+						SetConsoleTextAttribute(statueSprites, 7);  //Empty
+						WriteConsole(statueSprites, &"  ", 2, &output, NULL);
+				    }
+					if (c > 2 && c < 7)
+					{
+						SetConsoleTextAttribute(statueSprites, 7);  //Empty
+						WriteConsole(statueSprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 1 || c == 2 || c == 15) {
+						SetConsoleTextAttribute(statueSprites, 16 * 16);  //Black
+						WriteConsole(statueSprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 7 || c == 8 || c == 10 || c == 11 || c == 13 || c == 14) {
+						SetConsoleTextAttribute(statueSprites, 11 * 16);  //Aqua
+						WriteConsole(statueSprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 9|| c == 12) {
+						SetConsoleTextAttribute(statueSprites, 1 * 16);  //Dark blue
+						WriteConsole(statueSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 1) {
+					if (c == 0 || c == 3 || c == 14)
+					{
+						SetConsoleTextAttribute(statueSprites, 16 * 16);  //black
+						WriteConsole(statueSprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 4)
+					{
+						SetConsoleTextAttribute(statueSprites, 7);  //empty
+						WriteConsole(statueSprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 1 || c == 2 || c == 6 || c == 9 || c == 11) {
+						SetConsoleTextAttribute(statueSprites, 1 * 16);  //Dark blue
+						WriteConsole(statueSprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 5 || c == 7 || c == 8 || c == 10 || c == 12 || c == 13) {
+						SetConsoleTextAttribute(statueSprites, 11 * 16);  //Aqua
+						WriteConsole(statueSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 2) {
+					if (c == 0 || c == 4 || c == 13)
+					{
+						SetConsoleTextAttribute(statueSprites, 16 * 16);  //black
+						WriteConsole(statueSprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 1 || c == 2 || c == 3 || c == 7 || c == 9 || c == 11) {
+						SetConsoleTextAttribute(statueSprites, 1 * 16);  //Dark blue
+						WriteConsole(statueSprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 5 || c == 6|| c == 8 || c == 10 || c == 12) {
+						SetConsoleTextAttribute(statueSprites, 11 * 16);  //Aqua
+						WriteConsole(statueSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 3) {
+					if (c == 0 || c == 3 || c == 5 || c == 6 || c == 9 || c == 10 || c == 13 || c == 14)
+					{
+						SetConsoleTextAttribute(statueSprites, 16 * 16);  //black
+						WriteConsole(statueSprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 1 || c == 2 || c == 4 || c == 7 || c == 8 || c == 12 || c == 11) {
+						SetConsoleTextAttribute(statueSprites, 1 * 16);  //Dark blue
+						WriteConsole(statueSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 4) {
+					if (c == 0 || c == 4 || c == 6 || c == 8 || c == 11 || c == 15)
+					{
+						SetConsoleTextAttribute(statueSprites, 16 * 16);  //black
+						WriteConsole(statueSprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 1 || c == 2 || c == 5 || c == 7 || c == 12 || c == 13 || c == 14) {
+						SetConsoleTextAttribute(statueSprites, 1 * 16);  //Dark blue
+						WriteConsole(statueSprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 3) {
+						SetConsoleTextAttribute(statueSprites, 9 * 16);  //blue
+						WriteConsole(statueSprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 9 || c == 10) {
+						SetConsoleTextAttribute(statueSprites, 11 * 16);  //Colour
+						WriteConsole(statueSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 5) {
+					if (c == 0)
+					{
+						SetConsoleTextAttribute(statueSprites, 7);  //empty
+						WriteConsole(statueSprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 1 || c == 4 || c == 5 || c == 7 || c == 10 || c == 15)
+					{
+						SetConsoleTextAttribute(statueSprites, 16 * 16);  //black
+						WriteConsole(statueSprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 2 || c == 6 || c == 12 || c == 13 || c == 14) {
+						SetConsoleTextAttribute(statueSprites, 1 * 16);  //Dark blue
+						WriteConsole(statueSprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 3) {
+						SetConsoleTextAttribute(statueSprites, 9 * 16);  //blue
+						WriteConsole(statueSprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 8 || c == 9 || c == 11) {
+						SetConsoleTextAttribute(statueSprites, 11 * 16);  //Aqua
+						WriteConsole(statueSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 6) {
+					if (c == 0)
+					{
+						SetConsoleTextAttribute(statueSprites, 7);  //empty
+						WriteConsole(statueSprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 1 || c == 5 || c == 7 || c == 10 || c == 11 || c == 14)
+					{
+						SetConsoleTextAttribute(statueSprites, 16 * 16);  //black
+						WriteConsole(statueSprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 2  || c == 3|| c == 6 || c == 12 || c == 13) {
+						SetConsoleTextAttribute(statueSprites, 1 * 16);  //Dark blue
+						WriteConsole(statueSprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 4) {
+						SetConsoleTextAttribute(statueSprites, 9 * 16);  //blue
+						WriteConsole(statueSprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 8 || c == 9) {
+						SetConsoleTextAttribute(statueSprites, 11 * 16);  //Aqua
+						WriteConsole(statueSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 7) {
+					if (c == 0)
+					{
+						SetConsoleTextAttribute(statueSprites, 7);  //empty
+						WriteConsole(statueSprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 1 || c == 2 || c == 7 || c == 14)
+					{
+						SetConsoleTextAttribute(statueSprites, 16 * 16);  //black
+						WriteConsole(statueSprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 3 || c == 6 || c == 10 || c == 11 || c == 12) {
+						SetConsoleTextAttribute(statueSprites, 1 * 16);  //Dark blue
+						WriteConsole(statueSprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 4 || c == 5) {
+						SetConsoleTextAttribute(statueSprites, 9 * 16);  //blue
+						WriteConsole(statueSprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 8 || c == 9 || c == 13) {
+						SetConsoleTextAttribute(statueSprites, 11 * 16);  //Aqua
+						WriteConsole(statueSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 8) {
+					if ( c == 0 || c == 1 || c == 2 || c == 8 || c == 9 || c == 11 || c == 12)
+					{
+						SetConsoleTextAttribute(statueSprites, 16 * 16);  //black
+						WriteConsole(statueSprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 3 || c == 4 || c == 5 || c == 6 || c == 7 || c == 10) {
+						SetConsoleTextAttribute(statueSprites, 1 * 16);  //Dark blue
+						WriteConsole(statueSprites, &"  ", 2, &output, NULL);
+
+					}
+					if (c == 13) {
+						SetConsoleTextAttribute(statueSprites, 11 * 16);  //Aqua
+						WriteConsole(statueSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 9) {
+					if (c == 0 || c == 2 || c == 3 || c == 8 || c == 10 || c == 11 || c == 12 || c == 13)
+					{
+						SetConsoleTextAttribute(statueSprites, 16 * 16);  //black
+						WriteConsole(statueSprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 1 || c == 5 || c == 7 || c == 9) {
+						SetConsoleTextAttribute(statueSprites, 1 * 16);  //Dark blue
+						WriteConsole(statueSprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 4 || c == 6) {
+						SetConsoleTextAttribute(statueSprites, 11 * 16);  //Aqua
+						WriteConsole(statueSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 10) {
+					if (c == 0 || c == 2 || c == 7 || c == 10 || c == 11 || c == 12)
+					{
+						SetConsoleTextAttribute(statueSprites, 16 * 16);  //black
+						WriteConsole(statueSprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 1 || c == 3 || c == 8 || c == 9) {
+						SetConsoleTextAttribute(statueSprites, 1 * 16);  //Dark blue
+						WriteConsole(statueSprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 4 || c == 5 || c == 6) {
+						SetConsoleTextAttribute(statueSprites, 11 * 16);  //Aqua
+						WriteConsole(statueSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 11) {
+					if (c == 0 || c == 2 || c == 7 || c == 9 || c == 10 || c == 11 || c == 12 || c == 13)
+					{
+						SetConsoleTextAttribute(statueSprites, 16 * 16);  //black
+						WriteConsole(statueSprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 1 || c == 3 || c == 4 || c == 8) {
+						SetConsoleTextAttribute(statueSprites, 1 * 16);  //Dark blue
+						WriteConsole(statueSprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 5 || c == 6) {
+						SetConsoleTextAttribute(statueSprites, 11 * 16);  //Aqua
+						WriteConsole(statueSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 12) {
+					if (c == 0 || c == 2 || c == 7 || c == 9 || c == 10 || c == 11 || c == 14)
+					{
+						SetConsoleTextAttribute(statueSprites, 16 * 16);  //black
+						WriteConsole(statueSprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 1 || c == 3 || c == 8 || c == 12 || c == 13) {
+						SetConsoleTextAttribute(statueSprites, 1 * 16);  //Dark blue
+						WriteConsole(statueSprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 4 || c == 5 || c == 6) {
+						SetConsoleTextAttribute(statueSprites, 11 * 16);  //Aqua
+						WriteConsole(statueSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 13) {
+					if (c == 0)
+					{
+						SetConsoleTextAttribute(statueSprites, 7);  //empty
+						WriteConsole(statueSprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 1 || c == 3 || c == 7 || c == 9 || c == 10 || c == 15)
+					{
+						SetConsoleTextAttribute(statueSprites, 16 * 16);  //black
+						WriteConsole(statueSprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 2 || c == 4 || c == 8 || c == 11 || c == 12 || c == 13 || c == 14) {
+						SetConsoleTextAttribute(statueSprites, 1 * 16);  //Dark blue
+						WriteConsole(statueSprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 5 || c == 6) {
+						SetConsoleTextAttribute(statueSprites, 11 * 16);  //Aqua
+						WriteConsole(statueSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 14) {
+					if (c == 0)
+					{
+						SetConsoleTextAttribute(statueSprites, 7);  //empty
+						WriteConsole(statueSprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 1 || c == 11 || c == 12 || c == 13 || c == 14) {
+						SetConsoleTextAttribute(statueSprites, 9 * 16);  //blue
+						WriteConsole(statueSprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 2 || c == 8 || c == 15)
+					{
+						SetConsoleTextAttribute(statueSprites, 16 * 16);  //black
+						WriteConsole(statueSprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 3 || c == 4 || c == 5 || c == 6 || c == 9 || c == 10) {
+						SetConsoleTextAttribute(statueSprites, 1 * 16);  //Dark blue
+						WriteConsole(statueSprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 7) {
+						SetConsoleTextAttribute(statueSprites, 11 * 16);  //Aqua
+						WriteConsole(statueSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 15) {
+					if (c == 0 || c == 1)
+					{
+						SetConsoleTextAttribute(statueSprites, 7);  //empty
+						WriteConsole(statueSprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 2 || c == 14)
+					{
+						SetConsoleTextAttribute(statueSprites, 16 * 16);  //black
+						WriteConsole(statueSprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 9 || c == 10) {
+						SetConsoleTextAttribute(statueSprites, 9 * 16);  //blue
+						WriteConsole(statueSprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 3 || c == 4 || c == 5 || c == 6 || c == 7 || c == 8 || c == 11 || c == 12 ||c == 13) {
+						SetConsoleTextAttribute(statueSprites, 1 * 16);  //Dark blue
+						WriteConsole(statueSprites, &"  ", 2, &output, NULL);
+					}
+				}
+			}
+		}
+
+		/*Mirrored*/
+		for (int i = 0; i < 16; i++) {// Draws Row (i = y size)
+			DrawSprite(statueSprites, (2 * i), 0, 2, 16, statueSprites, 66 - (2*i), 0);
 		}
 
 		return true;
