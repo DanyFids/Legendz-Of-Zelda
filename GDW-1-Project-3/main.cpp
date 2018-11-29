@@ -17,10 +17,11 @@
 #include"Enemies.h"
 
 #include"Menus.h"
+#include "sfxManager.h"
 
 //SFX/BGM Managers
 //#include "bgMusicManager.h"
-#include "sfxManager.h"
+
 #include"Threads.h"
 
 //Projectiles
@@ -48,12 +49,10 @@ bool Play = true;
 // Play Objects
 // Player
 Player player(0, 0);
-
 Player_Info * player_file;
 // Non-Player entities
-std::vector<Enemy*> enemies = {};
-std::vector<Projectile*> projectiles = { new Bomb(300, 100)};
-
+std::vector<Enemy*> enemies = {new Dodongo(400, 100), new Goryia(100, 200)};
+std::vector<Projectile*> projectiles = {new Bomb(350, 100), new Bomb(400, 90), new Bomb(450, 100), new Bomb(400, 110) };
 std::vector<Terrain*> roomTer = {new Wall(20,100), new Wall(52, 100), new Wall(84, 100)};
 
 // Menus
@@ -93,7 +92,7 @@ int main() {
 	ResizeWindow();
 	//LoZTitleScreenBGM();	 //Legacy Player
 	Load();
-	sounds.PlayTitleTheme();
+	//sounds.PlayTitleTheme();
 
 	//Start DrawThread
 	DWORD drawThreadID;
@@ -486,7 +485,7 @@ void Update() {
 
 		if (player_input.keySpace)
 		{
-			sounds.PlaySwing();
+			//sounds.PlaySwing();
 			if (player.CanAtk()) {
 				Direction d = player.GetDir();
 				switch (d) {
@@ -525,6 +524,13 @@ void Update() {
 					projectiles[p]->Hit(*enemies[e]);
 				}
 
+				if (projectiles[p]->getEnum() == PT_BOMB) {
+					if (enemies[e]->getBoss() == true) {
+					if (projectiles[p]->HitDetect(enemies[e])) {
+						projectiles[p]->Hit(*enemies[e]);
+						}
+					}
+				}
 			}
 
 		}

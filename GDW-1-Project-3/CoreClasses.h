@@ -95,6 +95,7 @@ private:
 	int dmg, hp;
 	bool invuln;
 	bool hasFired;
+	bool isDodongo = false;
 	FCOORD location;
 public:
 	std::vector<Projectile *> projectiles;
@@ -111,6 +112,14 @@ public:
 	void Hurt(int d) {
 		if(!invuln)
 			hp -= d;
+	}
+
+	void setBoss(bool _boss) {
+		isDodongo = _boss;
+	}
+
+	bool getBoss() {
+		return isDodongo;
 	}
 
 	FCOORD getFCOORD()
@@ -138,6 +147,18 @@ public:
 
 	void SetInvuln(bool i) {
 		invuln = i;
+	}
+
+	void Drop(bool drop = false, int per = 0) {
+		std::random_device gen;
+		std::uniform_int_distribution<> range(1, 5);
+		if (!(drop)) {
+			per = range(gen);
+		}
+		switch (per) {
+		case 1:
+			std::cout << "hello workd";
+		}
 	}
 
 	void move();

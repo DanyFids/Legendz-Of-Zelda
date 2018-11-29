@@ -116,14 +116,19 @@ private:
 
 
 public:	   // x,y coord,                  width*2,height,lifetime, damage, speed 
-	Bomb(int x, int y) : Projectile(x, y, 32, 16, 10.0f, 0) {
+	Bomb(int x, int y) : Projectile(x, y, 32, 16, 100.0f, 0) {
 		SetSpriteSheet(Sprites.bombSprites);
+		this->setEnum(PT_BOMB);
 
 	}
 
 	bool HitDetect(Entity * e)
 	{
-		return false;
+		if (e) {
+			return true;
+		}
+			
+		return false; 
 	}
 
 	void Update(float dt)

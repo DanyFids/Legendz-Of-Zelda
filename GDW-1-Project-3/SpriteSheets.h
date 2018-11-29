@@ -243,7 +243,6 @@ public:
 		for (int c = 0; c < 12; c++) {
 			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 		}
-
 		// Fifth Row
 		GoToXY(dodongoSprites, 8, 4);
 		for (int c = 0; c < 16; c++) {
