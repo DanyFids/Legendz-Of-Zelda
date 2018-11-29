@@ -3,6 +3,45 @@
   <ItemGroup>
     <ClCompile Include="bgMusicManager.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClInclude Include="CoreClasses.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="SpriteSheets.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="FunctionProto.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Enums.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Threads.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="bgMusicManager.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemies.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Terrains.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Menus.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="sfxManager.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Projectiles.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="PowerUp.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="bgMusicManager.h" />

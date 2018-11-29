@@ -135,7 +135,14 @@ public:
 		CONSOLE_TEXTMODE_BUFFER,
 		NULL);
 
-	HANDLE fireSprites = CreateConsoleScreenBuffer(
+	HANDLE arrowSprites = CreateConsoleScreenBuffer(
+		GENERIC_READ | GENERIC_WRITE,
+		FILE_SHARE_READ | FILE_SHARE_WRITE,
+		NULL,
+		CONSOLE_TEXTMODE_BUFFER,
+		NULL);
+
+	HANDLE fireballSprites = CreateConsoleScreenBuffer(
 		GENERIC_READ | GENERIC_WRITE,
 		FILE_SHARE_READ | FILE_SHARE_WRITE,
 		NULL,
@@ -227,7 +234,6 @@ public:
 		for (int c = 0; c < 6; c++) {
 			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 		}
-
 		// Fourth Row
 		GoToXY(dodongoSprites, 10, 3);
 		for (int c = 0; c < 2; c++) {
@@ -7610,18 +7616,1231 @@ public:
 
 		DWORD output;
 
-		SetConsoleTextAttribute(bombSprites, 1 * 16); // Colour
+		// SetConsoleTextAttribute(bombSprites, 1 * 16); // Colour
 
-		for (int i = 0; i < 8; i++) {// Draws Row (i = y size)
+		for (int i = 0; i < 14; i++) {// Draws Row (i = y size)
 			GoToXY(bombSprites, 0, i);	 //Position of pixel
-			for (int c = 0; c < 8; c++) { // Draws Col (c = x size)
-				WriteConsole(bombSprites, &"  ", 2, &output, NULL); // Drawing the sprites?
+			for (int c = 0; c < 14; c++) { // Draws Col (c = x size)
+				
+				
+
+				if (i == 0)//row
+				{
+					if (c == 8)//col
+					{
+						SetConsoleTextAttribute(bombSprites, 15 * 16); // White
+						WriteConsole(bombSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					else
+					{
+						SetConsoleTextAttribute(bombSprites, 7);
+						WriteConsole(bombSprites, &"  ", 2, &output, NULL);
+					}
+
+				}
+				if (i == 1)//row
+				{
+					if (c == 8)//col
+					{
+						SetConsoleTextAttribute(bombSprites, 15 * 16); // White
+						WriteConsole(bombSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					else
+					{
+						SetConsoleTextAttribute(bombSprites, 7);
+						WriteConsole(bombSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 2)//row
+				{
+					if (c == 9)//col
+					{
+						SetConsoleTextAttribute(bombSprites, 15 * 16); // White
+						WriteConsole(bombSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					else
+					{
+						SetConsoleTextAttribute(bombSprites, 7);
+						WriteConsole(bombSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 3)//row
+				{
+					if (c == 10)//col
+					{
+						SetConsoleTextAttribute(bombSprites, 15 * 16); // White
+						WriteConsole(bombSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					else
+					{
+						SetConsoleTextAttribute(bombSprites, 7);
+						WriteConsole(bombSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 4)//row
+				{
+					if (c == 10)//col
+					{
+						SetConsoleTextAttribute(bombSprites, 15 * 16); // White
+						WriteConsole(bombSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					else
+					{
+						SetConsoleTextAttribute(bombSprites, 7);
+						WriteConsole(bombSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 5)//row
+				{
+					if (c == 9)//col
+					{
+						SetConsoleTextAttribute(bombSprites, 15 * 16); // White
+						WriteConsole(bombSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					else
+					{
+						SetConsoleTextAttribute(bombSprites, 7);
+						WriteConsole(bombSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 6)//row
+				{
+					if (c > 4 && c < 9)//col
+					{
+						SetConsoleTextAttribute(bombSprites, 1 * 16); // Blue
+						WriteConsole(bombSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					else
+					{
+						SetConsoleTextAttribute(bombSprites, 7);
+						WriteConsole(bombSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 7)//row
+				{
+					if (c > 3 && c < 10)//col
+					{
+						if (c == 5 || c == 6)
+						{
+							SetConsoleTextAttribute(bombSprites, 9 * 16); // Blue
+							WriteConsole(bombSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+						}
+						else {
+							SetConsoleTextAttribute(bombSprites, 1 * 16); // Blue
+							WriteConsole(bombSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+						}
+					}
+					else
+					{
+						SetConsoleTextAttribute(bombSprites, 7);
+						WriteConsole(bombSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 8)//row
+				{
+					if (c > 2 && c < 11)//col
+					{
+						if (c == 3)
+						{
+							SetConsoleTextAttribute(bombSprites, 1 * 16); // Blue
+							WriteConsole(bombSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+						}
+						if (c == 4 || c == 6)
+						{
+							SetConsoleTextAttribute(bombSprites, 9 * 16); // Blue
+							WriteConsole(bombSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+						}
+						if (c == 5)
+						{
+							SetConsoleTextAttribute(bombSprites, 15 * 16); // Blue
+							WriteConsole(bombSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+						}
+						if (c > 6 && c < 11)
+						{
+							SetConsoleTextAttribute(bombSprites, 1 * 16); // Blue
+							WriteConsole(bombSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+						}
+					}
+					else
+					{
+						SetConsoleTextAttribute(bombSprites, 7);
+						WriteConsole(bombSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				
+				if (i == 9) {
+					if (c > 2 && c < 11)
+					{
+						if (c == 4 || c == 5)
+						{
+							SetConsoleTextAttribute(bombSprites, 9 * 16); // Blue
+							WriteConsole(bombSprites, &"  ", 2, &output, NULL);
+						}
+						else {
+							SetConsoleTextAttribute(bombSprites, 1 * 16); // Blue
+							WriteConsole(bombSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+						}
+					
+					}
+					else
+					{
+						SetConsoleTextAttribute(bombSprites, 7);
+						WriteConsole(bombSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 10 || i == 11)
+				{
+					if (c > 2 && c < 11)//col
+					{
+							SetConsoleTextAttribute(bombSprites, 1 * 16); // Blue
+							WriteConsole(bombSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					else
+					{
+						SetConsoleTextAttribute(bombSprites, 7);
+						WriteConsole(bombSprites, &"  ", 2, &output, NULL);
+					}
+				}
+
+				if (i == 12)//row
+				{
+					if (c > 3 && c < 10)//col
+					{
+						SetConsoleTextAttribute(bombSprites, 1 * 16); // Blue
+						WriteConsole(bombSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					else
+					{
+						SetConsoleTextAttribute(bombSprites, 7);
+						WriteConsole(bombSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 13)//row
+				{
+					if (c > 4 && c < 9)//col
+					{
+						SetConsoleTextAttribute(bombSprites, 1 * 16); // Blue
+						WriteConsole(bombSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					else
+					{
+						SetConsoleTextAttribute(bombSprites, 7);
+						WriteConsole(bombSprites, &"  ", 2, &output, NULL);
+					}
+				}
+			}
+		}
+
+		//Red Frame
+		for (int i = 0; i < 14; i++) {// Draws Row (i = y size)
+			GoToXY(bombSprites, 0, i+15);	 //Position of pixel
+			for (int c = 0; c < 14; c++) { // Draws Col (c = x size)
+
+				if (i == 0)//row
+				{
+					if (c == 8 )//col
+					{
+						SetConsoleTextAttribute(bombSprites, 15 * 16); // White
+						WriteConsole(bombSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					else
+					{
+						SetConsoleTextAttribute(bombSprites, 7);
+						WriteConsole(bombSprites, &"  ", 2, &output, NULL);
+					}
+
+				}
+				if (i == 1)//row
+				{
+					if (c == 8 )//col
+					{
+						SetConsoleTextAttribute(bombSprites, 15 * 16); // White
+						WriteConsole(bombSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					else
+					{
+						SetConsoleTextAttribute(bombSprites, 7);
+						WriteConsole(bombSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 2)//row
+				{
+					if (c == 9 )//col
+					{
+						SetConsoleTextAttribute(bombSprites, 15 * 16); // White
+						WriteConsole(bombSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					else
+					{
+						SetConsoleTextAttribute(bombSprites, 7);
+						WriteConsole(bombSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 3)//row
+				{
+					if (c == 10 )//col
+					{
+						SetConsoleTextAttribute(bombSprites, 15 * 16); // White
+						WriteConsole(bombSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					else
+					{
+						SetConsoleTextAttribute(bombSprites, 7);
+						WriteConsole(bombSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 4)//row
+				{
+					if (c == 10)//col
+					{
+						SetConsoleTextAttribute(bombSprites, 15 * 16); // White
+						WriteConsole(bombSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					else
+					{
+						SetConsoleTextAttribute(bombSprites, 7);
+						WriteConsole(bombSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 5)//row
+				{
+					if (c == 9 )//col
+					{
+						SetConsoleTextAttribute(bombSprites, 15 * 16); // White
+						WriteConsole(bombSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					else
+					{
+						SetConsoleTextAttribute(bombSprites, 7);
+						WriteConsole(bombSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 6)//row
+				{
+					if (c > 4  && c < 9 )//col
+					{
+						SetConsoleTextAttribute(bombSprites, 4 * 16); // RED
+						WriteConsole(bombSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					else
+					{
+						SetConsoleTextAttribute(bombSprites, 7);
+						WriteConsole(bombSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 7)//row
+				{
+					if (c > 3  && c < 10)//col
+					{
+						if (c == 5 || c == 6 )
+						{
+							SetConsoleTextAttribute(bombSprites, 12 * 16); // RED
+							WriteConsole(bombSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+						}
+						else {
+							SetConsoleTextAttribute(bombSprites, 4 * 16); // RED
+							WriteConsole(bombSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+						}
+					}
+					else
+					{
+						SetConsoleTextAttribute(bombSprites, 7);
+						WriteConsole(bombSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 8)//row
+				{
+					if (c > 2 && c < 11)//col
+					{
+						if (c == 3)
+						{
+							SetConsoleTextAttribute(bombSprites, 4 * 16); // RED
+							WriteConsole(bombSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+						}
+						if (c == 4 || c == 6 )
+						{
+							SetConsoleTextAttribute(bombSprites, 12 * 16); // RED
+							WriteConsole(bombSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+						}
+						if (c == 5)
+						{
+							SetConsoleTextAttribute(bombSprites, 15 * 16); // WHITE
+							WriteConsole(bombSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+						}
+						if (c > 6 && c < 11)
+						{
+							SetConsoleTextAttribute(bombSprites, 4 * 16); // RED
+							WriteConsole(bombSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+						}
+					}
+					else
+					{
+						SetConsoleTextAttribute(bombSprites, 7);
+						WriteConsole(bombSprites, &"  ", 2, &output, NULL);
+					}
+				}
+
+				if (i == 9) {
+					if (c > 2 && c < 11)
+					{
+						if (c == 4 || c == 5)
+						{
+							SetConsoleTextAttribute(bombSprites, 12 * 16); // RED
+							WriteConsole(bombSprites, &"  ", 2, &output, NULL);
+						}
+						else {
+							SetConsoleTextAttribute(bombSprites, 4 * 16); // RED
+							WriteConsole(bombSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+						}
+
+					}
+					else
+					{
+						SetConsoleTextAttribute(bombSprites, 7);
+						WriteConsole(bombSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 10  || i == 11)
+				{
+					if (c > 2 && c < 11)//col
+					{
+						SetConsoleTextAttribute(bombSprites, 4 * 16); // RED
+						WriteConsole(bombSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					else
+					{
+						SetConsoleTextAttribute(bombSprites, 7);
+						WriteConsole(bombSprites, &"  ", 2, &output, NULL);
+					}
+				}
+
+				if (i == 12)//row
+				{
+					if (c > 3 && c < 10)//col
+					{
+						SetConsoleTextAttribute(bombSprites, 4 * 16); // RED
+						WriteConsole(bombSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					else
+					{
+						SetConsoleTextAttribute(bombSprites, 7);
+						WriteConsole(bombSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 13)//row 14
+				{
+					if (c > 4 && c < 9)//col
+					{
+						SetConsoleTextAttribute(bombSprites, 4 * 16); // RED
+						WriteConsole(bombSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					else
+					{
+						SetConsoleTextAttribute(bombSprites, 7);
+						WriteConsole(bombSprites, &"  ", 2, &output, NULL);
+					}
+				}
+
 			}
 		}
 		return true;
 	}
 
+	bool LoadArrow() { // Anthony's Attempt
+		DWORD output;
+		// SetConsoleTextAttribute(bombSprites, 1 * 16); // Colour
 
+		//Down
+		for (int i = 0; i < 17; i++) {// Draws Row (i = y size)
+			GoToXY(arrowSprites, 0, i);	 //Position of pixel
+			for (int c = 0; c < 17; c++) { // Draws Col (c = x size)
+				if (i == 0)
+				{
+						SetConsoleTextAttribute(arrowSprites, 7);
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL);
+			    }
+				if (i == 1) {
+					if (c == 6 || c == 10)//col
+					{
+						SetConsoleTextAttribute(arrowSprites, 22 * 16); // Orange
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					if (c == 7 || c == 9)//col
+					{
+						SetConsoleTextAttribute(arrowSprites, 7); // Empty
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					if (c == 8)//col
+					{
+						SetConsoleTextAttribute(arrowSprites, 2 * 16); // Green
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					if(c < 6)
+					{
+						SetConsoleTextAttribute(arrowSprites, 7);
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL);
+					}
+					if (c > 10)
+					{
+						SetConsoleTextAttribute(arrowSprites, 7);
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 2) {
+					if (c == 7 || c == 9)//col
+					{
+						SetConsoleTextAttribute(arrowSprites, 22 * 16); // Orange
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					if (c == 8)//col
+					{
+						SetConsoleTextAttribute(arrowSprites, 2 * 16); // Green
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					if (c < 7)
+					{
+						SetConsoleTextAttribute(arrowSprites, 7);  //Empty
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL);
+					}
+					if (c > 9)
+					{
+						SetConsoleTextAttribute(arrowSprites, 7);
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 3) {
+					if (c == 6 || c == 10)//col
+					{
+						SetConsoleTextAttribute(arrowSprites, 22 * 16); // Orange
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					if (c == 7 || c == 9)//col
+					{
+						SetConsoleTextAttribute(arrowSprites, 8 * 16); // Dark Grey
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					if (c == 8)//col
+					{
+						SetConsoleTextAttribute(arrowSprites, 2 * 16); // Green
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					if (c < 6)
+					{
+						SetConsoleTextAttribute(arrowSprites, 7);
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL);
+					}
+					if (c > 10)
+					{
+						SetConsoleTextAttribute(arrowSprites, 7);
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 4) {
+					if (c == 7 || c == 9)//col
+					{
+						SetConsoleTextAttribute(arrowSprites, 22 * 16); // Orange
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					if (c == 8)//col
+					{
+						SetConsoleTextAttribute(arrowSprites, 2 * 16); // Green
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					if (c < 7)
+					{
+						SetConsoleTextAttribute(arrowSprites, 7);
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL);
+					}
+					if (c > 9)
+					{
+						SetConsoleTextAttribute(arrowSprites, 7);
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 5) {
+					if (c == 6 || c == 10)//col
+					{
+						SetConsoleTextAttribute(arrowSprites, 22 * 16); // Orange
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					if (c == 7 || c == 9)//col
+					{
+						SetConsoleTextAttribute(arrowSprites, 8 * 16); // Dark Grey
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					if (c == 8)//col
+					{
+						SetConsoleTextAttribute(arrowSprites, 2 * 16); // Orange
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					if (c < 6)
+					{
+						SetConsoleTextAttribute(arrowSprites, 7);
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL);
+					}
+					if (c > 10)
+					{
+						SetConsoleTextAttribute(arrowSprites, 7);
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 6) {
+					if (c == 7 || c == 9)//col
+					{
+						SetConsoleTextAttribute(arrowSprites, 22 * 16); // Orange
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					if (c == 8)//col
+					{
+						SetConsoleTextAttribute(arrowSprites, 2 * 16); // Green
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					if (c < 7)
+					{
+						SetConsoleTextAttribute(arrowSprites, 7);  //Empty
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL);
+					}
+					if (c > 9)
+					{
+						SetConsoleTextAttribute(arrowSprites, 7);
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 7 || i == 8 || i == 9 || i == 10 || i == 11 || i == 12) {
+					if (c == 8)//col
+					{
+						SetConsoleTextAttribute(arrowSprites, 2 * 16); // Green
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					else{
+						SetConsoleTextAttribute(arrowSprites, 7);  //Empty
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 13) {
+					if (c == 7)//col
+					{
+						SetConsoleTextAttribute(arrowSprites, 15 * 16); //Pale 
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					if (c == 8)//col
+					{
+						SetConsoleTextAttribute(arrowSprites, 2 * 16); // Green
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					if (c == 9)//col
+					{
+						SetConsoleTextAttribute(arrowSprites, 15 * 16); //Pale 
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					if (c < 7)
+					{
+						SetConsoleTextAttribute(arrowSprites, 7);  //Empty
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL);
+					}
+					if(c > 9)
+					{
+						SetConsoleTextAttribute(arrowSprites, 7);  //Empty
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 14) {
+					if (c > 6 && c < 10)//col
+					{
+						SetConsoleTextAttribute(arrowSprites, 15 * 16); //Pale 
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					else{
+						SetConsoleTextAttribute(arrowSprites, 7);  //Empty
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 15 || i == 16) {
+					if (c == 8)//col
+					{
+						SetConsoleTextAttribute(arrowSprites, 15 * 16); //Pale 
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					else
+					{
+						SetConsoleTextAttribute(arrowSprites, 7);  //Empty
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL);
+					}
+				}
+
+
+			}
+		}
+
+
+		/////////////////////////////////////////////////////////////////////////////////////////////////////
+
+		//Right
+		for (int i = 0; i < 17; i++) {// Draws Row (i = y size)
+			GoToXY(arrowSprites, 35, i);	 //Position of pixel
+			for (int c = 0; c < 17; c++) { // Draws Col (c = x size)
+
+				if (i == 0 || i == 1 || i == 2 || i == 3 || i == 4 || i == 5)
+				{
+					if (c >= 0 && c < 17)
+					{
+						SetConsoleTextAttribute(arrowSprites, 7);
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 6) {
+					if (c == 1 || c == 3 || c == 5)//col
+					{
+						SetConsoleTextAttribute(arrowSprites, 6 * 16); // Orange
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					else
+					{
+						SetConsoleTextAttribute(arrowSprites, 7);
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 7) {
+					if (c == 2 || c == 4 || c == 6)//col
+					{
+						SetConsoleTextAttribute(arrowSprites, 22 * 16); // Orange
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					if (c == 3 || c == 5)//col
+					{
+						SetConsoleTextAttribute(arrowSprites, 8 * 16); // dark grey
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					if (c == 13 || c == 14)//col
+					{
+						SetConsoleTextAttribute(arrowSprites, 15 * 16); // White
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					if (c == 0 || c == 1)//col
+					{
+						SetConsoleTextAttribute(arrowSprites, 7); // Empty
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					if (c > 6 && c < 13)
+					{
+						SetConsoleTextAttribute(arrowSprites, 7);
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 8) {
+					if (c > 0 && c < 14)//col
+					{
+						SetConsoleTextAttribute(arrowSprites, 2 * 16); // Green
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					if (c > 13 && c < 17)//col
+					{
+						SetConsoleTextAttribute(arrowSprites, 15 * 16); // White
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					if (c == 0)
+					{
+						SetConsoleTextAttribute(arrowSprites, 7);
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 9) {
+					if (c == 2 || c == 4 || c == 6)//col
+					{
+						SetConsoleTextAttribute(arrowSprites, 22 * 16); // Orange
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					if (c == 3 || c == 5)//col
+					{
+						SetConsoleTextAttribute(arrowSprites, 8 * 16); // dark grey
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					if (c == 13 || c == 14)//col
+					{
+						SetConsoleTextAttribute(arrowSprites, 15 * 16); //white
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					if (c == 1 || c == 0)//col
+					{
+						SetConsoleTextAttribute(arrowSprites, 7); // Empty
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					if (c > 6 && c < 13)
+					{
+						SetConsoleTextAttribute(arrowSprites, 7);
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 10) {
+					if (c == 1 || c == 3 || c == 5)//col
+					{
+						SetConsoleTextAttribute(arrowSprites, 22 * 16); // Orange
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					if (c == 0 || c == 2 || c == 4)//col
+					{
+						SetConsoleTextAttribute(arrowSprites, 7); // Empty
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					if (c > 5)
+					{
+						SetConsoleTextAttribute(arrowSprites, 7);
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i > 10 && i < 17) {
+					SetConsoleTextAttribute(arrowSprites, 7);
+					WriteConsole(arrowSprites, &"  ", 2, &output, NULL);
+				}
+				
+
+
+			}
+		}// Right
+
+		//Left
+		for (int i = 0; i < 17; i++) {// Draws Row (i = y size)
+			GoToXY(arrowSprites, 71, i);	 //Position of pixel
+			for (int c = 0; c < 17; c++) { // Draws Col (c = x size)
+
+				if (i == 0 || i == 1 || i == 2 || i == 3 || i == 4 || i == 5)
+				{
+					if (c >= 0 && c < 17)
+					{
+						SetConsoleTextAttribute(arrowSprites, 7);
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 6) {
+					if (c == 15 || c == 13 || c == 11)//col
+					{
+						SetConsoleTextAttribute(arrowSprites, 6 * 16); // Orange
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					else
+					{
+						SetConsoleTextAttribute(arrowSprites, 7);
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 7) {
+					if (c == 14 || c == 12 || c == 10)//col
+					{
+						SetConsoleTextAttribute(arrowSprites, 22 * 16); // Orange
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					if (c == 13 || c == 11)//col
+					{
+						SetConsoleTextAttribute(arrowSprites, 8 * 16); // dark grey
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					if (c == 2 || c == 3)//col
+					{
+						SetConsoleTextAttribute(arrowSprites, 15 * 16); // White
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					if (c == 0 || c == 1)//col
+					{
+						SetConsoleTextAttribute(arrowSprites, 7); // Empty
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					if (c > 3 && c < 10)
+					{
+						SetConsoleTextAttribute(arrowSprites, 7);
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 8) {
+					if (c > 3 && c < 17)//col
+					{
+						SetConsoleTextAttribute(arrowSprites, 2 * 16); // Green
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					if (c >= 0 && c < 3)//col
+					{
+						SetConsoleTextAttribute(arrowSprites, 15 * 16); // White
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					if (c == 16)
+					{
+						SetConsoleTextAttribute(arrowSprites, 7);
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 9) {
+					if (c == 14 || c == 12 || c == 10)//col
+					{
+						SetConsoleTextAttribute(arrowSprites, 22 * 16); // Orange
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					if (c == 13 || c == 11)//col
+					{
+						SetConsoleTextAttribute(arrowSprites, 8 * 16); // dark grey
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					if (c == 2 || c == 3)//col
+					{
+						SetConsoleTextAttribute(arrowSprites, 15 * 16); //white
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					if (c == 0 || c == 1)//col
+					{
+						SetConsoleTextAttribute(arrowSprites, 7); // Empty
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					if (c > 3 && c < 10)
+					{
+						SetConsoleTextAttribute(arrowSprites, 7);
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 10) {
+					if (c == 15 || c == 13 || c == 11)//col
+					{
+						SetConsoleTextAttribute(arrowSprites, 22 * 16); // Orange
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					else
+					{
+						SetConsoleTextAttribute(arrowSprites, 7); // Empty
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+				}
+				if (i > 10 && i < 17) {
+					SetConsoleTextAttribute(arrowSprites, 7);
+					WriteConsole(arrowSprites, &"  ", 2, &output, NULL);
+				}
+
+
+
+			}
+		}
+
+		//Up
+		for (int i = 0; i < 17; i++) {// Draws Row (i = y size)
+			GoToXY(arrowSprites, 107, i);	 //Position of pixel
+			for (int c = 0; c < 17; c++) { // Draws Col (c = x size)
+				if (i == 16)
+				{
+					SetConsoleTextAttribute(arrowSprites, 7);
+					WriteConsole(arrowSprites, &"  ", 2, &output, NULL);
+				}
+				if (i == 15) {
+					if (c == 6 || c == 10)//col
+					{
+						SetConsoleTextAttribute(arrowSprites, 22 * 16); // Orange
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					if (c == 7 || c == 9)//col
+					{
+						SetConsoleTextAttribute(arrowSprites, 7); // Empty
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					if (c == 8)//col
+					{
+						SetConsoleTextAttribute(arrowSprites, 2 * 16); // Green
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					if (c < 6)
+					{
+						SetConsoleTextAttribute(arrowSprites, 7);
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL);
+					}
+					if (c > 10)
+					{
+						SetConsoleTextAttribute(arrowSprites, 7);
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 14) {
+					if (c == 7 || c == 9)//col
+					{
+						SetConsoleTextAttribute(arrowSprites, 22 * 16); // Orange
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					if (c == 8)//col
+					{
+						SetConsoleTextAttribute(arrowSprites, 2 * 16); // Green
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					if (c < 7)
+					{
+						SetConsoleTextAttribute(arrowSprites, 7);  //Empty
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL);
+					}
+					if (c > 9)
+					{
+						SetConsoleTextAttribute(arrowSprites, 7);
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 13) {
+					if (c == 6 || c == 10)//col
+					{
+						SetConsoleTextAttribute(arrowSprites, 22 * 16); // Orange
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					if (c == 7 || c == 9)//col
+					{
+						SetConsoleTextAttribute(arrowSprites, 8 * 16); // Dark Grey
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					if (c == 8)//col
+					{
+						SetConsoleTextAttribute(arrowSprites, 2 * 16); // Green
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					if (c < 6)
+					{
+						SetConsoleTextAttribute(arrowSprites, 7);
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL);
+					}
+					if (c > 10)
+					{
+						SetConsoleTextAttribute(arrowSprites, 7);
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 12) {
+					if (c == 7 || c == 9)//col
+					{
+						SetConsoleTextAttribute(arrowSprites, 22 * 16); // Orange
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					if (c == 8)//col
+					{
+						SetConsoleTextAttribute(arrowSprites, 2 * 16); // Green
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					if (c < 7)
+					{
+						SetConsoleTextAttribute(arrowSprites, 7);
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL);
+					}
+					if (c > 9)
+					{
+						SetConsoleTextAttribute(arrowSprites, 7);
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 11) {
+					if (c == 6 || c == 10)//col
+					{
+						SetConsoleTextAttribute(arrowSprites, 22 * 16); // Orange
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					if (c == 7 || c == 9)//col
+					{
+						SetConsoleTextAttribute(arrowSprites, 8 * 16); // Dark Grey
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					if (c == 8)//col
+					{
+						SetConsoleTextAttribute(arrowSprites, 2 * 16); // Orange
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					if (c < 6)
+					{
+						SetConsoleTextAttribute(arrowSprites, 7);
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL);
+					}
+					if (c > 10)
+					{
+						SetConsoleTextAttribute(arrowSprites, 7);
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 10) {
+					if (c == 7 || c == 9)//col
+					{
+						SetConsoleTextAttribute(arrowSprites, 22 * 16); // Orange
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					if (c == 8)//col
+					{
+						SetConsoleTextAttribute(arrowSprites, 2 * 16); // Green
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					if (c < 7)
+					{
+						SetConsoleTextAttribute(arrowSprites, 7);  //Empty
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL);
+					}
+					if (c > 9)
+					{
+						SetConsoleTextAttribute(arrowSprites, 7);
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i > 3 && i < 10) {
+					if (c == 8)//col
+					{
+						SetConsoleTextAttribute(arrowSprites, 2 * 16); // Green
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					else {
+						SetConsoleTextAttribute(arrowSprites, 7);  //Empty
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 3) {
+					if (c == 7)//col
+					{
+						SetConsoleTextAttribute(arrowSprites, 15 * 16); //Pale 
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					if (c == 8)//col
+					{
+						SetConsoleTextAttribute(arrowSprites, 2 * 16); // Green
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					if (c == 9)//col
+					{
+						SetConsoleTextAttribute(arrowSprites, 15 * 16); //Pale 
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					if (c < 7)
+					{
+						SetConsoleTextAttribute(arrowSprites, 7);  //Empty
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL);
+					}
+					if (c > 9)
+					{
+						SetConsoleTextAttribute(arrowSprites, 7);  //Empty
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 2) {
+					if (c > 6 && c < 10)//col
+					{
+						SetConsoleTextAttribute(arrowSprites, 15 * 16); //Pale 
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					else {
+						SetConsoleTextAttribute(arrowSprites, 7);  //Empty
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 1 || i == 0) {
+					if (c == 8)//col
+					{
+						SetConsoleTextAttribute(arrowSprites, 15 * 16); //Pale 
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					else
+					{
+						SetConsoleTextAttribute(arrowSprites, 7);  //Empty
+						WriteConsole(arrowSprites, &"  ", 2, &output, NULL);
+					}
+				}
+
+
+			}
+		}
+
+		return true;
+	}
+
+	bool LoadFireball() { // Anthony's Attempt
+
+		DWORD output;
+
+		// SetConsoleTextAttribute(bombSprites, 1 * 16); // Colour
+
+		for (int i = 0; i < 10; i++) {// Draws Row (i = y size)
+			GoToXY(fireballSprites, 0, i);	 //Position of pixel
+			for (int c = 0; c < 10; c++) { // Draws Col (c = x size)
+				if (i == 0 || i == 9) {
+					if (c > 2 && c < 7)//col
+					{
+						SetConsoleTextAttribute(fireballSprites, 12 * 16); //RED 
+						WriteConsole(fireballSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					else
+					{
+						SetConsoleTextAttribute(fireballSprites, 7);  //Empty
+						WriteConsole(fireballSprites, &"  ", 2, &output, NULL);
+					}
+				}
+
+				if (i == 1 || i == 8) {
+					if (c > 1 && c < 8)//col
+					{
+						SetConsoleTextAttribute(fireballSprites, 12 * 16); //RED 
+						WriteConsole(fireballSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					else
+					{
+						SetConsoleTextAttribute(fireballSprites, 7);  //Empty
+						WriteConsole(fireballSprites, &"  ", 2, &output, NULL);
+					}
+				}
+
+				if (i == 2 || i == 7) {
+					if (c == 2 || c == 3 || c == 6 || c == 7)//col
+					{
+						SetConsoleTextAttribute(fireballSprites, 12 * 16); //RED 
+						WriteConsole(fireballSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					if(c == 0 || c == 1)
+					{
+						SetConsoleTextAttribute(fireballSprites, 7);  //Empty
+						WriteConsole(fireballSprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 4 || c == 5)
+					{
+						SetConsoleTextAttribute(fireballSprites, 22 * 16);  //Orange
+						WriteConsole(fireballSprites, &"  ", 2, &output, NULL);
+					}
+				}
+
+				if (i == 3 || i == 6) {// Row 4
+					if (c == 1 || c == 2 || c == 7 || c == 8)//col
+					{
+						SetConsoleTextAttribute(fireballSprites, 12 * 16); //RED 
+						WriteConsole(fireballSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					if (c == 0)
+					{
+						SetConsoleTextAttribute(fireballSprites, 7);  //Empty
+						WriteConsole(fireballSprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 3 || c == 4 || c == 5 || c == 6)
+					{
+						SetConsoleTextAttribute(fireballSprites, 22 * 16);  //Orange
+						WriteConsole(fireballSprites, &"  ", 2, &output, NULL);
+					}
+				}
+
+				if (i == 4 || i == 5) {
+					if (c == 1 || c == 2 || c == 7 || c == 8)//col
+					{
+						SetConsoleTextAttribute(fireballSprites, 12 * 16); //RED 
+						WriteConsole(fireballSprites, &"  ", 2, &output, NULL); // Drawing the pixel
+					}
+					if (c == 0)
+					{
+						SetConsoleTextAttribute(fireballSprites, 7);  //Empty
+						WriteConsole(fireballSprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 3 || c == 6)
+					{
+						SetConsoleTextAttribute(fireballSprites, 22 * 16);  //Orange
+						WriteConsole(fireballSprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 4 || c == 5)
+					{
+						SetConsoleTextAttribute(fireballSprites, 15 * 16);  //White
+						WriteConsole(fireballSprites, &"  ", 2, &output, NULL);
+					}
+				}
+
+				
+			}
+		}
+
+		return true;
+	}
 };
 
 SpriteSheets Sprites;

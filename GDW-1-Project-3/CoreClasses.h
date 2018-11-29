@@ -33,6 +33,21 @@ Player_Input player_input;
 //Class Declarations
 class Projectile;
 
+struct Player_Info {
+	std::string Name = std::string(8, ' ');
+	int MaxLife = 6;
+	int CurLife = 6;
+	int Bombs = 0;
+	int Keys = 0;
+	int Rupees = 0;
+	bool HasMap = false;
+	bool HasCompass = false;
+	bool file_exists = false;
+};
+
+Player_Info PLAYER_FILES[3];
+
+Player_Info * player_file;
 
 class Player : public Entity {
 private:
@@ -169,23 +184,94 @@ public:
 };
 
 class Terrain : public Entity {
+private:
+	float move_timer = MOVE_TIME;
+	float moving_timer = 0;
+	Direction moveDir;
+	bool canMove;
 public:
-	Terrain(int x, int y, int w, int h):Entity(x, y, w, h) {
+	const float MOVE_TIME = 0.05f;
 
+	Terrain(int x, int y, int w, int h, bool cM = false) :Entity(x, y, w, h) {
+		canMove = cM;
+	}
+
+	bool CanMove() {
+		return canMove;
 	}
 
 	void Update(float dt) {
-
+		if (move_timer > 0) {
+			move_timer -= dt;
+			if (move_timer <= 0) {
+				moving_timer = 2.0f;
+			}
+		}
+		else {
+			if (moving_timer > 0) {
+				switch (GetMvDir()) {
+				case Up:
+					ySpd = -1;
+					xSpd = 0;
+					break;
+				case Down:
+					ySpd = 1;
+					xSpd = 0;
+					break;
+				case Left:
+					ySpd = 0;
+					xSpd = -1;
+					break;
+				case Right:
+					ySpd = 0;
+					xSpd = 1;
+					break;
+				}
+				move();
+				moving_timer -= dt;
+				if (moving_timer <= 0) {
+					canMove = false;
+				}
+			}
+		}
 	}
+
+	bool isMoving() {
+		if (moving_timer > 0) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+
+	void SetMvDir(Direction d) {
+		moveDir = d;
+	}
+
+	Direction GetMvDir() {
+		return moveDir;
+	}
+
 };
 
 class Projectile : public Entity {
 private:
 	float theta, timer;
-	int dmg,speed;
+	int dmg;
 	Direction dir;
 	ProjType type;
 public:
+	ProjType getEnum()
+	{
+		return type;
+	}
+
+	void setEnum(ProjType t)
+	{
+		type = t;
+	}
+
 	float getTheta()
 	{
 		return theta;
@@ -206,11 +292,6 @@ public:
 		return dmg;
 	}
 
-	int getSpeed()
-	{
-		return speed;
-	}
-
 	float getTime()
 	{
 		return timer;
@@ -224,11 +305,6 @@ public:
 	void setTime(float t)
 	{
 		timer = t;
-	}
-
-	void setSpeed(int s)
-	{
-		speed = s;
 	}
 
 	void setTheta(float _theta)
@@ -246,6 +322,10 @@ public:
 	{
 		dir = _dir;
 	}
+	Projectile(int x, int y, int w, int h, float time, int dmg) :Entity(x, y, w, h) {
+		this->timer = time;
+		this->dmg = dmg;
+	}
 
 
 	void Hit(Player & p) {
@@ -255,5 +335,11 @@ public:
 	void Hit(Enemy & e) {
 		e.Hurt(dmg);
 	}
+	
+};
+
+class PowerUp : public Entity {
+public:
+	virtual void Effect(Player_Info stats)=0;
 
 };

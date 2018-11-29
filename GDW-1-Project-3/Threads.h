@@ -7,7 +7,7 @@ DWORD WINAPI DrawThread(LPVOID lpParameter)
 	return 0;
 }
 
-const int TO_LOAD = 16;
+const int TO_LOAD = 18;
 int LOADED = 0;
 DWORD WINAPI LoadThread(LPVOID lpParameter)
 {
@@ -53,6 +53,15 @@ DWORD WINAPI LoadThread(LPVOID lpParameter)
 	if (Sprites.LoadGenericMenu()) {
 		LOADED++;
 	}
+	if (Sprites.LoadBomb()) {
+		LOADED++;
+	}
+	if (Sprites.LoadArrow()) {
+		LOADED++;
+	}
+	if (Sprites.LoadFireball()) {
+		LOADED++;
+	}
 
 	// load player saves
 	int savesSize = sizeof(Player_Info) * 3;
@@ -72,12 +81,21 @@ DWORD WINAPI LoadThread(LPVOID lpParameter)
 		saves.close();
 		LOADED++;
 	}
-	if (Sprites.LoadBomb()) {
-		LOADED++;
-	}
 
-	 //Sounds below!!
 
+	// Sounds below!!
+	//if (sounds.LoadSwing()) {
+	//	LOADED++;
+	//}
+	//if (sounds.LoadBeamSword()) {
+	//	LOADED++;
+	//}
+	//if (sounds.LoadTitleTheme()) {
+	//	LOADED++;
+	//}
+	//if (sounds.LoadDungeonTheme()) {
+	//	LOADED++;
+	//}
 
 	
 	return 0;

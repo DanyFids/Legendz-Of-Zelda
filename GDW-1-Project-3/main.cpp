@@ -18,6 +18,7 @@
 
 #include"Menus.h"
 #include "sfxManager.h"
+#include "PowerUp.h"
 
 //SFX/BGM Managers
 //#include "bgMusicManager.h"
@@ -26,7 +27,6 @@
 
 //Projectiles
 #include "Projectiles.h"
-
 
 
 const int PLAYER_SPEED = 2;
@@ -45,6 +45,7 @@ COORD mouseLoc;
 GameState state = TITLE;
 
 bool Play = true;
+bool stop_watch = false;
 
 // Play Objects
 // Player
@@ -134,6 +135,8 @@ int main() {
 	if (!SetConsoleMode(inputH, consoleMode)) {
 		return 103;
 	}
+
+	
 
 	while (Play) {
 		DWORD unreadInputs;
@@ -268,7 +271,6 @@ void KeyHandler(KEY_EVENT_RECORD e) {
 				case TITLE:
 					ToCharacterSelect();
 					//LoZDungeonThemeBGM();           //Legacy Player
-
 					break;
 				case PLAY:
 					state = INVENTORY;
@@ -522,6 +524,11 @@ void Update() {
 			for (int p = 0; p < projectiles.size(); p++) {
 				if (projectiles[p]->HitDetect(enemies[e])) {
 					projectiles[p]->Hit(*enemies[e]);
+					if (projectiles[p]->getEnum() == PT_ARROW) {
+						std::vector<Projectile*>::iterator it = projectiles.begin();
+						projectiles.erase(it + p);
+						delete projectiles[p];
+					}
 				}
 
 				if (projectiles[p]->getEnum() == PT_BOMB) {
@@ -544,7 +551,9 @@ void Update() {
 		}
 		
 		for (int t = 0; t < roomTer.size(); t++) {
-			roomTer[t]->HitDetect(&player);
+			if ((roomTer[t]->HitDetect(&player) && roomTer[t]->CanMove()) || roomTer[t]->isMoving()) {
+				roomTer[t]->Update(dt);
+			}
 			for (int e = 0; e < enemies.size(); e++) {
 				roomTer[t]->HitDetect(enemies[e]);
 				for (int ep = 0; ep < enemies[e]->projectiles.size(); ep++) {
@@ -561,7 +570,10 @@ void Update() {
 				enemies.erase(enemies.begin() + e);
 			}
 			else {
-				enemies[e]->Update(dt);
+				if (!stop_watch)
+				{
+					enemies[e]->Update(dt);
+				}
 			}
 		}
 		for (int p = 0; p < projectiles.size(); p++) {
@@ -569,6 +581,12 @@ void Update() {
 			if (projectiles[p]->getTime() <= 0){
 				std::vector<Projectile*>::iterator it = projectiles.begin();
 				projectiles.erase(it + p);
+			}
+		}
+
+		for (int c = 0; c < powerups.size(); c++) {
+			if (powerups[c]->HitDetect(&player)) {
+				powerups[c]->Effect(&player_file);
 			}
 		}
 
@@ -647,6 +665,7 @@ void Load() {
 	}
 }
 
+std::vector<PowerUp *> powerups;
 void MouseHandler(MOUSE_EVENT_RECORD e) {
 	Menu* scrn;
 

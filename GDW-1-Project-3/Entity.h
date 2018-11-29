@@ -82,6 +82,10 @@ public:
 		cur_anim = id;
 	}
 
+	void SetCurFrame(int id) {
+		cur_frame = id;
+	}
+
 	void SetSpriteSheet(HANDLE s) {
 		sprite_sheet = s;
 	}
