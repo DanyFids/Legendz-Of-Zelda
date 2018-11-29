@@ -2,7 +2,13 @@
 class Wall : public Terrain {
 
 public:
-	Wall(int x, int y) : Terrain(x, y, 32, 16) {
+	Wall(int x, int y) : Terrain(x, y, 32, 16, true) {
+		SetSpriteSheet(Sprites.blockSprites);
+	}
+	Wall(int x, int y, int w, int h) : Terrain(x, y, w, h, true) {
+		SetSpriteSheet(Sprites.blockSprites);
+	}
+	Wall(COORD XY) : Terrain(XY.X, XY.Y, 32, 16, true) {
 		SetSpriteSheet(Sprites.blockSprites);
 	}
 
@@ -92,6 +98,7 @@ public:
 			}
 		}
 
+		return false;
 	}
 };
 class Hole : public Terrain {
@@ -145,9 +152,15 @@ class Door : public Terrain {
 private:
 	bool open;
 public:
-	Door(int x, int y) : Terrain(x, y, 32, 16) {
-		SetSpriteSheet(Sprites.blockSprites);
+	Door(int x, int y, bool isO = false) : Terrain(x, y, 66, 20) {
+		SetSpriteSheet(Sprites.doorSprites);
+		open = isO;
 	}
+	Door(COORD XY, bool isO = false) : Terrain(XY.X, XY.Y, 66, 20) {
+		SetSpriteSheet(Sprites.doorSprites);
+		open = isO;
+	}
+
 	bool IsOpen() {
 		return open;
 	}
@@ -158,6 +171,7 @@ public:
 
 	bool HitDetect(Entity * other) {
 		if (!IsOpen()) {
+			bool nope = willHit(other, other->xSpd, other->ySpd);
 			if (willHit(other, other->xSpd, other->ySpd)) {
 				if (willHit(other, other->xSpd, 0)) {
 					if (other->xSpd > 0) {
@@ -192,7 +206,11 @@ public:
 					}
 				}
 			}
+
+			return nope;
 		}
+
+		return false;
 
 	}
 };

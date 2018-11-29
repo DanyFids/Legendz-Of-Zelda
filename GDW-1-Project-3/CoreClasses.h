@@ -43,7 +43,10 @@ public:
 	}
 
 	void Hurt(int d) {
-		hp -= d;
+		if (invulnTimer <= 0) {
+			hp -= d;
+			invulnTimer = 15;
+		}
 	}
 
 
@@ -66,6 +69,10 @@ public:
 			}
 		}
 
+		if (invulnTimer > 0) {
+			invulnTimer--;
+		}
+
 		xSpd = 0;
 		ySpd = 0;
 	}
@@ -76,7 +83,11 @@ public:
 
 	void SwingSword() {
 		can_attack = false;
-		stop_timer = 1;
+		stop_timer = 0.4f;
+	}
+
+	int GetHp() {
+		return hp;
 	}
 };
 
@@ -108,11 +119,12 @@ public:
 	}
 
 	virtual void AI(Player p) = 0;
+	virtual Enemy* Clone() = 0;
 };
 
 class Terrain : public Entity {
 public:
-	Terrain(int x, int y, int w, int h):Entity(x, y, w, h) {
+	Terrain(int x, int y, int w, int h, bool hide = false):Entity(x, y, w, h, hide) {
 
 	}
 

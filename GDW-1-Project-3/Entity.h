@@ -9,10 +9,12 @@ private:
 	int cur_frame = 0;
 	std::vector<int> num_frames;
 	bool flying;
+	bool hidden;
 	Direction dir;
 public:
 	HANDLE sprite_sheet;
 	int xSpd, ySpd;
+	int invulnTimer = 0;
 
 	Entity() {
 		x = 0;
@@ -21,11 +23,12 @@ public:
 		height = 0;
 	}
 
-	Entity(int x, int y, int w, int h) {
+	Entity(int x, int y, int w, int h, bool hide = false) {
 		this->x = x;
 		this->y = y;
 		width = w;
 		height = h;
+		hidden = hide;
 	}
 
 	int GetX() {
@@ -65,9 +68,16 @@ public:
 		x += xSpd;
 		y += ySpd;
 	}
+
+	void MoveTo(COORD XY) {
+		x = XY.X;
+		y = XY.Y;
+	}
 	
 	void draw(HANDLE out) {
-		Sprites.DrawSprite(sprite_sheet, (width+2) * cur_anim, (height + 1) * cur_frame, width, height, out, x, y);
+		if (!hidden && (invulnTimer % 4) < 2) {
+			Sprites.DrawSprite(sprite_sheet, (width + 2) * cur_anim, (height + 1) * cur_frame, width, height, out, x, y, true);
+		}
 	}
 
 	void SetNumAnim(int num) {

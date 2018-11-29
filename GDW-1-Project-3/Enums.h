@@ -17,9 +17,9 @@ enum GameState {
 };
 
 enum Weapon {
-	Bow,
-	//Bomb,
-	Boomerang
+	W_BOW,
+	W_BOMB,
+	W_BOOM
 };
 
 enum BtnAction {
@@ -27,4 +27,12 @@ enum BtnAction {
 	REGISTER,
 	ERASE,
 	END
+};
+
+enum RoomType {
+	RT_DEFAULT,
+	RT_START,
+	RT_BOSS,
+	RT_MINI_BOSS,
+	RT_SECRET
 };

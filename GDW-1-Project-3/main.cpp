@@ -5,6 +5,7 @@
 #include<Windows.h>
 #include<ctime>
 #include<random>
+#include<thread>
 
 #include"Enums.h"
 #include"FunctionProto.h"
@@ -14,6 +15,8 @@
 #include"Terrains.h"
 #include"Enemies.h"
 #include"Menus.h"
+#include"Room.h"
+#include"Dungeon.h"
 
 //SFX/BGM Managers
 #include "bgMusicManager.h"
@@ -22,6 +25,8 @@
 
 //Projectiles
 #include "Projectiles.h"
+
+void SetupRoom(Room * r, Direction d);
 
 const int PLAYER_SPEED = 2;
 
@@ -42,12 +47,16 @@ bool Play = true;
 
 // Play Objects
 // Player
-Player player(0, 0);
+Player player(240, 208);
 Player_Info * player_file;
 // Non-Player entities
-std::vector<Enemy*> enemies = {new Rope(80, 10),new SpikeTrap(400, 3),new SpikeTrap(400, 200),new Gel(50, 50), new Keese(100, 100) };
-std::vector<Projectile*> projectiles = {new Bomb(150,150)};
-std::vector<Terrain*> roomTer = {new Wall(20,100), new Wall(52, 100), new Wall(84, 100)};
+//std::vector<Enemy*> * enemies;
+std::vector<Projectile*> projectiles = {};
+//std::vector<Terrain*> * roomTer;
+
+Dungeon LEVEL2;
+
+Room * curRoom = LEVEL2.GetStartRoom();
 
 // Menus
 Menu CharSelMenu({
@@ -82,27 +91,24 @@ int main() {
 	SCREEN_SIZE.Y = 240;
 
 	ResizeWindow();
-
-	ResizeWindow();
-	//LoZTitleScreenBGM();	 //Legacy Player
-	Load();
-	sounds.PlayTitleTheme();
-
-	//Start DrawThread
-	DWORD drawThreadID;
-	HANDLE drawThreadH = CreateThread(0, 0, DrawThread, NULL, 0, &drawThreadID);
-
-	const int inputR_SIZE = 128;
-	DWORD iNumRead, consoleModeSave, consoleMode;
-	INPUT_RECORD inputR[inputR_SIZE];
-
 	//hide cursor
 	CONSOLE_CURSOR_INFO cursor;
 	GetConsoleCursorInfo(console, &cursor);
 	cursor.bVisible = false;
 	SetConsoleCursorInfo(console, &cursor);
 
+	//LoZTitleScreenBGM();	 //Legacy Player
+	Load();
+	//sounds.PlayTitleTheme();
 
+	//Start DrawThread
+	DWORD drawThreadID;
+	std::thread drawThreadH(DrawThread);
+	drawThreadH.detach();
+
+	const int inputR_SIZE = 128;
+	DWORD iNumRead, consoleModeSave, consoleMode;
+	INPUT_RECORD inputR[inputR_SIZE];
 
 	inputH = GetStdHandle(STD_INPUT_HANDLE);
 
@@ -128,6 +134,8 @@ int main() {
 	if (!SetConsoleMode(inputH, consoleMode)) {
 		return 103;
 	}
+
+	curRoom->Respawn();
 
 	while (Play) {
 		DWORD unreadInputs;
@@ -164,10 +172,11 @@ int main() {
 		}
 		Update();
 
-		Sleep(40);
+		int ut = GetUpdateTime();
+		if (ut < 50) {
+			Sleep(50 - ut);
+		}
 	}
-
-	CloseHandle(drawThreadH);
 
 	return 0;
 }
@@ -268,6 +277,9 @@ void KeyHandler(KEY_EVENT_RECORD e) {
 				state = INVENTORY;
 				//LoZTitleScreenBGM();		  //Legacy Player
 				break;
+			case INVENTORY:
+				state = PLAY;
+				break;
 			}
 			break;
 			case VK_DOWN:
@@ -280,6 +292,7 @@ void KeyHandler(KEY_EVENT_RECORD e) {
 				player_input.keyRight = true;
 				break;
 			case VK_SPACE:
+			case 'C':
 				player_input.keySpace = true;
 				break;
 			}
@@ -299,6 +312,7 @@ void KeyHandler(KEY_EVENT_RECORD e) {
 				player_input.keyRight = false;
 				break;
 			case VK_SPACE:
+			case 'C':
 				player_input.keySpace = false;
 				break;
 			}
@@ -341,12 +355,14 @@ void Draw() {
 		CharSelMenu.Draw(drawBuff);
 		break;
 	case PLAY:
-		for (int e = 0; e < enemies.size(); e++) {
-			enemies[e]->draw(drawBuff);
+		curRoom->Draw(drawBuff);
+
+		for (int e = 0; e < curRoom->EnemyList.size(); e++) {
+			curRoom->EnemyList[e]->draw(drawBuff);
 		}
 
-		for (int t = 0; t < roomTer.size(); t++) {
-			roomTer[t]->draw(drawBuff);
+		for (int t = 0; t < curRoom->TerrainList.size(); t++) {
+			curRoom->TerrainList[t]->draw(drawBuff);
 		}
 
 		for (int p = 0; p < projectiles.size(); p++) {
@@ -354,9 +370,12 @@ void Draw() {
 		}
 
 		player.draw(drawBuff);
+
+		DrawUI();
 		break;
 	case INVENTORY:
-
+		DrawScreen(Sprites.InventoryScreen);
+		DrawUI(176);
 		break;
 	case CHARACTER_ADD:
 		DrawScreen(Sprites.GenericScreen);
@@ -440,41 +459,43 @@ void Update() {
 			break;
 		}
 
-		if (player_input.keyUp && !player_input.keyDown) {
-			player.ySpd = -PLAYER_SPEED;
-			if (changeDir) {
-				player.SetDir(Up);
-				player.SetCurAnim(3);
+		if (player.CanAtk()) {
+			if (player_input.keyUp && !player_input.keyDown) {
+				player.ySpd = -PLAYER_SPEED;
+				if (changeDir) {
+					player.SetDir(Up);
+					player.SetCurAnim(3);
+				}
 			}
-		}
 
-		if (!player_input.keyUp && player_input.keyDown) {
-			player.ySpd = PLAYER_SPEED;
-			if (changeDir) {
-				player.SetDir(Down);
-				player.SetCurAnim(0);
+			if (!player_input.keyUp && player_input.keyDown) {
+				player.ySpd = PLAYER_SPEED;
+				if (changeDir) {
+					player.SetDir(Down);
+					player.SetCurAnim(0);
+				}
 			}
-		}
 
-		if (player_input.keyRight && !player_input.keyLeft) {
-			player.xSpd = PLAYER_SPEED * 2;
-			if (changeDir) {
-				player.SetDir(Right);
-				player.SetCurAnim(1);
+			if (player_input.keyRight && !player_input.keyLeft) {
+				player.xSpd = PLAYER_SPEED * 2;
+				if (changeDir) {
+					player.SetDir(Right);
+					player.SetCurAnim(1);
+				}
 			}
-		}
 
-		if (!player_input.keyRight && player_input.keyLeft) {
-			player.xSpd = -PLAYER_SPEED * 2;
-			if (changeDir) {
-				player.SetDir(Left);
-				player.SetCurAnim(2);
+			if (!player_input.keyRight && player_input.keyLeft) {
+				player.xSpd = -PLAYER_SPEED * 2;
+				if (changeDir) {
+					player.SetDir(Left);
+					player.SetCurAnim(2);
+				}
 			}
 		}
 
 		if (player_input.keySpace)
 		{
-			sounds.PlaySwing();
+			//sounds.PlaySwing();
 			if (player.CanAtk()) {
 				Direction d = player.GetDir();
 				switch (d) {
@@ -491,41 +512,42 @@ void Update() {
 					projectiles.push_back(new Sword(player.GetX() + player.GetWidth(), player.GetY(), d));
 					break;
 				}
+				player.SwingSword();
 			}
 		}
 
-		for (int e = 0; e < enemies.size(); e++) {
-			enemies[e]->AI(player);
-			if (enemies[e]->HitDetect(&player)) {
-				enemies[e]->Hit(player);
+		for (int e = 0; e < curRoom->EnemyList.size(); e++) {
+			curRoom->EnemyList[e]->AI(player);
+			if (curRoom->EnemyList[e]->HitDetect(&player)) {
+				curRoom->EnemyList[e]->Hit(player);
 			}
-			for (int f = 0; f < enemies.size(); f++) {
+			for (int f = 0; f < curRoom->EnemyList.size(); f++) {
 				if (e != f) {
-					enemies[e]->HitDetect(enemies[f]);
+					curRoom->EnemyList[e]->HitDetect(curRoom->EnemyList[f]);
 				}
 			}
 			for (int p = 0; p < projectiles.size(); p++) {
-				if (projectiles[p]->HitDetect(enemies[e])) {
-					projectiles[p]->Hit(*enemies[e]);
+				if (projectiles[p]->HitDetect(curRoom->EnemyList[e])) {
+					projectiles[p]->Hit(*curRoom->EnemyList[e]);
 				}
 			}
 		}
 		
-		for (int t = 0; t < roomTer.size(); t++) {
-			roomTer[t]->HitDetect(&player);
-			for (int e = 0; e < enemies.size(); e++) {
-				roomTer[t]->HitDetect(enemies[e]);
+		for (int t = 0; t < curRoom->TerrainList.size(); t++) {
+			curRoom->TerrainList[t]->HitDetect(&player);
+			for (int e = 0; e < curRoom->EnemyList.size(); e++) {
+				curRoom->TerrainList[t]->HitDetect(curRoom->EnemyList[e]);
 			}
 			
 		}
 
 		player.Update(dt);
-		for (int e = 0; e < enemies.size(); e++) {
-			if (enemies[e]->GetHP() <= 0) {
-				enemies.erase(enemies.begin() + e);
+		for (int e = 0; e < curRoom->EnemyList.size(); e++) {
+			if (curRoom->EnemyList[e]->GetHP() <= 0) {
+				curRoom->EnemyList.erase(curRoom->EnemyList.begin() + e);
 			}
 			else {
-				enemies[e]->Update(dt);
+				curRoom->EnemyList[e]->Update(dt);
 			}
 		}
 		for (int p = 0; p < projectiles.size(); p++) {
@@ -536,6 +558,31 @@ void Update() {
 			}
 		}
 
+		if (player.GetX() <= 0 || player.GetX() + player.GetWidth() >= SCREEN_SIZE.X - 1 || player.GetY() <= 64 || player.GetY() + player.GetHeight() >= SCREEN_SIZE.Y - 1) {
+			Room * nextRoom = NULL;
+			Direction d;
+
+			if (player.GetX() <= 0) {
+				nextRoom = LEVEL2.GetNextRoom(curRoom, Left);
+				d = Left;
+			}
+			else if (player.GetX() + player.GetWidth() >= SCREEN_SIZE.X) {
+				nextRoom = LEVEL2.GetNextRoom(curRoom, Right);
+				d = Right;
+			}
+			else if (player.GetY() <= 64) {
+				nextRoom = LEVEL2.GetNextRoom(curRoom, Up);
+				d = Up;
+			}
+			else if (player.GetY() <= 64 || player.GetY() + player.GetHeight() >= SCREEN_SIZE.Y - 1) {
+				nextRoom = LEVEL2.GetNextRoom(curRoom, Down);
+				d = Down;
+			}
+
+			if (nextRoom != NULL) {
+				SetupRoom(nextRoom, d);
+			}
+		}
 	}
 }
 
@@ -568,6 +615,13 @@ float GetTimeInSeconds() {
 	return ret;
 }
 
+int GetUpdateTime() {
+	static int timePassed = clock();
+	int ret = (clock() - timePassed);
+	timePassed = clock();
+	return ret;
+}
+
 void Load() {
 	SetConsoleTextAttribute(drawBuff, 15 * 16);
 	//Draw Loading Bar
@@ -591,7 +645,9 @@ void Load() {
 
 	//Load Stuff
 	DWORD loadThreadID;
-	HANDLE loadThreadH = CreateThread(0, 0, LoadThread, NULL, 0, &loadThreadID);
+	int LOADED = 0;
+	std::thread loadThreadH(LoadThread, std::ref(LOADED));
+	loadThreadH.detach();
 	int loadPerc = 0;
 
 	SetConsoleTextAttribute(drawBuff, 10 * 16);
@@ -697,6 +753,8 @@ void ButtonHandler(BtnAction action, int extra) {
 }
 
 void Save() {
+	//player_file->CurLife = player.GetHp();
+
 	int savesSize = sizeof(Player_Info) * 3;
 	char * bytes = new char[savesSize];
 	std::fstream saves("profiles.sav", std::ios::out | std::ios::in | std::ios::trunc | std::ios::binary);
@@ -793,4 +851,67 @@ void ToEliminationMode() {
 	if (!setSelected) {
 		ElimMenu.SetSelected(3);
 	}
+}
+
+void SetupRoom(Room * r, Direction d) {
+	curRoom = r;
+	player.SetDir(d);
+	switch (d) {
+	case Up:
+		player.MoveTo(ROOM_BOTTOM_WALL);
+		break;
+	case Down:
+		player.MoveTo(ROOM_TOP_WALL);
+		break;
+	case Right:
+		player.MoveTo(ROOM_LEFT_WALL);
+		break;
+	case Left:
+		player.MoveTo(ROOM_RIGHT_WALL);
+		break;
+	}
+}
+
+void DrawUI(int y) {
+	Sprites.DrawSprite(Sprites.UIPanel, 0, 0, 512, 64, drawBuff, 0, y);
+
+	int numHearts = player_file->MaxLife / 2;
+	int numFullHearts = player.GetHp() / 2;
+	bool halfHeart = (player.GetHp() % 2) == 1;
+	for (int c = 0; c < numHearts; c++) {
+		int HeartType = 0;
+		if (c >= numFullHearts) {
+			if (c == numFullHearts && halfHeart) {
+				HeartType = 1;
+			}
+			else {
+				HeartType = 2;
+			}
+		}
+
+		if (c < 8) {
+			Sprites.DrawSprite(Sprites.heartSprites, (16 * HeartType), 0, 14, 8, drawBuff, 352 + (c * 16), y + 48);
+		}
+		else {
+			Sprites.DrawSprite(Sprites.heartSprites, (16 * HeartType), 0, 14, 8, drawBuff, 352 + ((c - 8) * 16), y + 39);
+		}
+	}
+	
+	if (player_file->Rupees < 100) {
+		Sprites.DrawTextSprites(drawBuff, "x" + std::to_string(player_file->Rupees), 192, y + 24);
+	}
+	else {
+		Sprites.DrawTextSprites(drawBuff, std::to_string(player_file->Rupees), 192, y + 24);
+	}
+
+	Sprites.DrawTextSprites(drawBuff, "x" + std::to_string(player_file->Keys), 192, y + 40);
+
+	if (player_file->Bombs <= 0) {
+		Sprites.DrawTextSprites(drawBuff, "x$", 192, y + 48);
+	}
+	else {
+		Sprites.DrawTextSprites(drawBuff, "x" + std::to_string(player_file->Bombs), 192, y + 48);
+	}
+
+	LEVEL2.DrawMap(drawBuff, y, curRoom);
 }

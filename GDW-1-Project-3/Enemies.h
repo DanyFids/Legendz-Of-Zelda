@@ -150,6 +150,10 @@ public:
 		xSpd = 0;
 		ySpd = 0;
 	}
+
+	Enemy * Clone() {
+		return new SpikeTrap(*this);
+	}
 };
 
 class Keese : public Enemy {
@@ -294,6 +298,10 @@ public:
 		xSpd = 0;
 		ySpd = 0;
 	}
+
+	Enemy * Clone() {
+		return new Keese(*this);
+	}
 };
 
 class Rope : public Enemy {
@@ -427,6 +435,10 @@ public:
 		xSpd = 0;
 		ySpd = 0;
 	}
+
+	Enemy * Clone() {
+		return new Rope(*this);
+	}
 };
 class Gel : public Enemy {
 private:
@@ -526,4 +538,9 @@ public:
 		xSpd = 0;
 		ySpd = 0;
 	}
+
+	Enemy * Clone() {
+		return new Gel(*this);
+	}
 };
+

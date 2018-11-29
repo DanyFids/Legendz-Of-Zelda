@@ -1,5 +1,5 @@
 #pragma once
-DWORD WINAPI DrawThread(LPVOID lpParameter)
+int DrawThread()
 {
 	while (true) {
 		Draw();
@@ -8,9 +8,9 @@ DWORD WINAPI DrawThread(LPVOID lpParameter)
 }
 
 
-const int TO_LOAD = 20;
-int LOADED = 0;
-DWORD WINAPI LoadThread(LPVOID lpParameter)
+const int TO_LOAD = 18;
+//int LOADED = 0;
+ int LoadThread(int & LOADED)
 {
 	if (Sprites.LoadPlayer()) {
 		LOADED++;
@@ -21,7 +21,7 @@ DWORD WINAPI LoadThread(LPVOID lpParameter)
 	if (Sprites.LoadTitle()) {
 		LOADED++;
 	}
-	if (Sprites.LoadWall()) {
+	if (Sprites.LoadRooms()) {
 		LOADED++;
 	}
 	if (Sprites.LoadBlock()) {
@@ -54,6 +54,12 @@ DWORD WINAPI LoadThread(LPVOID lpParameter)
 	if (Sprites.LoadGenericMenu()) {
 		LOADED++;
 	}
+	if (Sprites.LoadUI()) {
+		LOADED++;
+	}
+	if (Sprites.LoadInventoryScrn()) {
+		LOADED++;
+	}
 
 	// load player saves
 	int savesSize = sizeof(Player_Info) * 3;
@@ -78,7 +84,7 @@ DWORD WINAPI LoadThread(LPVOID lpParameter)
 	}
 
 	// Sounds below!!
-	if (sounds.LoadSwing()) {//13
+	/*if (sounds.LoadSwing()) {//13
 		LOADED++;
 	}
 	if (sounds.LoadBeamSword()) {
@@ -89,7 +95,7 @@ DWORD WINAPI LoadThread(LPVOID lpParameter)
 	}
 	if (sounds.LoadDungeonTheme()) {
 		LOADED++;
-	}
+	}*/
 	
 	return 0;
 }

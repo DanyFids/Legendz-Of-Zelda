@@ -13,6 +13,8 @@ void Load();
 void MouseHandler(MOUSE_EVENT_RECORD e);
 void ButtonHandler(BtnAction action, int extra);
 void Save();
+void DrawUI(int y = 0);
+int GetUpdateTime();
 
 //State Functions
 void ToCharacterSelect();

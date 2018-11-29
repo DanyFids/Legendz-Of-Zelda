@@ -3,7 +3,7 @@
 class SpriteSheets {
 public:
 
-	void DrawSprite(HANDLE sheet, int sX, int sY, int w, int h, HANDLE dest, int dx, int dy) {
+	void DrawSprite(HANDLE sheet, int sX, int sY, int w, int h, HANDLE dest, int dx, int dy, bool trans = false) {
 		int drX = 0;
 		if (dx < 0) {
 			drX = -dx;
@@ -39,6 +39,8 @@ public:
 		size.X = w - drX;
 		size.Y = h - drY;
 
+		//Speed up by doing memcpy instead of ReadConsole:
+		//
 		ReadConsoleOutput(sheet, outBuff, size, start, &screen);
 
 		screen.Top = dy + drY;
@@ -46,15 +48,19 @@ public:
 		screen.Right = w + dx - 1;
 		screen.Bottom = h + dy - 1;
 
+		if (trans) {
 		ReadConsoleOutput(dest, transBuff, size, pos, &screen);
-
-		for (int p = 0; p < (w * h); p++) {
-			if (outBuff[p].Attributes == 7) {
-				outBuff[p] = transBuff[p];
+			for (int p = 0; p < (w * h); p++) {
+				if (outBuff[p].Attributes == 7) {
+					outBuff[p] = transBuff[p];
+				}
 			}
 		}
 
 		WriteConsoleOutput(dest, outBuff, size, pos, &screen);
+
+		delete[] outBuff;
+		delete[] transBuff;
 	}
 
 	HANDLE dodongoSprites = CreateConsoleScreenBuffer(
@@ -86,6 +92,12 @@ public:
 		NULL);
 
 	HANDLE wallSprites = CreateConsoleScreenBuffer(
+		GENERIC_READ | GENERIC_WRITE,
+		FILE_SHARE_READ | FILE_SHARE_WRITE,
+		NULL,
+		CONSOLE_TEXTMODE_BUFFER,
+		NULL);
+	HANDLE roomSprites = CreateConsoleScreenBuffer(
 		GENERIC_READ | GENERIC_WRITE,
 		FILE_SHARE_READ | FILE_SHARE_WRITE,
 		NULL,
@@ -188,7 +200,18 @@ public:
 		NULL,
 		CONSOLE_TEXTMODE_BUFFER,
 		NULL);
-
+	HANDLE InventoryScreen = CreateConsoleScreenBuffer(
+		GENERIC_READ | GENERIC_WRITE,
+		FILE_SHARE_READ | FILE_SHARE_WRITE,
+		NULL,
+		CONSOLE_TEXTMODE_BUFFER,
+		NULL);
+	HANDLE UIPanel = CreateConsoleScreenBuffer(
+		GENERIC_READ | GENERIC_WRITE,
+		FILE_SHARE_READ | FILE_SHARE_WRITE,
+		NULL,
+		CONSOLE_TEXTMODE_BUFFER,
+		NULL);
 
 	bool LoadDodongo() {
 		SetConsoleScreenBufferSize(dodongoSprites, SCREEN_SIZE);
@@ -5886,6 +5909,14 @@ public:
 		GoToXY(doorSprites, 2, 17);
 		WriteConsole(doorSprites, &"                                                            ", 60, &output, NULL);
 
+		SetConsoleTextAttribute(doorSprites, 0); // black
+		for (int c = 0; c < 7;c++) {
+			GoToXY(doorSprites, 16, 8 + c);
+			for (int d = 0; d < 16; d++) {
+				WriteConsole(doorSprites, &"  ", 2, &output, NULL);
+			}
+		}
+
 		return true;
 	}
 
@@ -7557,6 +7588,39 @@ public:
 
 			//line 7
 			break;
+		case '$':
+			//line 1
+			GoToXY(out, x + 6, y);
+			WriteConsole(out, &"        ", 8, &output, NULL);
+			//line 2
+			GoToXY(out, x + 4, y+1);
+			WriteConsole(out, &"      ", 6, &output, NULL);
+			GoToXY(out, x + 12, y+1);
+			WriteConsole(out, &"  ", 2, &output, NULL);
+			//line 3
+			GoToXY(out, x + 2, y + 2);
+			WriteConsole(out, &"        ", 8, &output, NULL);
+			GoToXY(out, x + 12, y + 2);
+			WriteConsole(out, &"  ", 2, &output, NULL);
+			//line 4
+			GoToXY(out, x, y + 3);
+			WriteConsole(out, &"          ", 10, &output, NULL);
+			GoToXY(out, x + 12, y + 3);
+			WriteConsole(out, &"  ", 2, &output, NULL);
+			//line 5
+			GoToXY(out, x, y + 4);
+			WriteConsole(out, &"        ", 8, &output, NULL);
+			//line 6
+			GoToXY(out, x, y + 5);
+			WriteConsole(out, &"  ", 2, &output, NULL);
+			GoToXY(out, x + 8, y + 5);
+			WriteConsole(out, &"  ", 2, &output, NULL);
+			//line 7
+			GoToXY(out, x, y + 6);
+			WriteConsole(out, &"    ", 4, &output, NULL);
+			GoToXY(out, x + 6, y + 6);
+			WriteConsole(out, &"  ", 2, &output, NULL);
+			break;
 		default:
 
 			break;
@@ -7622,6 +7686,379 @@ public:
 		return true;
 	}
 
+	bool LoadRooms() {
+		LoadBrick();
+		LoadWall();
+
+		SetConsoleScreenBufferSize(roomSprites, { SCREEN_SIZE.X * 5 + 8, SCREEN_SIZE.Y });
+		DrawSprite(wallSprites, 0, 64, 512, 176, roomSprites, 0, 0);
+		DrawSprite(wallSprites, 0, 64, 512, 88, roomSprites, 0, 8);
+		for (int b = 0; b < 32; b++) {
+			DrawSprite(brickSprites, 0, 0, 16, 8, roomSprites, 16 + (16 * b), 0);
+		}
+		for (int c = 0; c < 7; c++) {
+			for (int d = 0; d < 12;d++) {
+				DrawSprite(floorSprites, 0, 0, 32, 16, roomSprites, 64 + (d * 32), 32 + (c * 16));
+			}
+		}
+
+		DrawSprite(roomSprites, 0, 0, 512, 176, roomSprites, SCREEN_SIZE.X + 2, 0);
+		for (int c = 0; c < 4; c++) {
+			DrawSprite(floorSprites, 34, 0, 16, 8, roomSprites, (SCREEN_SIZE.X + 2) + 224 + (16 * c), 96);
+			DrawSprite(floorSprites, 34, 0, 16, 8, roomSprites, (SCREEN_SIZE.X + 2) + 224 + (16 * c), 104);
+		}
+		for (int c = 0; c < 12; c++) {
+			DrawSprite(floorSprites, 34, 0, 16, 8, roomSprites, (SCREEN_SIZE.X + 2) + 160 + (16 * c), 112);
+			DrawSprite(floorSprites, 34, 0, 16, 8, roomSprites, (SCREEN_SIZE.X + 2) + 160 + (16 * c), 120);
+			DrawSprite(floorSprites, 34, 0, 16, 8, roomSprites, (SCREEN_SIZE.X + 2) + 160 + (16 * c), 128);
+			DrawSprite(floorSprites, 34, 0, 16, 8, roomSprites, (SCREEN_SIZE.X + 2) + 160 + (16 * c), 136);
+		}
+
+		return true;
+	}
+
+	bool LoadUI() {
+		SetConsoleScreenBufferSize(UIPanel, SCREEN_SIZE);
+
+		DrawTextSprites(UIPanel, "LEVEL-2", 34, 16);
+		DrawTextSprites(UIPanel, "-LIFE-", 368, 24, 4 * 16);
+
+		SetConsoleTextAttribute(UIPanel, 1 * 16);
+		// 'B' Top Line
+		GoToXY(UIPanel, 248, 27);
+		WriteConsole(UIPanel, "        ", 8, NULL, NULL);
+		GoToXY(UIPanel, 248, 28);
+		WriteConsole(UIPanel, "        ", 8, NULL, NULL);
+		GoToXY(UIPanel, 272, 27);
+		WriteConsole(UIPanel, "        ", 8, NULL, NULL);
+		GoToXY(UIPanel, 272, 28);
+		WriteConsole(UIPanel, "        ", 8, NULL, NULL);
+		// 'B' sides
+		for (int c = 0; c < 24; c++) {
+			GoToXY(UIPanel, 246, 28 + c);
+			WriteConsole(UIPanel, "    ", 4, NULL, NULL);
+			GoToXY(UIPanel, 278, 28 + c);
+			WriteConsole(UIPanel, "    ", 4, NULL, NULL);
+		}
+		//'B' Bottom
+		GoToXY(UIPanel, 248, 51);
+		WriteConsole(UIPanel, "                                ", 32, NULL, NULL);
+		GoToXY(UIPanel, 248, 52);
+		WriteConsole(UIPanel, "                                ", 32, NULL, NULL);
+
+		DrawTextSprites(UIPanel, "x", 256, 24);
+
+		SetConsoleTextAttribute(UIPanel, 1 * 16);
+		// 'A' Top Line
+		GoToXY(UIPanel, 296, 27);
+		WriteConsole(UIPanel, "        ", 8, NULL, NULL);
+		GoToXY(UIPanel, 296, 28);
+		WriteConsole(UIPanel, "        ", 8, NULL, NULL);
+		GoToXY(UIPanel, 320, 27);
+		WriteConsole(UIPanel, "        ", 8, NULL, NULL);
+		GoToXY(UIPanel, 320, 28);
+		WriteConsole(UIPanel, "        ", 8, NULL, NULL);
+		// 'A' sides
+		for (int c = 0; c < 24; c++) {
+			GoToXY(UIPanel, 294, 28 + c);
+			WriteConsole(UIPanel, "    ", 4, NULL, NULL);
+			GoToXY(UIPanel, 326, 28 + c);
+			WriteConsole(UIPanel, "    ", 4, NULL, NULL);
+		}
+		//'A' Bottom
+		GoToXY(UIPanel, 296, 51);
+		WriteConsole(UIPanel, "                                ", 32, NULL, NULL);
+		GoToXY(UIPanel, 296, 52);
+		WriteConsole(UIPanel, "                                ", 32, NULL, NULL);
+
+		DrawTextSprites(UIPanel, "c", 304, 24);
+
+		DrawSprite(swordSprites, 0, 0, 32, 16, UIPanel, 296, 32, true);
+
+		// Rupees
+		// red
+		SetConsoleTextAttribute(UIPanel, 12 * 16);
+		for (int c = 0; c < 8; c++) {
+			int dX = 176;
+
+			if (c <= 2) {
+				dX = 182 - (2 * c);
+			}
+
+			GoToXY(UIPanel, dX, 24 + c);
+
+			if (c == 0 || c == 7) {
+				WriteConsole(UIPanel, "          ", 10, NULL, NULL);
+			}
+			else if (c == 1 || c == 6) {
+				WriteConsole(UIPanel, "            ", 12, NULL, NULL);
+			}
+			else if(c == 2 || c == 5){
+				WriteConsole(UIPanel, "              ", 14, NULL, NULL);
+			}
+			else {
+				WriteConsole(UIPanel, "                ", 16, NULL, NULL);
+			}
+		}
+		//white
+		SetConsoleTextAttribute(UIPanel, 15 * 16);
+		GoToXY(UIPanel, 184, 24);
+		WriteConsole(UIPanel, "      ", 6, NULL, NULL);
+		GoToXY(UIPanel, 180, 25);
+		WriteConsole(UIPanel, "  ", 2, NULL, NULL);
+		GoToXY(UIPanel, 178, 26);
+		WriteConsole(UIPanel, "  ", 2, NULL, NULL);
+		GoToXY(UIPanel, 176, 28);
+		WriteConsole(UIPanel, "  ", 2, NULL, NULL);
+		GoToXY(UIPanel, 176, 29);
+		WriteConsole(UIPanel, "  ", 2, NULL, NULL);
+		GoToXY(UIPanel, 176, 30);
+		WriteConsole(UIPanel, "  ", 2, NULL, NULL);
+		//Black
+		SetConsoleTextAttribute(UIPanel, 0);
+		for (int c = 0; c < 3; c++) {
+			GoToXY(UIPanel, 188, 25 + c);
+			WriteConsole(UIPanel, "  ", 2, NULL, NULL);
+		}
+		GoToXY(UIPanel, 186, 28);
+		WriteConsole(UIPanel, "      ", 6, NULL, NULL);
+		GoToXY(UIPanel, 184, 29);
+		WriteConsole(UIPanel, "  ", 2, NULL, NULL);
+		GoToXY(UIPanel, 178, 30);
+		WriteConsole(UIPanel, "      ", 6, NULL, NULL);
+		GoToXY(UIPanel, 182, 31);
+		WriteConsole(UIPanel, "  ", 2, NULL, NULL);
+
+		// Keys
+		SetConsoleTextAttribute(UIPanel, 6 * 16);
+		//line 1
+		GoToXY(UIPanel, 184, 40);
+		WriteConsole(UIPanel, "      ", 6, NULL, NULL);
+		//line 2
+		GoToXY(UIPanel, 182, 41);
+		WriteConsole(UIPanel, "  ", 2, NULL, NULL);
+		GoToXY(UIPanel, 188, 41);
+		WriteConsole(UIPanel, "    ", 4, NULL, NULL);
+		//line 3
+		GoToXY(UIPanel, 182, 42);
+		WriteConsole(UIPanel, "  ", 2, NULL, NULL);
+		GoToXY(UIPanel, 190, 42);
+		WriteConsole(UIPanel, "  ", 2, NULL, NULL);
+		//line 4
+		GoToXY(UIPanel, 184, 43);
+		WriteConsole(UIPanel, "  ", 2, NULL, NULL);
+		GoToXY(UIPanel, 190, 43);
+		WriteConsole(UIPanel, "  ", 2, NULL, NULL);
+		//line 5
+		GoToXY(UIPanel, 182, 44);
+		WriteConsole(UIPanel, "  ", 2, NULL, NULL);
+		GoToXY(UIPanel, 186, 44);
+		WriteConsole(UIPanel, "    ", 4, NULL, NULL);
+		//line 6
+		GoToXY(UIPanel, 180, 45);
+		WriteConsole(UIPanel, "  ", 2, NULL, NULL);
+		//line 7
+		GoToXY(UIPanel, 178, 46);
+		WriteConsole(UIPanel, "  ", 2, NULL, NULL);
+		GoToXY(UIPanel, 182, 46);
+		WriteConsole(UIPanel, "  ", 2, NULL, NULL);
+		// line 8
+		GoToXY(UIPanel, 176, 47);
+		WriteConsole(UIPanel, "  ", 2, NULL, NULL);
+		GoToXY(UIPanel, 180, 47);
+		WriteConsole(UIPanel, "  ", 2, NULL, NULL);
+
+		// Bomb
+		//blue
+		SetConsoleTextAttribute(UIPanel, 1 * 16);
+		for (int c = 0; c < 7; c++) {
+			int dX;
+			if (c == 0 || c == 6) {
+				dX = 180;
+			}
+			else if (c == 1 || c == 5) {
+				dX = 178;
+			}
+			else {
+				dX = 176;
+			}
+			GoToXY(UIPanel, dX, 49 + c);
+			if (c == 0 || c == 6) {
+				WriteConsole(UIPanel, "        ", 8, NULL, NULL);
+			}
+			else if (c == 1 || c == 5) {
+				WriteConsole(UIPanel, "            ", 12, NULL, NULL);
+			}
+			else {
+				WriteConsole(UIPanel, "                ", 16, NULL, NULL);
+			}
+
+		}
+		//Grey
+		SetConsoleTextAttribute(UIPanel, 8 * 16);
+		GoToXY(UIPanel, 180, 49);
+		WriteConsole(UIPanel, "  ", 2, NULL, NULL);
+		GoToXY(UIPanel, 178, 50);
+		WriteConsole(UIPanel, "      ", 6, NULL, NULL);
+		GoToXY(UIPanel, 176, 51);
+		WriteConsole(UIPanel, "      ", 6, NULL, NULL);
+		GoToXY(UIPanel, 176, 52);
+		WriteConsole(UIPanel, "      ", 6, NULL, NULL);
+		GoToXY(UIPanel, 178, 53);
+		WriteConsole(UIPanel, "  ", 2, NULL, NULL);
+		//white
+		SetConsoleTextAttribute(UIPanel, 15 * 16);
+		GoToXY(UIPanel, 190, 48);
+		WriteConsole(UIPanel, "  ", 2, NULL, NULL);
+		GoToXY(UIPanel, 190, 49);
+		WriteConsole(UIPanel, "  ", 2, NULL, NULL);
+		GoToXY(UIPanel, 180, 50);
+		WriteConsole(UIPanel, "  ", 2, NULL, NULL);
+		GoToXY(UIPanel, 178, 51);
+		WriteConsole(UIPanel, "  ", 2, NULL, NULL);
+		GoToXY(UIPanel, 178, 52);
+		WriteConsole(UIPanel, "  ", 2, NULL, NULL);
+
+		return true;
+	}
+
+	bool LoadInventoryScrn() {
+		SetConsoleScreenBufferSize(InventoryScreen, SCREEN_SIZE);
+
+		DrawTextSprites(InventoryScreen, "Inventory", 68, 31, 4 * 16);
+		DrawTextSprites(InventoryScreen, "MAP", 80, 103, 4 * 16);
+		DrawTextSprites(InventoryScreen, "COMPASS", 48, 143, 4 * 16);
+		DrawTextSprites(InventoryScreen, "USE x BUTTON", 32, 79);
+		DrawTextSprites(InventoryScreen, "For This", 64, 87);
+
+		//Selected Item Box
+		SetConsoleTextAttribute(InventoryScreen, 1 * 16);
+		//top
+		for (int c = 0; c < 24; c++) {
+			GoToXY(InventoryScreen, 120+(c*2), 50);
+			WriteConsole(InventoryScreen, "  ", 2, NULL, NULL);
+			GoToXY(InventoryScreen, 120 + (c * 2), 51);
+			WriteConsole(InventoryScreen, "  ", 2, NULL, NULL);
+		}
+		//sides
+		for (int c = 0; c < 24; c++) {
+			GoToXY(InventoryScreen, 118, 51+c);
+			WriteConsole(InventoryScreen, "    ", 4, NULL, NULL);
+			GoToXY(InventoryScreen, 166, 51+c);
+			WriteConsole(InventoryScreen, "    ", 4, NULL, NULL);
+		}
+		//bottom
+		for (int c = 0; c < 24; c++) {
+			GoToXY(InventoryScreen, 120 + (c * 2), 74);
+			WriteConsole(InventoryScreen, "  ", 2, NULL, NULL);
+			GoToXY(InventoryScreen, 120 + (c * 2), 75);
+			WriteConsole(InventoryScreen, "  ", 2, NULL, NULL);
+		}
+
+		// Inventory Box
+		//top
+		for (int c = 0; c < 96; c++) {
+			GoToXY(InventoryScreen, 248 + (c * 2), 50);
+			WriteConsole(InventoryScreen, "  ", 2, NULL, NULL);
+			GoToXY(InventoryScreen, 248 + (c * 2), 51);
+			WriteConsole(InventoryScreen, "  ", 2, NULL, NULL);
+		}
+		//sides
+		for (int c = 0; c < 40; c++) {
+			GoToXY(InventoryScreen, 246, 51 + c);
+			WriteConsole(InventoryScreen, "    ", 4, NULL, NULL);
+			GoToXY(InventoryScreen, 438, 51 + c);
+			WriteConsole(InventoryScreen, "    ", 4, NULL, NULL);
+		}
+		//bottom
+		for (int c = 0; c < 96; c++) {
+			GoToXY(InventoryScreen, 248 + (c * 2), 90);
+			WriteConsole(InventoryScreen, "  ", 2, NULL, NULL);
+			GoToXY(InventoryScreen, 248 + (c * 2), 91);
+			WriteConsole(InventoryScreen, "  ", 2, NULL, NULL);
+		}
+
+		//Map
+		// base
+		SetConsoleTextAttribute(InventoryScreen, 6 * 16);
+		for (int h = 0; h < 80; h++) {
+			GoToXY(InventoryScreen, 192, 95 + h);
+			for (int w = 0; w < 128; w++) {
+				WriteConsole(InventoryScreen, "  ", 2, NULL, NULL);
+			}
+		}
+		// template rip (top)
+		SetConsoleTextAttribute(InventoryScreen, 0);
+		for (int c = 0; c < 2; c++) {
+			GoToXY(InventoryScreen, 224, 95 + c);
+			WriteConsole(InventoryScreen, "  ", 2, NULL, NULL);
+		}
+		for (int c = 0; c < 6; c++) {
+			GoToXY(InventoryScreen, 226, 95 + c);
+			WriteConsole(InventoryScreen, "  ", 2, NULL, NULL);
+		}
+		for (int c = 0; c < 4; c++) {
+			GoToXY(InventoryScreen, 228, 95 + c);
+			WriteConsole(InventoryScreen, "  ", 2, NULL, NULL);
+		}
+		for (int c = 0; c < 1; c++) {
+			GoToXY(InventoryScreen, 230, 95 + c);
+			WriteConsole(InventoryScreen, "  ", 2, NULL, NULL);
+		}
+		for (int c = 0; c < 2; c++) {
+			GoToXY(InventoryScreen, 232, 95 + c);
+			WriteConsole(InventoryScreen, "  ", 2, NULL, NULL);
+		}
+		for (int c = 0; c < 1; c++) {
+			GoToXY(InventoryScreen, 236, 95 + c);
+			WriteConsole(InventoryScreen, "  ", 2, NULL, NULL);
+		}
+		for (int c = 0; c < 3; c++) {
+			GoToXY(InventoryScreen, 238, 95 + c);
+			WriteConsole(InventoryScreen, "  ", 2, NULL, NULL);
+		}
+		// ctl-c ctl-v top rip
+		DrawSprite(InventoryScreen, 224, 95, 16, 8, InventoryScreen, 272, 95);
+		DrawSprite(InventoryScreen, 224, 95, 16, 8, InventoryScreen, 320, 95);
+		DrawSprite(InventoryScreen, 224, 95, 16, 8, InventoryScreen, 384, 95);
+
+		// template rip (bottom)
+		SetConsoleTextAttribute(InventoryScreen, 0);
+		for (int c = 0; c < 2; c++) {
+			GoToXY(InventoryScreen, 208, 174 - c);
+			WriteConsole(InventoryScreen, "  ", 2, NULL, NULL);
+		}
+		for (int c = 0; c < 6; c++) {
+			GoToXY(InventoryScreen, 210, 174 - c);
+			WriteConsole(InventoryScreen, "  ", 2, NULL, NULL);
+		}
+		for (int c = 0; c < 3; c++) {
+			GoToXY(InventoryScreen, 212, 174 - c);
+			WriteConsole(InventoryScreen, "  ", 2, NULL, NULL);
+		}
+		for (int c = 0; c < 1; c++) {
+			GoToXY(InventoryScreen, 214, 174 - c);
+			WriteConsole(InventoryScreen, "  ", 2, NULL, NULL);
+		}
+		for (int c = 0; c < 2; c++) {
+			GoToXY(InventoryScreen, 218, 174 - c);
+			WriteConsole(InventoryScreen, "  ", 2, NULL, NULL);
+		}
+		for (int c = 0; c < 3; c++) {
+			GoToXY(InventoryScreen, 220, 174 - c);
+			WriteConsole(InventoryScreen, "  ", 2, NULL, NULL);
+		}
+		for (int c = 0; c < 1; c++) {
+			GoToXY(InventoryScreen, 222, 174 - c);
+			WriteConsole(InventoryScreen, "  ", 2, NULL, NULL);
+		}
+		// ctl-c ctl-v top rip
+		DrawSprite(InventoryScreen, 208, 167, 16, 8, InventoryScreen, 272, 167);
+		DrawSprite(InventoryScreen, 208, 167, 16, 8, InventoryScreen, 352, 167);
+		DrawSprite(InventoryScreen, 208, 167, 16, 8, InventoryScreen, 416, 167);
+
+		return true;
+	}
 };
 
 SpriteSheets Sprites;
