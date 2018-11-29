@@ -42,16 +42,16 @@
     <Filter Include="Headers">
       <UniqueIdentifier>{c92320c8-b635-43b6-a43f-9d2f46b6d1d6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source">
+    <Filter Include="Headers\Source">
       <UniqueIdentifier>{fa78a325-a843-4ad1-b9fd-40f0caff4e6d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
-      <Filter>Source</Filter>
+      <Filter>Headers\Source</Filter>
     </ClCompile>
     <ClCompile Include="bgMusicManager.cpp">
-      <Filter>Source</Filter>
+      <Filter>Headers\Source</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

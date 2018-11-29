@@ -629,6 +629,9 @@ public:
 		xSpd = 0;
 		ySpd = 0;
 	}
+	Enemy * Clone() {
+		return new Dodongo(*this);
+	}
 };
 class Goryia : public Enemy {
 private:
@@ -727,5 +730,8 @@ public:
 		move();
 		xSpd = 0;
 		ySpd = 0;
+	}
+	Enemy * Clone() {
+		return new Goryia(*this);
 	}
 };

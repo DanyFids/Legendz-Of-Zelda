@@ -91,6 +91,18 @@ public:
 	void SetInvuln(bool i) {
 		invuln = i;
 	}
+	
+	void Drop(bool drop = false, int per = 0) {
+		std::random_device gen;
+		std::uniform_int_distribution<> range(1, 5);
+		if (!(drop)) {
+			per = range(gen);
+		}
+		switch (per){
+		case 1:
+			std::cout << "hello world";
+		}
+	}
 
 	virtual void AI(Player p) = 0;
 };

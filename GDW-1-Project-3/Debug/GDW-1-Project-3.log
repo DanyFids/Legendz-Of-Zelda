@@ -1,6 +1,6 @@
 ﻿  main.cpp
 c:\users\100653368\documents\visual studio 2017\projects\gdw-1-project-2\legendz-of-zelda\gdw-1-project-3\spritesheets.h(4495): warning C4018: '<': signed/unsigned mismatch
-c:\users\100653368\documents\visual studio 2017\projects\gdw-1-project-2\legendz-of-zelda\gdw-1-project-3\coreclasses.h(150): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+c:\users\100653368\documents\visual studio 2017\projects\gdw-1-project-2\legendz-of-zelda\gdw-1-project-3\coreclasses.h(162): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
 c:\users\100653368\documents\visual studio 2017\projects\gdw-1-project-2\legendz-of-zelda\gdw-1-project-3\main.cpp(283): warning C4018: '<': signed/unsigned mismatch
 c:\users\100653368\documents\visual studio 2017\projects\gdw-1-project-2\legendz-of-zelda\gdw-1-project-3\main.cpp(287): warning C4018: '<': signed/unsigned mismatch
 c:\users\100653368\documents\visual studio 2017\projects\gdw-1-project-2\legendz-of-zelda\gdw-1-project-3\main.cpp(291): warning C4018: '<': signed/unsigned mismatch
