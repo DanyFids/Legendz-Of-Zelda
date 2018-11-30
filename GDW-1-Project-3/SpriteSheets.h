@@ -141,6 +141,13 @@ public:
 		CONSOLE_TEXTMODE_BUFFER,
 		NULL);
 
+	HANDLE boomerangSprites = CreateConsoleScreenBuffer(
+		GENERIC_READ | GENERIC_WRITE,
+		FILE_SHARE_READ | FILE_SHARE_WRITE,
+		NULL,
+		CONSOLE_TEXTMODE_BUFFER,
+		NULL);
+
 	HANDLE fireballSprites = CreateConsoleScreenBuffer(
 		GENERIC_READ | GENERIC_WRITE,
 		FILE_SHARE_READ | FILE_SHARE_WRITE,
@@ -149,6 +156,55 @@ public:
 		NULL);
 
 	HANDLE statueSprites = CreateConsoleScreenBuffer(
+		GENERIC_READ | GENERIC_WRITE,
+		FILE_SHARE_READ | FILE_SHARE_WRITE,
+		NULL,
+		CONSOLE_TEXTMODE_BUFFER,
+		NULL);
+
+	HANDLE fairySprites = CreateConsoleScreenBuffer(
+		GENERIC_READ | GENERIC_WRITE,
+		FILE_SHARE_READ | FILE_SHARE_WRITE,
+		NULL,
+		CONSOLE_TEXTMODE_BUFFER,
+		NULL);
+
+	HANDLE compassSprites = CreateConsoleScreenBuffer(
+		GENERIC_READ | GENERIC_WRITE,
+		FILE_SHARE_READ | FILE_SHARE_WRITE,
+		NULL,
+		CONSOLE_TEXTMODE_BUFFER,
+		NULL);
+
+	HANDLE mapSprites = CreateConsoleScreenBuffer(
+		GENERIC_READ | GENERIC_WRITE,
+		FILE_SHARE_READ | FILE_SHARE_WRITE,
+		NULL,
+		CONSOLE_TEXTMODE_BUFFER,
+		NULL);
+
+	HANDLE bowSprites = CreateConsoleScreenBuffer(
+		GENERIC_READ | GENERIC_WRITE,
+		FILE_SHARE_READ | FILE_SHARE_WRITE,
+		NULL,
+		CONSOLE_TEXTMODE_BUFFER,
+		NULL);
+
+	HANDLE blipSprites = CreateConsoleScreenBuffer(
+		GENERIC_READ | GENERIC_WRITE,
+		FILE_SHARE_READ | FILE_SHARE_WRITE,
+		NULL,
+		CONSOLE_TEXTMODE_BUFFER,
+		NULL);
+
+	HANDLE smokeFXSprites = CreateConsoleScreenBuffer(
+		GENERIC_READ | GENERIC_WRITE,
+		FILE_SHARE_READ | FILE_SHARE_WRITE,
+		NULL,
+		CONSOLE_TEXTMODE_BUFFER,
+		NULL);
+
+	HANDLE keySprites = CreateConsoleScreenBuffer(
 		GENERIC_READ | GENERIC_WRITE,
 		FILE_SHARE_READ | FILE_SHARE_WRITE,
 		NULL,
@@ -9171,6 +9227,1827 @@ public:
 
 		return true;
 	}
+
+	bool LoadBoomerang() { // Anthony's Attempt
+
+		DWORD output;
+
+		// SetConsoleTextAttribute(bombSprites, 1 * 16); // Colour
+
+		for (int i = 0; i < 8; i++) {// Draws Row (i = y size)
+			GoToXY(boomerangSprites, 0, i);	 //Position of pixel
+			for (int c = 0; c < 8; c++) { // Draws Col (c = x size)
+				if (i == 0) {
+					if (c >= 0 && c < 3)
+					{
+						SetConsoleTextAttribute(boomerangSprites, 7);
+						WriteConsole(boomerangSprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 3)
+					{
+						SetConsoleTextAttribute(boomerangSprites, 10 * 16);  //green
+						WriteConsole(boomerangSprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 4)
+					{
+						SetConsoleTextAttribute(boomerangSprites, 14 * 16);  // >> PALE
+						WriteConsole(boomerangSprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 5)
+					{
+						SetConsoleTextAttribute(boomerangSprites, 6 * 16 + 4);  // >> BROWN
+						WriteConsole(boomerangSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 1) {
+					if (c >= 0 && c < 2)
+					{
+						SetConsoleTextAttribute(boomerangSprites, 7);
+						WriteConsole(boomerangSprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 2 || c == 3)
+					{
+						SetConsoleTextAttribute(boomerangSprites, 10 * 16);  //green
+						WriteConsole(boomerangSprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 4)
+					{
+						SetConsoleTextAttribute(boomerangSprites, 6 * 16 + 4);  // >> BROWN
+						WriteConsole(boomerangSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 2) {
+					if (c == 0)
+					{
+						SetConsoleTextAttribute(boomerangSprites, 7);
+						WriteConsole(boomerangSprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 2)
+					{
+						SetConsoleTextAttribute(boomerangSprites, 10 * 16);  //green
+						WriteConsole(boomerangSprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 1)
+					{
+						SetConsoleTextAttribute(boomerangSprites, 14 * 16);  // >> PALE
+						WriteConsole(boomerangSprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 3)
+					{
+						SetConsoleTextAttribute(boomerangSprites, 6 * 16 + 4);  // >> BROWN
+						WriteConsole(boomerangSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 3) {
+					if (c == 0)
+					{
+						SetConsoleTextAttribute(boomerangSprites, 7);  //empty
+						WriteConsole(boomerangSprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 1 || c == 2)
+					{
+						SetConsoleTextAttribute(boomerangSprites, 14 * 16);  // >> PALE
+						WriteConsole(boomerangSprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 3)
+					{
+						SetConsoleTextAttribute(boomerangSprites, 6 * 16 + 4);  // >> BROWN
+						WriteConsole(boomerangSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 4) {
+					if (c == 0)
+					{
+						SetConsoleTextAttribute(boomerangSprites, 7);  //empty
+						WriteConsole(boomerangSprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 1 || c == 2)
+					{
+						SetConsoleTextAttribute(boomerangSprites, 14 * 16);  // >> PALE
+						WriteConsole(boomerangSprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 3)
+					{
+						SetConsoleTextAttribute(boomerangSprites, 6 * 16 + 4);  // >> BROWN
+						WriteConsole(boomerangSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 5) {
+					if (c == 0)
+					{
+						SetConsoleTextAttribute(boomerangSprites, 7);  //empty
+						WriteConsole(boomerangSprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 1 || c == 2)
+					{
+						SetConsoleTextAttribute(boomerangSprites, 14 * 16);  // >> PALE
+						WriteConsole(boomerangSprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 3)
+					{
+						SetConsoleTextAttribute(boomerangSprites, 6 * 16 + 4);  // >> BROWN
+						WriteConsole(boomerangSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 6) {
+					if (c == 0 || c == 1)
+					{
+						SetConsoleTextAttribute(boomerangSprites, 7);  //empty
+						WriteConsole(boomerangSprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 2 || c == 3)
+					{
+						SetConsoleTextAttribute(boomerangSprites, 14 * 16);  // >> PALE
+						WriteConsole(boomerangSprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 4)
+					{
+						SetConsoleTextAttribute(boomerangSprites, 6 * 16 + 4);  // >> BROWN
+						WriteConsole(boomerangSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 7) {
+					if (c == 0 || c == 1 || c == 2)
+					{
+						SetConsoleTextAttribute(boomerangSprites, 7);  //empty
+						WriteConsole(boomerangSprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 3 || c == 4)
+					{
+						SetConsoleTextAttribute(boomerangSprites, 14 * 16);  // >> PALE
+						WriteConsole(boomerangSprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 5)
+					{
+						SetConsoleTextAttribute(boomerangSprites, 6 * 16 + 4);  // >> BROWN
+						WriteConsole(boomerangSprites, &"  ", 2, &output, NULL);
+					}
+				}
+
+			}
+
+
+
+			/*Mirrored*/
+			for (int i = 0; i < 8; i++) {// Draws Row (i = y size)
+				DrawSprite(boomerangSprites, 16-(2 * i), 0, 2, 8, boomerangSprites, 0+(2*i), 18);
+			}
+
+
+		}
+
+		//Vertical
+		for (int i = 0; i < 8; i++) {// Draws Row (i = y size)
+			GoToXY(boomerangSprites, 0, i+8);	 //Position of pixel
+			for (int c = 0; c < 8; c++) { // Draws Col (c = x size)
+				if (i == 0) {	
+						SetConsoleTextAttribute(boomerangSprites, 7); //Empty
+						WriteConsole(boomerangSprites, &"  ", 2, &output, NULL);
+				}
+				if (i == 1) {
+					if (c == 1 || c == 0 || c == 6 || c == 7)
+					{
+						SetConsoleTextAttribute(boomerangSprites, 7);
+						WriteConsole(boomerangSprites, &"  ", 2, &output, NULL);
+					}
+					if (c > 1 && c < 6)
+					{
+						SetConsoleTextAttribute(boomerangSprites, 14 * 16);  //Pale
+						WriteConsole(boomerangSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 2) {
+					if (c == 0 || c == 7)
+					{
+						SetConsoleTextAttribute(boomerangSprites, 7);
+						WriteConsole(boomerangSprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 5 || c == 6)
+					{
+						SetConsoleTextAttribute(boomerangSprites, 10 * 16);  //green
+						WriteConsole(boomerangSprites, &"  ", 2, &output, NULL);
+					}
+					if (c > 0 && c < 5)
+					{
+						SetConsoleTextAttribute(boomerangSprites, 14 * 16);  // >> PALE
+						WriteConsole(boomerangSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 3) {
+					if (c == 0 || c == 1)
+					{
+						SetConsoleTextAttribute(boomerangSprites, 14 * 16);  // >> PALE
+						WriteConsole(boomerangSprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 2 || c == 3 || c == 4 || c == 5)
+					{
+						SetConsoleTextAttribute(boomerangSprites, 6 * 16 + 4);  // >> BROWN
+						WriteConsole(boomerangSprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 6 || c == 7)
+					{
+						SetConsoleTextAttribute(boomerangSprites, 10 * 16);  //green
+						WriteConsole(boomerangSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 4) {
+					if (c == 2 || c == 3 || c == 4 || c == 5)
+					{
+						SetConsoleTextAttribute(boomerangSprites, 7);  //empty
+						WriteConsole(boomerangSprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 0 || c == 7)
+					{
+						SetConsoleTextAttribute(boomerangSprites, 14 * 16);  // >> PALE
+						WriteConsole(boomerangSprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 1 || c == 6)
+					{
+						SetConsoleTextAttribute(boomerangSprites, 6 * 16 + 4);  // >> BROWN
+						WriteConsole(boomerangSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 5) {
+					if (c > 0 && c < 7)
+					{
+						SetConsoleTextAttribute(boomerangSprites, 7);  //empty
+						WriteConsole(boomerangSprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 0 || c == 7)
+					{
+						SetConsoleTextAttribute(boomerangSprites, 6 * 16 + 4);  // >> BROWN
+						WriteConsole(boomerangSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 6) {
+						SetConsoleTextAttribute(boomerangSprites, 7);  //empty
+						WriteConsole(boomerangSprites, &"  ", 2, &output, NULL);
+				}
+				if (i == 7) {
+						SetConsoleTextAttribute(boomerangSprites, 7);  //empty
+						WriteConsole(boomerangSprites, &"  ", 2, &output, NULL);
+				}
+
+			}
+
+			/*Mirrored*/
+			for (int i = 0; i < 8; i++) {// Draws Row (i = y size)
+				DrawSprite(boomerangSprites, 0, 17-i, 16, 1, boomerangSprites, 0, 27+i);
+			}
+
+
+		}
+
+
+		return true;
+	}
+
+	bool LoadFairy() { // Anthony's Attempt
+
+		DWORD output;
+
+		// SetConsoleTextAttribute(bombSprites, 1 * 16); // Colour
+
+		for (int i = 0; i < 17; i++) {// Draws Row (i = y size)
+			GoToXY(fairySprites, 0, i);	 //Position of pixel
+			for (int c = 0; c < 17; c++) { // Draws Col (c = x size)
+				if (i == 0) {
+					SetConsoleTextAttribute(fairySprites, 7);  //empty
+					WriteConsole(fairySprites, &"  ", 2, &output, NULL);
+			    }
+				if (i == 1) {
+					if (c < 6)
+					{
+						SetConsoleTextAttribute(fairySprites, 7);  //empty
+						WriteConsole(fairySprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 6 || c == 10) {
+						SetConsoleTextAttribute(fairySprites, 14*16 + 12);  //orange?
+						WriteConsole(fairySprites, &"  ", 2, &output, NULL);
+				    }
+					if (c == 7 || c == 8 || c == 9) {
+						SetConsoleTextAttribute(fairySprites, 12 * 16);  //Red
+						WriteConsole(fairySprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 2) {
+					if (c < 6)
+					{
+						SetConsoleTextAttribute(fairySprites, 7);  //empty
+						WriteConsole(fairySprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 7 || c == 9) {
+						SetConsoleTextAttribute(fairySprites, 14 * 16 + 12);  //orange?
+						WriteConsole(fairySprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 6 || c == 8 || c == 10) {
+						SetConsoleTextAttribute(fairySprites, 12 * 16);  //Red
+						WriteConsole(fairySprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 3) {
+					if (c < 6)
+					{
+						SetConsoleTextAttribute(fairySprites, 7);  //empty
+						WriteConsole(fairySprites, &"  ", 2, &output, NULL);
+					}
+					if (c > 5 && c < 11) {
+						SetConsoleTextAttribute(fairySprites, 12 * 16);  //Red
+						WriteConsole(fairySprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 4) {
+					if (c < 6)
+					{
+						SetConsoleTextAttribute(fairySprites, 7);  //empty
+						WriteConsole(fairySprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 7 || c == 8 || c == 9) {
+						SetConsoleTextAttribute(fairySprites, 14 * 16 + 12);  //orange?
+						WriteConsole(fairySprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 6 || c == 11 || c == 10) {
+						SetConsoleTextAttribute(fairySprites, 12 * 16);  //Red
+						WriteConsole(fairySprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 5) {
+					if (c < 6)
+					{
+						SetConsoleTextAttribute(fairySprites, 7);  //empty
+						WriteConsole(fairySprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 7 || c == 8 || c == 9) {
+						SetConsoleTextAttribute(fairySprites, 14 * 16 + 12);  //orange?
+						WriteConsole(fairySprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 11 || c == 10) {
+						SetConsoleTextAttribute(fairySprites, 12 * 16);  //Red
+						WriteConsole(fairySprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 6 || c == 12) {
+						SetConsoleTextAttribute(fairySprites, 15 * 16);  //White
+						WriteConsole(fairySprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 6) {
+					if (c < 5)
+					{
+						SetConsoleTextAttribute(fairySprites, 7);  //empty
+						WriteConsole(fairySprites, &"  ", 2, &output, NULL);
+					}
+					if ( c == 8) {
+						SetConsoleTextAttribute(fairySprites, 14 * 16 + 12);  //orange?
+						WriteConsole(fairySprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 9 || c == 10 || c == 7 || c == 6) {
+						SetConsoleTextAttribute(fairySprites, 12 * 16);  //Red
+						WriteConsole(fairySprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 5 || c == 12) {
+						SetConsoleTextAttribute(fairySprites, 15 * 16);  //White
+						WriteConsole(fairySprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 11) {
+						SetConsoleTextAttribute(fairySprites, 7);  //Grey?
+						WriteConsole(fairySprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 7) {
+					if (c < 5)
+					{
+						SetConsoleTextAttribute(fairySprites, 7);  //empty
+						WriteConsole(fairySprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 8 || c == 7 || c == 9) {
+						SetConsoleTextAttribute(fairySprites, 14 * 16 + 12);  //orange?
+						WriteConsole(fairySprites, &"  ", 2, &output, NULL);
+					}
+					if ( c == 10 || c == 6) {
+						SetConsoleTextAttribute(fairySprites, 12 * 16);  //Red
+						WriteConsole(fairySprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 5 || c == 11 || c == 12) {
+						SetConsoleTextAttribute(fairySprites, 15 * 16);  //White
+						WriteConsole(fairySprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 8) {
+					if (c < 5)
+					{
+						SetConsoleTextAttribute(fairySprites, 7);  //empty
+						WriteConsole(fairySprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 6 || c == 8) {
+						SetConsoleTextAttribute(fairySprites, 14 * 16 + 12);  //orange?
+						WriteConsole(fairySprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 7 || c == 9) {
+						SetConsoleTextAttribute(fairySprites, 12 * 16);  //Red
+						WriteConsole(fairySprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 5 ||c == 10 || c == 11) {
+						SetConsoleTextAttribute(fairySprites, 15 * 16);  //White
+						WriteConsole(fairySprites, &"  ", 2, &output, NULL);
+					}
+					
+				}
+				if (i == 9) {
+					if (c < 6)
+					{
+						SetConsoleTextAttribute(fairySprites, 7);  //empty
+						WriteConsole(fairySprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 6 || c == 10) {
+						SetConsoleTextAttribute(fairySprites, 14 * 16 + 12);  //orange?
+						WriteConsole(fairySprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 8) {
+						SetConsoleTextAttribute(fairySprites, 12 * 16);  //Red
+						WriteConsole(fairySprites, &"  ", 2, &output, NULL);
+					}
+					if ( c == 11) {
+						SetConsoleTextAttribute(fairySprites, 15 * 16);  //White
+						WriteConsole(fairySprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 7 || c == 9) {
+						SetConsoleTextAttribute(fairySprites, 7);  //Grey?
+						WriteConsole(fairySprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 10) {
+					if (c < 5)
+					{
+						SetConsoleTextAttribute(fairySprites, 7);  //empty
+						WriteConsole(fairySprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 6 || c == 10)
+					{
+						SetConsoleTextAttribute(fairySprites, 7);  //empty
+						WriteConsole(fairySprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 5 || c == 11) {
+						SetConsoleTextAttribute(fairySprites, 14 * 16 + 12);  //orange?
+						WriteConsole(fairySprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 7 || c == 8 || c == 9) {
+						SetConsoleTextAttribute(fairySprites, 12 * 16);  //Red
+						WriteConsole(fairySprites, &"  ", 2, &output, NULL);
+					}
+					if ( c == 12) {
+						SetConsoleTextAttribute(fairySprites, 15 * 16);  //White
+						WriteConsole(fairySprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 11) {
+					if (c < 7)
+					{
+						SetConsoleTextAttribute(fairySprites, 7);  //empty
+						WriteConsole(fairySprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 7 || c == 9) {
+						SetConsoleTextAttribute(fairySprites, 14 * 16 + 12);  //orange?
+						WriteConsole(fairySprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 8) {
+						SetConsoleTextAttribute(fairySprites, 12 * 16);  //Red
+						WriteConsole(fairySprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 12) {
+					if (c < 7)
+					{
+						SetConsoleTextAttribute(fairySprites, 7);  //empty
+						WriteConsole(fairySprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 7 || c == 8 || c == 9) {
+						SetConsoleTextAttribute(fairySprites, 14 * 16 + 12);  //orange?
+						WriteConsole(fairySprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 10) {
+						SetConsoleTextAttribute(fairySprites, 12 * 16);  //Red
+						WriteConsole(fairySprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 13) {
+					if (c < 7)
+					{
+						SetConsoleTextAttribute(fairySprites, 7);  //empty
+						WriteConsole(fairySprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 7 || c == 8) {
+						SetConsoleTextAttribute(fairySprites, 14 * 16 + 12);  //orange?
+						WriteConsole(fairySprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 14) {
+					if (c < 7)
+					{
+						SetConsoleTextAttribute(fairySprites, 7);  //empty
+						WriteConsole(fairySprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 7) {
+						SetConsoleTextAttribute(fairySprites, 14 * 16 + 12);  //orange?
+						WriteConsole(fairySprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 15) {
+					if (c < 7)
+					{
+						SetConsoleTextAttribute(fairySprites, 7);  //empty
+						WriteConsole(fairySprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 7) {
+						SetConsoleTextAttribute(fairySprites, 14 * 16 + 12);  //orange?
+						WriteConsole(fairySprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 16) {
+					SetConsoleTextAttribute(fairySprites, 7);  //empty
+					WriteConsole(fairySprites, &"  ", 2, &output, NULL);
+				}
+
+			}
+		}
+
+		return true;
+	}
+
+	bool LoadCompass() { // Anthony's Attempt
+
+		DWORD output;
+
+		// SetConsoleTextAttribute(bombSprites, 1 * 16); // Colour
+
+		for (int i = 0; i < 13; i++) {// Draws Row (i = y size)
+			GoToXY(compassSprites, 0, i);	 //Position of pixel
+			for (int c = 0; c < 13; c++) { // Draws Col (c = x size)
+				if (i == 0) {
+					if (c < 4)
+					{
+						SetConsoleTextAttribute(compassSprites, 7);  //empty
+						WriteConsole(compassSprites, &"  ", 2, &output, NULL);
+					}
+					if (c >= 4 && c <= 8)
+					{
+						SetConsoleTextAttribute(compassSprites, 15 * 16);  //White
+						WriteConsole(compassSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 1) {
+					if (c < 3)
+					{
+						SetConsoleTextAttribute(compassSprites, 7);  //empty
+						WriteConsole(compassSprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 3 || c == 9)
+					{
+						SetConsoleTextAttribute(compassSprites, 15 * 16);  //White
+						WriteConsole(compassSprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 4 || c == 5 ||c == 7 || c == 8)
+					{
+						SetConsoleTextAttribute(compassSprites, 14 * 16 + 12);  //Orange?
+						WriteConsole(compassSprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 6) {
+						SetConsoleTextAttribute(compassSprites, 12 * 16);  //Red
+						WriteConsole(compassSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 2) {
+					if (c < 2)
+					{
+						SetConsoleTextAttribute(compassSprites, 7);  //empty
+						WriteConsole(compassSprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 2 || c == 10)
+					{
+						SetConsoleTextAttribute(compassSprites, 15 * 16);  //White
+						WriteConsole(compassSprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 3 || c == 4 || c == 8 || c == 9)
+					{
+						SetConsoleTextAttribute(compassSprites, 14 * 16 + 12);  //Orange?
+						WriteConsole(compassSprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 6 || c == 5 || c == 7) {
+						SetConsoleTextAttribute(compassSprites, 12 * 16);  //Red
+						WriteConsole(compassSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 3) {
+					if (c < 1)
+					{
+						SetConsoleTextAttribute(compassSprites, 7);  //empty
+						WriteConsole(compassSprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 1 || c == 11)
+					{
+						SetConsoleTextAttribute(compassSprites, 15 * 16);  //White
+						WriteConsole(compassSprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 2 || c == 3 || c == 9 || c == 10)
+					{
+						SetConsoleTextAttribute(compassSprites, 14 * 16 + 12);  //Orange?
+						WriteConsole(compassSprites, &"  ", 2, &output, NULL);
+					}
+					if (c > 3 && c < 9) {
+						SetConsoleTextAttribute(compassSprites, 12 * 16);  //Red
+						WriteConsole(compassSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 4) {
+					if (c < 1)
+					{
+						SetConsoleTextAttribute(compassSprites, 7);  //empty
+						WriteConsole(compassSprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 1 || c == 11)
+					{
+						SetConsoleTextAttribute(compassSprites, 15 * 16);  //White
+						WriteConsole(compassSprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 2 || c == 3 || c == 9 || c == 10)
+					{
+						SetConsoleTextAttribute(compassSprites, 14 * 16 + 12);  //Orange?
+						WriteConsole(compassSprites, &"  ", 2, &output, NULL);
+					}
+					if (c > 3 && c < 9) {
+						SetConsoleTextAttribute(compassSprites, 15 * 16);  //White
+						WriteConsole(compassSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 5) {
+					if (c < 1)
+					{
+						SetConsoleTextAttribute(compassSprites, 7);  //empty
+						WriteConsole(compassSprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 1 || c == 11 || c == 5 || c == 6 || c == 7)
+					{
+						SetConsoleTextAttribute(compassSprites, 15 * 16);  //White
+						WriteConsole(compassSprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 2 || c == 3 || c == 9 || c == 10)
+					{
+						SetConsoleTextAttribute(compassSprites, 14 * 16 + 12);  //Orange?
+						WriteConsole(compassSprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 4 || c == 8) {
+						SetConsoleTextAttribute(compassSprites, 16 * 16);  //Black
+						WriteConsole(compassSprites, &"  ", 2, &output, NULL);
+					}
+					
+				}
+				if (i == 6) {
+					if (c == 0)
+					{
+						SetConsoleTextAttribute(compassSprites, 7);  //empty
+						WriteConsole(compassSprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 2 || c == 6 || c == 10)
+					{
+						SetConsoleTextAttribute(compassSprites, 15 * 16);  //White
+						WriteConsole(compassSprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 3 || c == 4 || c == 8 || c == 9)
+					{
+						SetConsoleTextAttribute(compassSprites, 14 * 16 + 12);  //Orange?
+						WriteConsole(compassSprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 5 || c == 7) {
+						SetConsoleTextAttribute(compassSprites, 16 * 16);  //Black
+						WriteConsole(compassSprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 1 || c == 11) {
+						SetConsoleTextAttribute(compassSprites, 12 * 16);  //Red
+						WriteConsole(compassSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 7) {
+					if (c == 0)
+					{
+						SetConsoleTextAttribute(compassSprites, 7);  //empty
+						WriteConsole(compassSprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 3 || c == 9)
+					{
+						SetConsoleTextAttribute(compassSprites, 15 * 16);  //White
+						WriteConsole(compassSprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 4 || c == 5 || c == 7 || c == 8)
+					{
+						SetConsoleTextAttribute(compassSprites, 14 * 16 + 12);  //Orange?
+						WriteConsole(compassSprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 6) {
+						SetConsoleTextAttribute(compassSprites, 16 * 16);  //Black
+						WriteConsole(compassSprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 1 || c == 2 || c == 11 || c == 10) {
+						SetConsoleTextAttribute(compassSprites, 12 * 16);  //Red
+						WriteConsole(compassSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 8) {
+					if (c == 0)
+					{
+						SetConsoleTextAttribute(compassSprites, 7);  //empty
+						WriteConsole(compassSprites, &"  ", 2, &output, NULL);
+					}
+					if (c > 3 && c < 9)
+					{
+						SetConsoleTextAttribute(compassSprites, 15 * 16);  //White
+						WriteConsole(compassSprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 1 || c == 2 || c == 3 || c == 10 || c == 9 || c == 11) {
+						SetConsoleTextAttribute(compassSprites, 12 * 16);  //Red
+						WriteConsole(compassSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 9) {
+					if (c < 2)
+					{
+						SetConsoleTextAttribute(compassSprites, 7);  //empty
+						WriteConsole(compassSprites, &"  ", 2, &output, NULL);
+					}
+					if (c > 1 && c < 11) {
+						SetConsoleTextAttribute(compassSprites, 12 * 16);  //Red
+						WriteConsole(compassSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 10) {
+					if (c < 2)
+					{
+						SetConsoleTextAttribute(compassSprites, 7);  //empty
+						WriteConsole(compassSprites, &"  ", 2, &output, NULL);
+					}
+					if (c > 1 && c < 11) {
+						SetConsoleTextAttribute(compassSprites, 12 * 16);  //Red
+						WriteConsole(compassSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 11) {
+					if (c < 4)
+					{
+						SetConsoleTextAttribute(compassSprites, 7);  //empty
+						WriteConsole(compassSprites, &"  ", 2, &output, NULL);
+					}
+					if (c > 3 && c < 9) {
+						SetConsoleTextAttribute(compassSprites, 12 * 16);  //Red
+						WriteConsole(compassSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 12) {
+					SetConsoleTextAttribute(compassSprites, 7);  //empty
+					WriteConsole(compassSprites, &"  ", 2, &output, NULL);
+				}
+			}
+
+
+		}
+		return true;
+	}
+
+	bool LoadKey() { // Anthony's Attempt
+
+		DWORD output;
+
+		// SetConsoleTextAttribute(bombSprites, 1 * 16); // Colour
+
+		for (int i = 0; i < 16; i++) {// Draws Row (i = y size)
+			GoToXY(keySprites, 0, i);	 //Position of pixel
+			for (int c = 0; c < 8; c++) { // Draws Col (c = x size)
+				if (i == 0) {
+					if (c < 2) {
+						SetConsoleTextAttribute(keySprites, 7);  //empty
+						WriteConsole(keySprites, &"  ", 2, &output, NULL);
+				    }
+					if (c == 2 || c == 3 || c == 4) {
+						SetConsoleTextAttribute(keySprites, 14 * 16 + 12);  //Orange?
+						WriteConsole(keySprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 5) {
+						SetConsoleTextAttribute(keySprites, 12 * 16);  //Red
+						WriteConsole(keySprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 1) {
+					if (c < 1) {
+						SetConsoleTextAttribute(keySprites, 7);  //empty
+						WriteConsole(keySprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 1) {
+						SetConsoleTextAttribute(keySprites, 15 * 16);  //White
+						WriteConsole(keySprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 2 || c == 3 || c == 4 || c == 5) {
+						SetConsoleTextAttribute(keySprites, 14 * 16 + 12);  //Orange?
+						WriteConsole(keySprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 6) {
+						SetConsoleTextAttribute(keySprites, 12 * 16);  //Red
+						WriteConsole(keySprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 2) {
+					if (c == 0) {
+						SetConsoleTextAttribute(keySprites, 15 * 16);  //White
+						WriteConsole(keySprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 1 || c == 5 || c == 6) {
+						SetConsoleTextAttribute(keySprites, 14 * 16 + 12);  //Orange?
+						WriteConsole(keySprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 2 || c == 7) {
+						SetConsoleTextAttribute(keySprites, 12 * 16);  //Red
+						WriteConsole(keySprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 3 || c == 4) {
+						SetConsoleTextAttribute(keySprites, 7);  //empty
+						WriteConsole(keySprites, &"  ", 2, &output, NULL);
+					}
+
+				}
+				if (i == 3) {
+					if (c == 0) {
+						SetConsoleTextAttribute(keySprites, 15 * 16);  //White
+						WriteConsole(keySprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 6) {
+						SetConsoleTextAttribute(keySprites, 14 * 16 + 12);  //Orange?
+						WriteConsole(keySprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 1 || c == 7) {
+						SetConsoleTextAttribute(keySprites, 12 * 16);  //Red
+						WriteConsole(keySprites, &"  ", 2, &output, NULL);
+					}
+					if (c >= 2 && c <= 5) {
+						SetConsoleTextAttribute(keySprites, 7);  //empty
+						WriteConsole(keySprites, &"  ", 2, &output, NULL);
+					}
+
+				}
+				if (i == 4) {
+					if (c == 0) {
+						SetConsoleTextAttribute(keySprites, 15 * 16);  //White
+						WriteConsole(keySprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 6) {
+						SetConsoleTextAttribute(keySprites, 14 * 16 + 12);  //Orange?
+						WriteConsole(keySprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 1 || c == 7) {
+						SetConsoleTextAttribute(keySprites, 12 * 16);  //Red
+						WriteConsole(keySprites, &"  ", 2, &output, NULL);
+					}
+					if (c >= 2 && c <= 5) {
+						SetConsoleTextAttribute(keySprites, 7);  //empty
+						WriteConsole(keySprites, &"  ", 2, &output, NULL);
+					}
+
+				}
+				if (i == 5) {
+					if (c >= 0 && c <= 6) {
+						SetConsoleTextAttribute(keySprites, 14 * 16 + 12);  //Orange?
+						WriteConsole(keySprites, &"  ", 2, &output, NULL);
+					}
+					if ( c == 7) {
+						SetConsoleTextAttribute(keySprites, 12 * 16);  //Red
+						WriteConsole(keySprites, &"  ", 2, &output, NULL);
+					}
+
+				}
+				if (i == 6) {
+					if (c == 0) {
+						SetConsoleTextAttribute(keySprites, 15 * 16);  //White
+						WriteConsole(keySprites, &"  ", 2, &output, NULL);
+					}
+					if (c >= 1 && c <= 4) {
+						SetConsoleTextAttribute(keySprites, 14 * 16 + 12);  //Orange?
+						WriteConsole(keySprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 5 || c == 6 || c == 7) {
+						SetConsoleTextAttribute(keySprites, 12 * 16);  //Red
+						WriteConsole(keySprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 7) {
+					if (c < 3) {
+						SetConsoleTextAttribute(keySprites, 7);  //empty
+						WriteConsole(keySprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 3) {
+						SetConsoleTextAttribute(keySprites, 14 * 16 + 12);  //Orange?
+						WriteConsole(keySprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 4) {
+						SetConsoleTextAttribute(keySprites, 12 * 16);  //Red
+						WriteConsole(keySprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 8) {
+					if (c < 3) {
+						SetConsoleTextAttribute(keySprites, 7);  //empty
+						WriteConsole(keySprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 3) {
+						SetConsoleTextAttribute(keySprites, 14 * 16 + 12);  //Orange?
+						WriteConsole(keySprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 4) {
+						SetConsoleTextAttribute(keySprites, 12 * 16);  //Red
+						WriteConsole(keySprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 9) {
+					if (c < 3) {
+						SetConsoleTextAttribute(keySprites, 7);  //empty
+						WriteConsole(keySprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 3) {
+						SetConsoleTextAttribute(keySprites, 14 * 16 + 12);  //Orange?
+						WriteConsole(keySprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 4) {
+						SetConsoleTextAttribute(keySprites, 12 * 16);  //Red
+						WriteConsole(keySprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 10) {
+					if (c < 3) {
+						SetConsoleTextAttribute(keySprites, 7);  //empty
+						WriteConsole(keySprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 3) {
+						SetConsoleTextAttribute(keySprites, 14 * 16 + 12);  //Orange?
+						WriteConsole(keySprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 4) {
+						SetConsoleTextAttribute(keySprites, 12 * 16);  //Red
+						WriteConsole(keySprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 11) {
+					if (c < 1) {
+						SetConsoleTextAttribute(keySprites, 7);  //empty
+						WriteConsole(keySprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 3 || c == 2) {
+						SetConsoleTextAttribute(keySprites, 14 * 16 + 12);  //Orange?
+						WriteConsole(keySprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 4) {
+						SetConsoleTextAttribute(keySprites, 12 * 16);  //Red
+						WriteConsole(keySprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 12) {
+					if (c < 1) {
+						SetConsoleTextAttribute(keySprites, 7);  //empty
+						WriteConsole(keySprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 3 || c == 2 || c == 1) {
+						SetConsoleTextAttribute(keySprites, 14 * 16 + 12);  //Orange?
+						WriteConsole(keySprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 4) {
+						SetConsoleTextAttribute(keySprites, 12 * 16);  //Red
+						WriteConsole(keySprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 13) {
+					if (c < 2) {
+						SetConsoleTextAttribute(keySprites, 7);  //empty
+						WriteConsole(keySprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 3 || c == 2) {
+						SetConsoleTextAttribute(keySprites, 14 * 16 + 12);  //Orange?
+						WriteConsole(keySprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 4) {
+						SetConsoleTextAttribute(keySprites, 12 * 16);  //Red
+						WriteConsole(keySprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 14) {
+					if (c < 1) {
+						SetConsoleTextAttribute(keySprites, 7);  //empty
+						WriteConsole(keySprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 3 || c == 2 || c == 1) {
+						SetConsoleTextAttribute(keySprites, 14 * 16 + 12);  //Orange?
+						WriteConsole(keySprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 4) {
+						SetConsoleTextAttribute(keySprites, 12 * 16);  //Red
+						WriteConsole(keySprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 15) {
+					if (c < 3) {
+						SetConsoleTextAttribute(keySprites, 7);  //empty
+						WriteConsole(keySprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 3) {
+						SetConsoleTextAttribute(keySprites, 14 * 16 + 12);  //Orange?
+						WriteConsole(keySprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 4) {
+						SetConsoleTextAttribute(keySprites, 12 * 16);  //Red
+						WriteConsole(keySprites, &"  ", 2, &output, NULL);
+					}
+				}
+			}
+		}
+		return true;
+	}
+
+	bool LoadBow() { // Anthony's Attempt
+
+		DWORD output;
+
+		// SetConsoleTextAttribute(bombSprites, 1 * 16); // Colour
+
+		for (int i = 0; i < 16; i++) {// Draws Row (i = y size)
+			GoToXY(bowSprites, 0, i);	 //Position of pixel
+			for (int c = 0; c < 8; c++) { // Draws Col (c = x size)
+				if (i == 0) {
+					if (c == 0 || c == 1 || c == 2) {
+						SetConsoleTextAttribute(bowSprites, 6 * 16 + 4);  //Brown
+						WriteConsole(bowSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 1) {
+					if (c == 0) {
+						SetConsoleTextAttribute(bowSprites, 10 * 16);  //Green
+						WriteConsole(bowSprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 3 || c == 4) {
+						SetConsoleTextAttribute(bowSprites, 6 * 16 + 4);  //Brown
+						WriteConsole(bowSprites, &"  ", 2, &output, NULL);
+					}
+					if (c >= 1 && c <= 2) {
+						SetConsoleTextAttribute(bowSprites, 6 * 16 + 4);  //Empty
+						WriteConsole(bowSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 2) {
+					if (c == 0) {
+						SetConsoleTextAttribute(bowSprites, 10 * 16);  //Green
+						WriteConsole(bowSprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 4 || c == 5) {
+						SetConsoleTextAttribute(bowSprites, 6 * 16 + 4);  //Brown
+						WriteConsole(bowSprites, &"  ", 2, &output, NULL);
+					}
+					if (c >= 1 && c <= 3) {
+						SetConsoleTextAttribute(bowSprites, 6 * 16 + 4);  //Empty
+						WriteConsole(bowSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 3) {
+					if (c == 0) {
+						SetConsoleTextAttribute(bowSprites, 10 * 16);  //Green
+						WriteConsole(bowSprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 5 || c == 6) {
+						SetConsoleTextAttribute(bowSprites, 6 * 16 + 4);  //Brown
+						WriteConsole(bowSprites, &"  ", 2, &output, NULL);
+					}
+					if (c >= 1 && c <= 4) {
+						SetConsoleTextAttribute(bowSprites, 6 * 16 + 4);  //Empty
+						WriteConsole(bowSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 4) {
+					if (c == 0) {
+						SetConsoleTextAttribute(bowSprites, 10 * 16);  //Green
+						WriteConsole(bowSprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 5 || c == 6) {
+						SetConsoleTextAttribute(bowSprites, 6 * 16 + 4);  //Brown
+						WriteConsole(bowSprites, &"  ", 2, &output, NULL);
+					}
+					if (c >= 1 && c <= 4) {
+						SetConsoleTextAttribute(bowSprites, 6 * 16 + 4);  //Empty
+						WriteConsole(bowSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 5) {
+					if (c == 0) {
+						SetConsoleTextAttribute(bowSprites, 10 * 16);  //Green
+						WriteConsole(bowSprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 7 || c == 6) {
+						SetConsoleTextAttribute(bowSprites, 6 * 16 + 4);  //Brown
+						WriteConsole(bowSprites, &"  ", 2, &output, NULL);
+					}
+					if (c >= 1 && c <= 5) {
+						SetConsoleTextAttribute(bowSprites, 6 * 16 + 4);  //Empty
+						WriteConsole(bowSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 6) {
+					if (c == 0) {
+						SetConsoleTextAttribute(bowSprites, 10 * 16);  //Green
+						WriteConsole(bowSprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 7 || c == 6) {
+						SetConsoleTextAttribute(bowSprites, 6 * 16 + 4);  //Brown
+						WriteConsole(bowSprites, &"  ", 2, &output, NULL);
+					}
+					if (c >= 1 && c <= 5) {
+						SetConsoleTextAttribute(bowSprites, 6 * 16 + 4);  //Empty
+						WriteConsole(bowSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 7) {
+					if (c == 0) {
+						SetConsoleTextAttribute(bowSprites, 10 * 16);  //Green
+						WriteConsole(bowSprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 7 || c == 6) {
+						SetConsoleTextAttribute(bowSprites, 6 * 16 + 4);  //Brown
+						WriteConsole(bowSprites, &"  ", 2, &output, NULL);
+					}
+					if (c >= 1 && c <= 5) {
+						SetConsoleTextAttribute(bowSprites, 6 * 16 + 4);  //Empty
+						WriteConsole(bowSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 8) {
+					if (c == 0) {
+						SetConsoleTextAttribute(bowSprites, 10 * 16);  //Green
+						WriteConsole(bowSprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 7 || c == 6) {
+						SetConsoleTextAttribute(bowSprites, 6 * 16 + 4);  //Brown
+						WriteConsole(bowSprites, &"  ", 2, &output, NULL);
+					}
+					if (c >= 1 && c <= 5) {
+						SetConsoleTextAttribute(bowSprites, 6 * 16 + 4);  //Empty
+						WriteConsole(bowSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 9) {
+					if (c == 0) {
+						SetConsoleTextAttribute(bowSprites, 10 * 16);  //Green
+						WriteConsole(bowSprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 7 || c == 6) {
+						SetConsoleTextAttribute(bowSprites, 6 * 16 + 4);  //Brown
+						WriteConsole(bowSprites, &"  ", 2, &output, NULL);
+					}
+					if (c >= 1 && c <= 5) {
+						SetConsoleTextAttribute(bowSprites, 6 * 16 + 4);  //Empty
+						WriteConsole(bowSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 10) {
+					if (c == 0) {
+						SetConsoleTextAttribute(bowSprites, 10 * 16);  //Green
+						WriteConsole(bowSprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 6 || c == 7) {
+						SetConsoleTextAttribute(bowSprites, 6 * 16 + 4);  //Brown
+						WriteConsole(bowSprites, &"  ", 2, &output, NULL);
+					}
+					if (c >= 1 && c <= 5) {
+						SetConsoleTextAttribute(bowSprites, 6 * 16 + 4);  //Empty
+						WriteConsole(bowSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 11) {
+					if (c == 0) {
+						SetConsoleTextAttribute(bowSprites, 10 * 16);  //Green
+						WriteConsole(bowSprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 5 || c == 6) {
+						SetConsoleTextAttribute(bowSprites, 6 * 16 + 4);  //Brown
+						WriteConsole(bowSprites, &"  ", 2, &output, NULL);
+					}
+					if (c >= 1 && c <= 4) {
+						SetConsoleTextAttribute(bowSprites, 6 * 16 + 4);  //Empty
+						WriteConsole(bowSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 12) {
+					if (c == 0) {
+						SetConsoleTextAttribute(bowSprites, 10 * 16);  //Green
+						WriteConsole(bowSprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 5 || c == 6) {
+						SetConsoleTextAttribute(bowSprites, 6 * 16 + 4);  //Brown
+						WriteConsole(bowSprites, &"  ", 2, &output, NULL);
+					}
+					if (c >= 1 && c <= 4) {
+						SetConsoleTextAttribute(bowSprites, 6 * 16 + 4);  //Empty
+						WriteConsole(bowSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 13) {
+					if (c == 0) {
+						SetConsoleTextAttribute(bowSprites, 10 * 16);  //Green
+						WriteConsole(bowSprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 4 || c == 5) {
+						SetConsoleTextAttribute(bowSprites, 6 * 16 + 4);  //Brown
+						WriteConsole(bowSprites, &"  ", 2, &output, NULL);
+					}
+					if (c >= 1 && c <= 3) {
+						SetConsoleTextAttribute(bowSprites, 6 * 16 + 4);  //Empty
+						WriteConsole(bowSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 14) {
+					if (c == 0) {
+						SetConsoleTextAttribute(bowSprites, 10 * 16);  //Green
+						WriteConsole(bowSprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 3 || c == 4) {
+						SetConsoleTextAttribute(bowSprites, 6 * 16 + 4);  //Brown
+						WriteConsole(bowSprites, &"  ", 2, &output, NULL);
+					}
+					if (c >= 1 && c <= 2) {
+						SetConsoleTextAttribute(bowSprites, 6 * 16 + 4);  //Empty
+						WriteConsole(bowSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 15) {
+					if (c == 0 || c == 1 || c == 2) {
+						SetConsoleTextAttribute(bowSprites, 6 * 16 + 4);  //Brown
+						WriteConsole(bowSprites, &"  ", 2, &output, NULL);
+					}
+				}
+			}
+		}
+		return true;
+	}
+
+	bool LoadExplosion() { // Anthony's Attempt
+
+		DWORD output;
+
+		// SetConsoleTextAttribute(bombSprites, 1 * 16); // Colour
+
+		for (int i = 0; i < 32; i++) {// Draws Row (i = y size)
+			GoToXY(keySprites, 0, i);	 //Position of pixel
+			for (int c = 0; c < 32; c++) { // Draws Col (c = x size)
+				SetConsoleTextAttribute(compassSprites, 7);  //empty
+				WriteConsole(compassSprites, &"  ", 2, &output, NULL);
+			}
+		}
+		return true;
+	}
+
+	bool LoadMap() { // Anthony's Attempt
+
+		DWORD output;
+
+		// SetConsoleTextAttribute(bombSprites, 1 * 16); // Colour
+
+		for (int i = 0; i < 16; i++) {// Draws Row (i = y size)
+			GoToXY(mapSprites, 0, i);	 //Position of pixel
+			for (int c = 0; c < 8; c++) { // Draws Col (c = x size)
+				if (i == 0) {
+					if (c == 2 || c == 5) {
+						SetConsoleTextAttribute(mapSprites, 7);  //empty
+						WriteConsole(mapSprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 0 || c == 1 || c == 3 || c == 4 || c == 6 || c == 7) {
+						SetConsoleTextAttribute(mapSprites, 14 * 16 + 12);  //Orange?
+						WriteConsole(mapSprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 5) {
+						SetConsoleTextAttribute(mapSprites, 12 * 16);  //Red
+						WriteConsole(mapSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 1) {
+					SetConsoleTextAttribute(mapSprites, 14 * 16 + 12);  //Orange?
+					WriteConsole(mapSprites, &"  ", 2, &output, NULL);
+				}
+				if (i == 2) {
+					SetConsoleTextAttribute(mapSprites, 14 * 16 + 12);  //Orange?
+					WriteConsole(mapSprites, &"  ", 2, &output, NULL);
+				}
+				if (i == 3) {
+					if (c == 7) {
+						SetConsoleTextAttribute(mapSprites, 15 * 16);  //White
+						WriteConsole(mapSprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 0 || c == 1 || c == 4 || c == 6) {
+						SetConsoleTextAttribute(mapSprites, 14 * 16 + 12);  //Orange?
+						WriteConsole(mapSprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 2 || c == 3 || c == 5) {
+						SetConsoleTextAttribute(mapSprites, 12 * 16);  //Red
+						WriteConsole(mapSprites, &"  ", 2, &output, NULL);
+					}
+
+				}
+				if (i == 4) {
+					if (c == 0) {
+						SetConsoleTextAttribute(mapSprites, 7);  //Empty
+						WriteConsole(mapSprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 7) {
+						SetConsoleTextAttribute(mapSprites, 15 * 16);  //White
+						WriteConsole(mapSprites, &"  ", 2, &output, NULL);
+					}
+					if (c > 0 && c < 7) {
+						SetConsoleTextAttribute(mapSprites, 14 * 16 + 12);  //Orange?
+						WriteConsole(mapSprites, &"  ", 2, &output, NULL);
+					}
+					
+
+				}
+				if (i == 5) {
+					if (c == 0 || c == 1 || c == 3 || c == 5) {
+						SetConsoleTextAttribute(mapSprites, 14 * 16 + 12);  //Orange?
+						WriteConsole(mapSprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 2 || c == 4) {
+						SetConsoleTextAttribute(mapSprites, 12 * 16);  //Red
+						WriteConsole(mapSprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 6 || c == 7) {
+						SetConsoleTextAttribute(mapSprites, 15 * 16);  //White
+						WriteConsole(mapSprites, &"  ", 2, &output, NULL);
+					}
+
+				}
+				if (i == 6) {
+
+					if (c == 5 || c == 6) {
+						SetConsoleTextAttribute(mapSprites, 15 * 16);  //White
+						WriteConsole(mapSprites, &"  ", 2, &output, NULL);
+					}
+					if (c >= 0 && c <= 4) {
+						SetConsoleTextAttribute(mapSprites, 14 * 16 + 12);  //Orange?
+						WriteConsole(mapSprites, &"  ", 2, &output, NULL);
+					}
+
+				}
+				if (i == 7) {
+					if (c == 4 || c == 5 || c == 6) {
+						SetConsoleTextAttribute(mapSprites, 15 * 16);  //White
+						WriteConsole(mapSprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 0 || c == 2) {
+						SetConsoleTextAttribute(mapSprites, 14 * 16 + 12);  //Orange?
+						WriteConsole(mapSprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 1 || c == 3) {
+						SetConsoleTextAttribute(mapSprites, 12 * 16);  //Red
+						WriteConsole(mapSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 8) {
+					if (c >= 3 || c <= 6) {
+						SetConsoleTextAttribute(mapSprites, 15 * 16);  //White
+						WriteConsole(mapSprites, &"  ", 2, &output, NULL);
+					}
+					if (c >= 0 && c <= 2) {
+						SetConsoleTextAttribute(mapSprites, 14 * 16 + 12);  //Orange?
+						WriteConsole(mapSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 9) {
+					if (c >= 2 || c <= 5) {
+						SetConsoleTextAttribute(mapSprites, 15 * 16);  //White
+						WriteConsole(mapSprites, &"  ", 2, &output, NULL);
+					}
+					if (c >= 0 && c <= 1) {
+						SetConsoleTextAttribute(mapSprites, 14 * 16 + 12);  //Orange?
+						WriteConsole(mapSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 10) {
+					if (c >= 1 || c <= 5) {
+						SetConsoleTextAttribute(mapSprites, 15 * 16);  //White
+						WriteConsole(mapSprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 0) {
+						SetConsoleTextAttribute(mapSprites, 14 * 16 + 12);  //Orange?
+						WriteConsole(mapSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 11) {
+					if (c >= 3 || c <= 5) {
+						SetConsoleTextAttribute(mapSprites, 15 * 16);  //White
+						WriteConsole(mapSprites, &"  ", 2, &output, NULL);
+					}
+					if (c >= 0 && c <= 2) {
+						SetConsoleTextAttribute(mapSprites, 14 * 16 + 12);  //Orange?
+						WriteConsole(mapSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 12) {
+					if (c == 4) {
+						SetConsoleTextAttribute(mapSprites, 15 * 16);  //White
+						WriteConsole(mapSprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 0 || c == 2) {
+						SetConsoleTextAttribute(mapSprites, 14 * 16 + 12);  //Orange?
+						WriteConsole(mapSprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 1 || c == 3) {
+						SetConsoleTextAttribute(mapSprites, 12 * 16);  //Red
+						WriteConsole(mapSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 13) {
+					if (c == 0) {
+						SetConsoleTextAttribute(mapSprites, 7);  //empty
+						WriteConsole(mapSprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 4) {
+						SetConsoleTextAttribute(mapSprites, 15 * 16);  //White
+						WriteConsole(mapSprites, &"  ", 2, &output, NULL);
+					}
+					if (c >=1 && c <= 3) {
+						SetConsoleTextAttribute(mapSprites, 14 * 16 + 12);  //Orange?
+						WriteConsole(mapSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 14) {
+					if (c == 4) {
+						SetConsoleTextAttribute(mapSprites, 15 * 16);  //White
+						WriteConsole(mapSprites, &"  ", 2, &output, NULL);
+					}
+					if (c >= 0 && c <= 3) {
+						SetConsoleTextAttribute(mapSprites, 14 * 16 + 12);  //Orange?
+						WriteConsole(mapSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 15) {
+					if (c == 3) {
+						SetConsoleTextAttribute(mapSprites, 15 * 16);  //White
+						WriteConsole(mapSprites, &"  ", 2, &output, NULL);
+					}
+					if (c >= 0 && c <= 2) {
+						SetConsoleTextAttribute(mapSprites, 14 * 16 + 12);  //Orange?
+						WriteConsole(mapSprites, &"  ", 2, &output, NULL);
+					}
+				}
+			}
+		}
+		return true;
+	}
+
+	bool LoadBlip() { // Anthony's Attempt
+
+		DWORD output;
+
+		// SetConsoleTextAttribute(bombSprites, 1 * 16); // Colour
+
+		for (int i = 0; i < 16; i++) {// Draws Row (i = y size)
+			GoToXY(blipSprites, 0, i);	 //Position of pixel
+			for (int c = 0; c < 15; c++) { // Draws Col (c = x size)
+				if (i == 0) {
+					SetConsoleTextAttribute(blipSprites, 7);  //Empty
+					WriteConsole(blipSprites, &"  ", 2, &output, NULL);
+				}
+				if (i == 1) {
+					SetConsoleTextAttribute(blipSprites, 7);  //Empty
+					WriteConsole(blipSprites, &"  ", 2, &output, NULL);
+				}
+				if (i == 2) {
+					SetConsoleTextAttribute(blipSprites, 7);  //Empty
+					WriteConsole(blipSprites, &"  ", 2, &output, NULL);
+				}
+				if (i == 3) {
+					if (c >= 0 && c <= 2)
+					{
+						SetConsoleTextAttribute(blipSprites, 7);  //Empty
+						WriteConsole(blipSprites, &"  ", 2, &output, NULL);
+					}
+					if (c >= 4 && c <= 10)
+					{
+						SetConsoleTextAttribute(blipSprites, 7);  //Empty
+						WriteConsole(blipSprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 11 || c == 3)
+					{
+						SetConsoleTextAttribute(blipSprites, 6 * 16 + 4);  //Brown
+						WriteConsole(blipSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 4) {
+					if (c >= 0 && c <= 6)
+					{
+						SetConsoleTextAttribute(blipSprites, 7);  //Empty
+						WriteConsole(blipSprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 7)
+					{
+						SetConsoleTextAttribute(blipSprites, 6 * 16 + 4);  //Brown
+						WriteConsole(blipSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 5) {
+					if (c >= 0 && c <= 4)
+					{
+						SetConsoleTextAttribute(blipSprites, 7);  //Empty
+						WriteConsole(blipSprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 6 && c == 8)
+					{
+						SetConsoleTextAttribute(blipSprites, 7);  //Empty
+						WriteConsole(blipSprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 11 || c == 3)
+					{
+						SetConsoleTextAttribute(blipSprites, 6 * 16 + 4);  //Brown
+						WriteConsole(blipSprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 7)
+					{
+						SetConsoleTextAttribute(blipSprites, 14 * 16 + 12);  //Orange?
+						WriteConsole(blipSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 6) {
+					if (c >= 0 && c <= 6)
+					{
+						SetConsoleTextAttribute(blipSprites, 7);  //Empty
+						WriteConsole(blipSprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 7)
+					{
+						SetConsoleTextAttribute(blipSprites, 6 * 16 + 4);  //Brown
+						WriteConsole(blipSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 7) {
+					if (c >= 0 && c <= 3)
+					{
+						SetConsoleTextAttribute(blipSprites, 7);  //Empty
+						WriteConsole(blipSprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 4 || c == 6 || c == 8 || c == 10)
+					{
+						SetConsoleTextAttribute(blipSprites, 6 * 16 + 4);  //Brown
+						WriteConsole(blipSprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 5 || c == 7 || c == 9)
+					{
+						SetConsoleTextAttribute(blipSprites, 14 * 16 + 12);  //Orange?
+						WriteConsole(blipSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 8) {
+					if (c >= 0 && c <= 3)
+					{
+						SetConsoleTextAttribute(blipSprites, 7);  //Empty
+						WriteConsole(blipSprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 4 || c == 6 || c == 8 || c == 10)
+					{
+						SetConsoleTextAttribute(blipSprites, 6 * 16 + 4);  //Brown
+						WriteConsole(blipSprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 5 || c == 7 || c == 9)
+					{
+						SetConsoleTextAttribute(blipSprites, 14 * 16 + 12);  //Orange?
+						WriteConsole(blipSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 9) {
+					if (c >= 0 && c <= 6)
+					{
+						SetConsoleTextAttribute(blipSprites, 7);  //Empty
+						WriteConsole(blipSprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 7)
+					{
+						SetConsoleTextAttribute(blipSprites, 6 * 16 + 4);  //Brown
+						WriteConsole(blipSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 10) {
+					if (c >= 0 && c <= 4)
+					{
+						SetConsoleTextAttribute(blipSprites, 7);  //Empty
+						WriteConsole(blipSprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 6 && c == 8)
+					{
+						SetConsoleTextAttribute(blipSprites, 7);  //Empty
+						WriteConsole(blipSprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 11 || c == 3)
+					{
+						SetConsoleTextAttribute(blipSprites, 6 * 16 + 4);  //Brown
+						WriteConsole(blipSprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 7)
+					{
+						SetConsoleTextAttribute(blipSprites, 14 * 16 + 12);  //Orange?
+						WriteConsole(blipSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 11) {
+					if (c >= 0 && c <= 6)
+					{
+						SetConsoleTextAttribute(blipSprites, 7);  //Empty
+						WriteConsole(blipSprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 7)
+					{
+						SetConsoleTextAttribute(blipSprites, 6 * 16 + 4);  //Brown
+						WriteConsole(blipSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 12) {
+					if (c >= 0 && c <= 2)
+					{
+						SetConsoleTextAttribute(blipSprites, 7);  //Empty
+						WriteConsole(blipSprites, &"  ", 2, &output, NULL);
+					}
+					if (c >= 4 && c <= 10)
+					{
+						SetConsoleTextAttribute(blipSprites, 7);  //Empty
+						WriteConsole(blipSprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 11 || c == 3)
+					{
+						SetConsoleTextAttribute(blipSprites, 6 * 16 + 4);  //Brown
+						WriteConsole(blipSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 13) {
+					SetConsoleTextAttribute(blipSprites, 7);  //Empty
+					WriteConsole(blipSprites, &"  ", 2, &output, NULL);
+				}
+				if (i == 14) {
+					SetConsoleTextAttribute(blipSprites, 7);  //Empty
+					WriteConsole(blipSprites, &"  ", 2, &output, NULL);
+				}
+				if (i == 15) {
+					SetConsoleTextAttribute(blipSprites, 7);  //Empty
+					WriteConsole(blipSprites, &"  ", 2, &output, NULL);
+				}
+			}
+		}
+		//Frame 2
+		for (int i = 0; i < 16; i++) {// Draws Row (i = y size)
+			GoToXY(blipSprites, 0, i + 17);	 //Position of pixel
+			for (int c = 0; c < 15; c++) { // Draws Col (c = x size)
+				if (i == 0) {
+					if (c == 7)
+					{
+						SetConsoleTextAttribute(blipSprites, 6 * 16 + 4);  //Brown
+						WriteConsole(blipSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 1) {
+					if (c == 1 || c == 13)
+					{
+						SetConsoleTextAttribute(blipSprites, 6 * 16 + 4);  //Brown
+						WriteConsole(blipSprites, &"  ", 2, &output, NULL);
+					}
+					
+				}
+				if (i == 2) {
+					if (c == 7)
+					{
+						SetConsoleTextAttribute(blipSprites, 6 * 16 + 4);  //Brown
+						WriteConsole(blipSprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 2 || c == 12)
+					{
+						SetConsoleTextAttribute(blipSprites, 14 * 16 + 12);  //Orange?
+						WriteConsole(blipSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 3) {
+					if (c == 7 || c == 3|| c == 11)
+					{
+						SetConsoleTextAttribute(blipSprites, 6 * 16 + 4);  //Brown
+						WriteConsole(blipSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 4) {
+					if (c == 4 || c == 10)
+					{
+						SetConsoleTextAttribute(blipSprites, 6 * 16 + 4);  //Brown
+						WriteConsole(blipSprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 7)
+					{
+						SetConsoleTextAttribute(blipSprites, 14 * 16 + 12);  //Orange?
+						WriteConsole(blipSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 5) {
+					if (c == 5 || c == 9)
+					{
+						SetConsoleTextAttribute(blipSprites, 6 * 16 + 4);  //Brown
+						WriteConsole(blipSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 6) {
+					if (c == 6 || c == 7 || c == 8)
+					{
+						SetConsoleTextAttribute(blipSprites, 14 * 16 + 12);  //Orange?
+						WriteConsole(blipSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 7) {
+					if (c == 0 || c == 2 || c == 3 || c == 5 || c == 7 || c == 9 || c == 11 || c == 12 || c == 14)
+					{
+						SetConsoleTextAttribute(blipSprites, 6 * 16 + 4);  //Brown
+						WriteConsole(blipSprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 4 || c == 6 || c == 8 || c == 10)
+					{
+						SetConsoleTextAttribute(blipSprites, 14 * 16 + 12);  //Orange?
+						WriteConsole(blipSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 8) {
+					if (c == 0 || c == 2 || c == 3 || c == 5 || c == 7 || c == 9 || c == 11 || c == 12 || c == 14)
+					{
+						SetConsoleTextAttribute(blipSprites, 6 * 16 + 4);  //Brown
+						WriteConsole(blipSprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 4 || c == 6 || c == 8 || c == 10)
+					{
+						SetConsoleTextAttribute(blipSprites, 14 * 16 + 12);  //Orange?
+						WriteConsole(blipSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 9) {
+					if (c == 6 || c == 7 || c == 8)
+					{
+						SetConsoleTextAttribute(blipSprites, 14 * 16 + 12);  //Orange?
+						WriteConsole(blipSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 10) {
+					if (c == 5 || c == 9)
+					{
+						SetConsoleTextAttribute(blipSprites, 6 * 16 + 4);  //Brown
+						WriteConsole(blipSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 11) {
+					if (c == 4 || c == 10)
+					{
+						SetConsoleTextAttribute(blipSprites, 6 * 16 + 4);  //Brown
+						WriteConsole(blipSprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 7)
+					{
+						SetConsoleTextAttribute(blipSprites, 14 * 16 + 12);  //Orange?
+						WriteConsole(blipSprites, &"  ", 2, &output, NULL);
+					}
+
+				}
+				if (i == 12) {
+					if (c == 7 || c == 3 || c == 11)
+					{
+						SetConsoleTextAttribute(blipSprites, 6 * 16 + 4);  //Brown
+						WriteConsole(blipSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 13) {
+					if (i == 2) {
+						if (c == 7)
+						{
+							SetConsoleTextAttribute(blipSprites, 6 * 16 + 4);  //Brown
+							WriteConsole(blipSprites, &"  ", 2, &output, NULL);
+						}
+						if (c == 2 || c == 12)
+						{
+							SetConsoleTextAttribute(blipSprites, 14 * 16 + 12);  //Orange?
+							WriteConsole(blipSprites, &"  ", 2, &output, NULL);
+						}
+					}
+				}
+				if (i == 14) {
+					if (c == 1 || c == 13)
+					{
+						SetConsoleTextAttribute(blipSprites, 6 * 16 + 4);  //Brown
+						WriteConsole(blipSprites, &"  ", 2, &output, NULL);
+					}
+				}
+				if (i == 15) {
+					if (c == 7)
+					{
+						SetConsoleTextAttribute(blipSprites, 6 * 16 + 4);  //Brown
+						WriteConsole(blipSprites, &"  ", 2, &output, NULL);
+					}
+				}
+			}
+		}
+		return true;
+	}
+
 };
 
 SpriteSheets Sprites;

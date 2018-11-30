@@ -79,7 +79,7 @@ public:	   // x,y coord,                  width*2,height,							   lifetime, dam
 
 		SetSpriteSheet(Sprites.arrowSprites);
 		SetCurFrame(0);
-		SetCurAnim(3);
+		SetCurAnim(0);
 	}
 
 	
@@ -135,7 +135,7 @@ private:
 
 
 public:	   // x,y coord,                  width*2,height,lifetime, damage, speed 
-	Bomb(int x, int y) : Projectile(x, y, 28, 14, 10.0f, 0) {
+	Bomb(int x, int y) : Projectile(x, y, 28, 14, 10.0f, 0) {	   //28 , 14
 		this->setEnum(PT_BOMB);
 		SetSpriteSheet(Sprites.bombSprites);
 		SetCurFrame(0);
@@ -192,10 +192,11 @@ private:
 	bool rebounded = false;
 
 public:	   // x,y coord,                  width*2,height,		   || lifetime, damage,  
-	Boomerang(int x, int y, int x_spd, int y_spd) : Projectile(x, y, 20, 10, 5.0f, 1) {
+	Boomerang(int x, int y, int x_spd, int y_spd) : Projectile(x, y, 16, 8, 5.0f, 1) {
 		//this->setDir(_dir);
 		this->setEnum(PT_BOOMERANG);
-		this->SetSpriteSheet(Sprites.fireballSprites);
+		this->SetSpriteSheet(Sprites.boomerangSprites);
+		this->SetCurFrame(1);
 
 		xSpd = x_spd;
 		ySpd = y_spd;

@@ -9,7 +9,7 @@ public:
 	SpikeTrap(int x, int y) :Enemy(x, y, 32, 16, 1, 1) {
 		SetNumAnim(2);
 		this->SetCurAnim(1);
-		SetSpriteSheet(Sprites.statueSprites);
+		SetSpriteSheet(Sprites.spiketrapSprites);
 
 		origin.X = x;
 		origin.Y = y;

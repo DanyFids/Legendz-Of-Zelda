@@ -122,25 +122,11 @@ public:
 
 class Projectile : public Entity {
 private:
-	float theta, timer;
+	float timer;
 	int dmg;
 	Direction dir;
-	ProjType type;
+	
 public:
-	ProjType getEnum()
-	{
-		return type;
-	}
-
-	void setEnum(ProjType t)
-	{
-		type = t;
-	}
-
-	float getTheta()
-	{
-		return theta;
-	}
 
 	int getDamage()
 	{
@@ -162,18 +148,15 @@ public:
 		timer = t;
 	}
 
-	void setTheta(float _theta)
-	{
-		theta = _theta;
-	}
-
 	void setDir(Direction _dir)
 	{
 		dir = _dir;
 	}
+
 	Projectile(int x, int y, int w, int h, float time, int dmg) :Entity(x, y, w, h) {
 		this->timer = time;
 		this->dmg = dmg;
+		this->setProjectile();
 	}
 
 
@@ -189,4 +172,13 @@ public:
 
 	}
 
+};
+
+class Effect : public Entity {
+private:
+	float timer;
+public:
+	Effect(int x, int y, int w, int h, float time) {
+		this->timer = time;
+	}
 };

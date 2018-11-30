@@ -10,6 +10,8 @@ private:
 	std::vector<int> num_frames;
 	bool flying;
 	Direction dir;
+	bool isProjectile = false;
+	ProjType type;
 public:
 	HANDLE sprite_sheet;
 	int xSpd, ySpd;
@@ -26,6 +28,26 @@ public:
 		this->y = y;
 		width = w;
 		height = h;
+	}
+
+	ProjType getEnum()
+	{
+		return type;
+	}
+
+	void setEnum(ProjType t)
+	{
+		type = t;
+	}
+
+	void setProjectile()
+	{
+		isProjectile = true;
+	}
+
+	bool getProjectile()
+	{
+		return isProjectile;
 	}
 
 	int GetX() {
