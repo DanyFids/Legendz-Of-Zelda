@@ -181,4 +181,14 @@ public:
 	Effect(int x, int y, int w, int h, float time) {
 		this->timer = time;
 	}
+
+	float getTime()
+	{
+		return timer;
+	}
+
+	void setTime(float t)
+	{
+		timer = t;
+	}
 };

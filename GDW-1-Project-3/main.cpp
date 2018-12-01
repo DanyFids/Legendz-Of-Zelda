@@ -10,6 +10,7 @@
 #include"FunctionProto.h"
 #include"SpriteSheets.h"
 #include"Entity.h"
+#include "Effects.h"
 #include"CoreClasses.h"
 #include"Terrains.h"
 #include"Enemies.h"
