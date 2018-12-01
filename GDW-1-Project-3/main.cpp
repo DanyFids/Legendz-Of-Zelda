@@ -17,8 +17,8 @@
 #include "PowerUp.h"
 
 //SFX/BGM Managers
-#include "bgMusicManager.h"
-#include "sfxManager.h"
+//#include "bgMusicManager.h"
+//#include "sfxManager.h"
 #include"Threads.h"
 
 //Projectiles
@@ -41,16 +41,15 @@ COORD mouseLoc;
 GameState state = TITLE;
 
 bool Play = true;
-bool stop_watch = false;
 
 // Play Objects
 // Player
 Player player(0, 0);
-Player_Info * player_file;
 // Non-Player entities
 std::vector<Enemy*> enemies = {new Rope(80, 10),new SpikeTrap(400, 3),new SpikeTrap(400, 200),new Gel(50, 50), new Keese(100, 100) };
-std::vector<Projectile*> projectiles = {new Bomb(150,150), new Arrow(190,150,0,0,Down), new Fireball(230,150,0.0f,0.0f)};
-std::vector<Terrain*> roomTer = {new Wall(20,100), new Wall(52, 100), new Wall(84, 100)};
+std::vector<Projectile*> projectiles = {new Bomb(150,150), new Arrow(190,150,0,0,Down), new Fireball(230,150,0.0f,0.0f), };
+std::vector<Terrain*> roomTer = {new Wall(20,100), new Wall(52, 100), new Wall(84, 100), new LockedDoor (200,200)};
+std::vector<PowerUp *> powerups = {new HeartPickup(50,50), new HeartContainerPickup(25,25), new KeyPickup(30,30)};
 
 // Menus
 Menu CharSelMenu({
@@ -89,7 +88,7 @@ int main() {
 	ResizeWindow();
 	//LoZTitleScreenBGM();	 //Legacy Player
 	Load();
-	sounds.PlayTitleTheme();
+	//sounds.PlayTitleTheme();
 	//PlayDungeonTheme();
 
 	//Start DrawThread
@@ -361,6 +360,10 @@ void Draw() {
 			projectiles[p]->draw(drawBuff);
 		}
 
+		for (int u = 0; u < powerups.size(); u++) {
+			powerups[u]->draw(drawBuff);
+		}
+
 		player.draw(drawBuff);
 		break;
 	case INVENTORY:
@@ -482,7 +485,7 @@ void Update() {
 
 		if (player_input.keySpace)
 		{
-			sounds.PlaySwing();
+			//sounds.PlaySwing();
 			if (player.CanAtk()) {
 				Direction d = player.GetDir();
 				switch (d) {
@@ -531,7 +534,20 @@ void Update() {
 			for (int e = 0; e < enemies.size(); e++) {
 				roomTer[t]->HitDetect(enemies[e]);
 			}
+			for (int p = 0; p < projectiles.size(); p++) {
+				if (projectiles[p]->getEnum() == PT_EXPLOSION) {
+					roomTer[t]->HitDetect(projectiles[p]);
+				}
+			}
+		}
+		for (int u = 0; u < powerups.size(); u++) {
 			
+			if (powerups[u]->HitDetect(&player)) {
+				powerups[u]->Effect(player_file);
+				delete powerups[u];
+				std::vector<PowerUp *>::iterator it = powerups.begin();
+				powerups.erase(it + u);
+			}
 		}
 
 		player.Update(dt);
@@ -551,12 +567,6 @@ void Update() {
 			if (projectiles[p]->getTime() <= 0){
 				std::vector<Projectile*>::iterator it = projectiles.begin();
 				projectiles.erase(it + p);
-			}
-		}
-
-		for (int c = 0; c < powerups.size(); c++) {
-			if (powerups[c]->HitDetect(&player)) {
-				powerups[c]->Effect(&player_file);
 			}
 		}
 
@@ -635,7 +645,6 @@ void Load() {
 	}
 }
 
-std::vector<PowerUp *> powerups;
 void MouseHandler(MOUSE_EVENT_RECORD e) {
 	Menu* scrn;
 

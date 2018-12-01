@@ -2,63 +2,80 @@
 
 class HeartPickup : public PowerUp {
 public:
-
-
-
-	void Effect(Player_Info stats) {
-		stats.CurLife += 2;
+	HeartPickup(int x, int y) : PowerUp(x, y, 32, 16) {
+		SetSpriteSheet(Sprites.blockSprites);
 	}
 
-	bool HitDetect(Player * p) {
-		return willHit(p,0,0);
+
+	void Effect(Player_Info * stats) {
+		stats->CurLife += 2;
+	}
+
+	bool HitDetect(Entity * other) {
+		return willHit(other,0,0);
+	}
+	void Update(float dt) {
+
 	}
 
 	};
 
 class HeartContainerPickup : public PowerUp {
 public:
-
-
-
-	void Effect(Player_Info stats) {
-		stats.MaxLife += 2;
+	HeartContainerPickup(int x, int y) : PowerUp(x, y, 32, 16) {
+		SetSpriteSheet(Sprites.blockSprites);
 	}
 
-	bool HitDetect(Player * p) {
-		return willHit(p, 0, 0);
+
+	void Effect(Player_Info * stats) {
+		stats->MaxLife += 2;
 	}
 
+	bool HitDetect(Entity * other) {
+		return willHit(other, 0, 0);
+	}
+
+	void Update(float dt) {
+
+	}
 
 };
 
 class KeyPickup : public PowerUp {
 public:
-
-
-
-	void Effect(Player_Info stats) {
-		stats.Keys ++ ;
+	KeyPickup(int x, int y) : PowerUp(x, y, 32, 16) {
+		SetSpriteSheet(Sprites.blockSprites);
 	}
 
-	bool HitDetect(Player * p) {
-		return willHit(p, 0, 0);
+
+	void Effect(Player_Info * stats) {
+		stats->Keys ++ ;
 	}
 
+	bool HitDetect(Entity * other) {
+		return willHit(other, 0, 0);
+	}
+
+	void Update(float dt) {
+
+	}
 
 };
 
 
 class BombPickup : public PowerUp {
 public:
-
-
-
-	void Effect(Player_Info stats) {
-		stats.Bombs++;
+	BombPickup(int x, int y) : PowerUp(x, y, 32, 16) {
+		SetSpriteSheet(Sprites.blockSprites);
 	}
 
-	bool HitDetect(Player * p) {
-		return willHit(p, 0, 0);
+
+	void Effect(Player_Info * stats) {
+		stats->Bombs++;
+	}
+
+	bool HitDetect(Entity * other) {
+		return willHit(other, 0, 0);
 	}
 
 
@@ -66,15 +83,15 @@ public:
 
 class StopwatchPickup : public PowerUp {
 public:
-
-
-
-	void Effect(Player_Info stats) {
+	StopwatchPickup(int x, int y) : PowerUp(x, y, 32, 16) {
+		SetSpriteSheet(Sprites.blockSprites);
+	}
+	void Effect(Player_Info * stats) {
 		stop_watch = true;
 	}
 
-	bool HitDetect(Player * p) {
-		return willHit(p, 0, 0);
+	bool HitDetect(Entity * other) {
+		return willHit(other, 0, 0);
 	}
 
 
@@ -82,15 +99,17 @@ public:
 
 class CompassPickup : public PowerUp {
 public:
-
-
-
-	void Effect(Player_Info stats) {
-		stats.HasCompass = true;
+	CompassPickup(int x, int y) : PowerUp(x, y, 32, 16) {
+		SetSpriteSheet(Sprites.blockSprites);
 	}
 
-	bool HitDetect(Player * p) {
-		return willHit(p, 0, 0);
+
+	void Effect(Player_Info * stats) {
+		stats->HasCompass = true;
+	}
+
+	bool HitDetect(Entity * other) {
+		return willHit(other, 0, 0);
 	}
 
 
@@ -98,15 +117,17 @@ public:
 
 class MapPickup : public PowerUp {
 public:
-
-
-
-	void Effect(Player_Info stats) {
-		stats.HasMap = true;
+	MapPickup(int x, int y) : PowerUp(x, y, 32, 16) {
+		SetSpriteSheet(Sprites.blockSprites);
 	}
 
-	bool HitDetect(Player * p) {
-		return willHit(p, 0, 0);
+
+	void Effect(Player_Info * stats) {
+		stats->HasMap = true;
+	}
+
+	bool HitDetect(Entity * other) {
+		return willHit(other, 0, 0);
 	}
 
 
@@ -114,15 +135,18 @@ public:
 
 class RupeesPickup : public PowerUp {
 public:
-
-
-
-	void Effect(Player_Info stats) {
-		stats.CurLife += 1;
+	RupeesPickup(int x, int y) : PowerUp(x, y, 32, 16) {
+		SetSpriteSheet(Sprites.blockSprites);
 	}
 
-	bool HitDetect(Player * p) {
-		return willHit(p, 0, 0);
+
+
+	void Effect(Player_Info * stats) {
+		stats->Rupees += 1;
+	}
+
+	bool HitDetect(Entity * other) {
+		return willHit(other, 0, 0);
 	}
 
 
@@ -131,15 +155,17 @@ public:
 
 class BlueRupeesPickup : public PowerUp {
 public:
-
-
-
-	void Effect(Player_Info stats) {
-		stats.Rupees += 5;
+	BlueRupeesPickup(int x, int y) : PowerUp(x, y, 32, 16) {
+		SetSpriteSheet(Sprites.blockSprites);
 	}
 
-	bool HitDetect(Player * p) {
-		return willHit(p, 0, 0);
+
+	void Effect(Player_Info * stats) {
+		stats->Rupees += 5;
+	}
+
+	bool HitDetect(Entity * other) {
+		return willHit(other, 0, 0);
 	}
 
 
@@ -147,15 +173,17 @@ public:
 
 class FairiesPickup : public PowerUp {
 public:
-
-
-
-	void Effect(Player_Info stats) {
-		stats.CurLife += 10;
+	FairiesPickup(int x, int y) : PowerUp(x, y, 32, 16) {
+		SetSpriteSheet(Sprites.blockSprites);
 	}
 
-	bool HitDetect(Player * p) {
-		return willHit(p, 0, 0);
+
+	void Effect(Player_Info * stats) {
+		stats->CurLife += 10;
+	}
+
+	bool HitDetect(Entity * other) {
+		return willHit(other, 0, 0);
 	}
 
 

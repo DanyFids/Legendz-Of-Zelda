@@ -10,6 +10,9 @@ private:
 	std::vector<int> num_frames;
 	bool flying;
 	Direction dir;
+	bool isProjectile = false;
+	bool isPlayer = false;
+	ProjType type;
 public:
 	HANDLE sprite_sheet;
 	int xSpd, ySpd;
@@ -21,11 +24,12 @@ public:
 		height = 0;
 	}
 
-	Entity(int x, int y, int w, int h) {
+	Entity(int x, int y, int w, int h, bool isP = false) {
 		this->x = x;
 		this->y = y;
 		width = w;
 		height = h;
+		isPlayer = isP;
 	}
 
 	int GetX() {
@@ -92,6 +96,30 @@ public:
 
 	Direction GetDir() {
 		return dir;
+	}
+
+	ProjType getEnum()
+	{
+		return type;
+	}
+
+	void setEnum(ProjType t)
+	{
+		type = t;
+	}
+
+	void setProjectile()
+	{
+		isProjectile = true;
+	}
+
+	bool getProjectile()
+	{
+		return isProjectile;
+	}
+
+	bool IsPlayer() {
+		return isPlayer;
 	}
 
 	virtual bool HitDetect(Entity * other) = 0;

@@ -1,0 +1,8 @@
+﻿  bgMusicManager.cpp
+  main.cpp
+c:\users\100717941\documents\repos\gdw3\legendz-of-zelda\gdw-1-project-3\menus.h(63): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+c:\users\100717941\documents\repos\gdw3\legendz-of-zelda\gdw-1-project-3\menus.h(139): warning C4267: 'return': conversion from 'size_t' to 'int', possible loss of data
+c:\users\100717941\documents\repos\gdw3\legendz-of-zelda\gdw-1-project-3\projectiles.h(110): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+c:\users\100717941\documents\repos\gdw3\legendz-of-zelda\gdw-1-project-3\projectiles.h(111): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+  Generating Code...
+  GDW-1-Project-3.vcxproj -> C:\Users\100717941\Documents\Repos\gdw3\Legendz-Of-Zelda\GDW-1-Project-3\x64\Debug\GDW-1-Project-3.exe
