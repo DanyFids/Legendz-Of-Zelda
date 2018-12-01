@@ -10,6 +10,14 @@ void Update();
 void ResizeWindow();
 float GetTimeInSeconds();
 void Load();
+void MouseHandler(MOUSE_EVENT_RECORD e);
+void ButtonHandler(BtnAction action, int extra);
+void Save();
+
+//State Functions
+void ToCharacterSelect();
+void ToEliminationMode();
+void ToRegisterName();
 
 //GLOBAL VARS
 COORD SCREEN_SIZE;

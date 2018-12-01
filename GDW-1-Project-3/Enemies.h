@@ -1,5 +1,6 @@
 #pragma once
 
+
 class SpikeTrap : public Enemy {
 private:
 	COORD origin;
@@ -296,6 +297,96 @@ public:
 	}
 };
 
+class Statue : public Enemy {
+private:
+	bool hasFired = false;
+	int count = 0;
+	COORD origin;
+	float dirScale;
+	FCOORD norDir;
+	bool attack = false;
+	bool innert = false;
+public:
+
+	std::vector<Projectile *> fireballs;
+	Statue(int x, int y) :Enemy(x, y, 32, 16, 1, 1) {
+		SetNumAnim(1);
+
+		SetSpriteSheet(Sprites.spiketrapSprites);
+
+		origin.X = x;
+		origin.Y = y;
+
+		SetInvuln(true);
+	}
+
+	FCOORD getFCOORD()
+	{
+		return norDir;
+	}
+
+	void AI(Player p) {
+
+		COORD direction;
+		//From orgin, fireball moves to the set location.
+
+		direction.X = (origin.X - p.GetX());
+		direction.Y = (origin.Y - p.GetY());
+
+		dirScale = sqrt(pow(direction.X,2) + pow(direction.Y,2));
+
+		norDir.X = direction.X / dirScale;
+		norDir.Y = direction.Y / dirScale;
+
+		if (count > 0) {
+			count--;
+		}
+		if (count == 0) {
+			count = 20;
+			this->projectiles.push_back(new Fireball((this->GetX() + (this->GetWidth()/2) - 10), (this->GetY() + (this->GetHeight() / 2) - 5), norDir));
+		}
+
+	}
+
+	bool HitDetect(Entity * other) {
+		//Test Wall
+		if (GetX() + xSpd < 0) {
+			xSpd = 0 - GetX();
+			attack = false;
+		}
+		if (GetY() + ySpd < 0) {
+			ySpd = 0 - GetY();
+			attack = false;
+		}
+		if (GetX() + xSpd > 482) {
+			xSpd = 482 - GetX();
+			attack = false;
+		}
+		if (GetY() + ySpd > 208) {
+			ySpd = 208 - GetY();
+			attack = false;
+		}
+		//Can Remove Later
+
+		if (willHit(other, 0, 0)) {
+			
+		}
+
+		return willHit(other, 0, 0);
+	}
+
+	void Update(float dt) {
+		move();
+
+		xSpd = 0;
+		ySpd = 0;
+	}
+
+	Enemy * Clone() {
+		return new Statue(*this);
+	}
+};
+
 class Rope : public Enemy {
 private:
 	bool attack = true;
@@ -541,6 +632,7 @@ private:
 public:
 	Dodongo(int x, int y) : Enemy(x, y, 12, 8, 1, 1) {
 		SetNumAnim(1);
+		setBoss(true);
 		SetSpriteSheet(Sprites.gelSprites);
 	}
 	void Hurt(int d) {
@@ -621,6 +713,8 @@ public:
 
 		}
 		//Can Remove Later
+
+
 		return (willHit(other, 0, 0));
 	}
 
