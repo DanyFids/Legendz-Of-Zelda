@@ -271,15 +271,6 @@ private:
 	Direction dir;
 	ProjType type;
 public:
-	ProjType getEnum()
-	{
-		return type;
-	}
-
-	void setEnum(ProjType t)
-	{
-		type = t;
-	}
 
 	float getTheta()
 	{
@@ -324,6 +315,7 @@ public:
 	Projectile(int x, int y, int w, int h, float time, int dmg) :Entity(x, y, w, h) {
 		this->timer = time;
 		this->dmg = dmg;
+		this->setProjectile();
 	}
 
 
@@ -339,6 +331,11 @@ public:
 
 class PowerUp : public Entity {
 public:
-	virtual void Effect(Player_Info stats)=0;
+	PowerUp(int x, int y, int w, int h) :Entity(x, y, w, h) {
+
+	}
+
+
+	virtual void Effect(Player_Info * stats)=0;
 
 };

@@ -22,7 +22,6 @@
 
 //SFX/BGM Managers
 //#include "bgMusicManager.h"
-
 #include"Threads.h"
 
 //Projectiles
@@ -365,6 +364,10 @@ void Draw() {
 			projectiles[p]->draw(drawBuff);
 		}
 
+		for (int u = 0; u < powerups.size(); u++) {
+			powerups[u]->draw(drawBuff);
+		}
+
 		player.draw(drawBuff);
 		break;
 	case INVENTORY:
@@ -562,6 +565,20 @@ void Update() {
 					}
 				}
 			}
+			for (int p = 0; p < projectiles.size(); p++) {
+				if (projectiles[p]->getEnum() == PT_EXPLOSION) {
+					roomTer[t]->HitDetect(projectiles[p]);
+				}
+			}
+		}
+		for (int u = 0; u < powerups.size(); u++) {
+			
+			if (powerups[u]->HitDetect(&player)) {
+				powerups[u]->Effect(player_file);
+				delete powerups[u];
+				std::vector<PowerUp *>::iterator it = powerups.begin();
+				powerups.erase(it + u);
+			}
 		}
 
 		player.Update(dt);
@@ -583,13 +600,6 @@ void Update() {
 				projectiles.erase(it + p);
 			}
 		}
-
-		for (int c = 0; c < powerups.size(); c++) {
-			if (powerups[c]->HitDetect(&player)) {
-				powerups[c]->Effect(*player_file);
-			}
-		}
-
 	}
 }
 

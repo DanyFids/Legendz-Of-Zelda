@@ -96,7 +96,5 @@ DWORD WINAPI LoadThread(LPVOID lpParameter)
 	//if (sounds.LoadDungeonTheme()) {
 	//	LOADED++;
 	//}
-
-	
 	return 0;
 }

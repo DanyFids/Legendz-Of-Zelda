@@ -160,7 +160,6 @@ private:
 public:	   // x,y coord,                  width*2,height,lifetime, damage, speed 
 	Explosion(int x, int y) : Projectile(x, y, 32, 7, 1.0f, 3) {
 		this->setEnum(PT_EXPLOSION);
-		 
 	}
 
 

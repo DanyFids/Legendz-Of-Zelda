@@ -265,14 +265,22 @@ public:
 
 class BombableWall : public Terrain {
 private:
+	bool gone;
 public:
 	BombableWall(int x, int y) : Terrain(x, y, 32, 16) {
 		SetSpriteSheet(Sprites.blockSprites);
 	}
+	bool IsGone() {
+		return gone;
+	}
+
+	void setGone(bool f) {
+		gone = f;
+	}
 
 	bool HitDetect(Entity * other) {
 		bool nope = willHit(other, other->xSpd, other->ySpd);
-		if (!other->IsFlying()) {
+		if (!IsGone()) {
 			if (willHit(other, other->xSpd, other->ySpd)) {
 				if (willHit(other, other->xSpd, 0)) {
 					if (other->xSpd > 0) {
@@ -308,7 +316,12 @@ public:
 				}
 			}
 		}
+		if (nope) {
 
+			if (other->getProjectile() && other->getEnum() == PT_EXPLOSION){
+				gone=true;
+			}
+		}
 		return nope;
 	}
 };
@@ -366,7 +379,7 @@ public:
 					}
 				}
 			}
-			if(nope && player_file->Keys > 0) {
+			if(nope && other->IsPlayer() && player_file->Keys > 0) {
 				open = true;
 				player_file->Keys -= 1;
 
