@@ -40,6 +40,9 @@
     <ClInclude Include="Dungeon.h">
       <Filter>Headers</Filter>
     </ClInclude>
+    <ClInclude Include="PowerUp.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Headers">

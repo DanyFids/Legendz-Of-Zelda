@@ -11,6 +11,9 @@ private:
 	bool flying;
 	bool hidden;
 	Direction dir;
+	bool isProjectile = false;
+	bool isPlayer = false;
+	ProjType type;
 public:
 	HANDLE sprite_sheet;
 	int xSpd, ySpd;
@@ -23,12 +26,13 @@ public:
 		height = 0;
 	}
 
-	Entity(int x, int y, int w, int h, bool hide = false) {
+	Entity(int x, int y, int w, int h, bool hide = false, bool isP = false) {
 		this->x = x;
 		this->y = y;
 		width = w;
 		height = h;
 		hidden = hide;
+		isPlayer = isP;
 	}
 
 	int GetX() {
@@ -102,6 +106,30 @@ public:
 
 	Direction GetDir() {
 		return dir;
+	}
+
+	ProjType getEnum()
+	{
+		return type;
+	}
+
+	void setEnum(ProjType t)
+	{
+		type = t;
+	}
+
+	void setProjectile()
+	{
+		isProjectile = true;
+	}
+
+	bool getProjectile()
+	{
+		return isProjectile;
+	}
+
+	bool IsPlayer() {
+		return isPlayer;
 	}
 
 	virtual bool HitDetect(Entity * other) = 0;

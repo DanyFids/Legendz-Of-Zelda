@@ -24,3 +24,4 @@ void ToRegisterName();
 
 //GLOBAL VARS
 COORD SCREEN_SIZE;
+bool stop_watch = false;

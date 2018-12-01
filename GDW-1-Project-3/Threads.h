@@ -7,7 +7,6 @@ int DrawThread()
 	return 0;
 }
 
-
 const int TO_LOAD = 18;
 //int LOADED = 0;
  int LoadThread(int & LOADED)
@@ -60,6 +59,15 @@ const int TO_LOAD = 18;
 	if (Sprites.LoadInventoryScrn()) {
 		LOADED++;
 	}
+	if (Sprites.LoadBomb()) {
+		LOADED++;
+	}
+	if (Sprites.LoadArrow()) {
+		LOADED++;
+	}
+	if (Sprites.LoadFireball()) {
+		LOADED++;
+	}
 
 	// load player saves
 	int savesSize = sizeof(Player_Info) * 3;
@@ -77,9 +85,6 @@ const int TO_LOAD = 18;
 		saves.read(bytes, savesSize);
 		memcpy(PLAYER_FILES, bytes, savesSize);
 		saves.close();
-		LOADED++;
-	}
-	if (Sprites.LoadBomb()) {
 		LOADED++;
 	}
 

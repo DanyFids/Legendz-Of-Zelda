@@ -15,12 +15,13 @@
 #include"Terrains.h"
 #include"Enemies.h"
 #include"Menus.h"
+#include "PowerUp.h"
 #include"Room.h"
 #include"Dungeon.h"
 
 //SFX/BGM Managers
-#include "bgMusicManager.h"
-#include "sfxManager.h"
+//#include "bgMusicManager.h"
+//#include "sfxManager.h"
 #include"Threads.h"
 
 //Projectiles
@@ -59,6 +60,8 @@ std::vector<Projectile*> projectiles = {};
 Dungeon LEVEL2;
 
 Room * curRoom = LEVEL2.GetStartRoom();
+
+std::vector<PowerUp *> powerups = {};
 
 // Menus
 Menu CharSelMenu({
@@ -102,6 +105,7 @@ int main() {
 	//LoZTitleScreenBGM();	 //Legacy Player
 	Load();
 	//sounds.PlayTitleTheme();
+	//PlayDungeonTheme();
 
 	//Start DrawThread
 	DWORD drawThreadID;
@@ -281,6 +285,7 @@ void KeyHandler(KEY_EVENT_RECORD e) {
 			switch (state) {
 			case TITLE:
 				ToCharacterSelect();
+				
 				//LoZDungeonThemeBGM();		   //Legacy Player
 
 				break;
@@ -384,6 +389,10 @@ void Draw() {
 
 		for (int p = 0; p < projectiles.size(); p++) {
 			projectiles[p]->draw(drawBuff);
+		}
+
+		for (int u = 0; u < powerups.size(); u++) {
+			powerups[u]->draw(drawBuff);
 		}
 
 		player.draw(drawBuff);
@@ -552,6 +561,11 @@ void Update() {
 			for (int p = 0; p < projectiles.size(); p++) {
 				if (projectiles[p]->HitDetect(curRoom->EnemyList[e])) {
 					projectiles[p]->Hit(curRoom->EnemyList[e]);
+					if (projectiles[p]->getEnum() == PT_ARROW) {
+						std::vector<Projectile*>::iterator it = projectiles.begin();
+						projectiles.erase(it + p);
+						delete projectiles[p];
+					}
 				}
 			}
 		}
@@ -561,7 +575,20 @@ void Update() {
 			for (int e = 0; e < curRoom->EnemyList.size(); e++) {
 				curRoom->TerrainList[t]->HitDetect(curRoom->EnemyList[e]);
 			}
+			for (int p = 0; p < projectiles.size(); p++) {
+				if (projectiles[p]->getEnum() == PT_EXPLOSION) {
+					curRoom->TerrainList[t]->HitDetect(projectiles[p]);
+				}
+			}
+		}
+		for (int u = 0; u < powerups.size(); u++) {
 			
+			if (powerups[u]->HitDetect(&player)) {
+				powerups[u]->Effect(player_file);
+				delete powerups[u];
+				std::vector<PowerUp *>::iterator it = powerups.begin();
+				powerups.erase(it + u);
+			}
 		}
 
 		player.Update(dt);
@@ -570,7 +597,10 @@ void Update() {
 				curRoom->EnemyList.erase(curRoom->EnemyList.begin() + e);
 			}
 			else {
-				curRoom->EnemyList[e]->Update(dt);
+				if (!stop_watch)
+				{
+					curRoom->EnemyList[e]->Update(dt);
+				}
 			}
 		}
 		for (int p = 0; p < projectiles.size(); p++) {
