@@ -159,7 +159,8 @@ public:
 		}
 		switch (per) {
 		case 1:
-			std::cout << "hello workd";
+
+			break;
 		}
 	}
 
