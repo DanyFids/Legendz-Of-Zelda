@@ -637,16 +637,23 @@ class Goryia : public Enemy {
 private:
 	bool hop = false;
 	bool hasMoved = false;
+	bool isBlue = false;
 	int counter = 0;
 	int count = 0;
 	int dir = 0;
 public:
-	Goryia(int x, int y) : Enemy(x, y, 12, 8, 1, 1) {
+	Goryia(int x, int y, bool b) : Enemy(x, y, 12, 8, 1, 1) {
 		SetNumAnim(1);
+		isBlue = b;
+		if (isBlue) {
+			
+		}
 		SetSpriteSheet(Sprites.gelSprites);
 	}
+
 	void Hurt(int d) {
 	}
+
 	void AI(Player p) {
 		std::random_device gen;
 		std::uniform_int_distribution<> range(1, 4);

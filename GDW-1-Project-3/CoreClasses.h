@@ -191,5 +191,4 @@ public:
 	void Hit(Enemy & e) {
 		e.Hurt(dmg);
 	}
-
 };
