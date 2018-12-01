@@ -26,28 +26,11 @@ struct Player_Info {
 };
 
 Player_Info PLAYER_FILES[3];
-
+Player_Info * player_file;
 
 Player_Input player_input;
 
-//Class Declarations
 class Projectile;
-
-struct Player_Info {
-	std::string Name = std::string(8, ' ');
-	int MaxLife = 6;
-	int CurLife = 6;
-	int Bombs = 0;
-	int Keys = 0;
-	int Rupees = 0;
-	bool HasMap = false;
-	bool HasCompass = false;
-	bool file_exists = false;
-};
-
-Player_Info PLAYER_FILES[3];
-
-Player_Info * player_file;
 
 class Player : public Entity {
 private:
@@ -152,6 +135,10 @@ public:
 		hasFired = true;
 	}
 
+	void setHP(int _hp) {
+		hp = _hp;
+	}
+
 	int GetHP() {
 		return hp;
 	}
@@ -174,6 +161,27 @@ public:
 		case 1:
 			std::cout << "hello workd";
 		}
+	}
+
+	bool Boundries(Entity * other) {
+		//Test Wall
+		if (GetX() + GetWidth() + xSpd < 32) {
+			xSpd = 32 - GetX();
+		}
+		if (GetY() + GetHeight() + ySpd < 80) {
+			ySpd = 80 - GetY();
+		}
+		if (GetX() + GetWidth() + xSpd > 480) {
+			xSpd = 480 - GetX();
+		}
+		if (GetY() + GetHeight() + ySpd > 224) {
+			ySpd = 224 - GetY();
+		}
+		if (willHit(other, 0, 0)) {
+
+		}
+		//Can Remove Later
+		return (willHit(other, 0, 0));
 	}
 
 	void move();
@@ -275,16 +283,6 @@ public:
 	float getTheta()
 	{
 		return theta;
-	}
-
-	ProjType getEnum()
-	{
-		return type;
-	}
-
-	void setEnum(ProjType t)
-	{
-		type = t;
 	}
 
 	int getDamage()
