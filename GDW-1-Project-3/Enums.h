@@ -31,8 +31,6 @@ enum ProjType {
 	PT_EXPLOSION,
 	PT_FIREBALL,
 	PT_BOOMERANG
-
-
 };
 
 enum BtnAction {
@@ -40,16 +38,4 @@ enum BtnAction {
 	REGISTER,
 	ERASE,
 	END
-};
-
-enum ProjType {
-	PT_NULL, // Base projectile
-	PT_SWORD,
-	PT_BEAMSWORD,
-	PT_ARROW,
-	PT_BOMB,
-	PT_EXPLOSION,
-	PT_FIREBALL,
-	PT_BOOMERANG
-
 };
