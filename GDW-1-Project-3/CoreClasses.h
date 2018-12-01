@@ -17,9 +17,12 @@ struct Player_Info {
 	bool HasMap = false;
 	bool HasCompass = false;
 	bool file_exists = false;
+	bool puzzles_solved[7] = { false, false, false, false, false, false, false };
 };
 
 Player_Info PLAYER_FILES[3];
+
+Player_Info * player_file;
 
 Player_Input player_input;
 
@@ -44,7 +47,7 @@ public:
 
 	void Hurt(int d) {
 		if (invulnTimer <= 0) {
-			hp -= d;
+			player_file->CurLife -= d;
 			invulnTimer = 15;
 		}
 	}
@@ -95,10 +98,12 @@ class Enemy : public Entity {
 private:
 	int dmg, hp;
 	bool invuln;
+	EnemyType et;
 public:
-	Enemy(int x, int y, int w, int h, int hp, int dmg) :Entity(x, y, w, h) {
+	Enemy(int x, int y, int w, int h, int hp, int dmg, EnemyType type = ET_DEFAULT) :Entity(x, y, w, h) {
 		this->hp = hp;
 		this->dmg = dmg;
+		this->et = type;
 	}
 
 	void Hurt(int d) {
@@ -110,12 +115,20 @@ public:
 		return hp;
 	}
 
+	void SetHP(int h) {
+		hp = h;
+	}
+
 	void Hit(Player & p) {
 		p.Hurt(dmg);
 	}
 
 	void SetInvuln(bool i) {
 		invuln = i;
+	}
+
+	EnemyType GetType() {
+		return et;
 	}
 
 	virtual void AI(Player p) = 0;
@@ -193,8 +206,6 @@ public:
 		p.Hurt(dmg);
 	}
 
-	void Hit(Enemy & e) {
-		e.Hurt(dmg);
-	}
+	void Hit(Enemy * e);
 
 };

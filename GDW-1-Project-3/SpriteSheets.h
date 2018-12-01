@@ -104,6 +104,15 @@ public:
 		CONSOLE_TEXTMODE_BUFFER,
 		NULL);
 
+	CHAR_INFO * roomsByType[6] = {
+		new CHAR_INFO[512 * 176],
+		new CHAR_INFO[512 * 176],
+		new CHAR_INFO[512 * 176],
+		new CHAR_INFO[512 * 176],
+		new CHAR_INFO[512 * 176],
+		new CHAR_INFO[512 * 176]
+	};
+
 	HANDLE keeseSprites = CreateConsoleScreenBuffer(
 		GENERIC_READ | GENERIC_WRITE,
 		FILE_SHARE_READ | FILE_SHARE_WRITE,
@@ -6129,6 +6138,7 @@ public:
 
 		DrawSprite(doorSprites, 132, 0, 40, 32, temp, 0, 0);
 
+		SetConsoleTextAttribute(doorSprites, 7);
 		for (int c = 0; c < 32; c++) {
 			GoToXY(doorSprites, 132, c);
 			for (int d = 0; d < 32; d++) {
@@ -8459,6 +8469,38 @@ public:
 			DrawSprite(floorSprites, 34, 0, 16, 8, roomSprites, (SCREEN_SIZE.X + 2) + 160 + (16 * c), 120);
 			DrawSprite(floorSprites, 34, 0, 16, 8, roomSprites, (SCREEN_SIZE.X + 2) + 160 + (16 * c), 128);
 			DrawSprite(floorSprites, 34, 0, 16, 8, roomSprites, (SCREEN_SIZE.X + 2) + 160 + (16 * c), 136);
+		}
+
+		DrawSprite(roomSprites, 0, 0, 512, 176, roomSprites, (SCREEN_SIZE.X + 2) * 2, 0);
+		for (int y = 0; y < 14; y++) {
+			for (int x = 0; x < 24; x++) {
+				DrawSprite(floorSprites, 34, 0, 16, 8, roomSprites, ((SCREEN_SIZE.X + 2) * 2 ) + 64 + (16 * x), 32 + (8 * y));
+			}
+		}
+
+		//Area to read/write
+		int w = 512;
+		int h = 176;
+
+		SMALL_RECT screen;
+
+		//Top Left COORD
+		COORD start;
+		start.X = 0;
+		start.Y = 0;
+
+		//Buffer Size
+		COORD size;
+		size.X = w;
+		size.Y = h;
+
+		for (int c = 0; c < 6; c++) {
+			screen.Top = 0;
+			screen.Left = (w + 2)*c;
+			screen.Right = (w + 2)*c + w - 1;
+			screen.Bottom = 0 + h - 1;
+
+			ReadConsoleOutput(roomSprites, roomsByType[c], size, start, &screen);
 		}
 
 		return true;

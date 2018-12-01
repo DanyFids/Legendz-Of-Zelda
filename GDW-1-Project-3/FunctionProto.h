@@ -15,6 +15,7 @@ void ButtonHandler(BtnAction action, int extra);
 void Save();
 void DrawUI(int y = 0);
 int GetUpdateTime();
+int GetDrawTime();
 
 //State Functions
 void ToCharacterSelect();

@@ -29,6 +29,7 @@
 void SetupRoom(Room * r, Direction d);
 
 const int PLAYER_SPEED = 2;
+const int WaitInterval = 50;
 
 HANDLE console = GetStdHandle(STD_OUTPUT_HANDLE);
 HANDLE drawBuff = CreateConsoleScreenBuffer(
@@ -45,10 +46,11 @@ GameState state = TITLE;
 
 bool Play = true;
 
+bool drawingFrame = true;
+
 // Play Objects
 // Player
-Player player(240, 208);
-Player_Info * player_file;
+Player player(240, 192);
 // Non-Player entities
 //std::vector<Enemy*> * enemies;
 std::vector<Projectile*> projectiles = {};
@@ -173,9 +175,10 @@ int main() {
 		Update();
 
 		int ut = GetUpdateTime();
-		if (ut < 50) {
-			Sleep(50 - ut);
+		if (ut < WaitInterval) {
+			Sleep(WaitInterval - ut);
 		}
+		GetUpdateTime(); // reset timer
 	}
 
 	return 0;
@@ -203,6 +206,7 @@ void GoToXY(HANDLE h, int x, int y) {
 }*/
 
 void SwapBuffer() {
+	/*
 	static CHAR_INFO *outBuff = new CHAR_INFO[SCREEN_SIZE.X * SCREEN_SIZE.Y];
 
 	//Area to read/write
@@ -225,6 +229,13 @@ void SwapBuffer() {
 	ReadConsoleOutput(drawBuff, outBuff, size, start, &screen);
 	
 	WriteConsoleOutput(console, outBuff, size, start, &screen);
+	*/
+	HANDLE temp = console;
+	console = drawBuff;
+	drawBuff = temp;
+
+	SetConsoleActiveScreenBuffer(console);
+	ResizeWindow();
 }
 
 
@@ -343,8 +354,8 @@ void clear() {
 }
 
 void Draw() {
-	clear();
-
+	//clear();
+	drawingFrame = true;
 	switch (state) {
 	case TITLE:
 		DrawScreen(Sprites.titleScreen);
@@ -358,7 +369,13 @@ void Draw() {
 		curRoom->Draw(drawBuff);
 
 		for (int e = 0; e < curRoom->EnemyList.size(); e++) {
-			curRoom->EnemyList[e]->draw(drawBuff);
+			if (curRoom->EnemyList[e]->GetType() == ET_MOLDORM) {
+				Moldorm * enem = (Moldorm *) curRoom->EnemyList[e];
+				enem->draw(drawBuff);
+			}
+			else {
+				curRoom->EnemyList[e]->draw(drawBuff);
+			}
 		}
 
 		for (int t = 0; t < curRoom->TerrainList.size(); t++) {
@@ -404,6 +421,12 @@ void Draw() {
 	}
 
 	SwapBuffer();
+	//int dt = GetDrawTime();
+	//if (dt < WaitInterval) {
+	//	Sleep(WaitInterval - dt);
+	//}
+	//GetDrawTime(); // reset timer
+	drawingFrame = false;
 }
 
 void DrawScreen(HANDLE scrn) {
@@ -528,7 +551,7 @@ void Update() {
 			}
 			for (int p = 0; p < projectiles.size(); p++) {
 				if (projectiles[p]->HitDetect(curRoom->EnemyList[e])) {
-					projectiles[p]->Hit(*curRoom->EnemyList[e]);
+					projectiles[p]->Hit(curRoom->EnemyList[e]);
 				}
 			}
 		}
@@ -583,6 +606,8 @@ void Update() {
 				SetupRoom(nextRoom, d);
 			}
 		}
+
+		LEVEL2.CheckPuzzles();
 	}
 }
 
@@ -593,7 +618,8 @@ void ResizeWindow() {
 	cfi.nFont = 0;
 	cfi.dwFontSize.X = 0;                 
 	cfi.dwFontSize.Y = 4;
-	SetCurrentConsoleFontEx(GetStdHandle(STD_OUTPUT_HANDLE), FALSE, &cfi);
+	SetCurrentConsoleFontEx(console, FALSE, &cfi);
+	SetCurrentConsoleFontEx(drawBuff, FALSE, &cfi);
 
 	_SMALL_RECT screenDimm;
 	screenDimm.Top = 0;
@@ -601,9 +627,12 @@ void ResizeWindow() {
 	screenDimm.Right = SCREEN_SIZE.X - 1;
 	screenDimm.Bottom = SCREEN_SIZE.Y - 1;
 
-	SetConsoleScreenBufferSize(GetStdHandle(STD_OUTPUT_HANDLE), SCREEN_SIZE);
+	SetConsoleScreenBufferSize(console, SCREEN_SIZE);
 	SetConsoleScreenBufferSize(drawBuff, SCREEN_SIZE);
-	if (!SetConsoleWindowInfo(GetStdHandle(STD_OUTPUT_HANDLE), TRUE, &screenDimm)) {
+	if (!SetConsoleWindowInfo(console, TRUE, &screenDimm)) {
+		DWORD err = GetLastError();
+	}
+	if (!SetConsoleWindowInfo(drawBuff, TRUE, &screenDimm)) {
 		DWORD err = GetLastError();
 	}
 }
@@ -616,6 +645,13 @@ float GetTimeInSeconds() {
 }
 
 int GetUpdateTime() {
+	static int timePassed = clock();
+	int ret = (clock() - timePassed);
+	timePassed = clock();
+	return ret;
+}
+
+int GetDrawTime() {
 	static int timePassed = clock();
 	int ret = (clock() - timePassed);
 	timePassed = clock();
@@ -650,19 +686,17 @@ void Load() {
 	loadThreadH.detach();
 	int loadPerc = 0;
 
-	SetConsoleTextAttribute(drawBuff, 10 * 16);
+	SetConsoleTextAttribute(console, 10 * 16);
 	while (LOADED != TO_LOAD) {
 		int perc = (LOADED * 100) / TO_LOAD;
 		if (perc > loadPerc) {
 			loadPerc = perc;
 			for (int i = 0; i < 20; i++) {
-				GoToXY(drawBuff, 64, 32 + i);
+				GoToXY(console, 64, 32 + i);
 				for (int j = 0; j < (loadPerc * 2); j++) {
-					WriteConsole(drawBuff, "  ", 2, NULL, NULL);
+					WriteConsole(console, "  ", 2, NULL, NULL);
 				}
 			}
-
-			SwapBuffer();
 		}
 	}
 }
@@ -715,6 +749,7 @@ void ButtonHandler(BtnAction action, int extra) {
 		if (state == CHARACTER_SEL) {
 			if (PLAYER_FILES[extra].file_exists) {
 				player_file = &PLAYER_FILES[extra];
+				LEVEL2.SetupDungeon();
 				state = PLAY;
 			}
 		}
@@ -854,6 +889,9 @@ void ToEliminationMode() {
 }
 
 void SetupRoom(Room * r, Direction d) {
+	while (drawingFrame) {
+
+	}
 	curRoom = r;
 	player.SetDir(d);
 	switch (d) {
@@ -876,8 +914,8 @@ void DrawUI(int y) {
 	Sprites.DrawSprite(Sprites.UIPanel, 0, 0, 512, 64, drawBuff, 0, y);
 
 	int numHearts = player_file->MaxLife / 2;
-	int numFullHearts = player.GetHp() / 2;
-	bool halfHeart = (player.GetHp() % 2) == 1;
+	int numFullHearts = player_file->CurLife / 2;
+	bool halfHeart = (player_file->CurLife % 2) == 1;
 	for (int c = 0; c < numHearts; c++) {
 		int HeartType = 0;
 		if (c >= numFullHearts) {
@@ -914,4 +952,16 @@ void DrawUI(int y) {
 	}
 
 	LEVEL2.DrawMap(drawBuff, y, curRoom);
+}
+
+
+// CLASS FUNCTIONS
+void Projectile::Hit(Enemy * e) {
+	if (e->GetType() == ET_MOLDORM) {
+		Moldorm * enem = (Moldorm *)e;
+		enem->Hurt(dmg);
+	}
+	else {
+		e->Hurt(dmg);
+	}
 }

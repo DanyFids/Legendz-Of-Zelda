@@ -152,13 +152,34 @@ class Door : public Terrain {
 private:
 	bool open;
 public:
-	Door(int x, int y, bool isO = false) : Terrain(x, y, 66, 20) {
+	Door(int x, int y, bool isO = true) : Terrain(x, y, 64, 32) {
 		SetSpriteSheet(Sprites.doorSprites);
 		open = isO;
 	}
-	Door(COORD XY, bool isO = false) : Terrain(XY.X, XY.Y, 66, 20) {
+	Door(COORD XY, Direction d, bool isO = true) : Terrain(XY.X, XY.Y, 64, 32) {
 		SetSpriteSheet(Sprites.doorSprites);
 		open = isO;
+		SetNumAnim(4);
+		switch (d) {
+		case Down:
+			SetCurAnim(0);
+			break;
+		case Up:
+			SetCurAnim(1);
+			break;
+		case Left:
+			SetCurAnim(2);
+			break;
+		case Right:
+			SetCurAnim(3);
+		}
+
+		if (isO) {
+			SetCurFrame(0);
+		}
+		else {
+			SetCurFrame(1);
+		}
 	}
 
 	bool IsOpen() {
@@ -167,6 +188,12 @@ public:
 
 	void setOpen(bool f) {
 		open = f;
+		if (open) {
+			SetCurFrame(0);
+		}
+		else {
+			SetCurFrame(1);
+		}
 	}
 
 	bool HitDetect(Entity * other) {

@@ -36,3 +36,8 @@ enum RoomType {
 	RT_MINI_BOSS,
 	RT_SECRET
 };
+
+enum EnemyType {
+	ET_DEFAULT,
+	ET_MOLDORM
+};
