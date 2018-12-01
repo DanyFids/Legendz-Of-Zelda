@@ -104,6 +104,27 @@ public:
 		}
 	}
 
+	bool Boundries(Entity * other) {
+		//Test Wall
+		if (GetX() + GetWidth() + xSpd < 32) {
+			xSpd = 32 - GetX();
+		}
+		if (GetY() + GetHeight() + ySpd < 80) {
+			ySpd = 80 - GetY();
+		}
+		if (GetX() + GetWidth() + xSpd > 480) {
+			xSpd = 480 - GetX();
+		}
+		if (GetY() + GetHeight() + ySpd > 224) {
+			ySpd = 224 - GetY();
+		}
+		if (willHit(other, 0, 0)) {
+
+		}
+		//Can Remove Later
+		return (willHit(other, 0, 0));
+	}
+
 	virtual void AI(Player p) = 0;
 };
 
