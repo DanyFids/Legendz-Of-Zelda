@@ -142,6 +142,10 @@ public:
 		return hp;
 	}
 
+	void setHP(int _hp) {
+		hp = _hp;
+	}
+
 	void Hit(Player & p) {
 		p.Hurt(dmg);
 	}

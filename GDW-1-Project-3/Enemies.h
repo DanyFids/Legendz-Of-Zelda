@@ -736,11 +736,11 @@ private:
 	int count = 0;
 	int dir = 0;
 public:
-	Goryia(int x, int y, bool b) : Enemy(x, y, 12, 8, 1, 1) {
+	Goryia(int x, int y, bool b) : Enemy(x, y, 12, 8, 3, 1) {
 		SetNumAnim(1);
 		isBlue = b;
 		if (isBlue) {
-			
+			setHP(5);
 		}
 		SetSpriteSheet(Sprites.gelSprites);
 	}

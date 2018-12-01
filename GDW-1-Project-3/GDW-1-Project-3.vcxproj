@@ -89,10 +89,10 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Users\100700305\Documents\Visual Studio 2017\Projects\Legendz-Of-Zelda\GDW-1-Project-3\SFML\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\100653368\Documents\Visual Studio 2017\Projects\GDW-1-Project-2\Legendz-Of-Zelda\GDW-1-Project-3\SFML\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <AdditionalLibraryDirectories>C:\Users\100700305\Documents\Visual Studio 2017\Projects\Legendz-Of-Zelda\GDW-1-Project-3\SFML\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\Users\100653368\Documents\Visual Studio 2017\Projects\GDW-1-Project-2\Legendz-Of-Zelda\GDW-1-Project-3\SFML\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>sfml-audio-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
