@@ -45,16 +45,15 @@ COORD mouseLoc;
 GameState state = TITLE;
 
 bool Play = true;
-bool stop_watch = false;
 
 // Play Objects
 // Player
 Player player(0, 0);
-Player_Info * player_file;
 // Non-Player entities
-std::vector<Enemy*> enemies = {new Dodongo(400, 100), new Goryia(100, 200)};
-std::vector<Projectile*> projectiles = {new Bomb(350, 100), new Bomb(400, 90), new Bomb(450, 100), new Bomb(400, 110) };
+std::vector<Enemy*> enemies = {new Dodongo(400, 100), new Statue(100, 200, false)};
+std::vector<Projectile*> projectiles = {new Bomb(400, 100)};
 std::vector<Terrain*> roomTer = {new Wall(20,100), new Wall(52, 100), new Wall(84, 100)};
+std::vector<PowerUp *> powerups = {};
 
 // Menus
 Menu CharSelMenu({
@@ -523,18 +522,19 @@ void Update() {
 
 			for (int p = 0; p < projectiles.size(); p++) {
 				if (projectiles[p]->HitDetect(enemies[e])) {
-					projectiles[p]->Hit(*enemies[e]);
-					if (projectiles[p]->getEnum() == PT_ARROW) {
-						std::vector<Projectile*>::iterator it = projectiles.begin();
-						projectiles.erase(it + p);
-						delete projectiles[p];
+					if (projectiles[p]->getEnum() == PT_BOMB){
+						if (enemies[e]->getBoss()) {
+							Dodongo * boss = (Dodongo *)enemies[e];
+							boss->BombHurt();
+							projectiles[p]->setTime(0.0f);
+						}
 					}
-				}
-
-				if (projectiles[p]->getEnum() == PT_BOMB) {
-					if (enemies[e]->getBoss() == true) {
-					if (projectiles[p]->HitDetect(enemies[e])) {
+					else {
 						projectiles[p]->Hit(*enemies[e]);
+						if (projectiles[p]->getEnum() == PT_ARROW) {
+							delete projectiles[p];
+							std::vector<Projectile*>::iterator it = projectiles.begin();
+							projectiles.erase(it + p);
 						}
 					}
 				}
@@ -586,7 +586,7 @@ void Update() {
 
 		for (int c = 0; c < powerups.size(); c++) {
 			if (powerups[c]->HitDetect(&player)) {
-				powerups[c]->Effect(&player_file);
+				powerups[c]->Effect(*player_file);
 			}
 		}
 
@@ -665,7 +665,6 @@ void Load() {
 	}
 }
 
-std::vector<PowerUp *> powerups;
 void MouseHandler(MOUSE_EVENT_RECORD e) {
 	Menu* scrn;
 
