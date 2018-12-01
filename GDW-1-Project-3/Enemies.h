@@ -151,10 +151,6 @@ public:
 		xSpd = 0;
 		ySpd = 0;
 	}
-
-	Enemy * Clone() {
-		return new SpikeTrap(*this);
-	}
 };
 
 class Keese : public Enemy {
@@ -299,10 +295,6 @@ public:
 		xSpd = 0;
 		ySpd = 0;
 	}
-
-	Enemy * Clone() {
-		return new Keese(*this);
-	}
 };
 
 class Statue : public Enemy {
@@ -317,7 +309,7 @@ private:
 public:
 
 	std::vector<Projectile *> fireballs;
-	Statue(int x, int y, bool i = true) :Enemy(x, y, 32, 16, 1, 1) {
+	Statue(int x, int y) :Enemy(x, y, 32, 16, 1, 1) {
 		SetNumAnim(1);
 
 		SetSpriteSheet(Sprites.spiketrapSprites);
@@ -326,7 +318,6 @@ public:
 		origin.Y = y;
 
 		SetInvuln(true);
-		innert = i;
 	}
 
 	FCOORD getFCOORD()
@@ -336,90 +327,59 @@ public:
 
 	void AI(Player p) {
 
-		if (!innert) {
-			COORD direction;
-			//From orgin, fireball moves to the set location.
+		COORD direction;
+		//From orgin, fireball moves to the set location.
 
-			direction.X = (origin.X - p.GetX());
-			direction.Y = (origin.Y - p.GetY());
+		direction.X = (origin.X - p.GetX());
+		direction.Y = (origin.Y - p.GetY());
 
-			dirScale = sqrt(pow(direction.X, 2) + pow(direction.Y, 2));
+		dirScale = sqrt(pow(direction.X,2) + pow(direction.Y,2));
 
-			norDir.X = direction.X / dirScale;
-			norDir.Y = direction.Y / dirScale;
+		norDir.X = direction.X / dirScale;
+		norDir.Y = direction.Y / dirScale;
 
-			if (count > 0) {
-				count--;
-			}
-			if (count == 0) {
-				count = 20;
-				this->projectiles.push_back(new Fireball((this->GetX() + (this->GetWidth() / 2) - 10), (this->GetY() + (this->GetHeight() / 2) - 5), norDir));
-			}
+		if (count > 0) {
+			count--;
 		}
+		if (count == 0) {
+			count = 20;
+			this->projectiles.push_back(new Fireball((this->GetX() + (this->GetWidth()/2) - 10), (this->GetY() + (this->GetHeight() / 2) - 5), norDir));
+		}
+
 	}
 
 	bool HitDetect(Entity * other) {
-		if (!other->IsFlying()) {
-			if (willHit(other, other->xSpd, other->ySpd)) {
-				if (willHit(other, other->xSpd, 0)) {
-					if (other->xSpd > 0) {
-						other->xSpd = GetX() - (other->GetX() + other->GetWidth());
-					}
-					else {
-						other->xSpd = (GetX() + GetWidth()) - other->GetX();
-					}
-				}
-				if (willHit(other, 0, other->ySpd)) {
-					if (other->ySpd > 0) {
-						other->ySpd = GetY() - (other->GetY() + other->GetHeight());
-					}
-					else {
-						other->ySpd = (GetY() + GetHeight()) - other->GetY();
-					}
+		//Test Wall
+		if (GetX() + xSpd < 0) {
+			xSpd = 0 - GetX();
+			attack = false;
+		}
+		if (GetY() + ySpd < 0) {
+			ySpd = 0 - GetY();
+			attack = false;
+		}
+		if (GetX() + xSpd > 482) {
+			xSpd = 482 - GetX();
+			attack = false;
+		}
+		if (GetY() + ySpd > 208) {
+			ySpd = 208 - GetY();
+			attack = false;
+		}
+		//Can Remove Later
 
-
-				}
-				if (willHit(other, other->xSpd, other->ySpd)) {
-					if (other->xSpd > 0) {
-						other->xSpd = GetX() - (other->GetX() + other->GetWidth());
-					}
-					else {
-						other->xSpd = (GetX() + GetWidth()) - other->GetX();
-					}
-					if (other->ySpd > 0) {
-						other->ySpd = GetY() - (other->GetY() + other->GetHeight());
-					}
-					else {
-						other->ySpd = (GetY() + GetHeight()) - other->GetY();
-					}
-				}
-			}
+		if (willHit(other, 0, 0)) {
+			
 		}
 
-		for (int f = 0; f < projectiles.size(); f++) {
-			if (projectiles[f]->willHit(other, 0, 0)) {
-				return true;
-			}
-		}
-
-		return false;
+		return willHit(other, 0, 0);
 	}
 
 	void Update(float dt) {
-		for (int f = 0; f < projectiles.size(); f++) {
-			projectiles[f]->Update(dt);
+		move();
 
-			if (projectiles[f]->getTime() <= 0) {
-				delete projectiles[f];
-				std::vector<Projectile *>::iterator it = projectiles.begin();
-				projectiles.erase(it + f);
-			}
-		}
-
-	}
-
-	void setInnert(bool _innert) {
-		innert = _innert;
+		xSpd = 0;
+		ySpd = 0;
 	}
 
 	Enemy * Clone() {
@@ -562,10 +522,6 @@ public:
 		xSpd = 0;
 		ySpd = 0;
 	}
-
-	Enemy * Clone() {
-		return new Rope(*this);
-	}
 };
 class Gel : public Enemy {
 private:
@@ -665,9 +621,6 @@ public:
 		xSpd = 0;
 		ySpd = 0;
 	}
-	Enemy * Clone() {
-		return new Gel(*this);
-	}
 };
 class Dodongo : public Enemy {
 private:
@@ -676,89 +629,70 @@ private:
 	int counter = 0;
 	int count = 0;
 	int dir = 0;
-	bool stunned = false;
-	float StnTimer = 0;
-	float HrtTimer = 0;
 public:
-	Dodongo(int x, int y) : Enemy(x, y, 32, 16, 1, 1) {
-		SetNumAnim(5);
+	Dodongo(int x, int y) : Enemy(x, y, 12, 8, 1, 1) {
+		SetNumAnim(1);
 		setBoss(true);
-		SetSpriteSheet(Sprites.playerSprites);
-		setHP(2);
+		SetSpriteSheet(Sprites.gelSprites);
 	}
-
-	void EatBomb() {
-		StnTimer = 1.0f;
+	void Hurt(int d) {
 	}
-
-	void BombHurt() {
-		SetCurAnim(4);
-		SetSpriteSheet(Sprites.playerSprites);
-		HrtTimer = 1.0f;
-	}
-
-	void setNormal() {
-		SetCurAnim(0);
-		SetSpriteSheet(Sprites.playerSprites);
-	}
-
 	void AI(Player p) {
 		std::random_device gen;
 		std::uniform_int_distribution<> range(1, 4);
 
-		if (StnTimer <= 0 && HrtTimer <= 0) {
-			if (!(walk)) {
-				dir = range(gen);
+		if (!(walk)) {
+			dir = range(gen);
+		}
+
+		switch (dir)
+		{
+		case 1:
+			//up
+			if (!(hasMoved)) {
+				ySpd = -2;
+				walk = true;
+				hasMoved = true;
 			}
-			switch (dir)
-			{
-			case 1:
-				//up
-				if (!(hasMoved)) {
-					ySpd = -2;
-					walk = true;
-					hasMoved = true;
-				}
-				break;
-			case 2:
-				//Down
-				if (!(hasMoved)) {
-					ySpd = 2;
-					walk = true;
-					hasMoved = true;
-				}
-				break;
-			case 3:
-				//right
-				if (!(hasMoved)) {
-					xSpd = 4;
-					walk = true;
-					hasMoved = true;
-				}
-				break;
-			case 4:
-				//left
-				if (!(hasMoved)) {
-					xSpd = -4;
-					walk = true;
-					hasMoved = true;
-				}
-				break;
+			break;
+		case 2:
+			//Down
+			if (!(hasMoved)) {
+				ySpd = 2;
+				walk = true;
+				hasMoved = true;
 			}
-			if (walk) {
-				count++;
+			break;
+		case 3:
+			//right
+			if (!(hasMoved)) {
+				xSpd = 4;
+				walk = true;
+				hasMoved = true;
 			}
-			if (count >= 55) {
-				walk = false;
-				count = 0;
+			break;
+		case 4:
+			//left
+			if (!(hasMoved)) {
+				xSpd = -4;
+				walk = true;
+				hasMoved = true;
 			}
-			if (hasMoved) {
-				counter++;
-			}
-			if (counter >= 1) {
-				hasMoved = false;
-				counter = 0;
-			}
+			break;
+		}
+		if (walk) {
+			count++;
+		}
+		if (count >= 55) {
+			walk = false;
+			count = 0;
+		}
+		if (hasMoved) {
+			counter++;
+		}
+		if (counter >= 1) {
+			hasMoved = false;
+			counter = 0;
 		}
 	}
 	bool HitDetect(Entity * other) {
@@ -788,24 +722,6 @@ public:
 		move();
 		xSpd = 0;
 		ySpd = 0;
-
-		if (StnTimer > 0) {
-			StnTimer -= dt;
-			if (StnTimer <= 0) {
-				BombHurt();
-			}
-		}
-		if (HrtTimer > 0) {
-			HrtTimer -= dt;
-			if (HrtTimer <= 0) {
-				setNormal();
-				Hurt(1);	
-			}
-		}
-	}
-
-	Enemy * Clone() {
-		return new Dodongo(*this);
 	}
 };
 class Goryia : public Enemy {
@@ -905,9 +821,5 @@ public:
 		move();
 		xSpd = 0;
 		ySpd = 0;
-	}
-
-	Enemy * Clone() {
-		return new Goryia(*this);
 	}
 };

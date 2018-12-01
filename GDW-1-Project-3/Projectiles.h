@@ -103,12 +103,13 @@ class Fireball : public Projectile {
 private:
 
 public:	   // x,y coord,                  width*2,height,					lifetime, damage, speed 
-	Fireball(int x, int y, FCOORD dir) : Projectile(x, y, 20, 10, 10.0f, 1) {
+	Fireball(int x, int y, FCOORD dir) : Projectile(x, y, 20, 10, 1.0f, 1) {
 		SetSpriteSheet(Sprites.bombSprites);
 		this->xSpd = dir.X * (-6);
 		this->ySpd = dir.Y * (-3);
 		this->setEnum(PT_FIREBALL);
 	}
+
 
 	bool HitDetect(Entity * e)
 	{
@@ -140,7 +141,11 @@ public:	   // x,y coord,                  width*2,height,lifetime, damage, speed
 
 	bool HitDetect(Entity * e)
 	{
-		return willHit(e, 0, 0);
+		if (e) {
+			return true;
+		}
+			
+		return false; 
 	}
 
 	void Update(float dt)
