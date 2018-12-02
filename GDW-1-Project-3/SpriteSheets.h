@@ -208,13 +208,6 @@ public:
 		CONSOLE_TEXTMODE_BUFFER,
 		NULL);
 
-	HANDLE doorlightSprites = CreateConsoleScreenBuffer(
-		GENERIC_READ | GENERIC_WRITE,
-		FILE_SHARE_READ | FILE_SHARE_WRITE,
-		NULL,
-		CONSOLE_TEXTMODE_BUFFER,
-		NULL);
-
 	bool LoadDodongo() {
 		SetConsoleScreenBufferSize(dodongoSprites, SCREEN_SIZE);
 
