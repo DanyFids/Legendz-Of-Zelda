@@ -12058,32 +12058,32 @@ public:
 
 		// Blue Triforce
 		SetConsoleTextAttribute(triforceSprites, 9 * 16 + 1);
-		for (int i = 0; i < 2; i++) {
-			GoToXY(triforceSprites, 30, i);
+		for (int i = 11; i < 13; i++) {
+			GoToXY(triforceSprites, 8, i);
 			for (int c = 0; c < 4; c++) {
 				WriteConsole(triforceSprites, &mGrad, 1, &output, NULL);
 			}
 		}
-		for (int i = 2; i < 4; i++) {
-			GoToXY(triforceSprites, 28, i);
+		for (int i = 13; i < 15; i++) {
+			GoToXY(triforceSprites, 6, i);
 			for (int c = 0; c < 8; c++) {
 				WriteConsole(triforceSprites, &mGrad, 1, &output, NULL);
 			}
 		}
-		for (int i = 4; i < 6; i++) {
-			GoToXY(triforceSprites, 26, i);
+		for (int i = 15; i < 17; i++) {
+			GoToXY(triforceSprites, 4, i);
 			for (int c = 0; c < 12; c++) {
 				WriteConsole(triforceSprites, &mGrad, 1, &output, NULL);
 			}
 		}
-		for (int i = 6; i < 8; i++) {
-			GoToXY(triforceSprites, 24, i);
+		for (int i = 17; i < 19; i++) {
+			GoToXY(triforceSprites, 2, i);
 			for (int c = 0; c < 16; c++) {
 				WriteConsole(triforceSprites, &mGrad, 1, &output, NULL);
 			}
 		}
-		for (int i = 8; i < 10; i++) {
-			GoToXY(triforceSprites, 22, i);
+		for (int i = 19; i < 21; i++) {
+			GoToXY(triforceSprites, 0, i);
 			for (int c = 0; c < 20; c++) {
 				WriteConsole(triforceSprites, &mGrad, 1, &output, NULL);
 			}
