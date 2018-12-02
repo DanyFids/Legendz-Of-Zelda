@@ -145,6 +145,9 @@ public:
 		return willHit(other, 0, 0);
 	}
 
+	void hitTerrain() {
+	}
+
 	void Update(float dt) {
 		move();
 
@@ -172,10 +175,6 @@ public:
 
 		SetSpriteSheet(Sprites.keeseSprites);
 
-	}
-
-	void Hurt(int d) {
-		//instant explode
 	}
 
 	void AI(Player p) {
@@ -289,6 +288,9 @@ public:
 		return willHit(other, 0, 0);
 	}
 
+	void hitTerrain() {
+	}
+
 	void Update(float dt) {
 		move();
 
@@ -375,6 +377,9 @@ public:
 		return willHit(other, 0, 0);
 	}
 
+	void hitTerrain() {
+	}
+
 	void Update(float dt) {
 		move();
 
@@ -387,19 +392,20 @@ public:
 	}
 };
 
+const float ROPE_COOLDOWN = 0.4f;
 class Rope : public Enemy {
 private:
 	bool attack = true;
+	bool canAttack = false;
 	bool l = false, r = false, d = false, u = false;
 	bool Movement = false;
+	float cooldown = ROPE_COOLDOWN;
 	int count = 0;
 	int dir = 0;
 public:
 	Rope(int x, int y) : Enemy(x, y, 32, 14, 1, 1) {
 		SetNumAnim(1);
 		SetSpriteSheet(Sprites.ropeSprites);
-	}
-	void Hurt(int d) {
 	}
 
 	void AI(Player p) {
@@ -443,51 +449,63 @@ public:
 		}
 
 		//Charge Link
-		if (attack == true && l == false && r == false && d == false && u == false) {
+		if (canAttack == true && l == false && r == false && d == false && u == false) {
 			if (p.GetX() <= GetX() + GetWidth() && p.GetX() + p.GetWidth() >= GetX()) {
 				if (GetY() + GetHeight() < p.GetY()) {
 					d = true;
+					attack = true;
+					canAttack = false;
 				}
 				else if ((p.GetY() + p.GetHeight()) < GetY()) {
 					u = true;
+					attack = true;
+					canAttack = false;
 				}
 			}
 			else if (p.GetY() <= GetY() + GetHeight() && p.GetY() + p.GetHeight() >= GetY()) {
 				if (GetX() + GetWidth() < p.GetX()) {
 					r = true;
+					attack = true;
+					canAttack = false;
 				}
 				else if ((p.GetX() + p.GetWidth()) < GetX()) {
 					l = true;
+					attack = true;
+					canAttack = false;
 				}
 			}
 		}
 		if (l) {
-			xSpd = -4;
+			xSpd = -2;
 			ySpd = 0;
 			if (attack) {
-				xSpd -= 4;
+				xSpd -= 2;
 			}
 		}
 		else if (r) {
-			xSpd = 4;
+			xSpd = 2;
 			ySpd = 0;
 			if (attack) {
-				xSpd += 4;
+				xSpd += 2;
 			}
 		}
 		else if (d) {
-			ySpd = 2;
+			ySpd = 1;
 			xSpd = 0;
 			if (attack) {
-				ySpd += 2;
+				ySpd += 1;
 			}
 		}
 		else if (u) {
-			ySpd = -2;
+			ySpd = -1;
 			xSpd = 0;
 			if (attack) {
-				ySpd -= 2;
+				ySpd -= 1;
 			}
+		}
+
+		if (cooldown <= 0) {
+			canAttack = true;
 		}
 	}
 	bool HitDetect(Entity * other) {
@@ -517,7 +535,15 @@ public:
 		//Can Remove Later
 		return (willHit(other, 0, 0));
 	}
+
+	void hitTerrain() {
+
+	}
+
 	void Update(float dt) {
+		if (cooldown > 0) {
+			cooldown -= dt;
+		}
 		move();
 		xSpd = 0;
 		ySpd = 0;
@@ -535,8 +561,7 @@ public:
 		SetNumAnim(1);
 		SetSpriteSheet(Sprites.gelSprites);
 	}
-	void Hurt(int d) {
-	}
+
 	void AI(Player p) {
 		std::random_device gen;
 		std::uniform_int_distribution<> range(1, 4);
@@ -616,6 +641,9 @@ public:
 		return (willHit(other, 0, 0));
 	}
 
+	void hitTerrain() {
+	}
+
 	void Update(float dt) {
 		move();
 		xSpd = 0;
@@ -635,8 +663,7 @@ public:
 		setBoss(true);
 		SetSpriteSheet(Sprites.gelSprites);
 	}
-	void Hurt(int d) {
-	}
+
 	void AI(Player p) {
 		std::random_device gen;
 		std::uniform_int_distribution<> range(1, 4);
@@ -723,6 +750,9 @@ public:
 		xSpd = 0;
 		ySpd = 0;
 	}
+	void hitTerrain() {
+	}
+
 	Enemy * Clone() {
 		return new Dodongo(*this);
 	}
@@ -743,9 +773,6 @@ public:
 			setHP(5);
 		}
 		SetSpriteSheet(Sprites.gelSprites);
-	}
-
-	void Hurt(int d) {
 	}
 
 	void AI(Player p) {
@@ -825,6 +852,9 @@ public:
 		}
 		//Can Remove Later
 		return (willHit(other, 0, 0));
+	}
+
+	void hitTerrain() {
 	}
 
 	void Update(float dt) {

@@ -204,6 +204,7 @@ public:
 	void draw(HANDLE out);
 
 	virtual void AI(Player p) = 0;
+	virtual void hitTerrain() = 0;
 };
 
 class Terrain : public Entity {

@@ -51,7 +51,7 @@ bool stop_watch = false;
 // Player
 Player player(0, 0);
 // Non-Player entities
-std::vector<Enemy*> enemies = {new Dodongo(400, 100), new Goryia(100, 200, false)};
+std::vector<Enemy*> enemies = {new Dodongo(400, 100), new Goryia(100, 200, false), new Rope(100, 300)};
 std::vector<Projectile*> projectiles = {new Bomb(350, 100), new Bomb(400, 90), new Bomb(450, 100), new Bomb(400, 110) };
 std::vector<Terrain*> roomTer = {new Wall(20,100), new Wall(52, 100), new Wall(84, 100)};
 
@@ -554,7 +554,9 @@ void Update() {
 				roomTer[t]->Update(dt);
 			}
 			for (int e = 0; e < enemies.size(); e++) {
-				roomTer[t]->HitDetect(enemies[e]);
+				if (roomTer[t]->HitDetect(enemies[e])) {
+					enemies[e]->hitTerrain();
+				}
 				for (int ep = 0; ep < enemies[e]->projectiles.size(); ep++) {
 					if (roomTer[t]->HitDetect(enemies[e]->projectiles[ep])) {
 						enemies[e]->projectiles[ep]->setTime(0.0f);
