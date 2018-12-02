@@ -14,8 +14,9 @@ public:
 	bool HitDetect(Entity * other) {
 		return willHit(other,0,0);
 	}
-	void Update(float dt) {
 
+	PowerUp * Clone() {
+		return new HeartPickup(*this);
 	}
 
 	};
@@ -35,8 +36,8 @@ public:
 		return willHit(other, 0, 0);
 	}
 
-	void Update(float dt) {
-
+	PowerUp * Clone() {
+		return new HeartContainerPickup(*this);
 	}
 
 };
@@ -56,8 +57,8 @@ public:
 		return willHit(other, 0, 0);
 	}
 
-	void Update(float dt) {
-
+	PowerUp * Clone() {
+		return new KeyPickup(*this);
 	}
 
 };
@@ -78,6 +79,9 @@ public:
 		return willHit(other, 0, 0);
 	}
 
+	PowerUp * Clone() {
+		return new BombPickup(*this);
+	}
 
 };
 
@@ -94,7 +98,9 @@ public:
 		return willHit(other, 0, 0);
 	}
 
-
+	PowerUp * Clone() {
+		return new StopwatchPickup(*this);
+	}
 };
 
 class CompassPickup : public PowerUp {
@@ -112,7 +118,9 @@ public:
 		return willHit(other, 0, 0);
 	}
 
-
+	PowerUp * Clone() {
+		return new CompassPickup(*this);
+	}
 };
 
 class MapPickup : public PowerUp {
@@ -130,7 +138,9 @@ public:
 		return willHit(other, 0, 0);
 	}
 
-
+	PowerUp * Clone() {
+		return new MapPickup(*this);
+	}
 };
 
 class RupeesPickup : public PowerUp {
@@ -149,7 +159,9 @@ public:
 		return willHit(other, 0, 0);
 	}
 
-
+	PowerUp * Clone() {
+		return new RupeesPickup(*this);
+	}
 };
 
 
@@ -168,7 +180,9 @@ public:
 		return willHit(other, 0, 0);
 	}
 
-
+	PowerUp * Clone() {
+		return new BlueRupeesPickup(*this);
+	}
 };
 
 class FairiesPickup : public PowerUp {
@@ -186,5 +200,7 @@ public:
 		return willHit(other, 0, 0);
 	}
 
-
+	PowerUp * Clone() {
+		return new FairiesPickup(*this);
+	}
 };

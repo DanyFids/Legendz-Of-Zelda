@@ -7,7 +7,6 @@ struct Player_Input {
 	bool keySpace;
 };
 
-
 typedef struct _FCOORD {
 	float X;
 	float Y;
@@ -88,6 +87,8 @@ public:
 	}
 };
 
+class PowerUp;
+
 class Enemy : public Entity {
 private:
 	int dmg, hp;
@@ -110,6 +111,10 @@ public:
 	void Hurt(int d) {
 		if(!invuln)
 			hp -= d;
+	}
+
+	void Death() {
+
 	}
 
 	void setBoss(bool _boss) {
@@ -151,18 +156,7 @@ public:
 		invuln = i;
 	}
 
-	void Drop(bool drop = false, int per = 0) {
-		std::random_device gen;
-		std::uniform_int_distribution<> range(1, 5);
-		if (!(drop)) {
-			per = range(gen);
-		}
-		switch (per) {
-		case 1:
-
-			break;
-		}
-	}
+	void Drop(std::vector<PowerUp *> * pl);
 
 	bool Boundries(Entity * other) {
 		//Test Wall
@@ -332,6 +326,10 @@ public:
 class PowerUp : public Entity {
 public:
 	PowerUp(int x, int y, int w, int h) :Entity(x, y, w, h) {
+
+	}
+
+	void Update(float dt) {
 
 	}
 

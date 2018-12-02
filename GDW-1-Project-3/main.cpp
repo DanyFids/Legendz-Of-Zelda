@@ -49,10 +49,10 @@ bool Play = true;
 // Player
 Player player(0, 0);
 // Non-Player entities
-std::vector<Enemy*> enemies = {new Dodongo(400, 100), new Statue(100, 200, false)};
+std::vector<Enemy*> enemies = {new Keese(400, 100), new Keese(400, 100), new Keese(400, 100), new Keese(400, 100), new Keese(400, 100), new Keese(400, 100), new Keese(400, 100), new Keese(400, 100), new Keese(400, 100), new Keese(400, 100), new Keese(400, 100), new Statue(100, 200, false)};
 std::vector<Projectile*> projectiles = {new Bomb(400, 100)};
 std::vector<Terrain*> roomTer = {new Wall(20,100), new Wall(52, 100), new Wall(84, 100)};
-std::vector<PowerUp *> powerups = {};
+std::vector<PowerUp *> powerups = {new HeartPickup(20, 40)};
 
 // Menus
 Menu CharSelMenu({
@@ -584,6 +584,8 @@ void Update() {
 		player.Update(dt);
 		for (int e = 0; e < enemies.size(); e++) {
 			if (enemies[e]->GetHP() <= 0) {
+				enemies[e]->Drop(&powerups);
+				delete enemies[e];
 				enemies.erase(enemies.begin() + e);
 			}
 			else {
@@ -874,5 +876,38 @@ void Enemy::move() {
 
 	for (int c = 0; c < projectiles.size(); c++) {
 		projectiles[c]->move();
+	}
+}
+
+void Enemy::Drop(std::vector<PowerUp *> * pl) {
+	std::random_device gen;
+	std::uniform_int_distribution<> range(1, 5);
+	int per;
+	per = range(gen);
+	if (per == 1) {
+		std::random_device gen;
+		std::uniform_int_distribution<> range(1, 100);
+		int per;
+		per = range(gen);
+		if (per >= 1 && per <= 25) {
+			pl->push_back(new HeartPickup(GetX(), GetY()));
+		} 
+		else if (per >= 26 && per <= 50) {
+			pl->push_back(new RupeesPickup(GetX(), GetY()));
+		}
+		else if (per >= 51 && per <= 70) {
+			pl->push_back(new BombPickup(GetX(), GetY()));
+		}
+		else if (per >= 71 && per <= 80) {
+			pl->push_back(new FairiesPickup(GetX(), GetY()));
+		}
+		else if (per >= 81 && per <= 90) {
+			pl->push_back(new StopwatchPickup(GetX(), GetY()));
+		}
+		else {
+			pl->push_back(new BlueRupeesPickup(GetX(), GetY()));
+		}
+	}
+	else {
 	}
 }

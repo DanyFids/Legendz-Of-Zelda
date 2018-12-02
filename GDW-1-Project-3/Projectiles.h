@@ -105,8 +105,8 @@ private:
 public:	   // x,y coord,                  width*2,height,					lifetime, damage, speed 
 	Fireball(int x, int y, FCOORD dir) : Projectile(x, y, 20, 10, 10.0f, 1) {
 		SetSpriteSheet(Sprites.bombSprites);
-		this->xSpd = dir.X * (-6);
-		this->ySpd = dir.Y * (-3);
+		this->xSpd = dir.X * (-8);
+		this->ySpd = dir.Y * (-4);
 		this->setEnum(PT_FIREBALL);
 	}
 

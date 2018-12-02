@@ -178,10 +178,6 @@ public:
 
 	}
 
-	void Hurt(int d) {
-		//instant explode
-	}
-
 	void AI(Player p) {
 		std::random_device gen;
 		std::uniform_int_distribution<> range(1, 8);
@@ -352,7 +348,7 @@ public:
 				count--;
 			}
 			if (count == 0) {
-				count = 20;
+				count = 30;
 				this->projectiles.push_back(new Fireball((this->GetX() + (this->GetWidth() / 2) - 10), (this->GetY() + (this->GetHeight() / 2) - 5), norDir));
 			}
 		}
@@ -438,8 +434,6 @@ public:
 	Rope(int x, int y) : Enemy(x, y, 32, 14, 1, 1) {
 		SetNumAnim(1);
 		SetSpriteSheet(Sprites.ropeSprites);
-	}
-	void Hurt(int d) {
 	}
 
 	void AI(Player p) {
@@ -579,8 +573,7 @@ public:
 		SetNumAnim(1);
 		SetSpriteSheet(Sprites.gelSprites);
 	}
-	void Hurt(int d) {
-	}
+
 	void AI(Player p) {
 		std::random_device gen;
 		std::uniform_int_distribution<> range(1, 4);
@@ -639,6 +632,7 @@ public:
 			counter = 0;
 		}
 	}
+
 	bool HitDetect(Entity * other) {
 		//Test Wall
 		if (GetX() + xSpd < 0) {
@@ -668,7 +662,7 @@ public:
 	Enemy * Clone() {
 		return new Gel(*this);
 	}
-};
+	};
 class Dodongo : public Enemy {
 private:
 	bool walk = false;
