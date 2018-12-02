@@ -6375,80 +6375,80 @@ public:
 		SetConsoleTextAttribute(gelSprites, 1 * 16); // Blue
 
 		// First Row
-		GoToXY(gelSprites, 4, 0);
+		GoToXY(gelSprites, 6, 0);
 		WriteConsole(gelSprites, &"  ", 2, &output, NULL);
 
 		// Second Row
-		GoToXY(gelSprites, 2, 1);
+		GoToXY(gelSprites, 4, 1);
 		WriteConsole(gelSprites, &"    ", 4, &output, NULL);
 
 		// Third Row
-		GoToXY(gelSprites, 2, 2);
+		GoToXY(gelSprites, 4, 2);
 		WriteConsole(gelSprites, &"    ", 4, &output, NULL);
 
 		// Fourth Row
-		GoToXY(gelSprites, 0, 3);
+		GoToXY(gelSprites, 2, 3);
 		WriteConsole(gelSprites, &"        ", 8, &output, NULL);
-		GoToXY(gelSprites, 10, 3);
+		GoToXY(gelSprites, 12, 3);
 		WriteConsole(gelSprites, &"  ", 2, &output, NULL);
 
 		// Fifth Row
-		GoToXY(gelSprites, 0, 4);
+		GoToXY(gelSprites, 2, 4);
 		WriteConsole(gelSprites, &"            ", 12, &output, NULL);
 
 		// Sixth Row
-		GoToXY(gelSprites, 0, 5);
+		GoToXY(gelSprites, 2, 5);
 		WriteConsole(gelSprites, &"            ", 12, &output, NULL);
 
 		// Seventh Row
-		GoToXY(gelSprites, 0, 6);
+		GoToXY(gelSprites, 2, 6);
 		WriteConsole(gelSprites, &"            ", 12, &output, NULL);
 
 		// Eighth Row
-		GoToXY(gelSprites, 0, 7);
+		GoToXY(gelSprites, 2, 7);
 		WriteConsole(gelSprites, &"            ", 12, &output, NULL);
 
 		// Ninth Row
-		GoToXY(gelSprites, 2, 8);
+		GoToXY(gelSprites, 4, 8);
 		WriteConsole(gelSprites, &"        ", 8, &output, NULL);
 
 
 		SetConsoleTextAttribute(gelSprites, 11 * 16); // Aqua
 
 		// Second Row
-		GoToXY(gelSprites, 6, 1);
+		GoToXY(gelSprites, 8, 1);
 		WriteConsole(gelSprites, &"  ", 2, &output, NULL);
 
 		// Third Row
-		GoToXY(gelSprites, 6, 2);
+		GoToXY(gelSprites, 8, 2);
 		WriteConsole(gelSprites, &"  ", 2, &output, NULL);
 
 		// Fourth Row
-		GoToXY(gelSprites, 8, 3);
+		GoToXY(gelSprites, 10, 3);
 		WriteConsole(gelSprites, &"  ", 2, &output, NULL);
 
 		SetConsoleTextAttribute(gelSprites, 3 * 16);
 
 		// Second Row
-		GoToXY(gelSprites, 6, 0);
+		GoToXY(gelSprites, 8, 0);
 		WriteConsole(gelSprites, &"  ", 2, &output, NULL);
 
 		// Third Row
-		GoToXY(gelSprites, 8, 1);
+		GoToXY(gelSprites, 10, 1);
 		WriteConsole(gelSprites, &"  ", 2, &output, NULL);
 
 		// Fourth Row
-		GoToXY(gelSprites, 8, 2);
+		GoToXY(gelSprites, 10, 2);
 		WriteConsole(gelSprites, &"  ", 2, &output, NULL);
 
 		// Jiggly Gel
-		for (int c = 0; c < 6; c++)
-			DrawSprite(gelSprites, 0, 0, 2 + (c * 2), 8, gelSprites, 16, 0);
+		for (int c = 0; c < 7; c++)
+			DrawSprite(gelSprites, 0, 0, 2 + (c * 2), 8, gelSprites, 0, 10);
 
 		SetConsoleTextAttribute(gelSprites, 1 * 16);
 
-		for (int i = 4; i < 7; i++) {
-			GoToXY(gelSprites, 14, i);
+		for (int i = 14; i < 17; i++) {
+			GoToXY(gelSprites, 0, i);
 			WriteConsole(gelSprites, &"                ", 16, &output, NULL);
 		}
 
