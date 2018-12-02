@@ -802,6 +802,7 @@ public:
 		}
 		SetSpriteSheet(Sprites.gelSprites);
 	}
+
 	void AI(Player p) {
 		if (cooldown <= 0) {
 			std::random_device gen;
@@ -840,8 +841,7 @@ public:
 					ySpd = -1;
 					hop = true;
 					hasMoved = true;
-					
-					
+				
 				}
 				break;
 			case 2:
@@ -850,7 +850,7 @@ public:
 					ySpd = 1;
 					hop = true;
 					hasMoved = true;
-					
+				
 				}
 				break;
 			case 3:
