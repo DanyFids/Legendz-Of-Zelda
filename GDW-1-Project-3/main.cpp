@@ -52,7 +52,7 @@ bool stop_watch = false;
 Player player(0, 0);
 // Non-Player entities
 std::vector<Enemy*> enemies = {new Dodongo(400, 100), new Goryia(100, 200, false), new Rope(100, 300)};
-std::vector<Projectile*> projectiles = {new Bomb(350, 100), new Bomb(400, 90), new Bomb(450, 100), new Bomb(400, 110) };
+std::vector<Projectile*> projectiles = {};
 std::vector<Terrain*> roomTer = {new Wall(20,100), new Wall(52, 100), new Wall(84, 100)};
 
 // Menus

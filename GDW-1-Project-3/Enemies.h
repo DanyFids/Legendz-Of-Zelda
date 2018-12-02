@@ -392,7 +392,7 @@ public:
 	}
 };
 
-const float ROPE_COOLDOWN = 0.4f;
+const float ROPE_COOLDOWN = 2.0f;
 class Rope : public Enemy {
 private:
 	bool attack = true;
@@ -510,18 +510,28 @@ public:
 	}
 	bool HitDetect(Entity * other) {
 		//Test Wall
+		bool hitWall = false;
 		if (GetX() + xSpd < 0) {
 			xSpd = 0 - GetX();
+			hitWall = true;
 		}
 		if (GetY() + ySpd < 0) {
 			ySpd = 0 - GetY();
+			hitWall = true;
 		}
 		if (GetX() + xSpd > 482) {
 			xSpd = 482 - GetX();
+			hitWall = true;
 		}
 		if (GetY() + ySpd > 208) {
 			ySpd = 208 - GetY();
+			hitWall = true;
 		}
+
+		if (hitWall) {
+			hitTerrain();
+		}
+
 		if (willHit(other, 0, 0)) {
 			if (l || d || r || u) {
 				Movement = false;
@@ -537,12 +547,22 @@ public:
 	}
 
 	void hitTerrain() {
-
+		cooldown = ROPE_COOLDOWN;
+		canAttack = false;
+		attack = false;
+		l = false;
+		d = false;
+		r = false;
+		u = false;
+		return;
 	}
 
 	void Update(float dt) {
 		if (cooldown > 0) {
 			cooldown -= dt;
+			if (cooldown <= 0) {
+				canAttack = true;
+			}
 		}
 		move();
 		xSpd = 0;
@@ -757,80 +777,115 @@ public:
 		return new Dodongo(*this);
 	}
 };
+
+const float GORYIA_COOLDOWN = 10.0f;
 class Goryia : public Enemy {
 private:
 	bool hop = false;
 	bool hasMoved = false;
+	float cooldown = 0;
 	bool isBlue = false;
+	int add = 0;
 	int counter = 0;
 	int count = 0;
 	int dir = 0;
+	int getX = 0;
+	int getY = 0;
 public:
 	Goryia(int x, int y, bool b) : Enemy(x, y, 12, 8, 3, 1) {
 		SetNumAnim(1);
 		isBlue = b;
+		getX = x;
+		getY = y;
 		if (isBlue) {
 			setHP(5);
 		}
 		SetSpriteSheet(Sprites.gelSprites);
 	}
-
 	void AI(Player p) {
-		std::random_device gen;
-		std::uniform_int_distribution<> range(1, 4);
+		if (cooldown <= 0) {
+			std::random_device gen;
+			std::uniform_int_distribution<> range(1, 4);
+			std::uniform_int_distribution<> willThrow(1, 4);
 
-		if (!(hop)) {
-			dir = range(gen);
-		}
-
-		switch (dir)
-		{
-		case 1:
-			//up
-			if (!(hasMoved)) {
-				ySpd = -1;
-				hop = true;
-				hasMoved = true;
+			if (!(hop)) {
+				int wT = willThrow(gen);
+				if (wT == 1) {
+					switch (dir) {
+					case 1:
+						projectiles.push_back(new Boomerang(getX, getY, 0, -1, Up));
+						break;
+					case 2:
+						projectiles.push_back(new Boomerang(getX, getY, 0, 1, Down));
+						break;
+					case 3:
+						projectiles.push_back(new Boomerang(getX, getY, 2, 0, Right));
+						break;
+					case 4:
+						projectiles.push_back(new Boomerang(getX, getY, -2, 0, Left));
+						break;
+					}
+					cooldown = GORYIA_COOLDOWN;
+					return;
+				}
+				else {
+					dir = range(gen);
+				}
 			}
-			break;
-		case 2:
-			//Down
-			if (!(hasMoved)) {
-				ySpd = 1;
-				hop = true;
-				hasMoved = true;
+			switch (dir)
+			{
+			case 1:
+				//up
+				if (!(hasMoved)) {
+					ySpd = -1;
+					hop = true;
+					hasMoved = true;
+					
+					
+				}
+				break;
+			case 2:
+				//Down
+				if (!(hasMoved)) {
+					ySpd = 1;
+					hop = true;
+					hasMoved = true;
+					
+				}
+				break;
+			case 3:
+				//right
+				if (!(hasMoved)) {
+					xSpd = 2;
+					hop = true;
+					hasMoved = true;
+					
+				}
+				break;
+			case 4:
+				//left
+				if (!(hasMoved)) {
+					xSpd = -2;
+					hop = true;
+					hasMoved = true;
+					
+				}
+				break;
 			}
-			break;
-		case 3:
-			//right
-			if (!(hasMoved)) {
-				xSpd = 2;
-				hop = true;
-				hasMoved = true;
+			if (hop) {
+				count++;
 			}
-			break;
-		case 4:
-			//left
-			if (!(hasMoved)) {
-				xSpd = -2;
-				hop = true;
-				hasMoved = true;
+			if (count >= 30) {
+				hop = false;
+				count = 0;
 			}
-			break;
-		}
-		if (hop) {
-			count++;
-		}
-		if (count >= 30) {
-			hop = false;
-			count = 0;
-		}
-		if (hasMoved) {
-			counter++;
-		}
-		if (counter >= 4) {
-			hasMoved = false;
-			counter = 0;
+			if (hasMoved) {
+				counter++;
+			}
+			if (counter >= 4) {
+				hasMoved = false;
+				counter = 0;
+			}
 		}
 	}
 	bool HitDetect(Entity * other) {
@@ -859,8 +914,13 @@ public:
 
 	void Update(float dt) {
 		move();
+		cooldown -= dt;
 		xSpd = 0;
 		ySpd = 0;
+
+		for (int b = 0; b < projectiles.size(); b++) {
+			projectiles[b]->Update(dt);
+		}
 	}
 	Enemy * Clone() {
 		return new Goryia(*this);

@@ -6,6 +6,7 @@ c:\users\100653368\documents\visual studio 2017\projects\gdw-1-project-2\legendz
 c:\users\100653368\documents\visual studio 2017\projects\gdw-1-project-2\legendz-of-zelda\gdw-1-project-3\projectiles.h(108): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
 c:\users\100653368\documents\visual studio 2017\projects\gdw-1-project-2\legendz-of-zelda\gdw-1-project-3\projectiles.h(109): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
 c:\users\100653368\documents\visual studio 2017\projects\gdw-1-project-2\legendz-of-zelda\gdw-1-project-3\enemies.h(338): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\100653368\documents\visual studio 2017\projects\gdw-1-project-2\legendz-of-zelda\gdw-1-project-3\enemies.h(921): warning C4018: '<': signed/unsigned mismatch
 c:\users\100653368\documents\visual studio 2017\projects\gdw-1-project-2\legendz-of-zelda\gdw-1-project-3\menus.h(123): warning C4018: '<': signed/unsigned mismatch
 c:\users\100653368\documents\visual studio 2017\projects\gdw-1-project-2\legendz-of-zelda\gdw-1-project-3\menus.h(143): warning C4018: '<': signed/unsigned mismatch
 c:\users\100653368\documents\visual studio 2017\projects\gdw-1-project-2\legendz-of-zelda\gdw-1-project-3\menus.h(162): warning C4018: '<': signed/unsigned mismatch
