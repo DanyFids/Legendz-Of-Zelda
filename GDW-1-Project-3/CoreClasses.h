@@ -9,20 +9,18 @@ struct Player_Input {
 
 struct Player_Info {
 	std::string Name = std::string(8, ' ');
-	int MaxLife = 6;
-	int CurLife = 6;
+	int MaxLife = 10;
+	int CurLife = 10;
 	int Bombs = 0;
 	int Keys = 0;
-	int Rupees = 0;
+	int Rupees = 10;
 	bool HasMap = false;
 	bool HasCompass = false;
 	bool file_exists = false;
-	bool puzzles_solved[7] = { false, false, false, false, false, false, false };
+	bool puzzles_solved[10] = { false, false, false, false, false, false, false, false, false, false };
 };
 
 Player_Info PLAYER_FILES[3];
-Player_Info * player_file;
-
 Player_Info * player_file;
 
 Player_Input player_input;
@@ -33,7 +31,7 @@ private:
 	bool can_attack = true;
 	float stop_timer = 0;
 public:
-	Player(int x, int y) :Entity(x, y, 32, 16) {
+	Player(int x, int y) :Entity(x, y, 32, 16, false, true) {
 		SetNumAnim(4);
 
 
@@ -108,8 +106,10 @@ public:
 	}
 
 	void Hurt(int d) {
-		if(!invuln)
+		if (!invuln && invulnTimer <= 0) {
 			hp -= d;
+			invulnTimer = 10;
+		}
 	}
 
 	int GetHP() {
@@ -136,17 +136,18 @@ public:
 	virtual Enemy* Clone() = 0;
 };
 
+const float MOVE_TIME = 0.05f;
+
 class Terrain : public Entity {
 private:
 	float move_timer = MOVE_TIME;
 	float moving_timer = 0;
-	Direction moveDir;
-	bool canMove;
+	//Direction moveDir;
+	bool canMove = false;
 public:
-	const float MOVE_TIME = 0.05f;
 
-	Terrain(int x, int y, int w, int h, bool hide = false, bool cM = false) :Entity(x, y, w, h, hide) {
-		canMove = cM;
+	Terrain(int x, int y, int w, int h, bool hide = false) :Entity(x, y, w, h, hide) {
+		//canMove = cM;
 	}
 
 	bool CanMove() {
@@ -162,7 +163,7 @@ public:
 		}
 		else {
 			if (moving_timer > 0) {
-				switch (GetMvDir()) {
+				/*switch (GetMvDir()) {
 				case Up:
 					ySpd = -1;
 					xSpd = 0;
@@ -185,6 +186,7 @@ public:
 				if (moving_timer <= 0) {
 					canMove = false;
 				}
+				*/
 			}
 		}
 	}
@@ -198,13 +200,13 @@ public:
 		}
 	}
 
-	void SetMvDir(Direction d) {
+	/*void SetMvDir(Direction d) {
 		moveDir = d;
 	}
 
 	Direction GetMvDir() {
 		return moveDir;
-	}
+	}*/
 
 };
 
@@ -268,6 +270,10 @@ public:
 class PowerUp : public Entity {
 public:
 	PowerUp(int x, int y, int w, int h) :Entity(x, y, w, h) {
+
+	}
+
+	void Update(float dt) {
 
 	}
 

@@ -7,7 +7,7 @@ int DrawThread()
 	return 0;
 }
 
-const int TO_LOAD = 18;
+const int TO_LOAD = 20;
 //int LOADED = 0;
  int LoadThread(int & LOADED)
 {
@@ -102,5 +102,7 @@ const int TO_LOAD = 18;
 		LOADED++;
 	}*/
 	
+	LEVEL2.GenerateRoomWalls();
+
 	return 0;
 }

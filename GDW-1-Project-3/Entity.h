@@ -132,6 +132,10 @@ public:
 		return isPlayer;
 	}
 
+	void SetHidden(bool h) {
+		hidden = h;
+	}
+
 	virtual bool HitDetect(Entity * other) = 0;
 	virtual void Update(float dt) = 0;
 };

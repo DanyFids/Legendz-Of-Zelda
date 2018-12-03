@@ -13,6 +13,7 @@
 #include"Entity.h"
 #include"CoreClasses.h"
 #include"Terrains.h"
+#include "Projectiles.h"
 #include"Enemies.h"
 #include"Menus.h"
 #include "PowerUp.h"
@@ -23,9 +24,6 @@
 //#include "bgMusicManager.h"
 //#include "sfxManager.h"
 #include"Threads.h"
-
-//Projectiles
-#include "Projectiles.h"
 
 void SetupRoom(Room * r, Direction d);
 
@@ -57,11 +55,9 @@ Player player(240, 192);
 std::vector<Projectile*> projectiles = {};
 //std::vector<Terrain*> * roomTer;
 
-Dungeon LEVEL2;
-
 Room * curRoom = LEVEL2.GetStartRoom();
 
-std::vector<PowerUp *> powerups = {};
+//std::vector<PowerUp *> powerups = {};
 
 // Menus
 Menu CharSelMenu({
@@ -83,6 +79,11 @@ Menu RegisterMenu({
 	new CharacterButton(94, 132, &PLAYER_FILES[2], 2, false),
 	new TextButton(94, 180, "Register Name End ", END)
 });
+Menu GameOverMenu({
+	new TextButton(0,0, "Continue", CONTINUE),
+	new TextButton(0,0, "SAVE", SAVE),
+	new TextButton(0,0, "Retry", RETRY)
+	});
 int editId = 0;
 int editChar = 0;
 int EDIT_TIME = 10;
@@ -383,6 +384,10 @@ void Draw() {
 			}
 		}
 
+		for (int h = 0; h < curRoom->hazards.size(); h++) {
+			curRoom->hazards[h]->draw(drawBuff);
+		}
+
 		for (int t = 0; t < curRoom->TerrainList.size(); t++) {
 			curRoom->TerrainList[t]->draw(drawBuff);
 		}
@@ -391,11 +396,13 @@ void Draw() {
 			projectiles[p]->draw(drawBuff);
 		}
 
-		for (int u = 0; u < powerups.size(); u++) {
-			powerups[u]->draw(drawBuff);
+		for (int u = 0; u < curRoom->powerups.size(); u++) {
+			curRoom->powerups[u]->draw(drawBuff);
 		}
 
 		player.draw(drawBuff);
+
+		curRoom->DrawWalls(drawBuff);
 
 		DrawUI();
 		break;
@@ -553,13 +560,14 @@ void Update() {
 			if (curRoom->EnemyList[e]->HitDetect(&player)) {
 				curRoom->EnemyList[e]->Hit(player);
 			}
-			for (int f = 0; f < curRoom->EnemyList.size(); f++) {
-				if (e != f) {
-					curRoom->EnemyList[e]->HitDetect(curRoom->EnemyList[f]);
-				}
-			}
 			for (int p = 0; p < projectiles.size(); p++) {
-				if (projectiles[p]->HitDetect(curRoom->EnemyList[e])) {
+				bool check;
+				if(curRoom->EnemyList[e]->GetType() == ET_MOLDORM)
+					check = curRoom->EnemyList[e]->HitDetect(projectiles[p]);
+				else
+					check = projectiles[p]->HitDetect(curRoom->EnemyList[e]);
+
+				if (check) {
 					projectiles[p]->Hit(curRoom->EnemyList[e]);
 					if (projectiles[p]->getEnum() == PT_ARROW) {
 						std::vector<Projectile*>::iterator it = projectiles.begin();
@@ -569,11 +577,27 @@ void Update() {
 				}
 			}
 		}
+
+		for (int h = 0; h < curRoom->hazards.size(); h++) {
+			curRoom->hazards[h]->AI(player);
+
+			if (curRoom->hazards[h]->HitDetect(&player)) {
+				curRoom->hazards[h]->Hit(player);
+			}
+			for (int f = 0; f < curRoom->hazards.size(); f++) {
+				if (h != f) {
+					curRoom->hazards[h]->HitDetect(curRoom->hazards[f]);
+				}
+			}
+		}
 		
 		for (int t = 0; t < curRoom->TerrainList.size(); t++) {
 			curRoom->TerrainList[t]->HitDetect(&player);
 			for (int e = 0; e < curRoom->EnemyList.size(); e++) {
 				curRoom->TerrainList[t]->HitDetect(curRoom->EnemyList[e]);
+			}
+			for (int h = 0; h < curRoom->hazards.size(); h++) {
+				curRoom->TerrainList[t]->HitDetect(curRoom->hazards[h]);
 			}
 			for (int p = 0; p < projectiles.size(); p++) {
 				if (projectiles[p]->getEnum() == PT_EXPLOSION) {
@@ -581,19 +605,20 @@ void Update() {
 				}
 			}
 		}
-		for (int u = 0; u < powerups.size(); u++) {
+		for (int u = 0; u < curRoom->powerups.size(); u++) {
 			
-			if (powerups[u]->HitDetect(&player)) {
-				powerups[u]->Effect(player_file);
-				delete powerups[u];
-				std::vector<PowerUp *>::iterator it = powerups.begin();
-				powerups.erase(it + u);
+			if (curRoom->powerups[u]->HitDetect(&player)) {
+				curRoom->powerups[u]->Effect(player_file);
+				delete curRoom->powerups[u];
+				std::vector<PowerUp *>::iterator it = curRoom->powerups.begin();
+				curRoom->powerups.erase(it + u);
 			}
 		}
 
 		player.Update(dt);
 		for (int e = 0; e < curRoom->EnemyList.size(); e++) {
 			if (curRoom->EnemyList[e]->GetHP() <= 0) {
+				delete curRoom->EnemyList[e];
 				curRoom->EnemyList.erase(curRoom->EnemyList.begin() + e);
 			}
 			else {
@@ -601,6 +626,11 @@ void Update() {
 				{
 					curRoom->EnemyList[e]->Update(dt);
 				}
+			}
+		}
+		for (int h = 0; h < curRoom->hazards.size(); h++) {
+			if (!stop_watch) {
+				curRoom->hazards[h]->Update(dt);
 			}
 		}
 		for (int p = 0; p < projectiles.size(); p++) {
@@ -812,13 +842,23 @@ void ButtonHandler(BtnAction action, int extra) {
 			break;
 		}
 		break;
+	case CONTINUE:
+		state = PLAY;
+		break;
+	case SAVE:
+		Save();
+		ToCharacterSelect();
+		break;
+	case RETRY:
+		LoadFiles();
+		ToCharacterSelect();
+		break;
 	default:
 		break;
 	}
 }
 
 void Save() {
-	//player_file->CurLife = player.GetHp();
 
 	int savesSize = sizeof(Player_Info) * 3;
 	char * bytes = new char[savesSize];
@@ -826,6 +866,24 @@ void Save() {
 	memcpy(bytes, PLAYER_FILES, savesSize);
 	saves.write(bytes, savesSize);
 	saves.close();
+}
+
+void LoadFiles() {
+	int savesSize = sizeof(Player_Info) * 3;
+	char * bytes = new char[savesSize];
+	std::fstream check; // Used to check if a given file exists
+	check.open("profiles.sav", std::ios_base::in | std::ios_base::out);
+	std::fstream saves("profiles.sav", std::ios::out | std::ios::in | std::ios::app | std::ios::binary);
+	if (!check.is_open()) {
+		memcpy(bytes, PLAYER_FILES, savesSize);
+		saves.write(bytes, savesSize);
+		saves.close();
+	}
+	else {
+		saves.read(bytes, savesSize);
+		memcpy(PLAYER_FILES, bytes, savesSize);
+		saves.close();
+	}
 }
 
 void ToCharacterSelect() {
@@ -923,21 +981,24 @@ void SetupRoom(Room * r, Direction d) {
 
 	}
 	curRoom = r;
+	stop_watch = false;
 	player.SetDir(d);
 	switch (d) {
 	case Up:
-		player.MoveTo(ROOM_BOTTOM_WALL);
+		player.MoveTo({ ROOM_BOTTOM_WALL.X, ROOM_BOTTOM_WALL.Y - 16 });
 		break;
 	case Down:
-		player.MoveTo(ROOM_TOP_WALL);
+		player.MoveTo({ ROOM_TOP_WALL.X, ROOM_TOP_WALL.Y + 16 });
 		break;
 	case Right:
-		player.MoveTo(ROOM_LEFT_WALL);
+		player.MoveTo({ ROOM_LEFT_WALL.X + 32, ROOM_LEFT_WALL.Y });
 		break;
 	case Left:
-		player.MoveTo(ROOM_RIGHT_WALL);
+		player.MoveTo({ ROOM_RIGHT_WALL.X - 32, ROOM_RIGHT_WALL.Y });
 		break;
 	}
+
+	curRoom->Respawn();
 }
 
 void DrawUI(int y) {
@@ -984,6 +1045,14 @@ void DrawUI(int y) {
 	LEVEL2.DrawMap(drawBuff, y, curRoom);
 }
 
+void Victory() {
+
+}
+
+void GameOver() {
+
+}
+
 
 // CLASS FUNCTIONS
 void Projectile::Hit(Enemy * e) {
@@ -994,4 +1063,12 @@ void Projectile::Hit(Enemy * e) {
 	else {
 		e->Hurt(dmg);
 	}
+}
+
+void LockedDoor::OpenDoor() {
+	bond->OpenDoors();
+}
+
+void BombableWall::OpenWall() {
+	bond->OpenWalls();
 }

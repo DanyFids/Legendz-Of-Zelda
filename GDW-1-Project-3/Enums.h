@@ -38,7 +38,10 @@ enum BtnAction {
 	SELECT_FILE,
 	REGISTER,
 	ERASE,
-	END
+	END,
+	CONTINUE,
+	SAVE,
+	RETRY
 };
 
 enum RoomType {

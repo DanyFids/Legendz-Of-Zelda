@@ -79,7 +79,7 @@
       <AdditionalIncludeDirectories>C:\Users\100717941\Documents\Repos\gdw3\Legendz-Of-Zelda\GDW-1-Project-3\SFML\lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <AdditionalLibraryDirectories>C:\Users\100717941\Documents\Repos\gdw3\Legendz-Of-Zelda\GDW-1-Project-3\SFML\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\Users\100716573\Documents\Visual Studio 2017\Projects\Legendz-Of-Zelda\GDW-1-Project-3\SFML\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>sfml-audio-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
@@ -144,6 +144,7 @@
     <ClInclude Include="Menus.h" />
     <ClInclude Include="Projectiles.h" />
     <ClInclude Include="Room.h" />
+    <ClInclude Include="sfxManager.h" />
     <ClInclude Include="SpriteSheets.h" />
     <ClInclude Include="Terrains.h" />
     <ClInclude Include="Threads.h" />

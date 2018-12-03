@@ -155,6 +155,7 @@ class Door : public Terrain {
 private:
 	bool open;
 public:
+
 	Door(int x, int y, bool isO = true) : Terrain(x, y, 64, 32) {
 		SetSpriteSheet(Sprites.doorSprites);
 		open = isO;
@@ -237,8 +238,6 @@ public:
 					}
 				}
 			}
-
-			return nope;
 		}
 		return nope;
 	}
@@ -290,7 +289,7 @@ public:
 		}
 
 		if (nope) {
-			SetMvDir(other->GetDir());
+			//SetMvDir(other->GetDir());
 		}
 
 		return nope;
@@ -306,19 +305,54 @@ public:
 	}
 };
 
+class BombablePair;
 class BombableWall : public Terrain {
 private:
 	bool gone;
+	BombablePair * bond;
 public:
 	BombableWall(int x, int y) : Terrain(x, y, 32, 16) {
 		SetSpriteSheet(Sprites.blockSprites);
 	}
+
+	BombableWall(COORD XY, Direction d, BombablePair * pair) : Terrain(XY.X, XY.Y, 32, 16) {
+		SetSpriteSheet(Sprites.blockSprites);
+
+		//b, t , l r
+		/*
+		switch (d) {
+		case Up:
+			SetCurAnim(1);
+			break;
+		case Down:
+			SetCurAnim(0);
+			break;
+		case Left:
+			SetCurAnim(2);
+			break;
+		case Right:
+			SetCurAnim(3);
+			break;
+		}*/
+
+		SetHidden(true);
+
+		bond = pair;
+	}
+
 	bool IsGone() {
 		return gone;
 	}
 
 	void setGone(bool f) {
 		gone = f;
+
+		if (f) {
+			SetHidden(false);
+		}
+		else {
+			SetHidden(true);
+		}
 	}
 
 	bool HitDetect(Entity * other) {
@@ -361,28 +395,60 @@ public:
 		}
 		if (nope) {
 			if (other->getProjectile() && other->getEnum() == PT_EXPLOSION){
-				gone=true;
+				OpenWall();
 			}
 		}
 		return nope;
 	}
+
+	void OpenWall();
 };
 
-
+class LockedDoorPair;
 class LockedDoor : public Terrain {
 private:
-	bool open;
+	bool open = false;
+	LockedDoorPair * bond;
 public:
-	LockedDoor(int x, int y) : Terrain(x, y, 32, 16) {
+	LockedDoor(int x, int y) : Terrain(x, y, 64, 32) {
 		SetSpriteSheet(Sprites.blockSprites);
+	}
+
+	LockedDoor(COORD XY, Direction d, LockedDoorPair * pair) : Terrain(XY.X, XY.Y, 64, 33) {
+		SetSpriteSheet(Sprites.doorSprites);
+		bond = pair;
+
+		switch (d) {
+		case Down:
+			SetCurAnim(0);
+			break;
+		case Up:
+			SetCurAnim(1);
+			break;
+		case Left:
+			SetCurAnim(2);
+			break;
+		case Right:
+			SetCurAnim(3);
+		}
+
+		SetCurFrame(2);
 	}
 	bool IsOpen() {
 		return open;
 	}
 
 	void setOpen(bool f) {
+		if (f) {
+			SetCurFrame(0);
+		}
+		else {
+			SetCurFrame(2);
+		}
 		open = f;
 	}
+
+	void OpenDoor();
 
 	bool HitDetect(Entity * other) {
 		bool nope = willHit(other, other->xSpd, other->ySpd);
@@ -422,9 +488,8 @@ public:
 				}
 			}
 			if(nope && other->IsPlayer() && player_file->Keys > 0) {
-				open = true;
-				player_file->Keys -= 1;
-
+				player_file->Keys--;
+				OpenDoor();
 			}
 		}
 		return nope;
