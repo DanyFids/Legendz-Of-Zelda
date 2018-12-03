@@ -208,6 +208,13 @@ public:
 		CONSOLE_TEXTMODE_BUFFER,
 		NULL);
 
+	HANDLE rupeeSprites = CreateConsoleScreenBuffer(
+		GENERIC_READ | GENERIC_WRITE,
+		FILE_SHARE_READ | FILE_SHARE_WRITE,
+		NULL,
+		CONSOLE_TEXTMODE_BUFFER,
+		NULL);
+
 	bool LoadDodongo() {
 		SetConsoleScreenBufferSize(dodongoSprites, SCREEN_SIZE);
 
@@ -12292,6 +12299,130 @@ public:
 		GoToXY(mapdoorSprites, 6, 34);
 		WriteConsole(mapdoorSprites, &"    ", 4, &output, NULL);
 
+		return true;
+	}
+
+	bool LoadRupee() {
+
+		SetConsoleScreenBufferSize(rupeeSprites, SCREEN_SIZE);
+
+		DWORD output;
+
+		// Red Rupee
+		SetConsoleTextAttribute(rupeeSprites, 1 * 16);
+
+		for (int i = 0; i < 16; i++) {
+			GoToXY(rupeeSprites, 6, i);
+			WriteConsole(rupeeSprites, &"    ", 4, &output, NULL);
+		}
+		for (int i = 1; i < 15; i++) {
+			GoToXY(rupeeSprites, 4, i);
+			WriteConsole(rupeeSprites, &"        ", 8, &output, NULL);
+		}
+		for (int i = 2; i < 14; i++) {
+			GoToXY(rupeeSprites, 2, i);
+			WriteConsole(rupeeSprites, &"            ", 12, &output, NULL);
+		}
+		for (int i = 3; i < 13; i++) {
+			GoToXY(rupeeSprites, 0, i);
+			WriteConsole(rupeeSprites, &"                ", 16, &output, NULL);
+		}
+
+		SetConsoleTextAttribute(rupeeSprites, 15 * 16);
+
+		for (int i = 3; i < 12; i++) {
+			GoToXY(rupeeSprites, 0, i);
+			WriteConsole(rupeeSprites, &"  ", 2, &output, NULL);
+		}
+		for (int i = 4; i < 11; i++) {
+			GoToXY(rupeeSprites, 2, i);
+			WriteConsole(rupeeSprites, &"  ", 2, &output, NULL);
+		}
+		GoToXY(rupeeSprites, 4, 3);
+		WriteConsole(rupeeSprites, &"  ", 2, &output, NULL);
+		GoToXY(rupeeSprites, 2, 2);
+		WriteConsole(rupeeSprites, &"      ", 6, &output, NULL);
+		GoToXY(rupeeSprites, 4, 1);
+		WriteConsole(rupeeSprites, &"    ", 4, &output, NULL);
+		GoToXY(rupeeSprites, 6, 0);
+		WriteConsole(rupeeSprites, &"  ", 2, &output, NULL);
+		GoToXY(rupeeSprites, 4, 11);
+		WriteConsole(rupeeSprites, &"  ", 2, &output, NULL);
+		GoToXY(rupeeSprites, 6, 12);
+		WriteConsole(rupeeSprites, &"  ", 2, &output, NULL);
+
+		SetConsoleTextAttribute(rupeeSprites, 0 * 16);
+
+		GoToXY(rupeeSprites, 8, 3);
+		WriteConsole(rupeeSprites, &"  ", 2, &output, NULL);
+		GoToXY(rupeeSprites, 12, 3);
+		WriteConsole(rupeeSprites, &"  ", 2, &output, NULL);
+		GoToXY(rupeeSprites, 8, 12);
+		WriteConsole(rupeeSprites, &"  ", 2, &output, NULL);
+		GoToXY(rupeeSprites, 12, 12);
+		WriteConsole(rupeeSprites, &"  ", 2, &output, NULL);
+		for (int i = 4; i < 12; i++) {
+			GoToXY(rupeeSprites, 10, i);
+			WriteConsole(rupeeSprites, &"  ", 2, &output, NULL);
+		}
+
+		// Red Rupee
+		SetConsoleTextAttribute(rupeeSprites, 4 * 16);
+
+		for (int i = 17; i < 33; i++) {
+			GoToXY(rupeeSprites, 6, i);
+			WriteConsole(rupeeSprites, &"    ", 4, &output, NULL);
+		}
+		for (int i = 18; i < 32; i++) {
+			GoToXY(rupeeSprites, 4, i);
+			WriteConsole(rupeeSprites, &"        ", 8, &output, NULL);
+		}
+		for (int i = 19; i < 31; i++) {
+			GoToXY(rupeeSprites, 2, i);
+			WriteConsole(rupeeSprites, &"            ", 12, &output, NULL);
+		}
+		for (int i = 20; i < 30; i++) {
+			GoToXY(rupeeSprites, 0, i);
+			WriteConsole(rupeeSprites, &"                ", 16, &output, NULL);
+		}
+
+		SetConsoleTextAttribute(rupeeSprites, 15 * 16);
+
+		for (int i = 20; i < 29; i++) {
+			GoToXY(rupeeSprites, 0, i);
+			WriteConsole(rupeeSprites, &"  ", 2, &output, NULL);
+		}
+		for (int i = 21; i < 28; i++) {
+			GoToXY(rupeeSprites, 2, i);
+			WriteConsole(rupeeSprites, &"  ", 2, &output, NULL);
+		}
+		GoToXY(rupeeSprites, 4, 20);
+		WriteConsole(rupeeSprites, &"  ", 2, &output, NULL);
+		GoToXY(rupeeSprites, 2, 19);
+		WriteConsole(rupeeSprites, &"      ", 6, &output, NULL);
+		GoToXY(rupeeSprites, 4, 18);
+		WriteConsole(rupeeSprites, &"    ", 4, &output, NULL);
+		GoToXY(rupeeSprites, 6, 17);
+		WriteConsole(rupeeSprites, &"  ", 2, &output, NULL);
+		GoToXY(rupeeSprites, 4, 28);
+		WriteConsole(rupeeSprites, &"  ", 2, &output, NULL);
+		GoToXY(rupeeSprites, 6, 29);
+		WriteConsole(rupeeSprites, &"  ", 2, &output, NULL);
+
+		SetConsoleTextAttribute(rupeeSprites, 0 * 16);
+
+		GoToXY(rupeeSprites, 8, 20);
+		WriteConsole(rupeeSprites, &"  ", 2, &output, NULL);
+		GoToXY(rupeeSprites, 12, 20);
+		WriteConsole(rupeeSprites, &"  ", 2, &output, NULL);
+		GoToXY(rupeeSprites, 8, 29);
+		WriteConsole(rupeeSprites, &"  ", 2, &output, NULL);
+		GoToXY(rupeeSprites, 12, 29);
+		WriteConsole(rupeeSprites, &"  ", 2, &output, NULL);
+		for (int i = 21; i < 29; i++) {
+			GoToXY(rupeeSprites, 10, i);
+			WriteConsole(rupeeSprites, &"  ", 2, &output, NULL);
+		}
 		return true;
 	}
 
