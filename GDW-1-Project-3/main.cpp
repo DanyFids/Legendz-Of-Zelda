@@ -26,7 +26,7 @@
 #include"Threads.h"
 
 //Projectiles
-#include "Projectiles.h"
+//#include "Projectiles.h"
 
 
 const int PLAYER_SPEED = 2;

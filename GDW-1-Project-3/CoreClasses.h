@@ -212,6 +212,7 @@ public:
 	virtual void hitTerrain() = 0;
 };
 
+const float MOVE_TIME = 0.05f;
 class Terrain : public Entity {
 private:
 	float move_timer = MOVE_TIME;
@@ -219,7 +220,7 @@ private:
 	Direction moveDir;
 	bool canMove;
 public:
-	const float MOVE_TIME = 0.05f;
+	
 
 	Terrain(int x, int y, int w, int h, bool cM = false) :Entity(x, y, w, h) {
 		canMove = cM;

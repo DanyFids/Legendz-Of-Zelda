@@ -79,11 +79,7 @@ public:
 		return willHit(other, 0, 0);
 	}
 	void Update(float dt) {
-
-	PowerUp * Clone() {
-		return new BombPickup(*this);
 	}
-
 };
 
 class StopwatchPickup : public PowerUp {
@@ -99,9 +95,6 @@ public:
 		return willHit(other, 0, 0);
 	}
 	void Update(float dt) {
-
-	PowerUp * Clone() {
-		return new StopwatchPickup(*this);
 	}
 };
 
@@ -120,9 +113,6 @@ public:
 		return willHit(other, 0, 0);
 	}
 	void Update(float dt) {
-
-	PowerUp * Clone() {
-		return new CompassPickup(*this);
 	}
 };
 
@@ -141,9 +131,6 @@ public:
 		return willHit(other, 0, 0);
 	}
 	void Update(float dt) {
-
-	PowerUp * Clone() {
-		return new MapPickup(*this);
 	}
 };
 
@@ -164,8 +151,6 @@ public:
 	}
 	void Update(float dt) {
 
-	PowerUp * Clone() {
-		return new RupeesPickup(*this);
 	}
 };
 
@@ -185,9 +170,6 @@ public:
 		return willHit(other, 0, 0);
 	}
 	void Update(float dt) {
-
-	PowerUp * Clone() {
-		return new BlueRupeesPickup(*this);
 	}
 };
 
@@ -207,7 +189,5 @@ public:
 	}
 	void Update(float dt) {
 
-	PowerUp * Clone() {
-		return new FairiesPickup(*this);
 	}
 };
