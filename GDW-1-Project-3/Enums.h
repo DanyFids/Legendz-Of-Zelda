@@ -45,5 +45,16 @@ enum BtnAction {
 	SELECT_FILE,
 	REGISTER,
 	ERASE,
-	END
+	END,
+	CONTINUE,
+	SAVE,
+	RETRY
+};
+
+enum RoomType {
+	RT_DEFAULT,
+	RT_START,
+	RT_BOSS,
+	RT_MINI_BOSS,
+	RT_SECRET
 };

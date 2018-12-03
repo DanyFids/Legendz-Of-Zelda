@@ -13,11 +13,18 @@ void Load();
 void MouseHandler(MOUSE_EVENT_RECORD e);
 void ButtonHandler(BtnAction action, int extra);
 void Save();
+void LoadFiles();
+void DrawUI(int y = 0);
+int GetUpdateTime();
+int GetDrawTime();
 
 //State Functions
 void ToCharacterSelect();
 void ToEliminationMode();
 void ToRegisterName();
+
+void Victory();
+void GameOver();
 
 //GLOBAL VARS
 COORD SCREEN_SIZE;

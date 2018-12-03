@@ -1,5 +1,5 @@
 #pragma once
-DWORD WINAPI DrawThread(LPVOID lpParameter)
+int DrawThread()
 {
 	while (true) {
 		Draw();
@@ -8,8 +8,7 @@ DWORD WINAPI DrawThread(LPVOID lpParameter)
 }
 
 const int TO_LOAD = 32;
-int LOADED = 0;
-DWORD WINAPI LoadThread(LPVOID lpParameter)
+ int LoadThread(int & LOADED)
 {
 	if (Sprites.LoadPlayer()) {
 		LOADED++;
@@ -20,7 +19,7 @@ DWORD WINAPI LoadThread(LPVOID lpParameter)
 	if (Sprites.LoadTitle()) {
 		LOADED++;
 	}
-	if (Sprites.LoadWall()) {
+	if (Sprites.LoadRooms()) {
 		LOADED++;
 	}
 	if (Sprites.LoadBlock()) {
@@ -51,6 +50,12 @@ DWORD WINAPI LoadThread(LPVOID lpParameter)
 		LOADED++;
 	}
 	if (Sprites.LoadGenericMenu()) {
+		LOADED++;
+	}
+	if (Sprites.LoadUI()) {
+		LOADED++;
+	}
+	if (Sprites.LoadInventoryScrn()) {
 		LOADED++;
 	}
 	if (Sprites.LoadBomb()) {
@@ -129,6 +134,9 @@ DWORD WINAPI LoadThread(LPVOID lpParameter)
 	if (sounds.LoadFileSelect()) {
 		LOADED++;
 	}
+
+	LEVEL2.GenerateRoomWalls();
+	
 
 	return 0;
 }

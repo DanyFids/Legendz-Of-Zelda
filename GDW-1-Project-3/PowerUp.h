@@ -8,7 +8,12 @@ public:
 
 
 	void Effect(Player_Info * stats) {
-		stats->CurLife += 2;
+		if (stats->CurLife + 2 > stats->MaxLife) {
+			stats->CurLife = stats->MaxLife;
+		}
+		else {
+			stats->CurLife += 2;
+		}
 	}
 
 	bool HitDetect(Entity * other) {
@@ -30,6 +35,7 @@ public:
 
 	void Effect(Player_Info * stats) {
 		stats->MaxLife += 2;
+		stats->CurLife += 2;
 	}
 
 	bool HitDetect(Entity * other) {
@@ -57,10 +63,6 @@ public:
 		return willHit(other, 0, 0);
 	}
 
-	PowerUp * Clone() {
-		return new KeyPickup(*this);
-	}
-
 };
 
 
@@ -72,7 +74,7 @@ public:
 
 
 	void Effect(Player_Info * stats) {
-		stats->Bombs++;
+		stats->Bombs += 3;
 	}
 
 	bool HitDetect(Entity * other) {
@@ -181,7 +183,12 @@ public:
 
 
 	void Effect(Player_Info * stats) {
-		stats->CurLife += 10;
+		if (stats->CurLife + 10 > stats->MaxLife) {
+			stats->CurLife += stats->MaxLife - stats->CurLife;
+		}
+		else {
+			stats->CurLife += 10;
+		}
 	}
 
 	bool HitDetect(Entity * other) {
@@ -189,5 +196,20 @@ public:
 	}
 	void Update(float dt) {
 
+	}
+};
+
+class Triforce : public PowerUp {
+public:
+	Triforce(int x, int y) : PowerUp(x, y, 20, 10) {
+		
+	}
+
+	void Effect(Player_Info stats) {
+		Victory();
+	}
+
+	bool HitDetect(Entity * other) {
+		return willHit(other, 0, 0);
 	}
 };

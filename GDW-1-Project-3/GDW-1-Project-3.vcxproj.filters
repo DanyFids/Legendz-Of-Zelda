@@ -1,7 +1,51 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="main.cpp" />
+    <ClInclude Include="CoreClasses.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="SpriteSheets.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="FunctionProto.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Enums.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Threads.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="bgMusicManager.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemies.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Terrains.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Menus.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Projectiles.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Room.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Dungeon.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="PowerUp.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="sfxManager.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Enemies.h" />
@@ -30,5 +74,10 @@
     <ClInclude Include="Terrains.h" />
     <ClInclude Include="Threads.h" />
     <ClInclude Include="VisualFX.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

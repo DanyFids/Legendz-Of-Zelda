@@ -6,6 +6,7 @@
 #include<ctime>
 #include<random>
 #include<cmath>
+#include<thread>
 
 #include"Enums.h"
 #include"FunctionProto.h"
@@ -19,16 +20,19 @@
 #include"Menus.h"
 #include "PowerUp.h"
 #include "VisualFX.h"
+#include"Room.h"
+#include"Dungeon.h"
 
 //SFX/BGM Managers
 //#include "bgMusicManager.h"
 #include "sfxManager.h"
 #include"Threads.h"
 
-
+void SetupRoom(Room * r, Direction d);
 
 
 const int PLAYER_SPEED = 2;
+const int WaitInterval = 50;
 
 HANDLE console = GetStdHandle(STD_OUTPUT_HANDLE);
 HANDLE drawBuff = CreateConsoleScreenBuffer(
@@ -45,15 +49,20 @@ GameState state = TITLE;
 
 bool Play = true;
 
+bool drawingFrame = true;
+
 // Play Objects
 // Player
-Player player(0, 0);
+Player player(240, 192);
 // Non-Player entities
-std::vector<Enemy*> enemies = {new Rope(80, 10),new SpikeTrap(400, 3),new SpikeTrap(400, 200),new Gel(50, 50), new Keese(100, 100) };
-std::vector<Projectile*> projectiles = {new Bomb(150,150), new Arrow(190,150,0,0,Down), new Boomerang(150,150,4.0f,0.0f, &player)};
-std::vector<Terrain*> roomTer = {new Wall(20,100), new Wall(52, 100), new Wall(84, 100)};
-std::vector<PowerUp *> powerups = {new HeartPickup(20, 40)};
+//std::vector<Enemy*> * enemies;
+std::vector<Projectile*> projectiles = {};
+//std::vector<Terrain*> * roomTer;
 std::vector<VisualFX*> fx = {new Smoke(60,40), new Blip(100,40)};
+
+Room * curRoom = LEVEL2.GetStartRoom();
+
+//std::vector<PowerUp *> powerups = {};
 
 // Menus
 Menu CharSelMenu({
@@ -75,6 +84,11 @@ Menu RegisterMenu({
 	new CharacterButton(94, 132, &PLAYER_FILES[2], 2, false),
 	new TextButton(94, 180, "Register Name End ", END)
 });
+Menu GameOverMenu({
+	new TextButton(0,0, "Continue", CONTINUE),
+	new TextButton(0,0, "SAVE", SAVE),
+	new TextButton(0,0, "Retry", RETRY)
+	});
 int editId = 0;
 int editChar = 0;
 int EDIT_TIME = 10;
@@ -88,8 +102,12 @@ int main() {
 	SCREEN_SIZE.Y = 240;
 
 	ResizeWindow();
+	//hide cursor
+	CONSOLE_CURSOR_INFO cursor;
+	GetConsoleCursorInfo(console, &cursor);
+	cursor.bVisible = false;
+	SetConsoleCursorInfo(console, &cursor);
 
-	ResizeWindow();
 	//LoZTitleScreenBGM();	 //Legacy Player
 	Load();
 	sounds.PlayTitleTheme();
@@ -97,19 +115,12 @@ int main() {
 
 	//Start DrawThread
 	DWORD drawThreadID;
-	HANDLE drawThreadH = CreateThread(0, 0, DrawThread, NULL, 0, &drawThreadID);
+	std::thread drawThreadH(DrawThread);
+	drawThreadH.detach();
 
 	const int inputR_SIZE = 128;
 	DWORD iNumRead, consoleModeSave, consoleMode;
 	INPUT_RECORD inputR[inputR_SIZE];
-
-	//hide cursor
-	CONSOLE_CURSOR_INFO cursor;
-	GetConsoleCursorInfo(console, &cursor);
-	cursor.bVisible = false;
-	SetConsoleCursorInfo(console, &cursor);
-
-
 
 	inputH = GetStdHandle(STD_INPUT_HANDLE);
 
@@ -136,7 +147,7 @@ int main() {
 		return 103;
 	}
 
-	
+	curRoom->Respawn();
 
 	while (Play) {
 		DWORD unreadInputs;
@@ -173,10 +184,12 @@ int main() {
 		}
 		Update();
 
-		Sleep(40);
+		int ut = GetUpdateTime();
+		if (ut < WaitInterval) {
+			Sleep(WaitInterval - ut);
+		}
+		GetUpdateTime(); // reset timer
 	}
-
-	CloseHandle(drawThreadH);
 
 	return 0;
 }
@@ -203,6 +216,7 @@ void GoToXY(HANDLE h, int x, int y) {
 }*/
 
 void SwapBuffer() {
+	/*
 	static CHAR_INFO *outBuff = new CHAR_INFO[SCREEN_SIZE.X * SCREEN_SIZE.Y];
 
 	//Area to read/write
@@ -225,6 +239,13 @@ void SwapBuffer() {
 	ReadConsoleOutput(drawBuff, outBuff, size, start, &screen);
 	
 	WriteConsoleOutput(console, outBuff, size, start, &screen);
+	*/
+	HANDLE temp = console;
+	console = drawBuff;
+	drawBuff = temp;
+
+	SetConsoleActiveScreenBuffer(console);
+	ResizeWindow();
 }
 
 
@@ -278,6 +299,15 @@ void KeyHandler(KEY_EVENT_RECORD e) {
 					break;
 				}
 				break;
+			case PLAY:
+				state = INVENTORY;
+				//LoZTitleScreenBGM();		  //Legacy Player
+				break;
+			case INVENTORY:
+				state = PLAY;
+				break;
+			}
+			break;
 			case VK_DOWN:
 				player_input.keyDown = true;
 				break;
@@ -288,6 +318,7 @@ void KeyHandler(KEY_EVENT_RECORD e) {
 				player_input.keyRight = true;
 				break;
 			case VK_SPACE:
+			case 'C':
 				player_input.keySpace = true;
 				break;
 			}
@@ -307,6 +338,7 @@ void KeyHandler(KEY_EVENT_RECORD e) {
 				player_input.keyRight = false;
 				break;
 			case VK_SPACE:
+			case 'C':
 				player_input.keySpace = false;
 				break;
 			}
@@ -341,11 +373,10 @@ void clear() {
 }
 
 void Draw() {
-	clear();
-
+	//clear();
+	drawingFrame = true;
 	switch (state) {
 	case TITLE:
-		
 		DrawScreen(Sprites.titleScreen);
 		
 		break;
@@ -354,20 +385,32 @@ void Draw() {
 		CharSelMenu.Draw(drawBuff);
 		break;
 	case PLAY:
-		for (int e = 0; e < enemies.size(); e++) {
-			enemies[e]->draw(drawBuff);
+		curRoom->Draw(drawBuff);
+
+		for (int e = 0; e < curRoom->EnemyList.size(); e++) {
+			if (curRoom->EnemyList[e]->GetType() == ET_MOLDORM) {
+				Moldorm * enem = (Moldorm *) curRoom->EnemyList[e];
+				enem->draw(drawBuff);
+			}
+			else {
+				curRoom->EnemyList[e]->draw(drawBuff);
+			}
 		}
 
-		for (int t = 0; t < roomTer.size(); t++) {
-			roomTer[t]->draw(drawBuff);
+		for (int h = 0; h < curRoom->hazards.size(); h++) {
+			curRoom->hazards[h]->draw(drawBuff);
 		}
 
- 		for (int p = 0; p < projectiles.size(); p++) {
+		for (int t = 0; t < curRoom->TerrainList.size(); t++) {
+			curRoom->TerrainList[t]->draw(drawBuff);
+		}
+
+		for (int p = 0; p < projectiles.size(); p++) {
 			projectiles[p]->draw(drawBuff);
 		}
 
-		for (int u = 0; u < powerups.size(); u++) {
-			powerups[u]->draw(drawBuff);
+		for (int u = 0; u < curRoom->powerups.size(); u++) {
+			curRoom->powerups[u]->draw(drawBuff);
 		}
 
 		for (int f = 0; f < fx.size(); f++)
@@ -376,9 +419,14 @@ void Draw() {
 		}
 
 		player.draw(drawBuff);
+
+		curRoom->DrawWalls(drawBuff);
+
+		DrawUI();
 		break;
 	case INVENTORY:
-
+		DrawScreen(Sprites.InventoryScreen);
+		DrawUI(176);
 		break;
 	case CHARACTER_ADD:
 		DrawScreen(Sprites.GenericScreen);
@@ -407,6 +455,12 @@ void Draw() {
 	}
 
 	SwapBuffer();
+	//int dt = GetDrawTime();
+	//if (dt < WaitInterval) {
+	//	Sleep(WaitInterval - dt);
+	//}
+	//GetDrawTime(); // reset timer
+	drawingFrame = false;
 }
 
 void DrawScreen(HANDLE scrn) {
@@ -462,35 +516,37 @@ void Update() {
 			break;
 		}
 
-		if (player_input.keyUp && !player_input.keyDown) {
-			player.ySpd = -PLAYER_SPEED;
-			if (changeDir) {
-				player.SetDir(Up);
-				player.SetCurAnim(3);
+		if (player.CanAtk()) {
+			if (player_input.keyUp && !player_input.keyDown) {
+				player.ySpd = -PLAYER_SPEED;
+				if (changeDir) {
+					player.SetDir(Up);
+					player.SetCurAnim(3);
+				}
 			}
-		}
 
-		if (!player_input.keyUp && player_input.keyDown) {
-			player.ySpd = PLAYER_SPEED;
-			if (changeDir) {
-				player.SetDir(Down);
-				player.SetCurAnim(0);
+			if (!player_input.keyUp && player_input.keyDown) {
+				player.ySpd = PLAYER_SPEED;
+				if (changeDir) {
+					player.SetDir(Down);
+					player.SetCurAnim(0);
+				}
 			}
-		}
 
-		if (player_input.keyRight && !player_input.keyLeft) {
-			player.xSpd = PLAYER_SPEED * 2;
-			if (changeDir) {
-				player.SetDir(Right);
-				player.SetCurAnim(1);
+			if (player_input.keyRight && !player_input.keyLeft) {
+				player.xSpd = PLAYER_SPEED * 2;
+				if (changeDir) {
+					player.SetDir(Right);
+					player.SetCurAnim(1);
+				}
 			}
-		}
 
-		if (!player_input.keyRight && player_input.keyLeft) {
-			player.xSpd = -PLAYER_SPEED * 2;
-			if (changeDir) {
-				player.SetDir(Left);
-				player.SetCurAnim(2);
+			if (!player_input.keyRight && player_input.keyLeft) {
+				player.xSpd = -PLAYER_SPEED * 2;
+				if (changeDir) {
+					player.SetDir(Left);
+					player.SetCurAnim(2);
+				}
 			}
 		}
 
@@ -513,10 +569,11 @@ void Update() {
 					projectiles.push_back(new Sword(player.GetX() + player.GetWidth(), player.GetY(), d));
 					break;
 				}
+				player.SwingSword();
 			}
 		}
 
-		for (int e = 0; e < enemies.size(); e++) {
+		for (int e = 0; e < curRoom->EnemyList.size(); e++) {
 			if (enemies[e]->getStunTime() <= 0.0f) {
 				enemies[e]->AI(player);
 			}
@@ -524,18 +581,16 @@ void Update() {
 			{
 				enemies[e]->setStunTime(enemies[e]->getStunTime() - dt);
 			}
-			if (enemies[e]->HitDetect(&player)) {
-				enemies[e]->Hit(player);
+			if (curRoom->EnemyList[e]->HitDetect(&player)) {
+				curRoom->EnemyList[e]->Hit(player);
 			}
-
-			for (int f = 0; f < enemies.size(); f++) {
-				if (e != f) {
-					enemies[e]->HitDetect(enemies[f]);
-				}
-			}
-
 			for (int p = 0; p < projectiles.size(); p++) {
-				if (projectiles[p]->HitDetect(enemies[e])) {
+				bool check;
+				if(curRoom->EnemyList[e]->GetType() == ET_MOLDORM)
+					check = curRoom->EnemyList[e]->HitDetect(projectiles[p]);
+				else
+					check = projectiles[p]->HitDetect(curRoom->EnemyList[e]);
+				if (check) {
 					if (projectiles[p]->getEnum() == PT_BOMB) {
 						if (enemies[e]->getBoss()) {
 							Dodongo * boss = (Dodongo *)enemies[e];
@@ -564,10 +619,24 @@ void Update() {
 			}
 
 		}
+
+		for (int h = 0; h < curRoom->hazards.size(); h++) {
+			curRoom->hazards[h]->AI(player);
+
+			if (curRoom->hazards[h]->HitDetect(&player)) {
+				curRoom->hazards[h]->Hit(player);
+			}
+			for (int f = 0; f < curRoom->hazards.size(); f++) {
+				if (h != f) {
+					curRoom->hazards[h]->HitDetect(curRoom->hazards[f]);
+				}
+			}
+		}
 		
-		for (int t = 0; t < roomTer.size(); t++) {
-			if ((roomTer[t]->HitDetect(&player) && roomTer[t]->CanMove()) || roomTer[t]->isMoving()) {
-				roomTer[t]->Update(dt);
+		for (int t = 0; t < curRoom->TerrainList.size(); t++) {
+			curRoom->TerrainList[t]->HitDetect(&player);
+			for (int e = 0; e < curRoom->EnemyList.size(); e++) {
+				curRoom->TerrainList[t]->HitDetect(curRoom->EnemyList[e]);
 			}
 			for (int e = 0; e < enemies.size(); e++) {
 				if (roomTer[t]->HitDetect(enemies[e])) {
@@ -578,38 +647,45 @@ void Update() {
 						enemies[e]->projectiles[ep]->setTime(0.0f);
 					}
 				}
+			for (int h = 0; h < curRoom->hazards.size(); h++) {
+				curRoom->TerrainList[t]->HitDetect(curRoom->hazards[h]);
 			}
 			for (int p = 0; p < projectiles.size(); p++) {
 				if (projectiles[p]->getEnum() == PT_EXPLOSION) {
-					roomTer[t]->HitDetect(projectiles[p]);
+					curRoom->TerrainList[t]->HitDetect(projectiles[p]);
 				}
 			}
 		}
-		for (int u = 0; u < powerups.size(); u++) {
+		for (int u = 0; u < curRoom->powerups.size(); u++) {
 			
-			if (powerups[u]->HitDetect(&player)) {
-				powerups[u]->Effect(player_file);
-				delete powerups[u];
-				std::vector<PowerUp *>::iterator it = powerups.begin();
-				powerups.erase(it + u);
+			if (curRoom->powerups[u]->HitDetect(&player)) {
+				curRoom->powerups[u]->Effect(player_file);
+				delete curRoom->powerups[u];
+				std::vector<PowerUp *>::iterator it = curRoom->powerups.begin();
+				curRoom->powerups.erase(it + u);
 			}
 		}
 
 		player.Update(dt);
-		for (int e = 0; e < enemies.size(); e++) {
-			if (enemies[e]->GetHP() <= 0) {
+		for (int e = 0; e < curRoom->EnemyList.size(); e++) {
+			if (curRoom->EnemyList[e]->GetHP() <= 0) {
 				enemies[e]->Drop(&powerups);
-				delete enemies[e];
-				enemies.erase(enemies.begin() + e);
+				delete curRoom->EnemyList[e];
+				curRoom->EnemyList.erase(curRoom->EnemyList.begin() + e);
 			}
 			else {
 				if (!stop_watch)
 				{
-					enemies[e]->Update(dt);
+					curRoom->EnemyList[e]->Update(dt);
 				}
 			}
 		}
-		for (int p = 0; p < projectiles.size(); p++) {	// When projectiles removed by Lifetime
+		for (int h = 0; h < curRoom->hazards.size(); h++) {
+			if (!stop_watch) {
+				curRoom->hazards[h]->Update(dt);
+			}
+		}
+		for (int p = 0; p < projectiles.size(); p++) {
 			projectiles[p]->Update(dt);
 			if (projectiles[p]->getTime() <= 0){
 				std::vector<Projectile*>::iterator it = projectiles.begin();
@@ -642,6 +718,33 @@ void Update() {
 				fx.erase(it + f);
 			}
 		}
+		if (player.GetX() <= 0 || player.GetX() + player.GetWidth() >= SCREEN_SIZE.X - 1 || player.GetY() <= 64 || player.GetY() + player.GetHeight() >= SCREEN_SIZE.Y - 1) {
+			Room * nextRoom = NULL;
+			Direction d;
+
+			if (player.GetX() <= 0) {
+				nextRoom = LEVEL2.GetNextRoom(curRoom, Left);
+				d = Left;
+			}
+			else if (player.GetX() + player.GetWidth() >= SCREEN_SIZE.X) {
+				nextRoom = LEVEL2.GetNextRoom(curRoom, Right);
+				d = Right;
+			}
+			else if (player.GetY() <= 64) {
+				nextRoom = LEVEL2.GetNextRoom(curRoom, Up);
+				d = Up;
+			}
+			else if (player.GetY() <= 64 || player.GetY() + player.GetHeight() >= SCREEN_SIZE.Y - 1) {
+				nextRoom = LEVEL2.GetNextRoom(curRoom, Down);
+				d = Down;
+			}
+
+			if (nextRoom != NULL) {
+				SetupRoom(nextRoom, d);
+			}
+		}
+
+		LEVEL2.CheckPuzzles();
 	}
 }
 
@@ -652,7 +755,8 @@ void ResizeWindow() {
 	cfi.nFont = 0;
 	cfi.dwFontSize.X = 0;                 
 	cfi.dwFontSize.Y = 4;
-	SetCurrentConsoleFontEx(GetStdHandle(STD_OUTPUT_HANDLE), FALSE, &cfi);
+	SetCurrentConsoleFontEx(console, FALSE, &cfi);
+	SetCurrentConsoleFontEx(drawBuff, FALSE, &cfi);
 
 	_SMALL_RECT screenDimm;
 	screenDimm.Top = 0;
@@ -660,9 +764,12 @@ void ResizeWindow() {
 	screenDimm.Right = SCREEN_SIZE.X - 1;
 	screenDimm.Bottom = SCREEN_SIZE.Y - 1;
 
-	SetConsoleScreenBufferSize(GetStdHandle(STD_OUTPUT_HANDLE), SCREEN_SIZE);
+	SetConsoleScreenBufferSize(console, SCREEN_SIZE);
 	SetConsoleScreenBufferSize(drawBuff, SCREEN_SIZE);
-	if (!SetConsoleWindowInfo(GetStdHandle(STD_OUTPUT_HANDLE), TRUE, &screenDimm)) {
+	if (!SetConsoleWindowInfo(console, TRUE, &screenDimm)) {
+		DWORD err = GetLastError();
+	}
+	if (!SetConsoleWindowInfo(drawBuff, TRUE, &screenDimm)) {
 		DWORD err = GetLastError();
 	}
 }
@@ -671,6 +778,20 @@ float GetTimeInSeconds() {
 	static float timePassed = (float) clock();
 	float ret = ((float)clock() - timePassed) / CLOCKS_PER_SEC;
 	timePassed = (float)clock();
+	return ret;
+}
+
+int GetUpdateTime() {
+	static int timePassed = clock();
+	int ret = (clock() - timePassed);
+	timePassed = clock();
+	return ret;
+}
+
+int GetDrawTime() {
+	static int timePassed = clock();
+	int ret = (clock() - timePassed);
+	timePassed = clock();
 	return ret;
 }
 
@@ -697,22 +818,22 @@ void Load() {
 
 	//Load Stuff
 	DWORD loadThreadID;
-	HANDLE loadThreadH = CreateThread(0, 0, LoadThread, NULL, 0, &loadThreadID);
+	int LOADED = 0;
+	std::thread loadThreadH(LoadThread, std::ref(LOADED));
+	loadThreadH.detach();
 	int loadPerc = 0;
 
-	SetConsoleTextAttribute(drawBuff, 10 * 16);
+	SetConsoleTextAttribute(console, 10 * 16);
 	while (LOADED != TO_LOAD) {
 		int perc = (LOADED * 100) / TO_LOAD;
 		if (perc > loadPerc) {
 			loadPerc = perc;
 			for (int i = 0; i < 20; i++) {
-				GoToXY(drawBuff, 64, 32 + i);
+				GoToXY(console, 64, 32 + i);
 				for (int j = 0; j < (loadPerc * 2); j++) {
-					WriteConsole(drawBuff, "  ", 2, NULL, NULL);
+					WriteConsole(console, "  ", 2, NULL, NULL);
 				}
 			}
-
-			SwapBuffer();
 		}
 	}
 }
@@ -765,6 +886,7 @@ void ButtonHandler(BtnAction action, int extra) {
 		if (state == CHARACTER_SEL) {
 			if (PLAYER_FILES[extra].file_exists) {
 				player_file = &PLAYER_FILES[extra];
+				LEVEL2.SetupDungeon();
 				state = PLAY;
 				//Dungeon Theme here
 				sounds.PlayDungeonTheme();
@@ -799,18 +921,48 @@ void ButtonHandler(BtnAction action, int extra) {
 			break;
 		}
 		break;
+	case CONTINUE:
+		state = PLAY;
+		break;
+	case SAVE:
+		Save();
+		ToCharacterSelect();
+		break;
+	case RETRY:
+		LoadFiles();
+		ToCharacterSelect();
+		break;
 	default:
 		break;
 	}
 }
 
 void Save() {
+
 	int savesSize = sizeof(Player_Info) * 3;
 	char * bytes = new char[savesSize];
 	std::fstream saves("profiles.sav", std::ios::out | std::ios::in | std::ios::trunc | std::ios::binary);
 	memcpy(bytes, PLAYER_FILES, savesSize);
 	saves.write(bytes, savesSize);
 	saves.close();
+}
+
+void LoadFiles() {
+	int savesSize = sizeof(Player_Info) * 3;
+	char * bytes = new char[savesSize];
+	std::fstream check; // Used to check if a given file exists
+	check.open("profiles.sav", std::ios_base::in | std::ios_base::out);
+	std::fstream saves("profiles.sav", std::ios::out | std::ios::in | std::ios::app | std::ios::binary);
+	if (!check.is_open()) {
+		memcpy(bytes, PLAYER_FILES, savesSize);
+		saves.write(bytes, savesSize);
+		saves.close();
+	}
+	else {
+		saves.read(bytes, savesSize);
+		memcpy(PLAYER_FILES, bytes, savesSize);
+		saves.close();
+	}
 }
 
 void ToCharacterSelect() {
@@ -904,6 +1056,103 @@ void ToEliminationMode() {
 	if (!setSelected) {
 		ElimMenu.SetSelected(3);
 	}
+}
+
+void SetupRoom(Room * r, Direction d) {
+	while (drawingFrame) {
+
+	}
+	curRoom = r;
+	stop_watch = false;
+	player.SetDir(d);
+	switch (d) {
+	case Up:
+		player.MoveTo({ ROOM_BOTTOM_WALL.X, ROOM_BOTTOM_WALL.Y - 16 });
+		break;
+	case Down:
+		player.MoveTo({ ROOM_TOP_WALL.X, ROOM_TOP_WALL.Y + 16 });
+		break;
+	case Right:
+		player.MoveTo({ ROOM_LEFT_WALL.X + 32, ROOM_LEFT_WALL.Y });
+		break;
+	case Left:
+		player.MoveTo({ ROOM_RIGHT_WALL.X - 32, ROOM_RIGHT_WALL.Y });
+		break;
+	}
+
+	curRoom->Respawn();
+}
+
+void DrawUI(int y) {
+	Sprites.DrawSprite(Sprites.UIPanel, 0, 0, 512, 64, drawBuff, 0, y);
+
+	int numHearts = player_file->MaxLife / 2;
+	int numFullHearts = player_file->CurLife / 2;
+	bool halfHeart = (player_file->CurLife % 2) == 1;
+	for (int c = 0; c < numHearts; c++) {
+		int HeartType = 0;
+		if (c >= numFullHearts) {
+			if (c == numFullHearts && halfHeart) {
+				HeartType = 1;
+			}
+			else {
+				HeartType = 2;
+			}
+		}
+
+		if (c < 8) {
+			Sprites.DrawSprite(Sprites.heartSprites, (16 * HeartType), 0, 14, 8, drawBuff, 352 + (c * 16), y + 48);
+		}
+		else {
+			Sprites.DrawSprite(Sprites.heartSprites, (16 * HeartType), 0, 14, 8, drawBuff, 352 + ((c - 8) * 16), y + 39);
+		}
+	}
+	
+	if (player_file->Rupees < 100) {
+		Sprites.DrawTextSprites(drawBuff, "x" + std::to_string(player_file->Rupees), 192, y + 24);
+	}
+	else {
+		Sprites.DrawTextSprites(drawBuff, std::to_string(player_file->Rupees), 192, y + 24);
+	}
+
+	Sprites.DrawTextSprites(drawBuff, "x" + std::to_string(player_file->Keys), 192, y + 40);
+
+	if (player_file->Bombs <= 0) {
+		Sprites.DrawTextSprites(drawBuff, "x$", 192, y + 48);
+	}
+	else {
+		Sprites.DrawTextSprites(drawBuff, "x" + std::to_string(player_file->Bombs), 192, y + 48);
+	}
+
+	LEVEL2.DrawMap(drawBuff, y, curRoom);
+}
+
+void Victory() {
+
+}
+
+void GameOver() {
+
+}
+
+
+// CLASS FUNCTIONS
+void Projectile::Hit(Enemy * e) {
+	if (e->GetType() == ET_MOLDORM) {
+		Moldorm * enem = (Moldorm *)e;
+		enem->Hurt(dmg);
+	}
+	else {
+		e->Hurt(dmg);
+	}
+}
+
+void LockedDoor::OpenDoor() {
+	bond->OpenDoors();
+}
+
+void BombableWall::OpenWall() {
+	bond->OpenWalls();
 }
 
 

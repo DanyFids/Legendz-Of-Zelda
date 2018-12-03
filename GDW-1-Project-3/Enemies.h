@@ -1010,3 +1010,217 @@ public:
 		return new Goryia(*this);
 	}
 };
+
+class MoldormSegment : public Enemy {
+private:
+	int aiDir = 0;
+public:
+	bool isHurt = false;
+
+	MoldormSegment(int x, int y): Enemy(x, y, 16, 10, 2, 1) {
+		SetSpriteSheet(Sprites.blockSprites);
+	}
+
+	bool HitDetect(Entity * other) {
+		return willHit(other, 0, 0);
+	}
+
+	void AI(Player p) {
+		switch (aiDir) {
+		case 1:
+			ySpd = -1;
+			break;
+		case 2:
+			ySpd = -1;
+			xSpd = 2;
+			break;
+		case 3:
+			xSpd = 2;
+			break;
+		case 4:
+			xSpd = 2;
+			ySpd = 1;
+			break;
+		case 5:
+			ySpd = 1;
+			break;
+		case 6:
+			ySpd = 1;
+			xSpd = -2;
+			break;
+		case 7:
+			xSpd = -2;
+			break;
+		case 8:
+			xSpd = -2;
+			ySpd = -1;
+			break;
+		default:
+			break;
+		}
+	}
+
+	void Update(float dt) {
+		move();
+		xSpd = 0;
+		ySpd = 0;
+		if (invulnTimer > 0) {
+			invulnTimer--;
+		}
+	}
+
+	Enemy * Clone() {
+		return new MoldormSegment(*this);
+	}
+
+	int GetAIDir() {
+		return aiDir;
+	}
+
+	void SetAIDir(int d) {
+		aiDir = d;
+	}
+};
+
+class Moldorm: public Enemy {
+private:
+	std::vector<MoldormSegment *> segments = {};
+	int prevDir = 0;
+	float move_interval = 8;
+	float moveTimer = 0;
+public:
+	Moldorm(int x, int y) : Enemy(x, y, 16, 10, 5, 1, ET_MOLDORM){
+		while (segments.size() < 5) {
+			segments.push_back(new MoldormSegment(x, y));
+		}
+
+		SetSpriteSheet(Sprites.blockSprites);
+	}
+
+	void draw(HANDLE out) {
+		for (int s = 0; s < segments.size(); s++) {
+			if (segments[s]->GetAIDir() != 0 && (segments[s]->invulnTimer % 4) < 2) {
+				Sprites.DrawSprite(sprite_sheet, 0, 0, GetWidth(), GetHeight(), out, segments[s]->GetX(), segments[s]->GetY());
+			}
+		}
+	}
+
+	bool HitDetect(Entity * other) {
+		int hit = false;
+		for (int s = 0; s < segments.size(); s++) {
+			if (segments[s]->HitDetect(other)) {
+				hit = true;
+				segments[s]->isHurt = true;
+			}
+		}
+
+		return hit;
+	}
+
+	void Hurt(int d) {
+		for (int s = 0; s < segments.size(); s++) {
+			if (segments[s]->isHurt) {
+				segments[s]->Hurt(d);
+				segments[s]->isHurt = false;
+
+				if (segments[s]->GetHP() <= 0) {
+ 					for (int n = s; n < segments.size() - 1; n++) {
+						segments[n]->SetHP(segments[n + 1]->GetHP());
+					}
+
+					segments.pop_back();
+
+					SetHP(segments.size());
+				}
+			}
+		}
+	}
+
+	void AI(Player p) {
+		if (moveTimer <= 0) {
+			std::random_device gen;
+			std::uniform_int_distribution<> range(1, 8);
+
+			int newDir = range(gen);
+			bool check = false;
+
+			while (!check) {
+				switch (prevDir) {
+				case 1:
+					if (newDir < 4 && newDir > 6) {
+						check = true;
+					}
+					break;
+				case 2:
+					if (newDir < 5 && newDir > 7) {
+						check = true;
+					}
+					break;
+				case 3:
+					if (newDir < 6 && newDir > 8) {
+						check = true;
+					}
+					break;
+				case 4:
+					if (newDir < 7 && newDir > 1) {
+						check = true;
+					}
+					break;
+				case 5:
+					if (newDir < 8 && newDir > 2) {
+						check = true;
+					}
+					break;
+				case 6:
+					if (newDir < 1 && newDir > 3) {
+						check = true;
+					}
+					break;
+				case 7:
+					if (newDir < 2 && newDir > 4) {
+						check = true;
+					}
+					break;
+				case 8:
+					if (newDir < 3 && newDir > 5) {
+						check = true;
+					}
+					break;
+				default:
+					check = true;
+					break;
+				}
+
+				if (!check) {
+					newDir = range(gen);
+				}
+			}
+
+			for (int s = segments.size() - 1; s >= 1 ; s--) {
+				segments[s]->SetAIDir(segments[s - 1]->GetAIDir());
+			}
+
+			segments[0]->SetAIDir(newDir);
+
+			moveTimer = move_interval;
+		}
+
+		for (int s = 0; s < segments.size(); s++) {
+			segments[s]->AI(p);
+		}
+	}
+
+	void Update(float dt) {
+		if (moveTimer > 0) {
+			moveTimer -= 1;
+		}
+
+		for (int s = 0; s < segments.size(); s++) {
+			segments[s]->Update(dt);
+		}
+	}
+
+	Enemy * Clone() {
+		return new Moldorm(*this);
+	}
+};

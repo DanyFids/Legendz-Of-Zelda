@@ -14,14 +14,15 @@ typedef struct _FCOORD {
 
 struct Player_Info {
 	std::string Name = std::string(8, ' ');
-	int MaxLife = 6;
-	int CurLife = 6;
+	int MaxLife = 10;
+	int CurLife = 10;
 	int Bombs = 0;
 	int Keys = 0;
-	int Rupees = 0;
+	int Rupees = 10;
 	bool HasMap = false;
 	bool HasCompass = false;
 	bool file_exists = false;
+	bool puzzles_solved[10] = { false, false, false, false, false, false, false, false, false, false };
 };
 
 Player_Info PLAYER_FILES[3];
@@ -38,7 +39,7 @@ private:
 	bool can_attack = true;
 	float stop_timer = 0;
 public:
-	Player(int x, int y) :Entity(x, y, 32, 16) {
+	Player(int x, int y) :Entity(x, y, 32, 16, false, true) {
 		SetNumAnim(4);
 
 
@@ -52,8 +53,12 @@ public:
 	}
 
 	void Hurt(int d) {
-		hp -= d;
+		if (invulnTimer <= 0) {
+			player_file->CurLife -= d;
+			invulnTimer = 15;
+		}
 	}
+
 
 	void Update(float dt) {
 		if (GetX() + xSpd < 0) {
@@ -74,6 +79,10 @@ public:
 			}
 		}
 
+		if (invulnTimer > 0) {
+			invulnTimer--;
+		}
+
 		xSpd = 0;
 		ySpd = 0;
 	}
@@ -84,7 +93,11 @@ public:
 
 	void SwingSword() {
 		can_attack = false;
-		stop_timer = 1;
+		stop_timer = 0.4f;
+	}
+
+	int GetHp() {
+		return hp;
 	}
 };
 
@@ -102,15 +115,16 @@ private:
 	bool isDodongo = false;
 	FCOORD location;
 public:
+	Enemy(int x, int y, int w, int h, int hp, int dmg, EnemyType type = ET_DEFAULT) :Entity(x, y, w, h) {
 	std::vector<Projectile *> projectiles;
 
-	Enemy(int x, int y, int w, int h, int hp, int dmg) :Entity(x, y, w, h) {
 		this->hp = hp;
 		this->dmg = dmg;
 
 		this->location.X = x;
 		this->location.Y = y;
 		
+		this->et = type;
 	}
 
 	void stun()
@@ -127,8 +141,10 @@ public:
 
 
 	void Hurt(int d) {
-		if(!invuln)
+		if (!invuln && invulnTimer <= 0) {
 			hp -= d;
+			invulnTimer = 10;
+		}
 	}
 
 	void Death() {
@@ -166,6 +182,9 @@ public:
 		return hp;
 	}
 
+	void SetHP(int h) {
+		hp = h;
+	}
 
 	void Hit(Player & p) {
 		p.Hurt(dmg);
@@ -180,6 +199,10 @@ public:
 
 	void SetInvuln(bool i) {
 		invuln = i;
+	}
+
+	EnemyType GetType() {
+		return et;
 	}
 
 	void Drop(std::vector<PowerUp *> * pl);
@@ -205,14 +228,9 @@ public:
 		//Can Remove Later
 		return (willHit(other, 0, 0));
 	}
-
-
-	void move();
-	
-	void draw(HANDLE out);
-
 	virtual void AI(Player p) = 0;
 	virtual void hitTerrain() = 0;
+	virtual Enemy* Clone() = 0;
 };
 
 const float MOVE_TIME = 0.05f;
@@ -220,13 +238,13 @@ class Terrain : public Entity {
 private:
 	float move_timer = MOVE_TIME;
 	float moving_timer = 0;
-	Direction moveDir;
-	bool canMove;
+	//Direction moveDir;
+	bool canMove = false;
 public:
-	
+	const float MOVE_TIME = 0.05f;
 
-	Terrain(int x, int y, int w, int h, bool cM = false) :Entity(x, y, w, h) {
-		canMove = cM;
+	Terrain(int x, int y, int w, int h, bool hide = false) :Entity(x, y, w, h, hide) {
+		//canMove = cM;
 	}
 
 	bool CanMove() {
@@ -242,7 +260,7 @@ public:
 		}
 		else {
 			if (moving_timer > 0) {
-				switch (GetMvDir()) {
+				/*switch (GetMvDir()) {
 				case Up:
 					ySpd = -1;
 					xSpd = 0;
@@ -265,6 +283,7 @@ public:
 				if (moving_timer <= 0) {
 					canMove = false;
 				}
+				*/
 			}
 		}
 	}
@@ -278,13 +297,13 @@ public:
 		}
 	}
 
-	void SetMvDir(Direction d) {
+	/*void SetMvDir(Direction d) {
 		moveDir = d;
 	}
 
 	Direction GetMvDir() {
 		return moveDir;
-	}
+	}*/
 
 };
 
@@ -331,9 +350,7 @@ public:
 		p.Hurt(dmg);
 	}
 
-	void Hit(Enemy & e) {
-		e.Hurt(dmg);
-	}
+	void Hit(Enemy * e);
 };
 
 
@@ -346,7 +363,6 @@ public:
 	void Update(float dt) {
 
 	}
-
 
 	virtual void Effect(Player_Info * stats)=0;
 
