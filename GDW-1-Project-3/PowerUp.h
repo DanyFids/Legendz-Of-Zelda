@@ -78,6 +78,7 @@ public:
 	bool HitDetect(Entity * other) {
 		return willHit(other, 0, 0);
 	}
+	void Update(float dt) {
 
 	PowerUp * Clone() {
 		return new BombPickup(*this);
@@ -97,6 +98,7 @@ public:
 	bool HitDetect(Entity * other) {
 		return willHit(other, 0, 0);
 	}
+	void Update(float dt) {
 
 	PowerUp * Clone() {
 		return new StopwatchPickup(*this);
@@ -117,6 +119,7 @@ public:
 	bool HitDetect(Entity * other) {
 		return willHit(other, 0, 0);
 	}
+	void Update(float dt) {
 
 	PowerUp * Clone() {
 		return new CompassPickup(*this);
@@ -137,6 +140,7 @@ public:
 	bool HitDetect(Entity * other) {
 		return willHit(other, 0, 0);
 	}
+	void Update(float dt) {
 
 	PowerUp * Clone() {
 		return new MapPickup(*this);
@@ -158,6 +162,7 @@ public:
 	bool HitDetect(Entity * other) {
 		return willHit(other, 0, 0);
 	}
+	void Update(float dt) {
 
 	PowerUp * Clone() {
 		return new RupeesPickup(*this);
@@ -179,6 +184,7 @@ public:
 	bool HitDetect(Entity * other) {
 		return willHit(other, 0, 0);
 	}
+	void Update(float dt) {
 
 	PowerUp * Clone() {
 		return new BlueRupeesPickup(*this);
@@ -199,6 +205,7 @@ public:
 	bool HitDetect(Entity * other) {
 		return willHit(other, 0, 0);
 	}
+	void Update(float dt) {
 
 	PowerUp * Clone() {
 		return new FairiesPickup(*this);
