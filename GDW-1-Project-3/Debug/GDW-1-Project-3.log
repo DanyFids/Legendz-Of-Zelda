@@ -20,13 +20,12 @@ c:\users\100700305\documents\visual studio 2017\projects\legendz-of-zelda\gdw-1-
 c:\users\100700305\documents\visual studio 2017\projects\legendz-of-zelda\gdw-1-project-3\main.cpp(520): warning C4018: '<': signed/unsigned mismatch
 c:\users\100700305\documents\visual studio 2017\projects\legendz-of-zelda\gdw-1-project-3\main.cpp(526): warning C4018: '<': signed/unsigned mismatch
 c:\users\100700305\documents\visual studio 2017\projects\legendz-of-zelda\gdw-1-project-3\main.cpp(548): warning C4018: '<': signed/unsigned mismatch
-c:\users\100700305\documents\visual studio 2017\projects\legendz-of-zelda\gdw-1-project-3\main.cpp(556): warning C4018: '<': signed/unsigned mismatch
+c:\users\100700305\documents\visual studio 2017\projects\legendz-of-zelda\gdw-1-project-3\main.cpp(552): warning C4018: '<': signed/unsigned mismatch
+c:\users\100700305\documents\visual studio 2017\projects\legendz-of-zelda\gdw-1-project-3\main.cpp(554): warning C4018: '<': signed/unsigned mismatch
 c:\users\100700305\documents\visual studio 2017\projects\legendz-of-zelda\gdw-1-project-3\main.cpp(560): warning C4018: '<': signed/unsigned mismatch
-c:\users\100700305\documents\visual studio 2017\projects\legendz-of-zelda\gdw-1-project-3\main.cpp(562): warning C4018: '<': signed/unsigned mismatch
-c:\users\100700305\documents\visual studio 2017\projects\legendz-of-zelda\gdw-1-project-3\main.cpp(568): warning C4018: '<': signed/unsigned mismatch
-c:\users\100700305\documents\visual studio 2017\projects\legendz-of-zelda\gdw-1-project-3\main.cpp(574): warning C4018: '<': signed/unsigned mismatch
-c:\users\100700305\documents\visual studio 2017\projects\legendz-of-zelda\gdw-1-project-3\main.cpp(585): warning C4018: '<': signed/unsigned mismatch
-c:\users\100700305\documents\visual studio 2017\projects\legendz-of-zelda\gdw-1-project-3\main.cpp(598): warning C4018: '<': signed/unsigned mismatch
+c:\users\100700305\documents\visual studio 2017\projects\legendz-of-zelda\gdw-1-project-3\main.cpp(566): warning C4018: '<': signed/unsigned mismatch
+c:\users\100700305\documents\visual studio 2017\projects\legendz-of-zelda\gdw-1-project-3\main.cpp(577): warning C4018: '<': signed/unsigned mismatch
+c:\users\100700305\documents\visual studio 2017\projects\legendz-of-zelda\gdw-1-project-3\main.cpp(590): warning C4018: '<': signed/unsigned mismatch
+c:\users\100700305\documents\visual studio 2017\projects\legendz-of-zelda\gdw-1-project-3\main.cpp(861): warning C4018: '<': signed/unsigned mismatch
 c:\users\100700305\documents\visual studio 2017\projects\legendz-of-zelda\gdw-1-project-3\main.cpp(869): warning C4018: '<': signed/unsigned mismatch
-c:\users\100700305\documents\visual studio 2017\projects\legendz-of-zelda\gdw-1-project-3\main.cpp(877): warning C4018: '<': signed/unsigned mismatch
   GDW-1-Project-3.vcxproj -> C:\Users\100700305\Documents\Visual Studio 2017\Projects\Legendz-Of-Zelda\GDW-1-Project-3\Debug\GDW-1-Project-3.exe

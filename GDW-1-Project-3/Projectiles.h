@@ -186,7 +186,7 @@ private:
 	float startTime;
 
 public:	   // x,y coord,                  width*2,height,		   || lifetime, damage, speed 
-	Boomerang(int x, int y, int x_spd, int y_spd, Direction _dir) : Projectile(x, y, 32, 7, 10, 1) {
+	Boomerang(int x, int y, int x_spd, int y_spd, Direction _dir) : Projectile(x, y, 32, 7, 5.0f, 1) {
 		this->setDir(_dir);
 		this->setEnum(PT_BOOMERANG);
 

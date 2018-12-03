@@ -544,14 +544,6 @@ void Update() {
 			}
 
 		}
-
-		for (int p = 0; p < projectiles.size(); p++) {
-			if (projectiles[p]->getEnum() == PT_FIREBALL) {
-				if (projectiles[p]->HitDetect(&player)) {
-					projectiles[p]->Hit(player);
-				}
-			}
-		}
 		
 		for (int t = 0; t < roomTer.size(); t++) {
 			if ((roomTer[t]->HitDetect(&player) && roomTer[t]->CanMove()) || roomTer[t]->isMoving()) {
