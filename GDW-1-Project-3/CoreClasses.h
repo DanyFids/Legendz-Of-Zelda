@@ -7,6 +7,11 @@ struct Player_Input {
 	bool keySpace;
 };
 
+typedef struct _FCOORD {
+	float X;
+	float Y;
+} FCOORD, *FPCOORD;
+
 struct Player_Info {
 	std::string Name = std::string(8, ' ');
 	int MaxLife = 6;
@@ -79,15 +84,32 @@ public:
 	}
 };
 
+const float STUNTIME = 3.0f;
+
 class Enemy : public Entity {
 private:
 	int dmg, hp;
 	bool invuln;
+	float stunTimer = 0.0f;
+	EnemyType et;
 public:
 	Enemy(int x, int y, int w, int h, int hp, int dmg) :Entity(x, y, w, h) {
 		this->hp = hp;
 		this->dmg = dmg;
 	}
+
+	void stun()
+	{
+		stunTimer = STUNTIME;
+	}
+
+	float getStunTime() {
+		return stunTimer;
+	}
+	void setStunTime(float t) {
+		stunTimer = t;
+	}
+
 
 	void Hurt(int d) {
 		if(!invuln)
@@ -100,6 +122,10 @@ public:
 
 	void Hit(Player & p) {
 		p.Hurt(dmg);
+	}
+
+	EnemyType GetType() {
+		return et;
 	}
 
 	void SetInvuln(bool i) {
@@ -158,7 +184,6 @@ public:
 		this->dmg = dmg;
 		this->setProjectile();
 	}
-
 
 	void Hit(Player & p) {
 		p.Hurt(dmg);

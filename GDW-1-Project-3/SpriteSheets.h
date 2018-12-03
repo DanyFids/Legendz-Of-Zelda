@@ -148,6 +148,13 @@ public:
 		CONSOLE_TEXTMODE_BUFFER,
 		NULL);
 
+	HANDLE explosionSprites = CreateConsoleScreenBuffer(
+		GENERIC_READ | GENERIC_WRITE,
+		FILE_SHARE_READ | FILE_SHARE_WRITE,
+		NULL,
+		CONSOLE_TEXTMODE_BUFFER,
+		NULL);
+
 	HANDLE fireballSprites = CreateConsoleScreenBuffer(
 		GENERIC_READ | GENERIC_WRITE,
 		FILE_SHARE_READ | FILE_SHARE_WRITE,
@@ -10493,10 +10500,10 @@ public:
 		// SetConsoleTextAttribute(bombSprites, 1 * 16); // Colour
 
 		for (int i = 0; i < 32; i++) {// Draws Row (i = y size)
-			GoToXY(keySprites, 0, i);	 //Position of pixel
+			GoToXY(explosionSprites, 0, i);	 //Position of pixel
 			for (int c = 0; c < 32; c++) { // Draws Col (c = x size)
-				SetConsoleTextAttribute(compassSprites, 7);  //empty
-				WriteConsole(compassSprites, &"  ", 2, &output, NULL);
+				SetConsoleTextAttribute(explosionSprites, 7);  //empty
+				WriteConsole(explosionSprites, &"  ", 2, &output, NULL);
 			}
 		}
 		return true;

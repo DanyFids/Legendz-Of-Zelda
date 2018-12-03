@@ -1,4 +1,5 @@
 #pragma once
+#include <cmath>
 
 // --------------------------------------------- Links Sword for Sword swings
 
@@ -164,7 +165,7 @@ private:
 public:	   // x,y coord,                  width*2,height,lifetime, damage, 
 	Explosion(int x, int y) : Projectile(x, y, 32, 7, 2.0f, 3) {
 		this->setEnum(PT_EXPLOSION);
-		
+		this->SetSpriteSheet(Sprites.explosionSprites);
 		 
 	}
 
@@ -190,10 +191,11 @@ private:
 	int startY;
 	float startTime;
 	bool rebounded = false;
+	Entity * parent;
 
 public:	   // x,y coord,                  width*2,height,		   || lifetime, damage,  
-	Boomerang(int x, int y, int x_spd, int y_spd) : Projectile(x, y, 16, 8, 5.0f, 1) {
-		//this->setDir(_dir);
+	Boomerang(int x, int y, int x_spd, int y_spd, Entity * p) : Projectile(x, y, 16, 8, 5.0f, 1) {
+		//this->setDir(_dir);			  //The Entity Pointer should point to it's parent via &player or &goriya etc.
 		this->setEnum(PT_BOOMERANG);
 		this->SetSpriteSheet(Sprites.boomerangSprites);
 		this->SetCurFrame(1);
@@ -204,20 +206,34 @@ public:	   // x,y coord,                  width*2,height,		   || lifetime, damag
 		startX = x;
 		startY = y;
 		startTime = this->getTime();
+
+		parent = p;
 	}
 
 	bool HitDetect(Entity * e)
 	{
-		return willHit(e, 0, 0);
+		return willHit(e, 0, 0);	
 	}
 
 	void rebound() {
 
 		if (this->getTime() <= (this->startTime / 2)&& !rebounded)
 		{
-			this->xSpd *=(-1);
-			this->ySpd *=(-1);
 			rebounded = true;
+
+
+		}
+
+		if (rebounded)
+		{
+			int distX = parent->GetX() - this->GetX();
+			int distY = parent->GetY() - this->GetY();
+
+			float dirScale = sqrt(pow(distX, 2) + pow(distY, 2));
+			
+			xSpd = (distX / dirScale) * (14);
+			ySpd = (distY / dirScale) * (7);
+
 		}
 	}
 
@@ -227,7 +243,35 @@ public:	   // x,y coord,                  width*2,height,		   || lifetime, damag
 		rebound();
 		this->setTime(this->getTime() - dt);
 		
-		if (this->GetX() == this->startX && this->GetY() == this->startY)
+		if (this->GetX() == parent->GetX() && parent->GetY() == this->startY)
+		{
+			this->setTime(0.0f);
+		}
+		if (this->GetX() == parent->GetX() - 2 && parent->GetY() == this->startY || this->GetX() == parent->GetX() - 4 && parent->GetY() == this->startY)
+		{
+			this->setTime(0.0f);
+		}
+		if (this->GetX() == parent->GetX() - 1 && parent->GetY() == this->startY || this->GetX() == parent->GetX() - 1 && parent->GetY() == this->startY)
+		{
+			this->setTime(0.0f);
+		}
+		if (this->GetX() == parent->GetX() + 2 && parent->GetY() == this->startY || this->GetX() == parent->GetX() + 4 && parent->GetY() == this->startY)
+		{
+			this->setTime(0.0f);
+		}
+		if (this->GetX() == parent->GetX() && parent->GetY() - 1 == this->startY || this->GetX() == parent->GetX() && parent->GetY() - 2 == this->startY)
+		{
+			this->setTime(0.0f);
+		}
+		if (this->GetX() == parent->GetX() && parent->GetY() + 1 == this->startY || this->GetX() == parent->GetX() && parent->GetY() + 2 == this->startY)
+		{
+			this->setTime(0.0f);
+		}
+		if (this->GetX() == parent->GetX() - 2 && parent->GetY() - 1 == this->startY || this->GetX() - 4 == parent->GetX() && parent->GetY() - 2 == this->startY)
+		{
+			this->setTime(0.0f);
+		}
+		if (this->GetX() - 1 == parent->GetX() && parent->GetY() + 1 == this->startY || this->GetX() - 2 == parent->GetX() && parent->GetY() + 2 == this->startY)
 		{
 			this->setTime(0.0f);
 		}

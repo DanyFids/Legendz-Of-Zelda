@@ -10,11 +10,11 @@
 #include"FunctionProto.h"
 #include"SpriteSheets.h"
 #include"Entity.h"
-#include "Effects.h"
 #include"CoreClasses.h"
 #include"Terrains.h"
 #include"Enemies.h"
 #include"Menus.h"
+#include "Effects.h"
 
 //SFX/BGM Managers
 #include "bgMusicManager.h"
@@ -49,8 +49,9 @@ Player player(0, 0);
 Player_Info * player_file;
 // Non-Player entities
 std::vector<Enemy*> enemies = {new Rope(80, 10),new SpikeTrap(400, 3),new SpikeTrap(400, 200),new Gel(50, 50), new Keese(100, 100) };
-std::vector<Projectile*> projectiles = {new Bomb(150,150), new Arrow(190,150,0,0,Down), new Fireball(230,150,0.0f,0.0f), new Boomerang(250,150,0.0f,-2.0f)};
+std::vector<Projectile*> projectiles = {new Bomb(150,150), new Arrow(190,150,0,0,Down), new Fireball(230,150,0.0f,0.0f), new Boomerang(0,0,4.0f,0.0f, &player)};
 std::vector<Terrain*> roomTer = {new Wall(20,100), new Wall(52, 100), new Wall(84, 100)};
+std::vector<Effect*> fx = {};
 
 // Menus
 Menu CharSelMenu({
@@ -90,7 +91,7 @@ int main() {
 	//LoZTitleScreenBGM();	 //Legacy Player
 	Load();
 	sounds.PlayTitleTheme();
-	//PlayDungeonTheme();
+	
 
 	//Start DrawThread
 	DWORD drawThreadID;
@@ -308,7 +309,7 @@ void KeyHandler(KEY_EVENT_RECORD e) {
 				break;
 			}
 		}
-	}
+	}																												
 }
 
 void clear() {
@@ -357,6 +358,11 @@ void Draw() {
 
 		for (int p = 0; p < projectiles.size(); p++) {
 			projectiles[p]->draw(drawBuff);
+		}
+
+		for (int f = 0; f < fx.size(); f++)
+		{
+			fx[f]->draw(drawBuff);
 		}
 
 		player.draw(drawBuff);
@@ -501,7 +507,13 @@ void Update() {
 		}
 
 		for (int e = 0; e < enemies.size(); e++) {
-			enemies[e]->AI(player);
+			if (enemies[e]->getStunTime() <= 0.0f) {
+				enemies[e]->AI(player);
+			}
+			else
+			{
+				enemies[e]->setStunTime(enemies[e]->getStunTime() - dt);
+			}
 			if (enemies[e]->HitDetect(&player)) {
 				enemies[e]->Hit(player);
 			}
@@ -512,7 +524,12 @@ void Update() {
 			}
 			for (int p = 0; p < projectiles.size(); p++) {
 				if (projectiles[p]->HitDetect(enemies[e])) {
-					projectiles[p]->Hit(*enemies[e]);
+					if (projectiles[p]->getEnum() == PT_BOOMERANG && (enemies[e]->GetType() != ET_GEL || enemies[e]->GetType() != ET_KEESE)) {
+						enemies[e]->stun();
+					}
+					else {
+						projectiles[p]->Hit(*enemies[e]);
+					}
 					if (projectiles[p]->getEnum() == PT_ARROW) { //Removing Projectiles When they strike an Entity
 						std::vector<Projectile*>::iterator it = projectiles.begin();
 						projectiles.erase(it + p);
@@ -528,7 +545,7 @@ void Update() {
 				roomTer[t]->HitDetect(enemies[e]);
 			}
 			
-		}
+		}																									  
 
 		player.Update(dt);
 		for (int e = 0; e < enemies.size(); e++) {
@@ -677,6 +694,8 @@ void ButtonHandler(BtnAction action, int extra) {
 			if (PLAYER_FILES[extra].file_exists) {
 				player_file = &PLAYER_FILES[extra];
 				state = PLAY;
+				//Dungeon Theme here
+				sounds.PlayDungeonTheme();
 			}
 		}
 		else if(state == CHARACTER_RMV) {
@@ -756,6 +775,9 @@ void ToCharacterSelect() {
 	if (!setSelected) {
 		CharSelMenu.SetSelected(3);
 	}
+
+	//Put Music here
+	sounds.PlayFileSelect();
 }
 
 void ToRegisterName() {

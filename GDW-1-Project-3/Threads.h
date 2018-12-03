@@ -7,7 +7,7 @@ DWORD WINAPI DrawThread(LPVOID lpParameter)
 	return 0;
 }
 
-const int TO_LOAD = 28;
+const int TO_LOAD = 33;
 int LOADED = 0;
 DWORD WINAPI LoadThread(LPVOID lpParameter)
 {
@@ -124,6 +124,9 @@ DWORD WINAPI LoadThread(LPVOID lpParameter)
 		LOADED++;
 	}
 	if (sounds.LoadDungeonTheme()) {
+		LOADED++;
+	}
+	if (sounds.LoadFileSelect()) {
 		LOADED++;
 	}
 

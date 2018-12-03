@@ -12,6 +12,7 @@ public:
 	sf::SoundBuffer beamSound;
 	sf::SoundBuffer titleThemeBGM;
 	sf::SoundBuffer dungeonThemeBGM;
+	sf::SoundBuffer fileSelectBGM;
 
 	// SFX/BGM Loaders
 
@@ -32,6 +33,10 @@ public:
 		return dungeonThemeBGM.loadFromFile("BGM\\DungeonThemeLoZ.wav");
 	}
 
+	bool LoadFileSelect() {
+		return fileSelectBGM.loadFromFile("BGM\\FileSelectLoZ.wav");
+	}
+
 
 	// SFX/BGM Players
 
@@ -49,6 +54,13 @@ public:
 	void PlayDungeonTheme() {
 		music.stop();
 		music.setBuffer(dungeonThemeBGM);
+		music.setLoop(true);
+		music.play();
+	}
+
+	void PlayFileSelect() {
+		music.stop();
+		music.setBuffer(fileSelectBGM);
 		music.setLoop(true);
 		music.play();
 	}
