@@ -8002,6 +8002,7 @@ public:
 		}
 
 		//Draw Foliage
+		//Branch
 		SetConsoleTextAttribute(titleScreen, 4 * 16+0);
 		GoToXY(titleScreen, 88, 44);
 		for (int c = 0; c < 338; c++) {
@@ -8021,6 +8022,484 @@ public:
 				WriteConsole(titleScreen, &mGrad, 1, &output, NULL);
 			}
 		}
+		//Green 
+		SetConsoleTextAttribute(titleScreen, 10 * 16);
+		//top
+		for (int i = 0; i < 10; i++) {
+			//Top upper leaves
+			GoToXY(titleScreen, (114 + (i * 32)), 42);
+			for (int c = 0; c < 6; c++) {
+				WriteConsole(titleScreen, &" ", 1, &output, NULL);
+			}
+			GoToXY(titleScreen, (112 + (i * 32)), 43);
+			for (int c = 0; c < 6; c++) {
+				WriteConsole(titleScreen, &" ", 1, &output, NULL);
+			}
+			GoToXY(titleScreen, (94 + (i * 32)), 42);
+			for (int c = 0; c < 6; c++) {
+				WriteConsole(titleScreen, &" ", 1, &output, NULL);
+			}
+			GoToXY(titleScreen, (96 + (i * 32)), 43);
+			for (int c = 0; c < 6; c++) {
+				WriteConsole(titleScreen, &" ", 1, &output, NULL);
+			}
+
+			//Top Branch
+			GoToXY(titleScreen, (102 + (i * 32)), 44);
+			for (int c = 0; c < 2; c++) {
+				WriteConsole(titleScreen, &" ", 1, &output, NULL);
+			}
+			GoToXY(titleScreen, (110 + (i * 32)), 44);
+			for (int c = 0; c < 2; c++) {
+				WriteConsole(titleScreen, &" ", 1, &output, NULL);
+			}
+			GoToXY(titleScreen, (118 + (i * 32)), 44);
+			for (int c = 0; c < 2; c++) {
+				WriteConsole(titleScreen, &" ", 1, &output, NULL);
+			}
+
+			//Top lower leaves
+			GoToXY(titleScreen, (104 + (i * 32)), 45);
+			for (int c = 0; c < 6; c++) {
+				WriteConsole(titleScreen, &" ", 1, &output, NULL);
+			}
+			GoToXY(titleScreen, (106 + (i * 32)), 46);
+			for (int c = 0; c < 6; c++) {
+				WriteConsole(titleScreen, &" ", 1, &output, NULL);
+			}
+			GoToXY(titleScreen, (120 + (i * 32)), 45);
+			for (int c = 0; c < 6; c++) {
+				WriteConsole(titleScreen, &" ", 1, &output, NULL);
+			}
+			GoToXY(titleScreen, (118 + (i * 32)), 46);
+			for (int c = 0; c < 6; c++) {
+				WriteConsole(titleScreen, &" ", 1, &output, NULL);
+			}
+		}
+		//Bottom
+		for (int i = 0; i < 10; i++) {
+			//Top upper leaves
+			GoToXY(titleScreen, (114 + (i * 32)), 131);
+			for (int c = 0; c < 6; c++) {
+				WriteConsole(titleScreen, &" ", 1, &output, NULL);
+			}
+			GoToXY(titleScreen, (112 + (i * 32)), 132);
+			for (int c = 0; c < 6; c++) {
+				WriteConsole(titleScreen, &" ", 1, &output, NULL);
+			}
+			GoToXY(titleScreen, (94 + (i * 32)), 131);
+			for (int c = 0; c < 6; c++) {
+				WriteConsole(titleScreen, &" ", 1, &output, NULL);
+			}
+			GoToXY(titleScreen, (96 + (i * 32)), 132);
+			for (int c = 0; c < 6; c++) {
+				WriteConsole(titleScreen, &" ", 1, &output, NULL);
+			}
+
+			//Top Branch
+			GoToXY(titleScreen, (102 + (i * 32)), 133);
+			for (int c = 0; c < 2; c++) {
+				WriteConsole(titleScreen, &" ", 1, &output, NULL);
+			}
+			GoToXY(titleScreen, (110 + (i * 32)), 133);
+			for (int c = 0; c < 2; c++) {
+				WriteConsole(titleScreen, &" ", 1, &output, NULL);
+			}
+			GoToXY(titleScreen, (118 + (i * 32)), 133);
+			for (int c = 0; c < 2; c++) {
+				WriteConsole(titleScreen, &" ", 1, &output, NULL);
+			}
+
+			//Top lower leaves
+			GoToXY(titleScreen, (104 + (i * 32)), 134);
+			for (int c = 0; c < 6; c++) {
+				WriteConsole(titleScreen, &" ", 1, &output, NULL);
+			}
+			GoToXY(titleScreen, (106 + (i * 32)), 135);
+			for (int c = 0; c < 6; c++) {
+				WriteConsole(titleScreen, &" ", 1, &output, NULL);
+			}
+			GoToXY(titleScreen, (120 + (i * 32)), 134);
+			for (int c = 0; c < 6; c++) {
+				WriteConsole(titleScreen, &" ", 1, &output, NULL);
+			}
+			GoToXY(titleScreen, (118 + (i * 32)), 135);
+			for (int c = 0; c < 6; c++) {
+				WriteConsole(titleScreen, &" ", 1, &output, NULL);
+			}
+		}
+		//Left side
+		for (int i = 0; i < 4; i++) {
+			GoToXY(titleScreen, 92, (46 + (i * 19)));
+			for (int c = 0; c < 2; c++) {
+				WriteConsole(titleScreen, &" ", 1, &output, NULL);
+			}
+			GoToXY(titleScreen, 90, (47 + (i * 19)));
+			for (int c = 0; c < 4; c++) {
+				WriteConsole(titleScreen, &" ", 1, &output, NULL);
+			}
+			GoToXY(titleScreen, 90, (48 + (i * 19)));
+			for (int c = 0; c < 4; c++) {
+				WriteConsole(titleScreen, &" ", 1, &output, NULL);
+			}
+			GoToXY(titleScreen, 90, (49 + (i * 19)));
+			for (int c = 0; c < 2; c++) {
+				WriteConsole(titleScreen, &" ", 1, &output, NULL);
+			}
+			GoToXY(titleScreen, 88, (50 + (i * 19)));
+			for (int c = 0; c < 2; c++) {
+				WriteConsole(titleScreen, &" ", 1, &output, NULL);
+			}
+			GoToXY(titleScreen, 86, (51 + (i * 19)));
+			for (int c = 0; c < 2; c++) {
+				WriteConsole(titleScreen, &" ", 1, &output, NULL);
+			}
+			GoToXY(titleScreen, 84, (52 + (i * 19)));
+			for (int c = 0; c < 4; c++) {
+				WriteConsole(titleScreen, &" ", 1, &output, NULL);
+			}
+			GoToXY(titleScreen, 84, (53 + (i * 19)));
+			for (int c = 0; c < 4; c++) {
+				WriteConsole(titleScreen, &" ", 1, &output, NULL);
+			}
+			GoToXY(titleScreen, 84, (54 + (i * 19)));
+			for (int c = 0; c < 2; c++) {
+				WriteConsole(titleScreen, &" ", 1, &output, NULL);
+			}
+			GoToXY(titleScreen, 88, (55 + (i * 19)));
+			for (int c = 0; c < 2; c++) {
+				WriteConsole(titleScreen, &" ", 1, &output, NULL);
+			}
+			GoToXY(titleScreen, 90, (56 + (i * 19)));
+			for (int c = 0; c < 2; c++) {
+				WriteConsole(titleScreen, &" ", 1, &output, NULL);
+			}
+			GoToXY(titleScreen, 90, (57 + (i * 19)));
+			for (int c = 0; c < 4; c++) {
+				WriteConsole(titleScreen, &" ", 1, &output, NULL);
+			}
+			GoToXY(titleScreen, 90, (58 + (i * 19)));
+			for (int c = 0; c < 4; c++) {
+				WriteConsole(titleScreen, &" ", 1, &output, NULL);
+			}
+			GoToXY(titleScreen, 92, (59 + (i * 19)));
+			for (int c = 0; c < 2; c++) {
+				WriteConsole(titleScreen, &" ", 1, &output, NULL);
+			}
+			GoToXY(titleScreen, 88, (60 + (i * 19)));
+			for (int c = 0; c < 2; c++) {
+				WriteConsole(titleScreen, &" ", 1, &output, NULL);
+			}
+			GoToXY(titleScreen, 84, (61 + (i * 19)));
+			for (int c = 0; c < 2; c++) {
+				WriteConsole(titleScreen, &" ", 1, &output, NULL);
+			}
+			GoToXY(titleScreen, 84, (62 + (i * 19)));
+			for (int c = 0; c < 4; c++) {
+				WriteConsole(titleScreen, &" ", 1, &output, NULL);
+			}
+			GoToXY(titleScreen, 84, (63 + (i * 19)));
+			for (int c = 0; c < 4; c++) {
+				WriteConsole(titleScreen, &" ", 1, &output, NULL);
+			}
+			GoToXY(titleScreen, 86, (64 + (i * 19)));
+			for (int c = 0; c < 2; c++) {
+				WriteConsole(titleScreen, &" ", 1, &output, NULL);
+			}
+			GoToXY(titleScreen, 88, (65 + (i * 19)));
+			for (int c = 0; c < 2; c++) {
+				WriteConsole(titleScreen, &" ", 1, &output, NULL);
+			}
+		}
+
+		GoToXY(titleScreen, 92, 122);
+		for (int c = 0; c < 2; c++) {
+			WriteConsole(titleScreen, &" ", 1, &output, NULL);
+		}
+		GoToXY(titleScreen, 90, 123);
+		for (int c = 0; c < 4; c++) {
+			WriteConsole(titleScreen, &" ", 1, &output, NULL);
+		}
+		GoToXY(titleScreen, 90, 124);
+		for (int c = 0; c < 4; c++) {
+			WriteConsole(titleScreen, &" ", 1, &output, NULL);
+		}
+		GoToXY(titleScreen, 90, 125);
+		for (int c = 0; c < 2; c++) {
+			WriteConsole(titleScreen, &" ", 1, &output, NULL);
+		}
+		GoToXY(titleScreen, 88, 126);
+		for (int c = 0; c < 2; c++) {
+			WriteConsole(titleScreen, &" ", 1, &output, NULL);
+		}
+		GoToXY(titleScreen, 86, 127);
+		for (int c = 0; c < 2; c++) {
+			WriteConsole(titleScreen, &" ", 1, &output, NULL);
+		}
+		GoToXY(titleScreen, 84, 128);
+		for (int c = 0; c < 4; c++) {
+			WriteConsole(titleScreen, &" ", 1, &output, NULL);
+		}
+		GoToXY(titleScreen, 84, 129);
+		for (int c = 0; c < 4; c++) {
+			WriteConsole(titleScreen, &" ", 1, &output, NULL);
+		}
+		GoToXY(titleScreen, 84, 130);
+		for (int c = 0; c < 2; c++) {
+			WriteConsole(titleScreen, &" ", 1, &output, NULL);
+		}
+
+		//right side
+		for (int i = 0; i < 4; i++) {
+			GoToXY(titleScreen, 430, (46 + (i * 19)));
+			for (int c = 0; c < 2; c++) {
+				WriteConsole(titleScreen, &" ", 1, &output, NULL);
+			}
+			GoToXY(titleScreen, 428, (47 + (i * 19)));
+			for (int c = 0; c < 4; c++) {
+				WriteConsole(titleScreen, &" ", 1, &output, NULL);
+			}
+			GoToXY(titleScreen, 428, (48 + (i * 19)));
+			for (int c = 0; c < 4; c++) {
+				WriteConsole(titleScreen, &" ", 1, &output, NULL);
+			}
+			GoToXY(titleScreen, 428, (49 + (i * 19)));
+			for (int c = 0; c < 2; c++) {
+				WriteConsole(titleScreen, &" ", 1, &output, NULL);
+			}
+			GoToXY(titleScreen, 426, (50 + (i * 19)));
+			for (int c = 0; c < 2; c++) {
+				WriteConsole(titleScreen, &" ", 1, &output, NULL);
+			}
+			GoToXY(titleScreen, 424, (51 + (i * 19)));
+			for (int c = 0; c < 2; c++) {
+				WriteConsole(titleScreen, &" ", 1, &output, NULL);
+			}
+			GoToXY(titleScreen, 422, (52 + (i * 19)));
+			for (int c = 0; c < 4; c++) {
+				WriteConsole(titleScreen, &" ", 1, &output, NULL);
+			}
+			GoToXY(titleScreen, 422, (53 + (i * 19)));
+			for (int c = 0; c < 4; c++) {
+				WriteConsole(titleScreen, &" ", 1, &output, NULL);
+			}
+			GoToXY(titleScreen, 422, (54 + (i * 19)));
+			for (int c = 0; c < 2; c++) {
+				WriteConsole(titleScreen, &" ", 1, &output, NULL);
+			}
+			GoToXY(titleScreen, 426, (55 + (i * 19)));
+			for (int c = 0; c < 2; c++) {
+				WriteConsole(titleScreen, &" ", 1, &output, NULL);
+			}
+			GoToXY(titleScreen, 428, (56 + (i * 19)));
+			for (int c = 0; c < 2; c++) {
+				WriteConsole(titleScreen, &" ", 1, &output, NULL);
+			}
+			GoToXY(titleScreen, 428, (57 + (i * 19)));
+			for (int c = 0; c < 4; c++) {
+				WriteConsole(titleScreen, &" ", 1, &output, NULL);
+			}
+			GoToXY(titleScreen, 428, (58 + (i * 19)));
+			for (int c = 0; c < 4; c++) {
+				WriteConsole(titleScreen, &" ", 1, &output, NULL);
+			}
+			GoToXY(titleScreen, 430, (59 + (i * 19)));
+			for (int c = 0; c < 2; c++) {
+				WriteConsole(titleScreen, &" ", 1, &output, NULL);
+			}
+			GoToXY(titleScreen, 426, (60 + (i * 19)));
+			for (int c = 0; c < 2; c++) {
+				WriteConsole(titleScreen, &" ", 1, &output, NULL);
+			}
+			GoToXY(titleScreen, 422, (61 + (i * 19)));
+			for (int c = 0; c < 2; c++) {
+				WriteConsole(titleScreen, &" ", 1, &output, NULL);
+			}
+			GoToXY(titleScreen, 422, (62 + (i * 19)));
+			for (int c = 0; c < 4; c++) {
+				WriteConsole(titleScreen, &" ", 1, &output, NULL);
+			}
+			GoToXY(titleScreen, 422, (63 + (i * 19)));
+			for (int c = 0; c < 4; c++) {
+				WriteConsole(titleScreen, &" ", 1, &output, NULL);
+			}
+			GoToXY(titleScreen, 424, (64 + (i * 19)));
+			for (int c = 0; c < 2; c++) {
+				WriteConsole(titleScreen, &" ", 1, &output, NULL);
+			}
+			GoToXY(titleScreen, 426, (65 + (i * 19)));
+			for (int c = 0; c < 2; c++) {
+				WriteConsole(titleScreen, &" ", 1, &output, NULL);
+			}
+		}
+
+		GoToXY(titleScreen, 430, 122);
+		for (int c = 0; c < 2; c++) {
+			WriteConsole(titleScreen, &" ", 1, &output, NULL);
+		}
+		GoToXY(titleScreen, 428, 123);
+		for (int c = 0; c < 4; c++) {
+			WriteConsole(titleScreen, &" ", 1, &output, NULL);
+		}
+		GoToXY(titleScreen, 428, 124);
+		for (int c = 0; c < 4; c++) {
+			WriteConsole(titleScreen, &" ", 1, &output, NULL);
+		}
+		GoToXY(titleScreen, 428, 125);
+		for (int c = 0; c < 2; c++) {
+			WriteConsole(titleScreen, &" ", 1, &output, NULL);
+		}
+		GoToXY(titleScreen, 426, 126);
+		for (int c = 0; c < 2; c++) {
+			WriteConsole(titleScreen, &" ", 1, &output, NULL);
+		}
+		GoToXY(titleScreen, 424, 127);
+		for (int c = 0; c < 2; c++) {
+			WriteConsole(titleScreen, &" ", 1, &output, NULL);
+		}
+		GoToXY(titleScreen, 422, 128);
+		for (int c = 0; c < 4; c++) {
+			WriteConsole(titleScreen, &" ", 1, &output, NULL);
+		}
+		GoToXY(titleScreen, 422, 129);
+		for (int c = 0; c < 4; c++) {
+			WriteConsole(titleScreen, &" ", 1, &output, NULL);
+		}
+		GoToXY(titleScreen, 422, 130);
+		for (int c = 0; c < 2; c++) {
+			WriteConsole(titleScreen, &" ", 1, &output, NULL);
+		}
+
+
+
+		//Yellow
+
+		//Draw Clouds
+		SetConsoleTextAttribute(titleScreen, 15 * 16);
+		GoToXY(titleScreen, 56, 15);
+		for (int c = 0; c < 18; c++) {
+			WriteConsole(titleScreen, &" ", 1, &output, NULL);
+		}
+		GoToXY(titleScreen, 54, 16);
+		for (int c = 0; c < 22; c++) {
+			WriteConsole(titleScreen, &" ", 1, &output, NULL);
+		}
+		GoToXY(titleScreen, 52, 17);
+		for (int c = 0; c < 28; c++) {
+			WriteConsole(titleScreen, &" ", 1, &output, NULL);
+		}
+		GoToXY(titleScreen, 52, 18);
+		for (int c = 0; c < 30; c++) {
+			WriteConsole(titleScreen, &" ", 1, &output, NULL);
+		}
+		GoToXY(titleScreen, 50, 19);
+		for (int c = 0; c < 34; c++) {
+			WriteConsole(titleScreen, &" ", 1, &output, NULL);
+		}
+		GoToXY(titleScreen, 48, 20);
+		for (int c = 0; c < 36; c++) {
+			WriteConsole(titleScreen, &" ", 1, &output, NULL);
+		}
+		GoToXY(titleScreen, 46, 21);
+		for (int c = 0; c < 40; c++) {
+			WriteConsole(titleScreen, &" ", 1, &output, NULL);
+		}
+		GoToXY(titleScreen, 42, 22);
+		for (int c = 0; c < 50; c++) {
+			WriteConsole(titleScreen, &" ", 1, &output, NULL);
+		}
+		GoToXY(titleScreen, 36, 23);
+		for (int c = 0; c < 72; c++) {
+			WriteConsole(titleScreen, &" ", 1, &output, NULL);
+		}
+		GoToXY(titleScreen, 36, 24);
+		for (int c = 0; c < 72; c++) {
+			WriteConsole(titleScreen, &" ", 1, &output, NULL);
+		}
+		GoToXY(titleScreen, 36, 25);
+		for (int c = 0; c < 74; c++) {
+			WriteConsole(titleScreen, &" ", 1, &output, NULL);
+		}
+		GoToXY(titleScreen, 34, 26);
+		for (int c = 0; c < 88; c++) {
+			WriteConsole(titleScreen, &" ", 1, &output, NULL);
+		}
+		GoToXY(titleScreen, 34, 27);
+		for (int c = 0; c < 90; c++) {
+			WriteConsole(titleScreen, &" ", 1, &output, NULL);
+		}
+		GoToXY(titleScreen, 34, 28);
+		for (int c = 0; c < 88; c++) {
+			WriteConsole(titleScreen, &" ", 1, &output, NULL);
+		}
+		GoToXY(titleScreen, 36, 29);
+		for (int c = 0; c < 72; c++) {
+			WriteConsole(titleScreen, &" ", 1, &output, NULL);
+		}
+		//2
+		SetConsoleTextAttribute(titleScreen, 15 * 16);
+		GoToXY(titleScreen, 452, 28);
+		for (int c = 0; c < 18; c++) {
+			WriteConsole(titleScreen, &" ", 1, &output, NULL);
+		}
+		GoToXY(titleScreen, 450, 29);
+		for (int c = 0; c < 22; c++) {
+			WriteConsole(titleScreen, &" ", 1, &output, NULL);
+		}
+		GoToXY(titleScreen, 448, 30);
+		for (int c = 0; c < 28; c++) {
+			WriteConsole(titleScreen, &" ", 1, &output, NULL);
+		}
+		GoToXY(titleScreen, 448, 31);
+		for (int c = 0; c < 30; c++) {
+			WriteConsole(titleScreen, &" ", 1, &output, NULL);
+		}
+		GoToXY(titleScreen, 446, 32);
+		for (int c = 0; c < 34; c++) {
+			WriteConsole(titleScreen, &" ", 1, &output, NULL);
+		}
+		GoToXY(titleScreen, 444, 33);
+		for (int c = 0; c < 36; c++) {
+			WriteConsole(titleScreen, &" ", 1, &output, NULL);
+		}
+		GoToXY(titleScreen, 442, 34);
+		for (int c = 0; c < 40; c++) {
+			WriteConsole(titleScreen, &" ", 1, &output, NULL);
+		}
+		GoToXY(titleScreen, 432, 35);
+		for (int c = 0; c < 50; c++) {
+			WriteConsole(titleScreen, &" ", 1, &output, NULL);
+		}
+		GoToXY(titleScreen, 420, 36);
+		for (int c = 0; c < 72; c++) {
+			WriteConsole(titleScreen, &" ", 1, &output, NULL);
+		}
+		GoToXY(titleScreen, 416, 37);
+		for (int c = 0; c < 72; c++) {
+			WriteConsole(titleScreen, &" ", 1, &output, NULL);
+		}
+		GoToXY(titleScreen, 414, 38);
+		for (int c = 0; c < 74; c++) {
+			WriteConsole(titleScreen, &" ", 1, &output, NULL);
+		}
+		GoToXY(titleScreen, 408, 39);
+		for (int c = 0; c < 88; c++) {
+			WriteConsole(titleScreen, &" ", 1, &output, NULL);
+		}
+		GoToXY(titleScreen, 410, 40);
+		for (int c = 0; c < 90; c++) {
+			WriteConsole(titleScreen, &" ", 1, &output, NULL);
+		}
+		GoToXY(titleScreen, 418, 41);
+		for (int c = 0; c < 88; c++) {
+			WriteConsole(titleScreen, &" ", 1, &output, NULL);
+		}
+		GoToXY(titleScreen, 420, 42);
+		for (int c = 0; c < 72; c++) {
+			WriteConsole(titleScreen, &" ", 1, &output, NULL);
+		}
+
+		
 		// Draw Rocks
 		SetConsoleTextAttribute(titleScreen, 8 * 16);
 		for (int c = 0; c < 207; c++) {
