@@ -78,6 +78,7 @@ public:
 		CONSOLE_TEXTMODE_BUFFER,
 		NULL);
 
+
 	HANDLE brickSprites = CreateConsoleScreenBuffer(
 		GENERIC_READ | GENERIC_WRITE,
 		FILE_SHARE_READ | FILE_SHARE_WRITE,
@@ -360,7 +361,6 @@ public:
 		for (int c = 0; c < 6; c++) {
 			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 		}
-
 		// Fourth Row
 		GoToXY(dodongoSprites, 10, 3);
 		for (int c = 0; c < 2; c++) {
@@ -376,7 +376,6 @@ public:
 		for (int c = 0; c < 12; c++) {
 			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 		}
-
 		// Fifth Row
 		GoToXY(dodongoSprites, 8, 4);
 		for (int c = 0; c < 16; c++) {

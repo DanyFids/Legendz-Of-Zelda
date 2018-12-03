@@ -5,6 +5,7 @@
 #include<Windows.h>
 #include<ctime>
 #include<random>
+#include<cmath>
 
 #include"Enums.h"
 #include"FunctionProto.h"
@@ -12,18 +13,19 @@
 #include"Entity.h"
 #include"CoreClasses.h"
 #include"Terrains.h"
+#include "Projectiles.h"
 #include"Enemies.h"
+
 #include"Menus.h"
+#include "PowerUp.h"
 #include "Effects.h"
 
 //SFX/BGM Managers
-#include "bgMusicManager.h"
-#include "sfxManager.h"
+//#include "bgMusicManager.h"
 #include"Threads.h"
 
 //Projectiles
 #include "Projectiles.h"
-
 
 
 const int PLAYER_SPEED = 2;
@@ -46,11 +48,11 @@ bool Play = true;
 // Play Objects
 // Player
 Player player(0, 0);
-Player_Info * player_file;
 // Non-Player entities
 std::vector<Enemy*> enemies = {new Rope(80, 10),new SpikeTrap(400, 3),new SpikeTrap(400, 200),new Gel(50, 50), new Keese(100, 100) };
 std::vector<Projectile*> projectiles = {new Bomb(150,150), new Arrow(190,150,0,0,Down), new Fireball(230,150,0.0f,0.0f), new Boomerang(0,0,4.0f,0.0f, &player)};
 std::vector<Terrain*> roomTer = {new Wall(20,100), new Wall(52, 100), new Wall(84, 100)};
+std::vector<PowerUp *> powerups = {new HeartPickup(20, 40)};
 std::vector<Effect*> fx = {};
 
 // Menus
@@ -133,6 +135,8 @@ int main() {
 	if (!SetConsoleMode(inputH, consoleMode)) {
 		return 103;
 	}
+
+	
 
 	while (Play) {
 		DWORD unreadInputs;
@@ -240,7 +244,7 @@ void KeyHandler(KEY_EVENT_RECORD e) {
 					}
 					PLAYER_FILES[editId].Name[editChar] = ' ';
 				}
-				else if(isalnum(e.uChar.AsciiChar) || e.uChar.AsciiChar == ' '){
+				else if (isalnum(e.uChar.AsciiChar) || e.uChar.AsciiChar == ' ') {
 					PLAYER_FILES[editId].Name[editChar] = e.uChar.AsciiChar;
 					editChar++;
 					if (editChar >= 8) {
@@ -262,20 +266,18 @@ void KeyHandler(KEY_EVENT_RECORD e) {
 			case VK_UP:
 				player_input.keyUp = true;
 				break;
-		case VK_RETURN:
-			switch (state) {
-			case TITLE:
-				ToCharacterSelect();
-				
-				//LoZDungeonThemeBGM();		   //Legacy Player
-
+			case VK_RETURN:
+				switch (state) {
+				case TITLE:
+					ToCharacterSelect();
+					//LoZDungeonThemeBGM();           //Legacy Player
+					break;
+				case PLAY:
+					state = INVENTORY;
+					//LoZTitleScreenBGM();          //Legacy Player
+					break;
+				}
 				break;
-			case PLAY:
-				state = INVENTORY;
-				//LoZTitleScreenBGM();		  //Legacy Player
-				break;
-			}
-			break;
 			case VK_DOWN:
 				player_input.keyDown = true;
 				break;
@@ -308,9 +310,13 @@ void KeyHandler(KEY_EVENT_RECORD e) {
 				player_input.keySpace = false;
 				break;
 			}
+
 		}
 	}																												
 }
+
+
+
 
 void clear() {
 	COORD origin = { 0, 0 }; // top left corner of screen
@@ -356,8 +362,12 @@ void Draw() {
 			roomTer[t]->draw(drawBuff);
 		}
 
-		for (int p = 0; p < projectiles.size(); p++) {
+ 		for (int p = 0; p < projectiles.size(); p++) {
 			projectiles[p]->draw(drawBuff);
+		}
+
+		for (int u = 0; u < powerups.size(); u++) {
+			powerups[u]->draw(drawBuff);
 		}
 
 		for (int f = 0; f < fx.size(); f++)
@@ -486,7 +496,7 @@ void Update() {
 
 		if (player_input.keySpace)
 		{
-			sounds.PlaySwing();
+			//sounds.PlaySwing();
 			if (player.CanAtk()) {
 				Direction d = player.GetDir();
 				switch (d) {
@@ -517,13 +527,21 @@ void Update() {
 			if (enemies[e]->HitDetect(&player)) {
 				enemies[e]->Hit(player);
 			}
+
 			for (int f = 0; f < enemies.size(); f++) {
 				if (e != f) {
 					enemies[e]->HitDetect(enemies[f]);
 				}
 			}
+
 			for (int p = 0; p < projectiles.size(); p++) {
 				if (projectiles[p]->HitDetect(enemies[e])) {
+					if (projectiles[p]->getEnum() == PT_BOMB){
+						if (enemies[e]->getBoss()) {
+							Dodongo * boss = (Dodongo *)enemies[e];
+							boss->BombHurt();
+							projectiles[p]->setTime(0.0f);
+						}
 					if (projectiles[p]->getEnum() == PT_BOOMERANG && (enemies[e]->GetType() != ET_GEL || enemies[e]->GetType() != ET_KEESE)) {
 						enemies[e]->stun();
 					}
@@ -535,25 +553,59 @@ void Update() {
 						projectiles.erase(it + p);
 						delete projectiles[p];
 					}
+					else {
+						projectiles[p]->Hit(*enemies[e]);
+						if (projectiles[p]->getEnum() == PT_ARROW) {
+							delete projectiles[p];
+							std::vector<Projectile*>::iterator it = projectiles.begin();
+							projectiles.erase(it + p);
+						}
+					}
 				}
 			}
+
 		}
 		
 		for (int t = 0; t < roomTer.size(); t++) {
-			roomTer[t]->HitDetect(&player);
+			if ((roomTer[t]->HitDetect(&player) && roomTer[t]->CanMove()) || roomTer[t]->isMoving()) {
+				roomTer[t]->Update(dt);
+			}
 			for (int e = 0; e < enemies.size(); e++) {
 				roomTer[t]->HitDetect(enemies[e]);
+				for (int ep = 0; ep < enemies[e]->projectiles.size(); ep++) {
+					if (roomTer[t]->HitDetect(enemies[e]->projectiles[ep])) {
+						enemies[e]->projectiles[ep]->setTime(0.0f);
+					}
+				}
 			}
+			for (int p = 0; p < projectiles.size(); p++) {
+				if (projectiles[p]->getEnum() == PT_EXPLOSION) {
+					roomTer[t]->HitDetect(projectiles[p]);
+				}
+			}
+		}
+		for (int u = 0; u < powerups.size(); u++) {
 			
-		}																									  
+			if (powerups[u]->HitDetect(&player)) {
+				powerups[u]->Effect(player_file);
+				delete powerups[u];
+				std::vector<PowerUp *>::iterator it = powerups.begin();
+				powerups.erase(it + u);
+			}
+		}
 
 		player.Update(dt);
 		for (int e = 0; e < enemies.size(); e++) {
 			if (enemies[e]->GetHP() <= 0) {
+				enemies[e]->Drop(&powerups);
+				delete enemies[e];
 				enemies.erase(enemies.begin() + e);
 			}
 			else {
-				enemies[e]->Update(dt);
+				if (!stop_watch)
+				{
+					enemies[e]->Update(dt);
+				}
 			}
 		}
 		for (int p = 0; p < projectiles.size(); p++) {	// When projectiles removed by Lifetime
@@ -569,7 +621,6 @@ void Update() {
 				
 			}
 		}
-
 	}
 }
 
@@ -831,5 +882,56 @@ void ToEliminationMode() {
 
 	if (!setSelected) {
 		ElimMenu.SetSelected(3);
+	}
+}
+
+
+// Enemy Functions please god forgive my spaghetti
+void Enemy::draw(HANDLE out) {
+	Entity::draw(out);
+
+	for (int c = 0; c < projectiles.size(); c++) {
+		projectiles[c]->draw(out);
+	}
+}
+
+void Enemy::move() {
+	Entity::move();
+
+	for (int c = 0; c < projectiles.size(); c++) {
+		projectiles[c]->move();
+	}
+}
+
+void Enemy::Drop(std::vector<PowerUp *> * pl) {
+	std::random_device gen;
+	std::uniform_int_distribution<> range(1, 5);
+	int per;
+	per = range(gen);
+	if (per == 1) {
+		std::random_device gen;
+		std::uniform_int_distribution<> range(1, 100);
+		int per;
+		per = range(gen);
+		if (per >= 1 && per <= 25) {
+			pl->push_back(new HeartPickup(GetX(), GetY()));
+		} 
+		else if (per >= 26 && per <= 50) {
+			pl->push_back(new RupeesPickup(GetX(), GetY()));
+		}
+		else if (per >= 51 && per <= 70) {
+			pl->push_back(new BombPickup(GetX(), GetY()));
+		}
+		else if (per >= 71 && per <= 80) {
+			pl->push_back(new FairiesPickup(GetX(), GetY()));
+		}
+		else if (per >= 81 && per <= 90) {
+			pl->push_back(new StopwatchPickup(GetX(), GetY()));
+		}
+		else {
+			pl->push_back(new BlueRupeesPickup(GetX(), GetY()));
+		}
+	}
+	else {
 	}
 }

@@ -32,8 +32,6 @@ enum ProjType {
 	PT_FIREBALL,
 	PT_EBOOMERANG,
 	PT_BOOMERANG
-
-
 };
 
 enum EnemyType {
@@ -49,12 +47,3 @@ enum BtnAction {
 	ERASE,
 	END
 };
-
-/*enum EntityType {
-	T_PLAYER,
-	T_PROJ,
-	T_ENEMY,
-	T_TERRAIN,
-	T_POWERUP,
-	T_EFFECT
-};	*/

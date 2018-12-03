@@ -130,6 +130,18 @@ DWORD WINAPI LoadThread(LPVOID lpParameter)
 		LOADED++;
 	}
 
-	
+	// Sounds below!!
+	//if (sounds.LoadSwing()) {
+	//	LOADED++;
+	//}
+	//if (sounds.LoadBeamSword()) {
+	//	LOADED++;
+	//}
+	//if (sounds.LoadTitleTheme()) {
+	//	LOADED++;
+	//}
+	//if (sounds.LoadDungeonTheme()) {
+	//	LOADED++;
+	//}
 	return 0;
 }

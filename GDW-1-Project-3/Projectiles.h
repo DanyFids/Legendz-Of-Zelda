@@ -1,21 +1,20 @@
 #pragma once
 #include <cmath>
 
-// --------------------------------------------- Links Sword for Sword swings
 
+// --------------------------------------------- Links Sword for Sword swings
 class Sword : public Projectile { //It's a projectile, that doesnt MOVE! :O | Are you sassing me, young man?
 
 private:
 
-
 public:	   // x,y coord,                  width*2,height,time,damage,speed
-		   // the x+30 and y+3 is to make it appear infront of link, this needs to be changed by direction. sooner or later.
+	   // the x+30 and y+3 is to make it appear infront of link, this needs to be changed by direction. sooner or later.
 	Sword(int x, int y, Direction _dir) : Projectile(x, y, 32, 16, 0.2f, 1) {
 		this->setDir(_dir);
 		this->setEnum(PT_SWORD);
 		SetSpriteSheet(Sprites.swordSprites);
 	}
-	
+
 	bool HitDetect(Entity * e)
 	{
 		return willHit(e, 0, 0);
@@ -27,7 +26,6 @@ public:	   // x,y coord,                  width*2,height,time,damage,speed
 	}
 
 };
-
 
 //// ------------------------------------------ Sword Projectile shot by Link at FULL HP
 
@@ -105,14 +103,13 @@ class Fireball : public Projectile {
 
 private:
 
-public:	   // x,y coord,                  width*2,height,					lifetime, damage
-	Fireball(int x, int y, float _Xdir, float _Ydir) : Projectile(x, y, 20, 10, 10.0f, 1) {
-		SetSpriteSheet(Sprites.fireballSprites);
-		xSpd = _Xdir;			
-		ySpd = _Ydir;
+public:	   // x,y coord,                  width*2,height,					lifetime, damage, speed 
+	Fireball(int x, int y, FCOORD dir) : Projectile(x, y, 20, 10, 10.0f, 1) {
+		SetSpriteSheet(Sprites.bombSprites);
+		this->xSpd = dir.X * (-8);
+		this->ySpd = dir.Y * (-4);
 		this->setEnum(PT_FIREBALL);
 	}
-
 
 	bool HitDetect(Entity * e)
 	{
@@ -144,7 +141,7 @@ public:	   // x,y coord,                  width*2,height,lifetime, damage, speed
 
 	bool HitDetect(Entity * e)
 	{
-		return false;
+		return willHit(e, 0, 0);
 	}
 
 	void Update(float dt)
@@ -153,7 +150,6 @@ public:	   // x,y coord,                  width*2,height,lifetime, damage, speed
 	}
 
 };
-
 
 // ----------------------------------------- Explosions from bombs
 
@@ -168,6 +164,7 @@ public:	   // x,y coord,                  width*2,height,lifetime, damage,
 		this->SetSpriteSheet(Sprites.explosionSprites);
 		 
 	}
+
 
 	bool HitDetect(Entity * e)
 	{
@@ -281,4 +278,3 @@ public:	   // x,y coord,                  width*2,height,		   || lifetime, damag
 	
 
 };
-
