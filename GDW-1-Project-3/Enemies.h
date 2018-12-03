@@ -896,16 +896,16 @@ public:
 				if (wT == 1) {
 					switch (dir) {
 					case 1:
-						projectiles.push_back(new Boomerang(getX, getY, 0, -1, Up));
+						projectiles.push_back(new Boomerang(getX, getY, 0, -1, this));
 						break;
 					case 2:
-						projectiles.push_back(new Boomerang(getX, getY, 0, 1, Down));
+						projectiles.push_back(new Boomerang(getX, getY, 0, 1, this));
 						break;
 					case 3:
-						projectiles.push_back(new Boomerang(getX, getY, 2, 0, Right));
+						projectiles.push_back(new Boomerang(getX, getY, 2, 0, this));
 						break;
 					case 4:
-						projectiles.push_back(new Boomerang(getX, getY, -2, 0, Left));
+						projectiles.push_back(new Boomerang(getX, getY, -2, 0, this));
 						break;
 					}
 					cooldown = GORYIA_COOLDOWN;
