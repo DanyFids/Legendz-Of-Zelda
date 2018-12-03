@@ -145,6 +145,9 @@ public:
 		return willHit(other, 0, 0);
 	}
 
+	void hitTerrain() {
+	}
+
 	void Update(float dt) {
 		move();
 
@@ -289,6 +292,9 @@ public:
 		return willHit(other, 0, 0);
 	}
 
+	void hitTerrain() {
+	}
+
 	void Update(float dt) {
 		move();
 
@@ -401,6 +407,9 @@ public:
 		return false;
 	}
 
+	void hitTerrain() {
+	}
+
 	void Update(float dt) {
 		for (int f = 0; f < projectiles.size(); f++) {
 			projectiles[f]->Update(dt);
@@ -423,11 +432,14 @@ public:
 	}
 };
 
+const float ROPE_COOLDOWN = 2.0f;
 class Rope : public Enemy {
 private:
 	bool attack = true;
+	bool canAttack = false;
 	bool l = false, r = false, d = false, u = false;
 	bool Movement = false;
+	float cooldown = ROPE_COOLDOWN;
 	int count = 0;
 	int dir = 0;
 public:
@@ -477,67 +489,89 @@ public:
 		}
 
 		//Charge Link
-		if (attack == true && l == false && r == false && d == false && u == false) {
+		if (canAttack == true && l == false && r == false && d == false && u == false) {
 			if (p.GetX() <= GetX() + GetWidth() && p.GetX() + p.GetWidth() >= GetX()) {
 				if (GetY() + GetHeight() < p.GetY()) {
 					d = true;
+					attack = true;
+					canAttack = false;
 				}
 				else if ((p.GetY() + p.GetHeight()) < GetY()) {
 					u = true;
+					attack = true;
+					canAttack = false;
 				}
 			}
 			else if (p.GetY() <= GetY() + GetHeight() && p.GetY() + p.GetHeight() >= GetY()) {
 				if (GetX() + GetWidth() < p.GetX()) {
 					r = true;
+					attack = true;
+					canAttack = false;
 				}
 				else if ((p.GetX() + p.GetWidth()) < GetX()) {
 					l = true;
+					attack = true;
+					canAttack = false;
 				}
 			}
 		}
 		if (l) {
-			xSpd = -4;
+			xSpd = -2;
 			ySpd = 0;
 			if (attack) {
-				xSpd -= 4;
+				xSpd -= 2;
 			}
 		}
 		else if (r) {
-			xSpd = 4;
+			xSpd = 2;
 			ySpd = 0;
 			if (attack) {
-				xSpd += 4;
+				xSpd += 2;
 			}
 		}
 		else if (d) {
-			ySpd = 2;
+			ySpd = 1;
 			xSpd = 0;
 			if (attack) {
-				ySpd += 2;
+				ySpd += 1;
 			}
 		}
 		else if (u) {
-			ySpd = -2;
+			ySpd = -1;
 			xSpd = 0;
 			if (attack) {
-				ySpd -= 2;
+				ySpd -= 1;
 			}
+		}
+
+		if (cooldown <= 0) {
+			canAttack = true;
 		}
 	}
 	bool HitDetect(Entity * other) {
 		//Test Wall
+		bool hitWall = false;
 		if (GetX() + xSpd < 0) {
 			xSpd = 0 - GetX();
+			hitWall = true;
 		}
 		if (GetY() + ySpd < 0) {
 			ySpd = 0 - GetY();
+			hitWall = true;
 		}
 		if (GetX() + xSpd > 482) {
 			xSpd = 482 - GetX();
+			hitWall = true;
 		}
 		if (GetY() + ySpd > 208) {
 			ySpd = 208 - GetY();
+			hitWall = true;
 		}
+
+		if (hitWall) {
+			hitTerrain();
+		}
+
 		if (willHit(other, 0, 0)) {
 			if (l || d || r || u) {
 				Movement = false;
@@ -551,7 +585,25 @@ public:
 		//Can Remove Later
 		return (willHit(other, 0, 0));
 	}
+
+	void hitTerrain() {
+		cooldown = ROPE_COOLDOWN;
+		canAttack = false;
+		attack = false;
+		l = false;
+		d = false;
+		r = false;
+		u = false;
+		return;
+	}
+
 	void Update(float dt) {
+		if (cooldown > 0) {
+			cooldown -= dt;
+			if (cooldown <= 0) {
+				canAttack = true;
+			}
+		}
 		move();
 		xSpd = 0;
 		ySpd = 0;
@@ -652,6 +704,9 @@ public:
 		}
 		//Can Remove Later
 		return (willHit(other, 0, 0));
+	}
+
+	void hitTerrain() {
 	}
 
 	void Update(float dt) {
@@ -797,81 +852,122 @@ public:
 			}
 		}
 	}
+	void hitTerrain() {
+	}
 
 	Enemy * Clone() {
 		return new Dodongo(*this);
 	}
 };
+
+const float GORYIA_COOLDOWN = 10.0f;
 class Goryia : public Enemy {
 private:
 	bool hop = false;
 	bool hasMoved = false;
+	float cooldown = 0;
+	bool isBlue = false;
+	int add = 0;
 	int counter = 0;
 	int count = 0;
 	int dir = 0;
+	int getX = 0;
+	int getY = 0;
 public:
-	Goryia(int x, int y) : Enemy(x, y, 12, 8, 1, 1) {
+	Goryia(int x, int y, bool b) : Enemy(x, y, 12, 8, 3, 1) {
 		SetNumAnim(1);
+		isBlue = b;
+		getX = x;
+		getY = y;
+		if (isBlue) {
+			setHP(5);
+		}
 		SetSpriteSheet(Sprites.gelSprites);
 	}
-	void Hurt(int d) {
-	}
+
 	void AI(Player p) {
-		std::random_device gen;
-		std::uniform_int_distribution<> range(1, 4);
+		if (cooldown <= 0) {
+			std::random_device gen;
+			std::uniform_int_distribution<> range(1, 4);
+			std::uniform_int_distribution<> willThrow(1, 4);
 
-		if (!(hop)) {
-			dir = range(gen);
-		}
-
-		switch (dir)
-		{
-		case 1:
-			//up
-			if (!(hasMoved)) {
-				ySpd = -1;
-				hop = true;
-				hasMoved = true;
+			if (!(hop)) {
+				int wT = willThrow(gen);
+				if (wT == 1) {
+					switch (dir) {
+					case 1:
+						projectiles.push_back(new Boomerang(getX, getY, 0, -1, Up));
+						break;
+					case 2:
+						projectiles.push_back(new Boomerang(getX, getY, 0, 1, Down));
+						break;
+					case 3:
+						projectiles.push_back(new Boomerang(getX, getY, 2, 0, Right));
+						break;
+					case 4:
+						projectiles.push_back(new Boomerang(getX, getY, -2, 0, Left));
+						break;
+					}
+					cooldown = GORYIA_COOLDOWN;
+					return;
+				}
+				else {
+					dir = range(gen);
+				}
 			}
-			break;
-		case 2:
-			//Down
-			if (!(hasMoved)) {
-				ySpd = 1;
-				hop = true;
-				hasMoved = true;
+			switch (dir)
+			{
+			case 1:
+				//up
+				if (!(hasMoved)) {
+					ySpd = -1;
+					hop = true;
+					hasMoved = true;
+				
+				}
+				break;
+			case 2:
+				//Down
+				if (!(hasMoved)) {
+					ySpd = 1;
+					hop = true;
+					hasMoved = true;
+				
+				}
+				break;
+			case 3:
+				//right
+				if (!(hasMoved)) {
+					xSpd = 2;
+					hop = true;
+					hasMoved = true;
+					
+				}
+				break;
+			case 4:
+				//left
+				if (!(hasMoved)) {
+					xSpd = -2;
+					hop = true;
+					hasMoved = true;
+					
+				}
+				break;
 			}
-			break;
-		case 3:
-			//right
-			if (!(hasMoved)) {
-				xSpd = 2;
-				hop = true;
-				hasMoved = true;
+			if (hop) {
+				count++;
 			}
-			break;
-		case 4:
-			//left
-			if (!(hasMoved)) {
-				xSpd = -2;
-				hop = true;
-				hasMoved = true;
+			if (count >= 30) {
+				hop = false;
+				count = 0;
 			}
-			break;
-		}
-		if (hop) {
-			count++;
-		}
-		if (count >= 30) {
-			hop = false;
-			count = 0;
-		}
-		if (hasMoved) {
-			counter++;
-		}
-		if (counter >= 4) {
-			hasMoved = false;
-			counter = 0;
+			if (hasMoved) {
+				counter++;
+			}
+			if (counter >= 4) {
+				hasMoved = false;
+				counter = 0;
+			}
 		}
 	}
 	bool HitDetect(Entity * other) {
@@ -895,10 +991,18 @@ public:
 		return (willHit(other, 0, 0));
 	}
 
+	void hitTerrain() {
+	}
+
 	void Update(float dt) {
 		move();
+		cooldown -= dt;
 		xSpd = 0;
 		ySpd = 0;
+
+		for (int b = 0; b < projectiles.size(); b++) {
+			projectiles[b]->Update(dt);
+		}
 	}
 
 	Enemy * Clone() {

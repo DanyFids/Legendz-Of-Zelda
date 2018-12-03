@@ -10,8 +10,10 @@
     <ClInclude Include="Enums.h" />
     <ClInclude Include="FunctionProto.h" />
     <ClInclude Include="CoreClasses.h" />
+    <ClInclude Include="PowerUp.h" />
     <ClInclude Include="Menus.h" />
     <ClInclude Include="Projectiles.h" />
+    <ClInclude Include="sfxManager.h" />
     <ClInclude Include="SpriteSheets.h" />
     <ClInclude Include="Terrains.h" />
     <ClInclude Include="Threads.h" />

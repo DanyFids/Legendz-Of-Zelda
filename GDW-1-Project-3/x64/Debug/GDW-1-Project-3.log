@@ -1,5 +1,6 @@
 ﻿  bgMusicManager.cpp
   main.cpp
+<<<<<<< HEAD
 c:\users\100706824\documents\githubkraken\legendz-of-zelda\gdw-1-project-3\entity.h(124): error C2535: 'ProjType Entity::getEnum(void)': member function already defined or declared
   c:\users\100706824\documents\githubkraken\legendz-of-zelda\gdw-1-project-3\entity.h(37): note: see declaration of 'Entity::getEnum'
 c:\users\100706824\documents\githubkraken\legendz-of-zelda\gdw-1-project-3\entity.h(129): error C2535: 'void Entity::setEnum(ProjType)': member function already defined or declared
@@ -52,3 +53,15 @@ c:\users\100706824\documents\githubkraken\legendz-of-zelda\gdw-1-project-3\main.
   c:\users\100706824\documents\githubkraken\legendz-of-zelda\gdw-1-project-3\main.cpp(437): note: this line contains a '{' which has not yet been matched
 c:\users\100706824\documents\githubkraken\legendz-of-zelda\gdw-1-project-3\main.cpp(437): fatal error C1075: '{': no matching token found
   Generating Code...
+=======
+c:\users\100653368\documents\visual studio 2017\projects\gdw-1-project-2\legendz-of-zelda\gdw-1-project-3\coreclasses.h(108): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+c:\users\100653368\documents\visual studio 2017\projects\gdw-1-project-2\legendz-of-zelda\gdw-1-project-3\coreclasses.h(109): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+c:\users\100653368\documents\visual studio 2017\projects\gdw-1-project-2\legendz-of-zelda\gdw-1-project-3\coreclasses.h(330): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+c:\users\100653368\documents\visual studio 2017\projects\gdw-1-project-2\legendz-of-zelda\gdw-1-project-3\projectiles.h(108): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+c:\users\100653368\documents\visual studio 2017\projects\gdw-1-project-2\legendz-of-zelda\gdw-1-project-3\projectiles.h(109): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+c:\users\100653368\documents\visual studio 2017\projects\gdw-1-project-2\legendz-of-zelda\gdw-1-project-3\enemies.h(336): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\100653368\documents\visual studio 2017\projects\gdw-1-project-2\legendz-of-zelda\gdw-1-project-3\menus.h(63): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+c:\users\100653368\documents\visual studio 2017\projects\gdw-1-project-2\legendz-of-zelda\gdw-1-project-3\menus.h(139): warning C4267: 'return': conversion from 'size_t' to 'int', possible loss of data
+  Generating Code...
+  GDW-1-Project-3.vcxproj -> C:\Users\100653368\Documents\Visual Studio 2017\Projects\GDW-1-Project-2\Legendz-Of-Zelda\GDW-1-Project-3\x64\Debug\GDW-1-Project-3.exe
+>>>>>>> Logan

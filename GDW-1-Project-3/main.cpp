@@ -567,7 +567,9 @@ void Update() {
 				roomTer[t]->Update(dt);
 			}
 			for (int e = 0; e < enemies.size(); e++) {
-				roomTer[t]->HitDetect(enemies[e]);
+				if (roomTer[t]->HitDetect(enemies[e])) {
+					enemies[e]->hitTerrain();
+				}
 				for (int ep = 0; ep < enemies[e]->projectiles.size(); ep++) {
 					if (roomTer[t]->HitDetect(enemies[e]->projectiles[ep])) {
 						enemies[e]->projectiles[ep]->setTime(0.0f);

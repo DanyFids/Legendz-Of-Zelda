@@ -31,6 +31,8 @@ Player_Input player_input;
 
 class Projectile;
 
+Player_Info * player_file;
+
 class Player : public Entity {
 private:
 	int hp = 6;
@@ -165,6 +167,10 @@ public:
 		return hp;
 	}
 
+	void setHP(int _hp) {
+		hp = _hp;
+	}
+
 	void Hit(Player & p) {
 		p.Hurt(dmg);
 	}
@@ -200,11 +206,45 @@ public:
 		return (willHit(other, 0, 0));
 	}
 
+	bool Boundries(Entity * other) {
+		//Test Wall
+		if (GetX() + GetWidth() + xSpd < 32) {
+			xSpd = 32 - GetX();
+		}
+		if (GetY() + GetHeight() + ySpd < 80) {
+			ySpd = 80 - GetY();
+		}
+		if (GetX() + GetWidth() + xSpd > 480) {
+			xSpd = 480 - GetX();
+		}
+		if (GetY() + GetHeight() + ySpd > 224) {
+			ySpd = 224 - GetY();
+		}
+		if (willHit(other, 0, 0)) {
+
+		}
+		//Can Remove Later
+		return (willHit(other, 0, 0));
+	}
+
+	//void Drop(bool drop = false, int per = 0) {
+	//	std::random_device gen;
+	//	std::uniform_int_distribution<> range(1, 5);
+	//	if (!(drop)) {
+	//		per = range(gen);
+	//	}
+	//	switch (per) {
+	//	case 1:
+	//		std::cout << "hello workd";
+	//	}
+	//}
+
 	void move();
 	
 	void draw(HANDLE out);
 
 	virtual void AI(Player p) = 0;
+	virtual void hitTerrain() = 0;
 };
 
 class Terrain : public Entity {
@@ -325,7 +365,6 @@ public:
 	void Hit(Enemy & e) {
 		e.Hurt(dmg);
 	}
-	
 };
 
 
