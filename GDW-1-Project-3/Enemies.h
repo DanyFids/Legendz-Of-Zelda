@@ -178,7 +178,7 @@ public:
 		SetNumAnim(1);
 
 		SetSpriteSheet(Sprites.keeseSprites);
-
+		this->setEType(ET_KEESE);
 	}
 
 	void AI(Player p) {
@@ -624,6 +624,7 @@ public:
 	Gel(int x, int y) : Enemy(x, y, 12, 8, 1, 1) {
 		SetNumAnim(1);
 		SetSpriteSheet(Sprites.gelSprites);
+		this->setEType(ET_GEL);
 	}
 
 	void AI(Player p) {

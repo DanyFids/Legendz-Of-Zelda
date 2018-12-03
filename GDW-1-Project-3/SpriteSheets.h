@@ -19282,12 +19282,12 @@ public:
 						SetConsoleTextAttribute(blipSprites, 7);  //Empty
 						WriteConsole(blipSprites, &"  ", 2, &output, NULL);
 					}
-					if (c == 6 && c == 8)
+					if (c == 6 || c == 8)
 					{
 						SetConsoleTextAttribute(blipSprites, 7);  //Empty
 						WriteConsole(blipSprites, &"  ", 2, &output, NULL);
 					}
-					if (c == 11 || c == 3)
+					if (c == 9 || c == 5)
 					{
 						SetConsoleTextAttribute(blipSprites, 6 * 16 + 4);  //Brown
 						WriteConsole(blipSprites, &"  ", 2, &output, NULL);
@@ -19362,12 +19362,12 @@ public:
 						SetConsoleTextAttribute(blipSprites, 7);  //Empty
 						WriteConsole(blipSprites, &"  ", 2, &output, NULL);
 					}
-					if (c == 6 && c == 8)
+					if (c == 6 || c == 8)
 					{
 						SetConsoleTextAttribute(blipSprites, 7);  //Empty
 						WriteConsole(blipSprites, &"  ", 2, &output, NULL);
 					}
-					if (c == 11 || c == 3)
+					if (c == 9 || c == 5)
 					{
 						SetConsoleTextAttribute(blipSprites, 6 * 16 + 4);  //Brown
 						WriteConsole(blipSprites, &"  ", 2, &output, NULL);
@@ -19426,6 +19426,10 @@ public:
 			GoToXY(blipSprites, 0, i + 17);	 //Position of pixel
 			for (int c = 0; c < 15; c++) { // Draws Col (c = x size)
 				if (i == 0) {
+					if (c >= 0 && c <= 6) {
+						SetConsoleTextAttribute(blipSprites, 7);  //Empty
+						WriteConsole(blipSprites, &"  ", 2, &output, NULL);
+					}
 					if (c == 7)
 					{
 						SetConsoleTextAttribute(blipSprites, 6 * 16 + 4);  //Brown
@@ -19433,6 +19437,14 @@ public:
 					}
 				}
 				if (i == 1) {
+					if (c >= 2 && c <= 12) {
+						SetConsoleTextAttribute(blipSprites, 7);  //Empty
+						WriteConsole(blipSprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 0) {
+						SetConsoleTextAttribute(blipSprites, 7);  //Empty
+						WriteConsole(blipSprites, &"  ", 2, &output, NULL);
+					}
 					if (c == 1 || c == 13)
 					{
 						SetConsoleTextAttribute(blipSprites, 6 * 16 + 4);  //Brown
@@ -19441,6 +19453,18 @@ public:
 					
 				}
 				if (i == 2) {
+					if (c >= 3 && c <= 6) {
+						SetConsoleTextAttribute(blipSprites, 7);  //Empty
+						WriteConsole(blipSprites, &"  ", 2, &output, NULL);
+					}
+					if (c >= 8 && c <= 11) {
+						SetConsoleTextAttribute(blipSprites, 7);  //Empty
+						WriteConsole(blipSprites, &"  ", 2, &output, NULL);
+					}
+					if (c >= 0 && c <= 1) {
+						SetConsoleTextAttribute(blipSprites, 7);  //Empty
+						WriteConsole(blipSprites, &"  ", 2, &output, NULL);
+					}
 					if (c == 7)
 					{
 						SetConsoleTextAttribute(blipSprites, 6 * 16 + 4);  //Brown
@@ -19453,6 +19477,18 @@ public:
 					}
 				}
 				if (i == 3) {
+					if (c >= 4 && c <= 6) {
+						SetConsoleTextAttribute(blipSprites, 7);  //Empty
+						WriteConsole(blipSprites, &"  ", 2, &output, NULL);
+					}
+					if (c >= 8 && c <= 10) {
+						SetConsoleTextAttribute(blipSprites, 7);  //Empty
+						WriteConsole(blipSprites, &"  ", 2, &output, NULL);
+					}
+					if (c >= 0 && c <= 2) {
+						SetConsoleTextAttribute(blipSprites, 7);  //Empty
+						WriteConsole(blipSprites, &"  ", 2, &output, NULL);
+					}
 					if (c == 7 || c == 3|| c == 11)
 					{
 						SetConsoleTextAttribute(blipSprites, 6 * 16 + 4);  //Brown
@@ -19460,6 +19496,18 @@ public:
 					}
 				}
 				if (i == 4) {
+					if (c >= 5 && c <= 6) {		//inner 1
+						SetConsoleTextAttribute(blipSprites, 7);  //Empty
+						WriteConsole(blipSprites, &"  ", 2, &output, NULL);
+					}
+					if (c >= 8 && c <= 9) {   //inner 2
+						SetConsoleTextAttribute(blipSprites, 7);  //Empty
+						WriteConsole(blipSprites, &"  ", 2, &output, NULL);
+					}
+					if (c >= 0 && c <= 3) {		//outer
+						SetConsoleTextAttribute(blipSprites, 7);  //Empty
+						WriteConsole(blipSprites, &"  ", 2, &output, NULL);
+					}
 					if (c == 4 || c == 10)
 					{
 						SetConsoleTextAttribute(blipSprites, 6 * 16 + 4);  //Brown
@@ -19472,13 +19520,25 @@ public:
 					}
 				}
 				if (i == 5) {
-					if (c == 5 || c == 9)
+					if (c == 6 || c == 8) {		//inner 1
+						SetConsoleTextAttribute(blipSprites, 7);  //Empty
+						WriteConsole(blipSprites, &"  ", 2, &output, NULL);
+					}
+					if (c >= 0 && c <= 4) {		//outer
+						SetConsoleTextAttribute(blipSprites, 7);  //Empty
+						WriteConsole(blipSprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 5 || c == 9 || c == 7)
 					{
 						SetConsoleTextAttribute(blipSprites, 6 * 16 + 4);  //Brown
 						WriteConsole(blipSprites, &"  ", 2, &output, NULL);
 					}
 				}
 				if (i == 6) {
+					if (c >= 0 && c <= 5) {		//outer
+						SetConsoleTextAttribute(blipSprites, 7);  //Empty
+						WriteConsole(blipSprites, &"  ", 2, &output, NULL);
+					}
 					if (c == 6 || c == 7 || c == 8)
 					{
 						SetConsoleTextAttribute(blipSprites, 14 * 16 + 12);  //Orange?
@@ -19486,6 +19546,10 @@ public:
 					}
 				}
 				if (i == 7) {
+					if (c == 1 || c == 13) {		//outer
+						SetConsoleTextAttribute(blipSprites, 7);  //Empty
+						WriteConsole(blipSprites, &"  ", 2, &output, NULL);
+					}
 					if (c == 0 || c == 2 || c == 3 || c == 5 || c == 7 || c == 9 || c == 11 || c == 12 || c == 14)
 					{
 						SetConsoleTextAttribute(blipSprites, 6 * 16 + 4);  //Brown
@@ -19498,6 +19562,10 @@ public:
 					}
 				}
 				if (i == 8) {
+					if (c == 1 || c == 13) {		//outer
+						SetConsoleTextAttribute(blipSprites, 7);  //Empty
+						WriteConsole(blipSprites, &"  ", 2, &output, NULL);
+					}
 					if (c == 0 || c == 2 || c == 3 || c == 5 || c == 7 || c == 9 || c == 11 || c == 12 || c == 14)
 					{
 						SetConsoleTextAttribute(blipSprites, 6 * 16 + 4);  //Brown
@@ -19510,6 +19578,10 @@ public:
 					}
 				}
 				if (i == 9) {
+					if (c >= 0 && c <= 5) {		//outer
+						SetConsoleTextAttribute(blipSprites, 7);  //Empty
+						WriteConsole(blipSprites, &"  ", 2, &output, NULL);
+					}
 					if (c == 6 || c == 7 || c == 8)
 					{
 						SetConsoleTextAttribute(blipSprites, 14 * 16 + 12);  //Orange?
@@ -19517,13 +19589,33 @@ public:
 					}
 				}
 				if (i == 10) {
-					if (c == 5 || c == 9)
+					if (c == 6 || c == 8) {		//inner 1
+						SetConsoleTextAttribute(blipSprites, 7);  //Empty
+						WriteConsole(blipSprites, &"  ", 2, &output, NULL);
+					}
+					if (c >= 0 && c <= 4) {		//outer
+						SetConsoleTextAttribute(blipSprites, 7);  //Empty
+						WriteConsole(blipSprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 5 || c == 9 || c == 7)
 					{
 						SetConsoleTextAttribute(blipSprites, 6 * 16 + 4);  //Brown
 						WriteConsole(blipSprites, &"  ", 2, &output, NULL);
 					}
 				}
 				if (i == 11) {
+					if (c >= 5 && c <= 6) {		//inner 1
+						SetConsoleTextAttribute(blipSprites, 7);  //Empty
+						WriteConsole(blipSprites, &"  ", 2, &output, NULL);
+					}
+					if (c >= 8 && c <= 9) {   //inner 2
+						SetConsoleTextAttribute(blipSprites, 7);  //Empty
+						WriteConsole(blipSprites, &"  ", 2, &output, NULL);
+					}
+					if (c >= 0 && c <= 3) {		//outer
+						SetConsoleTextAttribute(blipSprites, 7);  //Empty
+						WriteConsole(blipSprites, &"  ", 2, &output, NULL);
+					}
 					if (c == 4 || c == 10)
 					{
 						SetConsoleTextAttribute(blipSprites, 6 * 16 + 4);  //Brown
@@ -19537,6 +19629,18 @@ public:
 
 				}
 				if (i == 12) {
+					if (c >= 4 && c <= 6) {
+						SetConsoleTextAttribute(blipSprites, 7);  //Empty
+						WriteConsole(blipSprites, &"  ", 2, &output, NULL);
+					}
+					if (c >= 8 && c <= 10) {
+						SetConsoleTextAttribute(blipSprites, 7);  //Empty
+						WriteConsole(blipSprites, &"  ", 2, &output, NULL);
+					}
+					if (c >= 0 && c <= 2) {
+						SetConsoleTextAttribute(blipSprites, 7);  //Empty
+						WriteConsole(blipSprites, &"  ", 2, &output, NULL);
+					}
 					if (c == 7 || c == 3 || c == 11)
 					{
 						SetConsoleTextAttribute(blipSprites, 6 * 16 + 4);  //Brown
@@ -19544,7 +19648,18 @@ public:
 					}
 				}
 				if (i == 13) {
-					if (i == 2) {
+						if (c >= 3 && c <= 6) {
+							SetConsoleTextAttribute(blipSprites, 7);  //Empty
+							WriteConsole(blipSprites, &"  ", 2, &output, NULL);
+						}
+						if (c >= 8 && c <= 11) {
+							SetConsoleTextAttribute(blipSprites, 7);  //Empty
+							WriteConsole(blipSprites, &"  ", 2, &output, NULL);
+						}
+						if (c >= 0 && c <= 1) {
+							SetConsoleTextAttribute(blipSprites, 7);  //Empty
+							WriteConsole(blipSprites, &"  ", 2, &output, NULL);
+						}
 						if (c == 7)
 						{
 							SetConsoleTextAttribute(blipSprites, 6 * 16 + 4);  //Brown
@@ -19555,9 +19670,17 @@ public:
 							SetConsoleTextAttribute(blipSprites, 14 * 16 + 12);  //Orange?
 							WriteConsole(blipSprites, &"  ", 2, &output, NULL);
 						}
-					}
+
 				}
 				if (i == 14) {
+					if (c >= 2 && c <= 12) {
+						SetConsoleTextAttribute(blipSprites, 7);  //Empty
+						WriteConsole(blipSprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 0) {
+						SetConsoleTextAttribute(blipSprites, 7);  //Empty
+						WriteConsole(blipSprites, &"  ", 2, &output, NULL);
+					}
 					if (c == 1 || c == 13)
 					{
 						SetConsoleTextAttribute(blipSprites, 6 * 16 + 4);  //Brown
@@ -19565,6 +19688,10 @@ public:
 					}
 				}
 				if (i == 15) {
+					if (c >= 0 && c <= 6) {
+						SetConsoleTextAttribute(blipSprites, 7);  //Empty
+						WriteConsole(blipSprites, &"  ", 2, &output, NULL);
+					}
 					if (c == 7)
 					{
 						SetConsoleTextAttribute(blipSprites, 6 * 16 + 4);  //Brown
@@ -19857,53 +19984,124 @@ public:
 			GoToXY(smokeSprites, 0, i+17);	 //Position of pixel
 			for (int c = 0; c < 16; c++) { // Draws Col (c = x size)
 				if (i == 0) {
-					SetConsoleTextAttribute(smokeSprites, 7);  //Empty
-					WriteConsole(smokeSprites, &"  ", 2, &output, NULL);
+					if (c == 7 || c == 8)
+					{
+						SetConsoleTextAttribute(smokeSprites, 7);  //Empty
+						WriteConsole(smokeSprites, &"  ", 2, &output, NULL);
+					}
+					if (c >= 0 && c <= 5)
+					{
+						SetConsoleTextAttribute(smokeSprites, 7);  //Empty
+						WriteConsole(smokeSprites, &"  ", 2, &output, NULL);
+					}
+					if (c == 6 || c == 9)
+					{
+						SetConsoleTextAttribute(smokeSprites, 15 * 16);  //White
+						WriteConsole(smokeSprites, &"  ", 2, &output, NULL);
+					}
 				}
 				if (i == 1) {
-
+					SetConsoleTextAttribute(smokeSprites, 15 * 16);  //White
+					WriteConsole(smokeSprites, &"  ", 2, &output, NULL);
 				}
 				if (i == 2) {
-
+					if (c == 4 || c == 11)
+					{
+						SetConsoleTextAttribute(smokeSprites, 15 * 16);  //White
+						WriteConsole(smokeSprites, &"  ", 2, &output, NULL);
+					}
 				}
 				if (i == 3) {
 
+					if (c == 2 || c == 13)
+					{
+						SetConsoleTextAttribute(smokeSprites, 15 * 16);  //White
+						WriteConsole(smokeSprites, &"  ", 2, &output, NULL);
+					}
 				}
 				if (i == 4) {
-
+					if (c >= 6 && c <= 9)
+					{
+						SetConsoleTextAttribute(smokeSprites, 15 * 16);  //White
+						WriteConsole(smokeSprites, &"  ", 2, &output, NULL);
+					}
 				}
 				if (i == 5) {
-
+					if (c == 3 || c == 12)
+					{
+						SetConsoleTextAttribute(smokeSprites, 15 * 16);  //White
+						WriteConsole(smokeSprites, &"  ", 2, &output, NULL);
+					}
 				}
 				if (i == 6) {
-
-				}
+					if (c == 2 || c == 13)
+					{
+						SetConsoleTextAttribute(smokeSprites, 15 * 16);  //White
+						WriteConsole(smokeSprites, &"  ", 2, &output, NULL);
+					}
+				}						
 				if (i == 7) {
-
+					if (c == 4 || c == 6 || c == 9 || c == 11)
+					{
+						SetConsoleTextAttribute(smokeSprites, 15 * 16);  //White
+						WriteConsole(smokeSprites, &"  ", 2, &output, NULL);
+					}
 				}
 				if (i == 8) {
-
+					if (c == 0 || c == 15)
+					{
+						SetConsoleTextAttribute(smokeSprites, 15 * 16);  //White
+						WriteConsole(smokeSprites, &"  ", 2, &output, NULL);
+					}
 				}
 				if (i == 9) {
-
+					if (c == 4 || c == 7 || c == 8 || c == 11)
+					{
+						SetConsoleTextAttribute(smokeSprites, 15 * 16);  //White
+						WriteConsole(smokeSprites, &"  ", 2, &output, NULL);
+					}
 				}
 				if (i == 10) {
-
+					if (c == 2 || c == 13)
+					{
+						SetConsoleTextAttribute(smokeSprites, 15 * 16);  //White
+						WriteConsole(smokeSprites, &"  ", 2, &output, NULL);
+					}
 				}
 				if (i == 11) {
-
+					if (c == 7 || c == 8)
+					{
+						SetConsoleTextAttribute(smokeSprites, 15 * 16);  //White
+						WriteConsole(smokeSprites, &"  ", 2, &output, NULL);
+					}
 				}
 				if (i == 12) {
-
+					if (c == 2 || c == 13)
+					{
+						SetConsoleTextAttribute(smokeSprites, 15 * 16);  //White
+						WriteConsole(smokeSprites, &"  ", 2, &output, NULL);
+					}
 				}
 				if (i == 13) {
-
+					if (c == 5 || c == 10)
+					{
+						SetConsoleTextAttribute(smokeSprites, 15 * 16);  //White
+						WriteConsole(smokeSprites, &"  ", 2, &output, NULL);
+					}
 				}
 				if (i == 14) {
-
+					if (c == 7 || c == 8)
+					{
+						SetConsoleTextAttribute(smokeSprites, 15 * 16);  //White
+						WriteConsole(smokeSprites, &"  ", 2, &output, NULL);
+					}
 				}
 				if (i == 15) {
-
+					if (c == 5 || c == 6 || c == 9 || c == 10)
+					{
+						SetConsoleTextAttribute(smokeSprites, 15 * 16);  //White
+						WriteConsole(smokeSprites, &"  ", 2, &output, NULL);
+					}
 				}
 			}
 		}

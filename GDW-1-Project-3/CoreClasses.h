@@ -170,9 +170,12 @@ public:
 	void Hit(Player & p) {
 		p.Hurt(dmg);
 	}
-
 	EnemyType GetType() {
 		return et;
+	}
+
+	void setEType(EnemyType t) {
+		et = t;
 	}
 
 	void SetInvuln(bool i) {
@@ -349,11 +352,11 @@ public:
 
 };
 
-class Effect : public Entity {
+class VisualFX : public Entity {
 private:
 	float timer;
 public:
-	Effect(int x, int y, int w, int h, float time) {
+	VisualFX(int x, int y, int w, int h, float time):Entity(x, y, w, h, false) {
 		this->timer = time;
 	}
 

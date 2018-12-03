@@ -4,7 +4,6 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="bgMusicManager.h" />
     <ClInclude Include="Enemies.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="Enums.h" />
@@ -18,7 +17,6 @@
     <ClInclude Include="Terrains.h" />
     <ClInclude Include="Threads.h" />
     <ClInclude Include="sfxManager.h" />
-    <ClInclude Include="Effects.h" />
     <ClInclude Include="Enemies.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="Enums.h" />
@@ -31,5 +29,6 @@
     <ClInclude Include="SpriteSheets.h" />
     <ClInclude Include="Terrains.h" />
     <ClInclude Include="Threads.h" />
+    <ClInclude Include="VisualFX.h" />
   </ItemGroup>
 </Project>

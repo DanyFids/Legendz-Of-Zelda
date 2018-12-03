@@ -217,14 +217,12 @@ public:	   // x,y coord,                  width*2,height,		   || lifetime, damag
 		if (this->getTime() <= (this->startTime / 2)&& !rebounded)
 		{
 			rebounded = true;
-
-
 		}
 
 		if (rebounded)
 		{
-			int distX = parent->GetX() - this->GetX();
-			int distY = parent->GetY() - this->GetY();
+			int distX = (parent->GetX() + 16) - this->GetX();
+			int distY = (parent->GetY() + 8) - this->GetY();
 
 			float dirScale = sqrt(pow(distX, 2) + pow(distY, 2));
 			
@@ -239,36 +237,8 @@ public:	   // x,y coord,                  width*2,height,		   || lifetime, damag
 		move();
 		rebound();
 		this->setTime(this->getTime() - dt);
-		
-		if (this->GetX() == parent->GetX() && parent->GetY() == this->startY)
-		{
-			this->setTime(0.0f);
-		}
-		if (this->GetX() == parent->GetX() - 2 && parent->GetY() == this->startY || this->GetX() == parent->GetX() - 4 && parent->GetY() == this->startY)
-		{
-			this->setTime(0.0f);
-		}
-		if (this->GetX() == parent->GetX() - 1 && parent->GetY() == this->startY || this->GetX() == parent->GetX() - 1 && parent->GetY() == this->startY)
-		{
-			this->setTime(0.0f);
-		}
-		if (this->GetX() == parent->GetX() + 2 && parent->GetY() == this->startY || this->GetX() == parent->GetX() + 4 && parent->GetY() == this->startY)
-		{
-			this->setTime(0.0f);
-		}
-		if (this->GetX() == parent->GetX() && parent->GetY() - 1 == this->startY || this->GetX() == parent->GetX() && parent->GetY() - 2 == this->startY)
-		{
-			this->setTime(0.0f);
-		}
-		if (this->GetX() == parent->GetX() && parent->GetY() + 1 == this->startY || this->GetX() == parent->GetX() && parent->GetY() + 2 == this->startY)
-		{
-			this->setTime(0.0f);
-		}
-		if (this->GetX() == parent->GetX() - 2 && parent->GetY() - 1 == this->startY || this->GetX() - 4 == parent->GetX() && parent->GetY() - 2 == this->startY)
-		{
-			this->setTime(0.0f);
-		}
-		if (this->GetX() - 1 == parent->GetX() && parent->GetY() + 1 == this->startY || this->GetX() - 2 == parent->GetX() && parent->GetY() + 2 == this->startY)
+																								//These are checks to see if it's near the player so that it destroys itself
+		if (this->HitDetect(parent) && rebounded)
 		{
 			this->setTime(0.0f);
 		}

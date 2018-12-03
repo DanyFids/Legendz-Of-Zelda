@@ -13,6 +13,8 @@ private:
 	bool isProjectile = false;
 	bool isPlayer = false;
 	ProjType type;
+	EnemyType EType;
+
 public:
 	HANDLE sprite_sheet;
 	int xSpd, ySpd;
@@ -43,6 +45,8 @@ public:
 	{
 		type = t;
 	}
+
+	
 
 	void setProjectile()
 	{

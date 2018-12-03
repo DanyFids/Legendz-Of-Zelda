@@ -18,15 +18,14 @@
 
 #include"Menus.h"
 #include "PowerUp.h"
-#include "Effects.h"
+#include "VisualFX.h"
 
 //SFX/BGM Managers
 //#include "bgMusicManager.h"
 #include "sfxManager.h"
 #include"Threads.h"
 
-//Projectiles
-//#include "Projectiles.h"
+
 
 
 const int PLAYER_SPEED = 2;
@@ -51,10 +50,10 @@ bool Play = true;
 Player player(0, 0);
 // Non-Player entities
 std::vector<Enemy*> enemies = {new Rope(80, 10),new SpikeTrap(400, 3),new SpikeTrap(400, 200),new Gel(50, 50), new Keese(100, 100) };
-std::vector<Projectile*> projectiles = {new Bomb(150,150), new Arrow(190,150,0,0,Down), new Boomerang(0,0,4.0f,0.0f, &player)};
+std::vector<Projectile*> projectiles = {new Bomb(150,150), new Arrow(190,150,0,0,Down), new Boomerang(150,150,4.0f,0.0f, &player)};
 std::vector<Terrain*> roomTer = {new Wall(20,100), new Wall(52, 100), new Wall(84, 100)};
 std::vector<PowerUp *> powerups = {new HeartPickup(20, 40)};
-std::vector<Effect*> fx = {};
+std::vector<VisualFX*> fx = {new Smoke(60,40), new Blip(100,40)};
 
 // Menus
 Menu CharSelMenu({
@@ -497,7 +496,7 @@ void Update() {
 
 		if (player_input.keySpace)
 		{
-			//sounds.PlaySwing();
+			sounds.PlaySwing();
 			if (player.CanAtk()) {
 				Direction d = player.GetDir();
 				switch (d) {
@@ -544,12 +543,16 @@ void Update() {
 							projectiles[p]->setTime(0.0f);
 						}
 					}
-					if (projectiles[p]->getEnum() == PT_BOOMERANG && (enemies[e]->GetType() != ET_GEL || enemies[e]->GetType() != ET_KEESE)) {
+					if (projectiles[p]->getEnum() == PT_BOOMERANG && enemies[e]->GetType() != ET_GEL && enemies[e]->GetType() != ET_KEESE) {
 						enemies[e]->stun();
 					}
-					else {
+					else
+					{
 						projectiles[p]->Hit(*enemies[e]);
 					}
+					
+						
+					
 					if (projectiles[p]->getEnum() == PT_ARROW) { //Removing Projectiles When they strike an Entity
 						std::vector<Projectile*>::iterator it = projectiles.begin();
 						delete projectiles[p];
@@ -613,10 +616,30 @@ void Update() {
 				if (projectiles[p]->getEnum() == PT_BOMB)
 				{
 					projectiles.push_back(new Explosion(projectiles[p]->GetX(),projectiles[p]->GetY()));
+
+					fx.push_back(new Smoke(projectiles[p]->GetX(), projectiles[p]->GetY()));//Smoke puffs @location
+					fx.push_back(new Smoke(projectiles[p]->GetX()+28, projectiles[p]->GetY()));	//@Right
+					fx.push_back(new Smoke(projectiles[p]->GetX(), projectiles[p]->GetY() - 14 )); //@Up
+					fx.push_back(new Smoke(projectiles[p]->GetX() - 28, projectiles[p]->GetY() -7 ));//@Left&Up
+					fx.push_back(new Smoke(projectiles[p]->GetX(), projectiles[p]->GetY() + 14));//@Down
+					fx.push_back(new Smoke(projectiles[p]->GetX() - 28, projectiles[p]->GetY()));//Left
+					fx.push_back(new Smoke(projectiles[p]->GetX() + 28, projectiles[p]->GetY() + 7));//Down&Right
 				}
 				delete projectiles[p];
 				projectiles.erase(it + p);
 				
+			}
+		}
+
+		for (int f = 0; f < fx.size(); f++)
+		{
+			fx[f]->Update(dt);
+			if (fx[f]->getTime() <= 0)
+			{
+				std::vector<VisualFX*>::iterator it = fx.begin();
+				
+				delete fx[f];
+				fx.erase(it + f);
 			}
 		}
 	}
