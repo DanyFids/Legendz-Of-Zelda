@@ -120,26 +120,6 @@ public:
 		return dir;
 	}
 
-	ProjType getEnum()
-	{
-		return type;
-	}
-
-	void setEnum(ProjType t)
-	{
-		type = t;
-	}
-
-	void setProjectile()
-	{
-		isProjectile = true;
-	}
-
-	bool getProjectile()
-	{
-		return isProjectile;
-	}
-
 	bool IsPlayer() {
 		return isPlayer;
 	}

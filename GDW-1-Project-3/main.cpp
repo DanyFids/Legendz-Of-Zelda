@@ -22,6 +22,7 @@
 
 //SFX/BGM Managers
 //#include "bgMusicManager.h"
+#include "sfxManager.h"
 #include"Threads.h"
 
 //Projectiles
@@ -50,7 +51,7 @@ bool Play = true;
 Player player(0, 0);
 // Non-Player entities
 std::vector<Enemy*> enemies = {new Rope(80, 10),new SpikeTrap(400, 3),new SpikeTrap(400, 200),new Gel(50, 50), new Keese(100, 100) };
-std::vector<Projectile*> projectiles = {new Bomb(150,150), new Arrow(190,150,0,0,Down), new Fireball(230,150,0.0f,0.0f), new Boomerang(0,0,4.0f,0.0f, &player)};
+std::vector<Projectile*> projectiles = {new Bomb(150,150), new Arrow(190,150,0,0,Down), new Boomerang(0,0,4.0f,0.0f, &player)};
 std::vector<Terrain*> roomTer = {new Wall(20,100), new Wall(52, 100), new Wall(84, 100)};
 std::vector<PowerUp *> powerups = {new HeartPickup(20, 40)};
 std::vector<Effect*> fx = {};
@@ -536,12 +537,13 @@ void Update() {
 
 			for (int p = 0; p < projectiles.size(); p++) {
 				if (projectiles[p]->HitDetect(enemies[e])) {
-					if (projectiles[p]->getEnum() == PT_BOMB){
+					if (projectiles[p]->getEnum() == PT_BOMB) {
 						if (enemies[e]->getBoss()) {
 							Dodongo * boss = (Dodongo *)enemies[e];
 							boss->BombHurt();
 							projectiles[p]->setTime(0.0f);
 						}
+					}
 					if (projectiles[p]->getEnum() == PT_BOOMERANG && (enemies[e]->GetType() != ET_GEL || enemies[e]->GetType() != ET_KEESE)) {
 						enemies[e]->stun();
 					}
@@ -550,17 +552,11 @@ void Update() {
 					}
 					if (projectiles[p]->getEnum() == PT_ARROW) { //Removing Projectiles When they strike an Entity
 						std::vector<Projectile*>::iterator it = projectiles.begin();
-						projectiles.erase(it + p);
 						delete projectiles[p];
+						projectiles.erase(it + p);
+
 					}
-					else {
-						projectiles[p]->Hit(*enemies[e]);
-						if (projectiles[p]->getEnum() == PT_ARROW) {
-							delete projectiles[p];
-							std::vector<Projectile*>::iterator it = projectiles.begin();
-							projectiles.erase(it + p);
-						}
-					}
+
 				}
 			}
 

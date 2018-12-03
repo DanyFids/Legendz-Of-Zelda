@@ -1,0 +1,54 @@
+﻿  bgMusicManager.cpp
+  main.cpp
+c:\users\100706824\documents\githubkraken\legendz-of-zelda\gdw-1-project-3\entity.h(124): error C2535: 'ProjType Entity::getEnum(void)': member function already defined or declared
+  c:\users\100706824\documents\githubkraken\legendz-of-zelda\gdw-1-project-3\entity.h(37): note: see declaration of 'Entity::getEnum'
+c:\users\100706824\documents\githubkraken\legendz-of-zelda\gdw-1-project-3\entity.h(129): error C2535: 'void Entity::setEnum(ProjType)': member function already defined or declared
+  c:\users\100706824\documents\githubkraken\legendz-of-zelda\gdw-1-project-3\entity.h(42): note: see declaration of 'Entity::setEnum'
+c:\users\100706824\documents\githubkraken\legendz-of-zelda\gdw-1-project-3\entity.h(134): error C2535: 'void Entity::setProjectile(void)': member function already defined or declared
+  c:\users\100706824\documents\githubkraken\legendz-of-zelda\gdw-1-project-3\entity.h(47): note: see declaration of 'Entity::setProjectile'
+c:\users\100706824\documents\githubkraken\legendz-of-zelda\gdw-1-project-3\entity.h(139): error C2535: 'bool Entity::getProjectile(void)': member function already defined or declared
+  c:\users\100706824\documents\githubkraken\legendz-of-zelda\gdw-1-project-3\entity.h(52): note: see declaration of 'Entity::getProjectile'
+c:\users\100706824\documents\githubkraken\legendz-of-zelda\gdw-1-project-3\coreclasses.h(110): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+c:\users\100706824\documents\githubkraken\legendz-of-zelda\gdw-1-project-3\coreclasses.h(111): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+c:\users\100706824\documents\githubkraken\legendz-of-zelda\gdw-1-project-3\projectiles.h(109): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+c:\users\100706824\documents\githubkraken\legendz-of-zelda\gdw-1-project-3\projectiles.h(110): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+c:\users\100706824\documents\githubkraken\legendz-of-zelda\gdw-1-project-3\projectiles.h(229): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+c:\users\100706824\documents\githubkraken\legendz-of-zelda\gdw-1-project-3\projectiles.h(231): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+c:\users\100706824\documents\githubkraken\legendz-of-zelda\gdw-1-project-3\projectiles.h(232): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+c:\users\100706824\documents\githubkraken\legendz-of-zelda\gdw-1-project-3\enemies.h(342): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\100706824\documents\githubkraken\legendz-of-zelda\gdw-1-project-3\menus.h(63): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+c:\users\100706824\documents\githubkraken\legendz-of-zelda\gdw-1-project-3\menus.h(139): warning C4267: 'return': conversion from 'size_t' to 'int', possible loss of data
+c:\users\100706824\documents\githubkraken\legendz-of-zelda\gdw-1-project-3\threads.h(117): error C2065: 'sounds': undeclared identifier
+c:\users\100706824\documents\githubkraken\legendz-of-zelda\gdw-1-project-3\threads.h(120): error C2065: 'sounds': undeclared identifier
+c:\users\100706824\documents\githubkraken\legendz-of-zelda\gdw-1-project-3\threads.h(123): error C2065: 'sounds': undeclared identifier
+c:\users\100706824\documents\githubkraken\legendz-of-zelda\gdw-1-project-3\threads.h(126): error C2065: 'sounds': undeclared identifier
+c:\users\100706824\documents\githubkraken\legendz-of-zelda\gdw-1-project-3\threads.h(129): error C2065: 'sounds': undeclared identifier
+c:\users\100706824\documents\githubkraken\legendz-of-zelda\gdw-1-project-3\main.cpp(53): error C2661: 'Fireball::Fireball': no overloaded function takes 4 arguments
+c:\users\100706824\documents\githubkraken\legendz-of-zelda\gdw-1-project-3\main.cpp(53): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\100706824\documents\githubkraken\legendz-of-zelda\gdw-1-project-3\main.cpp(95): error C2065: 'sounds': undeclared identifier
+c:\users\100706824\documents\githubkraken\legendz-of-zelda\gdw-1-project-3\main.cpp(627): error C2601: 'ResizeWindow': local function definitions are illegal
+  c:\users\100706824\documents\githubkraken\legendz-of-zelda\gdw-1-project-3\main.cpp(437): note: this line contains a '{' which has not yet been matched
+c:\users\100706824\documents\githubkraken\legendz-of-zelda\gdw-1-project-3\main.cpp(649): error C2601: 'GetTimeInSeconds': local function definitions are illegal
+  c:\users\100706824\documents\githubkraken\legendz-of-zelda\gdw-1-project-3\main.cpp(437): note: this line contains a '{' which has not yet been matched
+c:\users\100706824\documents\githubkraken\legendz-of-zelda\gdw-1-project-3\main.cpp(656): error C2601: 'Load': local function definitions are illegal
+  c:\users\100706824\documents\githubkraken\legendz-of-zelda\gdw-1-project-3\main.cpp(437): note: this line contains a '{' which has not yet been matched
+c:\users\100706824\documents\githubkraken\legendz-of-zelda\gdw-1-project-3\main.cpp(699): error C2601: 'MouseHandler': local function definitions are illegal
+  c:\users\100706824\documents\githubkraken\legendz-of-zelda\gdw-1-project-3\main.cpp(437): note: this line contains a '{' which has not yet been matched
+c:\users\100706824\documents\githubkraken\legendz-of-zelda\gdw-1-project-3\main.cpp(741): error C2601: 'ButtonHandler': local function definitions are illegal
+  c:\users\100706824\documents\githubkraken\legendz-of-zelda\gdw-1-project-3\main.cpp(437): note: this line contains a '{' which has not yet been matched
+c:\users\100706824\documents\githubkraken\legendz-of-zelda\gdw-1-project-3\main.cpp(786): error C2601: 'Save': local function definitions are illegal
+  c:\users\100706824\documents\githubkraken\legendz-of-zelda\gdw-1-project-3\main.cpp(437): note: this line contains a '{' which has not yet been matched
+c:\users\100706824\documents\githubkraken\legendz-of-zelda\gdw-1-project-3\main.cpp(795): error C2601: 'ToCharacterSelect': local function definitions are illegal
+  c:\users\100706824\documents\githubkraken\legendz-of-zelda\gdw-1-project-3\main.cpp(437): note: this line contains a '{' which has not yet been matched
+c:\users\100706824\documents\githubkraken\legendz-of-zelda\gdw-1-project-3\main.cpp(834): error C2601: 'ToRegisterName': local function definitions are illegal
+  c:\users\100706824\documents\githubkraken\legendz-of-zelda\gdw-1-project-3\main.cpp(437): note: this line contains a '{' which has not yet been matched
+c:\users\100706824\documents\githubkraken\legendz-of-zelda\gdw-1-project-3\main.cpp(862): error C2601: 'ToEliminationMode': local function definitions are illegal
+  c:\users\100706824\documents\githubkraken\legendz-of-zelda\gdw-1-project-3\main.cpp(437): note: this line contains a '{' which has not yet been matched
+c:\users\100706824\documents\githubkraken\legendz-of-zelda\gdw-1-project-3\main.cpp(890): error C2601: 'Enemy::draw': local function definitions are illegal
+  c:\users\100706824\documents\githubkraken\legendz-of-zelda\gdw-1-project-3\main.cpp(437): note: this line contains a '{' which has not yet been matched
+c:\users\100706824\documents\githubkraken\legendz-of-zelda\gdw-1-project-3\main.cpp(898): error C2601: 'Enemy::move': local function definitions are illegal
+  c:\users\100706824\documents\githubkraken\legendz-of-zelda\gdw-1-project-3\main.cpp(437): note: this line contains a '{' which has not yet been matched
+c:\users\100706824\documents\githubkraken\legendz-of-zelda\gdw-1-project-3\main.cpp(906): error C2601: 'Enemy::Drop': local function definitions are illegal
+  c:\users\100706824\documents\githubkraken\legendz-of-zelda\gdw-1-project-3\main.cpp(437): note: this line contains a '{' which has not yet been matched
+c:\users\100706824\documents\githubkraken\legendz-of-zelda\gdw-1-project-3\main.cpp(437): fatal error C1075: '{': no matching token found
+  Generating Code...
