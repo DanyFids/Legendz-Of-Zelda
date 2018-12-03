@@ -49,7 +49,7 @@ Player player(0, 0);
 std::vector<Enemy*> enemies = {new Rope(80, 10),new SpikeTrap(400, 3),new SpikeTrap(400, 200),new Gel(50, 50), new Keese(100, 100) };
 std::vector<Projectile*> projectiles = {new Bomb(150,150), new Arrow(190,150,0,0,Down), new Fireball(230,150,0.0f,0.0f), };
 std::vector<Terrain*> roomTer = {new Wall(20,100), new Wall(52, 100), new Wall(84, 100), new LockedDoor (200,200)};
-std::vector<PowerUp *> powerups = {new HeartPickup(50,50), new HeartContainerPickup(25,25), new KeyPickup(30,30)};
+std::vector<PowerUp *> powerups = {new FairiesPickup(50,50), new HeartContainerPickup(25,25), new KeyPickup(30,30)};
 
 // Menus
 Menu CharSelMenu({

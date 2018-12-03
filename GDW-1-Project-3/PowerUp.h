@@ -77,7 +77,9 @@ public:
 	bool HitDetect(Entity * other) {
 		return willHit(other, 0, 0);
 	}
+	void Update(float dt) {
 
+	}
 
 };
 
@@ -93,7 +95,9 @@ public:
 	bool HitDetect(Entity * other) {
 		return willHit(other, 0, 0);
 	}
+	void Update(float dt) {
 
+	}
 
 };
 
@@ -111,7 +115,9 @@ public:
 	bool HitDetect(Entity * other) {
 		return willHit(other, 0, 0);
 	}
+	void Update(float dt) {
 
+	}
 
 };
 
@@ -129,7 +135,9 @@ public:
 	bool HitDetect(Entity * other) {
 		return willHit(other, 0, 0);
 	}
+	void Update(float dt) {
 
+	}
 
 };
 
@@ -148,7 +156,9 @@ public:
 	bool HitDetect(Entity * other) {
 		return willHit(other, 0, 0);
 	}
+	void Update(float dt) {
 
+	}
 
 };
 
@@ -167,7 +177,9 @@ public:
 	bool HitDetect(Entity * other) {
 		return willHit(other, 0, 0);
 	}
+	void Update(float dt) {
 
+	}
 
 };
 
@@ -185,6 +197,8 @@ public:
 	bool HitDetect(Entity * other) {
 		return willHit(other, 0, 0);
 	}
+	void Update(float dt) {
 
+	}
 
 };
