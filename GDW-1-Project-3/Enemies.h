@@ -364,7 +364,7 @@ public:
 				count--;
 			}
 			if (count == 0) {
-				count = 30;
+				count = (rand() % 30 + 25);
 				this->projectiles.push_back(new Fireball((this->GetX() + (this->GetWidth() / 2) - 10), (this->GetY() + (this->GetHeight() / 2) - 5), norDir));
 			}
 		}
@@ -466,26 +466,34 @@ public:
 		if (!(Movement)) {
 			dir = range(gen);
 		}
+		if (Movement) {
+			this->nextFrame();
+		}
 
 		switch (dir)
 		{
+			
 		case 1:
 			//up
+			this->SetCurAnim(0);
 			ySpd = -1;
 			Movement = true;
 			break;
 		case 2:
 			//Down
+			this->SetCurAnim(1);
 			ySpd = 1;
 			Movement = true;
 			break;
 		case 3:
 			//right
+			this->SetCurAnim(1);
 			xSpd = 2;
 			Movement = true;
 			break;
 		case 4:
 			//left
+			this->SetCurAnim(0);
 			xSpd = -2;
 			Movement = true;
 			break;
@@ -505,8 +513,10 @@ public:
 					d = true;
 					attack = true;
 					canAttack = false;
+					this->SetCurAnim(1);
 				}
 				else if ((p.GetY() + p.GetHeight()) < GetY()) {
+					this->SetCurAnim(0);
 					u = true;
 					attack = true;
 					canAttack = false;
@@ -517,11 +527,13 @@ public:
 					r = true;
 					attack = true;
 					canAttack = false;
+					this->SetCurAnim(1);
 				}
 				else if ((p.GetX() + p.GetWidth()) < GetX()) {
 					l = true;
 					attack = true;
 					canAttack = false;
+					this->SetCurAnim(0);
 				}
 			}
 		}
@@ -645,12 +657,26 @@ public:
 			dir = range(gen);
 		}
 
+		if (bounce) {
+
+			this->nextFrame();
+			/*switch (this->GetCurAnim()) {
+			case 0:
+				this->SetCurAnim(1);
+				break;
+			case 1:
+				this->SetCurAnim(0);
+				break;
+			}*/
+			
+		}
+
 		switch (dir)
 		{
 		case 1:
 			//up
 			if (!(hasMoved)) {
-				ySpd = -1;
+				ySpd = -3;
 				bounce = true;
 				hasMoved = true;
 			}
@@ -658,7 +684,7 @@ public:
 		case 2:
 			//Down
 			if (!(hasMoved)) {
-				ySpd = 1;
+				ySpd = 3;
 				bounce = true;
 				hasMoved = true;
 			}
@@ -666,7 +692,7 @@ public:
 		case 3:
 			//right
 			if (!(hasMoved)) {
-				xSpd = 2;
+				xSpd = 6;
 				bounce = true;
 				hasMoved = true;
 			}
@@ -674,7 +700,7 @@ public:
 		case 4:
 			//left
 			if (!(hasMoved)) {
-				xSpd = -2;
+				xSpd = -6;
 				bounce = true;
 				hasMoved = true;
 			}
@@ -740,11 +766,10 @@ private:
 	float StnTimer = 0;
 	float HrtTimer = 0;
 public:
-	Dodongo(int x, int y) : Enemy(x, y, 32, 16, 1, 1) {
+	Dodongo(int x, int y) : Enemy(x, y, 56, 16, 10, 1) {
 		SetNumAnim(5);
 		setBoss(true);
 		SetSpriteSheet(Sprites.dodongoSprites);
-		setHP(2);
 	}
 
 	void EatBomb() {
@@ -753,13 +778,13 @@ public:
 
 	void BombHurt() {
 		SetCurAnim(4);
-		SetSpriteSheet(Sprites.playerSprites);
+		SetSpriteSheet(Sprites.dodongoSprites);
 		HrtTimer = 1.0f;
 	}
 
 	void setNormal() {
 		SetCurAnim(0);
-		SetSpriteSheet(Sprites.playerSprites);
+		SetSpriteSheet(Sprites.dodongoSprites);
 	}
 
 	void AI(Player p) {
@@ -859,8 +884,12 @@ public:
 			HrtTimer -= dt;
 			if (HrtTimer <= 0) {
 				setNormal();
-				Hurt(1);	
+				Hurt(5);	
 			}
+		}
+
+		if (invulnTimer > 0) {
+			invulnTimer--;
 		}
 	}
 	void hitTerrain() {
@@ -871,7 +900,7 @@ public:
 	}
 };
 
-const float GORYIA_COOLDOWN = 10.0f;
+const float GORYIA_COOLDOWN = 5.0f;
 class Goryia : public Enemy {
 private:
 	bool hop = false;
@@ -885,7 +914,7 @@ private:
 	int getX = 0;
 	int getY = 0;
 public:
-	Goryia(int x, int y, bool b) : Enemy(x, y, 28, 16, 3, 1) {
+	Goryia(int x, int y, bool b) : Enemy(x, y, 26, 16, 3, 1) {
 		SetNumAnim(1);
 		isBlue = b;
 		getX = x;
@@ -894,6 +923,9 @@ public:
 		if (isBlue) {
 			setHP(5);
 			this->SetCurAnim(0);
+		}
+		else {
+			this->SetCurAnim(4);
 		}
 		
 	}
@@ -932,35 +964,39 @@ public:
 			{
 			case 1:
 				//up
+				this->SetCurAnim(3);
 				if (!(hasMoved)) {
-					ySpd = -1;
+					ySpd = -3;
 					hop = true;
 					hasMoved = true;
 				
 				}
 				break;
 			case 2:
+				this->SetCurAnim(0);
 				//Down
 				if (!(hasMoved)) {
-					ySpd = 1;
+					ySpd = 3;
 					hop = true;
 					hasMoved = true;
 				
 				}
 				break;
 			case 3:
+				this->SetCurAnim(2);
 				//right
 				if (!(hasMoved)) {
-					xSpd = 2;
+					xSpd = 6;
 					hop = true;
 					hasMoved = true;
 					
 				}
 				break;
 			case 4:
+				this->SetCurAnim(1);
 				//left
 				if (!(hasMoved)) {
-					xSpd = -2;
+					xSpd = -6;
 					hop = true;
 					hasMoved = true;
 					
@@ -970,7 +1006,7 @@ public:
 			if (hop) {
 				count++;
 			}
-			if (count >= 30) {
+			if (count >= 22) {
 				hop = false;
 				count = 0;
 			}
@@ -1015,6 +1051,10 @@ public:
 
 		for (int b = 0; b < projectiles.size(); b++) {
 			projectiles[b]->Update(dt);
+			if (projectiles[b]->getTime() <= 0) {
+				delete projectiles[b];
+				projectiles.erase(projectiles.begin() + b);
+			}
 		}
 
 		if (invulnTimer > 0) {

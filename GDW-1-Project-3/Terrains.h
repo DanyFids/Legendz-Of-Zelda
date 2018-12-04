@@ -322,16 +322,16 @@ public:
 		
 		switch (d) {
 		case Up:
-			SetCurAnim(1);
-			break;
-		case Down:
 			SetCurAnim(0);
 			break;
+		case Down:
+			SetCurAnim(1);
+			break;
 		case Left:
-			SetCurAnim(2);
+			SetCurAnim(3);
 			break;
 		case Right:
-			SetCurAnim(3);
+			SetCurAnim(2);
 			break;
 		}
 
@@ -396,6 +396,7 @@ public:
 		if (nope) {
 			if (other->getProjectile() && other->getEnum() == PT_EXPLOSION){
 				OpenWall();
+				sounds.PlayFindSecret();
 			}
 		}
 		return nope;
@@ -490,6 +491,7 @@ public:
 			if(nope && other->IsPlayer() && player_file->Keys > 0) {
 				player_file->Keys--;
 				OpenDoor();
+				sounds.PlayDoorUnlocked();
 			}
 		}
 		return nope;

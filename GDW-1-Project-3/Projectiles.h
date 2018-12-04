@@ -53,7 +53,7 @@ private:
 
 public:	   // x,y coord,                  width*2,height,time, damage, speed
 		   // the x+30 and y+3 is to make it appear infront of link, this needs to be changed by direction. sooner or later.
-	BeamSword(int x, int y, int x_spd, int y_spd, Direction _dir) : Projectile(x, y, 32, 16, 3.0f, 1) {
+	BeamSword(int x, int y, int x_spd, int y_spd, Direction _dir) : Projectile(x, y, 29, 16, 3.0f, 1) {
 		//Sprite sheet
 		//set the sprite sheet!
 		this->setDir(_dir);
@@ -144,7 +144,7 @@ private:
 
 public:	   // x,y coord,                  width*2,height,					lifetime, damage, speed 
 	Fireball(int x, int y, FCOORD dir) : Projectile(x, y, 20, 10, 10.0f, 1) {
-		SetSpriteSheet(Sprites.bombSprites);
+		SetSpriteSheet(Sprites.fireballSprites);
 		this->xSpd = dir.X * (-8);
 		this->ySpd = dir.Y * (-4);
 		this->setEnum(PT_FIREBALL);
@@ -200,7 +200,7 @@ private:
 	
 
 public:	   // x,y coord,                  width*2,height,lifetime, damage, 
-	Explosion(int x, int y) : Projectile(x, y, 64, 32, 2.0f, 3) {
+	Explosion(int x, int y) : Projectile(x, y, 64, 32, 0.5f, 3) {
 		this->setEnum(PT_EXPLOSION);
 		this->SetSpriteSheet(Sprites.explosionSprites);
 		 

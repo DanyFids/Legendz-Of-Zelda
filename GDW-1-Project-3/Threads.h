@@ -7,7 +7,7 @@ int DrawThread()
 	return 0;
 }
 
-const int TO_LOAD = 41;
+const int TO_LOAD = 60;
 int LoadThread(int & LOADED)
 {
 if (Sprites.LoadPlayer()) {
@@ -103,12 +103,32 @@ if (Sprites.LoadMoldorm()) {
 if (Sprites.LoadGoriya()) {
 	LOADED++;
 }
-	if (Sprites.LoadVictoryScreen()) {
-		LOADED++;
-	}
-	if (Sprites.LoadMapDoor()) {
-		LOADED++;
-	}
+if (Sprites.LoadVictoryScreen()) {
+	LOADED++;
+}
+if (Sprites.LoadMapDoor()) {
+	LOADED++;
+}
+if (Sprites.LoadBombableWall()) {
+	LOADED++;
+}
+if (Sprites.LoadDodongo()) {
+	LOADED++;
+}
+if (Sprites.LoadRupee()) {
+	LOADED++;
+}
+if (Sprites.LoadHeartContainer()) {
+	LOADED++;
+}
+if (Sprites.LoadStopwatch()) {
+	LOADED++;
+}
+if (Sprites.LoadTriforce()) {
+	LOADED++;
+}
+
+
 	
 
 // load player saves
@@ -155,10 +175,47 @@ if (sounds.LoadWasted()) {
 if (sounds.LoadDarkSouls()) {
 	LOADED++;
 }
+if (sounds.LoadLinkHurt()) {
+	LOADED++;
+}
+if (sounds.LoadMC()) {
+	LOADED++;
+}
+if (sounds.LoadKaboom()) {
+	LOADED++;
+}
+if (sounds.LoadBombPlaced()) {
+	LOADED++;
+}
+if (sounds.LoadGetItem()) {
+	LOADED++;
+}
+if (sounds.LoadHeartPickup()) {
+	LOADED++;
+}
+if (sounds.LoadFindSecret()) {
+	LOADED++;
+}
+if (sounds.LoadFanfare()) {
+	LOADED++;
+}
+if (sounds.LoadTimeStop()) {
+	LOADED++;
+}
+if (sounds.LoadEnemyDie()) {
+	LOADED++;
+}
+if (sounds.LoadEnemyHit()) {
+	LOADED++;
+}
+if (sounds.LoadCDIGanon()) {
+	LOADED++;
+}
+
 	
 
-	LEVEL2.GenerateRoomWalls();
-	LOADED++;
+LEVEL2.GenerateRoomWalls();
+LOADED++;
 
 return 0;
 }

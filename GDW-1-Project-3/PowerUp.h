@@ -9,6 +9,7 @@ public:
 
 
 	void Effect(Player_Info * stats) {
+		sounds.PlayHeartPickup();
 		if (stats->CurLife + 2 > stats->MaxLife) {
 			stats->CurLife = stats->MaxLife;
 		}
@@ -35,6 +36,7 @@ public:
 
 
 	void Effect(Player_Info * stats) {
+		sounds.PlayGetItem();
 		stats->MaxLife += 2;
 		stats->CurLife += 2;
 	}
@@ -57,6 +59,7 @@ public:
 
 
 	void Effect(Player_Info * stats) {
+		sounds.PlayHeartPickup();
 		stats->Keys ++ ;
 	}
 
@@ -76,6 +79,7 @@ public:
 
 
 	void Effect(Player_Info * stats) {
+		sounds.PlayHeartPickup();
 		stats->Bombs += 3;
 	}
 
@@ -92,6 +96,7 @@ public:
 		SetSpriteSheet(Sprites.stopwatchSprites);
 	}
 	void Effect(Player_Info * stats) {
+		sounds.PlayTimeStops();
 		stop_watch = true;
 	}
 
@@ -110,6 +115,7 @@ public:
 
 
 	void Effect(Player_Info * stats) {
+		sounds.PlayFanfare();
 		stats->HasCompass = true;
 	}
 
@@ -128,6 +134,7 @@ public:
 
 
 	void Effect(Player_Info * stats) {
+		sounds.PlayFanfare();
 		stats->HasMap = true;
 	}
 
@@ -144,9 +151,9 @@ public:
 		SetSpriteSheet(Sprites.rupeeSprites);
 	}
 
-
-
 	void Effect(Player_Info * stats) {
+		sounds.PlayHeartPickup();
+
 		stats->Rupees += 1;
 	}
 
@@ -154,7 +161,7 @@ public:
 		return willHit(other, 0, 0);
 	}
 	void Update(float dt) {
-
+		this->nextFrame();
 	}
 };
 
@@ -167,6 +174,7 @@ public:
 
 
 	void Effect(Player_Info * stats) {
+		sounds.PlayHeartPickup();
 		stats->Rupees += 5;
 	}
 
@@ -185,6 +193,7 @@ public:
 
 
 	void Effect(Player_Info * stats) {
+		sounds.PlayGetItem();
 		if (stats->CurLife + 10 > stats->MaxLife) {
 			stats->CurLife += stats->MaxLife - stats->CurLife;
 		}
@@ -209,6 +218,7 @@ public:
 
 	void Effect(Player_Info * stats) {
 		Victory();
+		sounds.PlayFanfare();
 	}
 
 	bool HitDetect(Entity * other) {

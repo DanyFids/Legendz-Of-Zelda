@@ -7,7 +7,9 @@
 #include<random>
 #include<cmath>
 #include<thread>
+#include <random>
 
+#include "sfxManager.h"
 #include"Enums.h"
 #include"FunctionProto.h"
 #include"SpriteSheets.h"
@@ -25,10 +27,14 @@
 
 //SFX/BGM Managers
 //#include "bgMusicManager.h"
-#include "sfxManager.h"
+
 #include"Threads.h"
 
 void SetupRoom(Room * r, Direction d);
+
+std::random_device gen;
+std::uniform_int_distribution<> range(1, 2);
+int truRand = range(gen);
 
 
 const int PLAYER_SPEED = 2;
@@ -58,13 +64,13 @@ Player player(240, 192);
 //std::vector<Enemy*> * enemies;
 std::vector<Projectile*> projectiles = {};
 //std::vector<Terrain*> * roomTer;
-std::vector<VisualFX*> fx = {new Smoke(60,40), new Blip(100,40)};
+std::vector<VisualFX*> fx = {};
 
 Room * curRoom = NULL;
 
-const float deathTimer = 2.45f;
+const float deathTimer = 3.50f;
 float deathSpinTime = deathTimer;
-bool hasSpun = false;
+bool beenHit = false;
 
 //std::vector<PowerUp *> powerups = {};
 
@@ -89,9 +95,9 @@ Menu RegisterMenu({
 	new TextButton(94, 180, "Register Name End ", END)
 });
 Menu GameOverMenu({
-	new TextButton((512/2),30, "Continue", CONTINUE),
-	new TextButton((512 / 2),70, "SAVE", SAVE),
-	new TextButton((512 / 2),110, "Retry", RETRY)
+	new TextButton((512 / 2) - 60,30, "Continue", CONTINUE),
+	new TextButton((512 / 2) - 60,70, "SAVE", SAVE),
+	new TextButton((512 / 2) - 60,110, "Retry", RETRY)
 	});
 int editId = 0;
 int editChar = 0;
@@ -112,7 +118,7 @@ int main() {
 	cursor.bVisible = false;
 	SetConsoleCursorInfo(console, &cursor);
 
-	//LoZTitleScreenBGM();	 //Legacy Player
+	
 	Load();
 	sounds.PlayTitleTheme();
 	
@@ -474,14 +480,6 @@ void Draw() {
 	case GAME_OVER:
 		clear();
 		
-		switch ((rand() % 2 + 1)) {
-		case 2:
-			sounds.PlayDarkSouls();	   // OOOOF
-			break;
-		case 1:
-			sounds.PlayWasted();
-			break;
-		}
 
 		if (deathSpinTime > 0) {
 			player.draw(drawBuff);
@@ -536,6 +534,7 @@ void DrawScreen(HANDLE scrn) {
 
 void Update() {
 	float dt = GetTimeInSeconds();
+	int rdm = rand() % 1;
 
 	if (state == GAME_OVER) {
 		if (deathSpinTime > 0.5f)
@@ -661,20 +660,22 @@ void Update() {
 			switch (player.GetDir()) {
 			case Down:
 				player.SetCurAnim(4);
+				player.SetCurFrame(0);
 				break;
 			case Right:
 				player.SetCurAnim(5);
+				player.SetCurFrame(0);
 				break;
 			case Left:
 				player.SetCurAnim(6);
+				player.SetCurFrame(0);
 				break;
 			case Up:
 				player.SetCurAnim(7);
+				player.SetCurFrame(0);
 				break;
 			}
-		}
-
-		if (player.CanAtk()) {
+		}else if(player.CanAtk()) {
 			switch (player.GetDir()) {
 			case Down:
 				player.SetCurAnim(0);
@@ -703,7 +704,7 @@ void Update() {
 			}
 			
 			if (player.CanAtk()) {
-				sounds.PlaySwing();
+				
 				Direction d = player.GetDir();
 				switch (d) {
 				case Up:
@@ -749,6 +750,7 @@ void Update() {
 				case Up:
 					switch (player_file->wpn_sel) {
 					case W_BOMB:
+						sounds.PlayPlacedBomb();
 						if (player_file->Bombs > 0) {
 							projectiles.push_back(new Bomb(player.GetX() + 2, player.GetY() - 14));
 							player_file->Bombs--;
@@ -769,6 +771,7 @@ void Update() {
 				case Down:
 					switch (player_file->wpn_sel) {
 					case W_BOMB:
+						sounds.PlayPlacedBomb();
 						if (player_file->Bombs > 0) {
 							projectiles.push_back(new Bomb(player.GetX() + 2, player.GetY() + 14));
 							player_file->Bombs--;
@@ -789,6 +792,7 @@ void Update() {
 				case Left:
 					switch (player_file->wpn_sel) {
 					case W_BOMB:
+						sounds.PlayPlacedBomb();
 						if (player_file->Bombs > 0) {
 							projectiles.push_back(new Bomb(player.GetX() + 2 - 28, player.GetY()));
 							player_file->Bombs--;
@@ -810,6 +814,7 @@ void Update() {
 				case Right:
 					switch (player_file->wpn_sel) {
 					case W_BOMB:
+						sounds.PlayPlacedBomb();
 						if (player_file->Bombs > 0) {
 							projectiles.push_back(new Bomb(player.GetX() + 28, player.GetY()));
 							player_file->Bombs--;
@@ -842,6 +847,19 @@ void Update() {
 			}
 			if (curRoom->EnemyList[e]->HitDetect(&player)) {
 				curRoom->EnemyList[e]->Hit(player);
+				if (!beenHit)
+				{
+					beenHit = true;
+					switch (rdm) {
+					case 0:
+						sounds.PlayLinkHurt();
+						break;
+					case 1:
+						sounds.PlayMC();
+						break;
+					}
+				}
+				beenHit = false;
 			}
 			for (int p = 0; p < projectiles.size(); p++) {
 				bool check;
@@ -883,6 +901,19 @@ void Update() {
 
 			if (curRoom->hazards[h]->HitDetect(&player)) {
 				curRoom->hazards[h]->Hit(player);
+				if (!beenHit)
+				{
+					beenHit = true;
+					switch (rdm) {
+					case 1:
+						sounds.PlayLinkHurt();
+						break;
+					case 2:
+						sounds.PlayMC();
+						break;
+					}
+				}
+				beenHit = false;
 			}
 			for (int f = 0; f < curRoom->hazards.size(); f++) {
 				if (h != f) {
@@ -914,6 +945,7 @@ void Update() {
 					curRoom->TerrainList[t]->HitDetect(projectiles[p]);
 				}
 			}
+
 		}
 		for (int u = 0; u < curRoom->powerups.size(); u++) {
 
@@ -928,12 +960,14 @@ void Update() {
 		player.Update(dt);
 		for (int e = 0; e < curRoom->EnemyList.size(); e++) {
 			if (curRoom->EnemyList[e]->GetHP() <= 0) {
+				sounds.PlayEnemyDie();
 				fx.push_back(new Blip(curRoom->EnemyList[e]->GetX(), curRoom->EnemyList[e]->GetY() ));
 				curRoom->EnemyList[e]->Drop(&curRoom->powerups);
 				delete curRoom->EnemyList[e];
 				curRoom->EnemyList.erase(curRoom->EnemyList.begin() + e);
 			}
 			else {
+				//sounds.PlayEnemyHit();
 				if (!stop_watch)
 				{
 					curRoom->EnemyList[e]->Update(dt);
@@ -950,6 +984,7 @@ void Update() {
 			if (projectiles[p]->getTime() <= 0) {
 				if (projectiles[p]->getEnum() == PT_BOMB)
 				{
+					sounds.PlayKaboom();
 					projectiles.push_back(new Explosion(projectiles[p]->GetX() + (projectiles[p]->GetWidth()/2) - 32, projectiles[p]->GetY() + (projectiles[p]->GetHeight()/2) - 16));
 
 					fx.push_back(new Smoke(projectiles[p]->GetX(), projectiles[p]->GetY()));//Smoke puffs @location
@@ -1184,6 +1219,7 @@ void ButtonHandler(BtnAction action, int extra) {
 		break;
 	case ERASE:
 		ToEliminationMode();
+		sounds.PlayCDIGanon();
 		break;
 	case END:
 		switch (state) {
@@ -1196,18 +1232,23 @@ void ButtonHandler(BtnAction action, int extra) {
 		}
 		break;
 	case CONTINUE:
+		
+		curRoom = LEVEL2.GetStartRoom();
+		player.MoveTo({ ROOM_BOTTOM_WALL.X, ROOM_BOTTOM_WALL.Y - 16 });
+		LEVEL2.SetupDungeon();
+		curRoom->Respawn();
 		state = PLAY;
-		sounds.LoadDungeonTheme();
+		sounds.PlayDungeonTheme();
 		break;
 	case SAVE:
 		Save();
 		ToCharacterSelect();
-		sounds.LoadFileSelect();
+		sounds.PlayFileSelect();
 		break;
 	case RETRY:
 		LoadFiles();
 		ToCharacterSelect();
-		sounds.LoadFileSelect();
+		sounds.PlayFileSelect();
 		break;
 	default:
 		break;
@@ -1336,9 +1377,6 @@ void ToEliminationMode() {
 }
 
 void SetupRoom(Room * r, Direction d) {
-	while (drawingFrame) {
-
-	}
 	curRoom = r;
 	stop_watch = false;
 	player.SetDir(d);
@@ -1418,14 +1456,24 @@ void DrawUI(int y) {
 
 void Victory() {
 	state = CREDITS;
-
+	sounds.StopMusic();
+	sounds.PlayFileSelect();
 }
 
 void GameOver() {
 
 	state = GAME_OVER;
 	sounds.StopMusic();
-	sounds.PlayLinkDeath();
+	sounds.PlayDarkSouls();
+	
+	//switch (truRand) {
+	//case 0:
+	//	sounds.PlayDarkSouls();	   // OOOOF
+	//	break;
+	//case 1:
+	//	sounds.PlayWasted();
+	//	break;
+	//}
 
 	//clear screen except Link
 	

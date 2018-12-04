@@ -282,6 +282,10 @@ public:
 
 	void Setup(Room * r) {
 		hitList = &r->EnemyList;
+		while (hitList->size() > 0) {
+			hitList->pop_back();
+		}
+
 		for (int e = 0; e < targets.size(); e++) {
 			hitList->push_back(targets[e]->Clone());
 		}
@@ -298,13 +302,15 @@ class Result {
 public:
 	virtual void Effect() = 0;
 	virtual void Setup() = 0;
+	virtual void Solve() = 0;
 };
 
 class NULL_RESULT : public Result {
 public:
-	void Effect() {};
+	void Effect() {}
 
 	void Setup() {}
+	void Solve() {}
 };
 
 class Open : public Result {
@@ -319,15 +325,22 @@ public:
 	}
 
 	void Effect() {
+		sounds.PlayDoorUnlocked();
 		for (int c = 0; c < doors.size(); c++) {
 			doors[c].setOpen(true);
+			
 		}
 	}
 
 	void Setup() {
+		
 		for (int d = 0; d < doors.size(); d++) {
 			doors[d].setOpen(false);
 		}
+	}
+
+	void Solve() {
+		Effect();
 	}
 };
 
@@ -349,6 +362,10 @@ public:
 		for (int r = 0; r < rewards.size(); r++) {
 			room->powerups.push_back(rewards[r]);
 		}
+	}
+
+	void Solve() {
+
 	}
 };
 
@@ -395,7 +412,7 @@ public:
 	void Solve() {
 		trigger->Solve();
 		for (int r = 0; r < results.size(); r++) {
-			results[r]->Effect();
+			results[r]->Solve();
 		}
 	}
 };

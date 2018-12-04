@@ -736,8 +736,8 @@ public:
 	}
 
 	Room * GetStartRoom() {
-		player_file->map_discovered[5][3] = true;
-		return &rooms[5][3];
+		player_file->map_discovered[3][7] = true;
+		return &rooms[3][7];
 	}
 
 	void GenerateRoomWalls() {

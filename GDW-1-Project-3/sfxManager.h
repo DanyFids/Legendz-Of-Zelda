@@ -16,20 +16,81 @@ public:
 	sf::SoundBuffer wastedOOF;
 	sf::SoundBuffer darkSoulsOOF;
 
+	sf::SoundBuffer linkHurtSound;
+	sf::SoundBuffer mcClassic;
+	sf::SoundBuffer enemyDie;
+	sf::SoundBuffer enemyHit;
+
+	sf::SoundBuffer kaboom;
+	sf::SoundBuffer bombPlaced;
+
+	sf::SoundBuffer heartPickup;
+	sf::SoundBuffer getItemSound;
+
+	sf::SoundBuffer doorUnlocked;
+	sf::SoundBuffer findSecret;
+	sf::SoundBuffer fanfare;
+
+	sf::SoundBuffer timeStop;
+	sf::SoundBuffer cdiganon;
 
 	sf::SoundBuffer titleThemeBGM;
 	sf::SoundBuffer dungeonThemeBGM;
 	sf::SoundBuffer fileSelectBGM;
+	
+	bool LoadCDIGanon() {
+		return 	cdiganon.loadFromFile("SFX\\CDIganon.wav");
+	}
 
+	bool LoadEnemyDie() {
+		return 	enemyDie.loadFromFile("SFX\\LOZ_Enemy_Die.wav");
+	}
+
+	bool LoadEnemyHit() {
+		return 	enemyHit.loadFromFile("SFX\\LOZ_EnemyHit.wav");
+	}
+
+	bool LoadTimeStop() {
+		return 	timeStop.loadFromFile("SFX\\TimeStop.wav");
+	}
+	bool LoadDoorUnlock() {
+		return 	doorUnlocked.loadFromFile("SFX\\LOZ_Door_Unlock.wav");
+	}
+	bool LoadHeartPickup() {
+		return 	heartPickup.loadFromFile("SFX\\LOZ_Get_Heart.wav");
+	}
+	bool LoadGetItem() {
+		return 	getItemSound.loadFromFile("SFX\\LOZ_Get_Item.wav");
+	}
+	bool LoadFanfare() {
+		return 	fanfare.loadFromFile("SFX\\LOZ_Fanfare.wav");
+	}
+
+	bool LoadBombPlaced() {
+		return 	bombPlaced.loadFromFile("SFX\\LOZ_Bomb_Drop.wav");
+	}
+	bool LoadKaboom() {
+		return 	kaboom.loadFromFile("SFX\\LOZ_Bomb_Blow.wav");
+	}
+	bool LoadLinkHurt() {
+		return 	linkHurtSound.loadFromFile("SFX\\LOZ_Link_Hurt.wav");
+	}
+	bool LoadMC() {
+		return 	mcClassic.loadFromFile("SFX\\MinecraftHurt.wav");
+	}
 	bool LoadWasted() {
-		return 	linkDieSound.loadFromFile("SFX\\WastedOOF.wav");
+		return 	wastedOOF.loadFromFile("SFX\\WastedOOF.wav");
 	}
 	bool LoadDarkSouls() {
-		return 	linkDieSound.loadFromFile("SFX\\YouDiedOOF.wav");
+		return 	darkSoulsOOF.loadFromFile("SFX\\YouDiedOOF.wav");
 	}
 
 	bool LoadLinkDie() {
 		return 	linkDieSound.loadFromFile("SFX\\LOZ_Link_Die.wav");
+	}
+
+	bool LoadFindSecret() {
+		return 	findSecret.loadFromFile("SFX\\LOZ_Secret.wav");
 	}
 
 	bool LoadSwing() {
@@ -39,6 +100,8 @@ public:
 	bool LoadBeamSword() {
 		return 	beamSound.loadFromFile("SFX\\LOZ_Sword_Shoot.wav");
 	}
+
+	//BGM's
 
 	bool LoadTitleTheme() {
 		
@@ -81,10 +144,71 @@ public:
 		music.play();
 	}
 
-	
+	// ^ ================= MUSIC ================ ^ \\
+
+	void PlayWasted() {
+		music.setBuffer(wastedOOF);
+		music.play();
+	}
+
+	void PlayDarkSouls() {
+		music.setBuffer(darkSoulsOOF);
+		music.play();
+		music.setLoop(false);
+	}
+
+	void PlayCDIGanon() {
+		sound.setBuffer(cdiganon);
+		sound.play();
+	}
+
+	void PlayEnemyDie() {
+		sound.setBuffer(enemyDie);
+		sound.play();
+	}
+
+	void PlayEnemyHit() {
+		sound.setBuffer(enemyHit);
+		sound.play();
+	}
+
+	void PlayFanfare() {
+		sound.setBuffer(fanfare);
+		sound.play();
+	}
+
+	void PlayFindSecret() {
+		sound.setBuffer(findSecret);
+		sound.play();
+	}
+
+	void PlayDoorUnlocked() {
+		sound.setBuffer(doorUnlocked);
+		sound.play();
+	}
 
 	void PlaySwing() {
 		sound.setBuffer(swingSound);
+		sound.play();
+	}
+
+	void PlayLinkHurt() {
+		sound.setBuffer(linkHurtSound);
+		sound.play();
+	}
+
+	void PlayHeartPickup() {
+		sound.setBuffer(heartPickup);
+		sound.play();
+	}
+
+	void PlayGetItem() {
+		sound.setBuffer(getItemSound);
+		sound.play();
+	}
+
+	void PlayMC() {
+		sound.setBuffer(mcClassic);
 		sound.play();
 	}
 
@@ -94,18 +218,24 @@ public:
 		sound.play();
 	}
 
-	void PlayWasted() {
-		sound.setBuffer(wastedOOF);
-		sound.play();
-	}
-
-	void PlayDarkSouls() {
-		sound.setBuffer(darkSoulsOOF);
-		sound.play();
-	}
+	
 
 	void PlaySwordBeam() {
 		sound.setBuffer(beamSound);
+		sound.play();
+	}
+
+	void PlayPlacedBomb() {
+		sound.setBuffer(bombPlaced);
+		sound.play();
+	}
+
+	void PlayKaboom() {
+		sound.setBuffer(kaboom);
+		sound.play();
+	}
+	void PlayTimeStops() {
+		sound.setBuffer(timeStop);
 		sound.play();
 	}
 
