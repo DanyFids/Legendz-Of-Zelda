@@ -10,11 +10,27 @@ private:
 	sf::Sound music;
 public:
 	sf::SoundBuffer swingSound;
+	sf::SoundBuffer linkDieSound;
 	sf::SoundBuffer beamSound;
+
+	sf::SoundBuffer wastedOOF;
+	sf::SoundBuffer darkSoulsOOF;
+
+
 	sf::SoundBuffer titleThemeBGM;
 	sf::SoundBuffer dungeonThemeBGM;
 	sf::SoundBuffer fileSelectBGM;
 
+	bool LoadWasted() {
+		return 	linkDieSound.loadFromFile("SFX\\WastedOOF.wav");
+	}
+	bool LoadDarkSouls() {
+		return 	linkDieSound.loadFromFile("SFX\\YouDiedOOF.wav");
+	}
+
+	bool LoadLinkDie() {
+		return 	linkDieSound.loadFromFile("SFX\\LOZ_Link_Die.wav");
+	}
 
 	bool LoadSwing() {
 		return 	swingSound.loadFromFile("SFX\\LOZ_Sword_Slash.wav");
@@ -72,10 +88,28 @@ public:
 		sound.play();
 	}
 
+
+	void PlayLinkDeath() {
+		sound.setBuffer(linkDieSound);
+		sound.play();
+	}
+
+	void PlayWasted() {
+		sound.setBuffer(wastedOOF);
+		sound.play();
+	}
+
+	void PlayDarkSouls() {
+		sound.setBuffer(darkSoulsOOF);
+		sound.play();
+	}
+
 	void PlaySwordBeam() {
 		sound.setBuffer(beamSound);
 		sound.play();
 	}
+
+
 
 };
 

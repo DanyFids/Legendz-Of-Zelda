@@ -38,6 +38,7 @@ private:
 	int hp = 6;
 	bool can_attack = true;
 	float stop_timer = 0;
+	float frameTimer = 0.0f;
 public:
 	Player(int x, int y) :Entity(x, y, 32, 16, false, true) {
 		SetNumAnim(4);
@@ -57,6 +58,14 @@ public:
 			player_file->CurLife -= d;
 			invulnTimer = 15;
 		}
+	}
+
+	void setFrameTimer(float t) {
+		frameTimer = t;
+	}
+
+	float getFrameTimer() {
+		return frameTimer;
 	}
 
 
@@ -82,6 +91,8 @@ public:
 		if (invulnTimer > 0) {
 			invulnTimer--;
 		}
+
+
 
 		xSpd = 0;
 		ySpd = 0;

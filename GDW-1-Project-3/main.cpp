@@ -62,6 +62,10 @@ std::vector<VisualFX*> fx = {new Smoke(60,40), new Blip(100,40)};
 
 Room * curRoom = LEVEL2.GetStartRoom();
 
+const float deathTimer = 2.45f;
+float deathSpinTime = deathTimer;
+bool hasSpun = false;
+
 //std::vector<PowerUp *> powerups = {};
 
 // Menus
@@ -85,9 +89,9 @@ Menu RegisterMenu({
 	new TextButton(94, 180, "Register Name End ", END)
 });
 Menu GameOverMenu({
-	new TextButton(0,0, "Continue", CONTINUE),
-	new TextButton(0,0, "SAVE", SAVE),
-	new TextButton(0,0, "Retry", RETRY)
+	new TextButton((512/2),30, "Continue", CONTINUE),
+	new TextButton((512 / 2),70, "SAVE", SAVE),
+	new TextButton((512 / 2),110, "Retry", RETRY)
 	});
 int editId = 0;
 int editChar = 0;
@@ -254,6 +258,8 @@ void SwapBuffer() {
 *************************
 	Handles keyboard input.
 */
+bool isMoving = false;
+
 void KeyHandler(KEY_EVENT_RECORD e) {
 	if (state == CHARACTER_ADD) {
 		if (e.bKeyDown) {
@@ -312,6 +318,10 @@ void KeyHandler(KEY_EVENT_RECORD e) {
 				player_input.keyRight = true;
 				break;
 			case VK_SPACE:
+				if (state == INVENTORY) {
+					state = PAUSE;
+				}
+				break;
 			case 'C':
 				player_input.keySpace = true;
 				break;
@@ -321,19 +331,23 @@ void KeyHandler(KEY_EVENT_RECORD e) {
 			switch (e.wVirtualKeyCode) {
 			case VK_UP:
 				player_input.keyUp = false;
+				isMoving = false;
 				break;
 			case VK_DOWN:
 				player_input.keyDown = false;
+				isMoving = false;
 				break;
 			case VK_LEFT:
 				player_input.keyLeft = false;
+				isMoving = false;
 				break;
 			case VK_RIGHT:
 				player_input.keyRight = false;
+				isMoving = false;
 				break;
-			case VK_SPACE:
 			case 'C':
 				player_input.keySpace = false;
+				isMoving = false;
 				break;
 			}
 
@@ -446,6 +460,29 @@ void Draw() {
 		Sprites.DrawTextSprites(drawBuff, "- Elimination Mode -", 80, 40);
 		ElimMenu.Draw(drawBuff);
 		break;
+	case GAME_OVER:
+		clear();
+		
+		switch ((rand() % 2 + 1)) {
+		case 2:
+			sounds.PlayDarkSouls();	   // OOOOF
+			break;
+		case 1:
+			sounds.PlayWasted();
+			break;
+		}
+
+		if (deathSpinTime > 0) {
+			player.draw(drawBuff);
+		}
+		else {
+			GameOverMenu.Draw(drawBuff);
+		}
+		break;
+	case PAUSE:
+		clear();
+		GameOverMenu.Draw(drawBuff);
+		break;
 	}
 
 	SwapBuffer();
@@ -485,30 +522,91 @@ void DrawScreen(HANDLE scrn) {
 void Update() {
 	float dt = GetTimeInSeconds();
 
-	if (state == PLAY) {
-		bool changeDir = true;
+	if (state == GAME_OVER) {
+		if (deathSpinTime > 0.5f)
+		{
+			switch (player.GetCurAnim()) {
+			case 0:
+				player.SetCurAnim(1);
+				break;
+			case 1:
+				player.SetCurAnim(3);
+				break;
+			case 2:
+				player.SetCurAnim(0);
+				break;
+			case 3:
+				player.SetCurAnim(2);
+				break;
 
+			}
+			
+			deathSpinTime -= dt;
+		}
+
+		else if(deathSpinTime > 0){
+			player.SetCurAnim(9);
+			deathSpinTime -= dt;
+		}
+
+	}
+
+	if (state == PLAY) {
+
+		bool changeDir = true;
+		
+		if (player_file->CurLife <= 0) {
+			GameOver();
+		}
+		
 		switch (player.GetDir()) {
 		case Up:
 			if (player_input.keyUp) {
 				changeDir = false;
+				if (player.CanAtk())
+				{
+					player.nextFrame();
+				}
+				isMoving = true;
 			}
 			break;
 		case Down:
 			if (player_input.keyDown) {
 				changeDir = false;
+				if (player.CanAtk())
+				{
+					player.nextFrame();
+				}
+				isMoving = true;
 			}
 			break;
 		case Left:
 			if (player_input.keyLeft) {
 				changeDir = false;
+				if (player.CanAtk())
+				{
+					player.nextFrame();
+				}
+				isMoving = true;
 			}			break;
 		case Right:
 			if (player_input.keyRight) {
 				changeDir = false;
+				if (player.CanAtk())
+				{
+					player.nextFrame();
+				}
+				isMoving = true;
 			}
 			break;
 		}
+
+		if (!isMoving && (player.CanAtk()))
+		{
+			player.SetCurFrame(0);
+		}
+		
+		
 
 		if (player.CanAtk()) {
 			if (player_input.keyUp && !player_input.keyDown) {
@@ -544,6 +642,41 @@ void Update() {
 			}
 		}
 
+		if (!player.CanAtk()) {
+			switch (player.GetDir()) {
+			case Down:
+				player.SetCurAnim(4);
+				break;
+			case Right:
+				player.SetCurAnim(5);
+				break;
+			case Left:
+				player.SetCurAnim(6);
+				break;
+			case Up:
+				player.SetCurAnim(7);
+				break;
+			}
+		}
+
+		if (player.CanAtk()) {
+			switch (player.GetDir()) {
+			case Down:
+				player.SetCurAnim(0);
+				break;
+			case Right:
+				player.SetCurAnim(1);
+				break;
+			case Left:
+				player.SetCurAnim(2);
+				break;
+			case Up:
+				player.SetCurAnim(3);
+				break;
+			}
+		}
+		
+
 		if (player_input.keySpace)
 		{
 			sounds.PlaySwing();
@@ -552,15 +685,34 @@ void Update() {
 				switch (d) {
 				case Up:
 					projectiles.push_back(new Sword(player.GetX(), player.GetY() - 16, d));
+					if (player_file->CurLife == player_file->MaxLife) {
+						projectiles.push_back(new BeamSword(player.GetX(), player.GetY() - 16, 0, -4, d));
+						sounds.PlaySwordBeam();
+
+					}
 					break;
 				case Down:
 					projectiles.push_back(new Sword(player.GetX(), player.GetY() + player.GetHeight(), d));
+					if (player_file->CurLife == player_file->MaxLife) {
+						projectiles.push_back(new BeamSword(player.GetX(), player.GetY() + player.GetHeight(), 0, 4, d));
+						sounds.PlaySwordBeam();
+
+					}
 					break;
 				case Left:
 					projectiles.push_back(new Sword(player.GetX() - 32, player.GetY(), d));
+					if (player_file->CurLife == player_file->MaxLife) {
+						projectiles.push_back(new BeamSword(player.GetX() - 32, player.GetY(), -8, 0, d));
+						sounds.PlaySwordBeam();
+
+					}
 					break;
 				case Right:
 					projectiles.push_back(new Sword(player.GetX() + player.GetWidth(), player.GetY(), d));
+					if (player_file->CurLife == player_file->MaxLife) {
+						projectiles.push_back(new BeamSword(player.GetX() + player.GetWidth(), player.GetY(), 8, 0, d));
+						sounds.PlaySwordBeam();
+					}
 					break;
 				}
 				player.SwingSword();
@@ -602,7 +754,7 @@ void Update() {
 
 
 
-					if (projectiles[p]->getEnum() == PT_ARROW) { //Removing Projectiles When they strike an Entity
+					if (projectiles[p]->getEnum() == PT_ARROW || projectiles[p]->getEnum() == PT_BEAMSWORD) { //Removing Projectiles When they strike an Entity
 						std::vector<Projectile*>::iterator it = projectiles.begin();
 						delete projectiles[p];
 						projectiles.erase(it + p);
@@ -664,6 +816,7 @@ void Update() {
 		player.Update(dt);
 		for (int e = 0; e < curRoom->EnemyList.size(); e++) {
 			if (curRoom->EnemyList[e]->GetHP() <= 0) {
+				fx.push_back(new Blip(curRoom->EnemyList[e]->GetX(), curRoom->EnemyList[e]->GetY() ));
 				curRoom->EnemyList[e]->Drop(&curRoom->powerups);
 				delete curRoom->EnemyList[e];
 				curRoom->EnemyList.erase(curRoom->EnemyList.begin() + e);
@@ -851,6 +1004,17 @@ void MouseHandler(MOUSE_EVENT_RECORD e) {
 	case CHARACTER_RMV:
 		scrn = &ElimMenu;
 		break;
+	case GAME_OVER:
+		if (deathSpinTime <= 0) {
+			scrn = &GameOverMenu;
+			break;
+		}
+		else {
+			return;
+		}
+	case PAUSE:
+		scrn = &GameOverMenu;
+		break;
 	default:
 		//state = CHARACTER_SEL;
 		return;
@@ -918,14 +1082,17 @@ void ButtonHandler(BtnAction action, int extra) {
 		break;
 	case CONTINUE:
 		state = PLAY;
+		sounds.LoadDungeonTheme();
 		break;
 	case SAVE:
 		Save();
 		ToCharacterSelect();
+		sounds.LoadFileSelect();
 		break;
 	case RETRY:
 		LoadFiles();
 		ToCharacterSelect();
+		sounds.LoadFileSelect();
 		break;
 	default:
 		break;
@@ -1128,8 +1295,26 @@ void Victory() {
 
 void GameOver() {
 
-}
+	state = GAME_OVER;
+	sounds.StopMusic();
+	sounds.PlayLinkDeath();
 
+	//clear screen except Link
+	
+	deathSpinTime = deathTimer;
+	//play death sound byte byte
+	
+
+	//Spin link for as long as it takes.
+
+	//Remove Link
+	//put a blip on link
+	
+	//Play Oof?
+
+	player_file->CurLife = 6;
+	//LEVEL2.getStartRoom();
+}
 
 // CLASS FUNCTIONS
 void Projectile::Hit(Enemy * e) {

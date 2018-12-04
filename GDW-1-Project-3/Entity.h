@@ -30,6 +30,8 @@ public:
 		
 	}
 
+	
+
 	Entity(int x, int y, int w, int h, bool hide = false, bool isP = false) {
 		this->x = x;
 		this->y = y;
@@ -118,6 +120,10 @@ public:
 		cur_anim = id;
 	}
 
+	int GetCurAnim() {
+		return cur_anim;
+	}
+
 	void SetCurFrame(int id) {
 		cur_frame = id;
 	}
@@ -141,6 +147,18 @@ public:
 	void SetHidden(bool h) {
 		hidden = h;
 	}
+
+	void nextFrame() {
+		if (cur_frame == 0)
+		{
+			cur_frame = 1;
+		}
+		else {
+			cur_frame = 0;
+		}
+
+	}
+
 
 	virtual bool HitDetect(Entity * other) = 0;
 	virtual void Update(float dt) = 0;

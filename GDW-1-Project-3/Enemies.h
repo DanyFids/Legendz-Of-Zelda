@@ -9,7 +9,7 @@ private:
 public:
 	SpikeTrap(int x, int y) :Enemy(x, y, 32, 16, 1, 1) {
 		SetNumAnim(2);
-		this->SetCurAnim(1);
+		this->SetCurAnim(0);
 		SetSpriteSheet(Sprites.spiketrapSprites);
 
 		origin.X = x;
@@ -175,7 +175,7 @@ private:
 	
 public:
 	Keese(int x, int y) :Enemy(x, y, 32, 8, 1, 1) {
-		SetNumAnim(1);
+		SetCurFrame(0);
 
 		SetSpriteSheet(Sprites.keeseSprites);
 		this->setEType(ET_KEESE);
@@ -190,6 +190,7 @@ public:
 			sleepy = spook(gen);
 			if (sleepy == 37) {
 				rest = true;
+				this->SetCurFrame(1);
 			}
 		}
 
@@ -197,6 +198,8 @@ public:
 			dir = range(gen);
 		}
 		if (!(rest)) {
+			
+			this->nextFrame();
 			switch (dir)
 			{
 			case 1:
@@ -880,10 +883,12 @@ public:
 		isBlue = b;
 		getX = x;
 		getY = y;
+		SetSpriteSheet(Sprites.goriyaSprites);
 		if (isBlue) {
 			setHP(5);
+			this->SetCurAnim(0);
 		}
-		SetSpriteSheet(Sprites.gelSprites);
+		
 	}
 
 	void AI(Player p) {
@@ -897,16 +902,16 @@ public:
 				if (wT == 1) {
 					switch (dir) {
 					case 1:
-						projectiles.push_back(new Boomerang(getX, getY, 0, -1, this));
+						projectiles.push_back(new Boomerang(getX, getY, 0, -3, this));
 						break;
 					case 2:
-						projectiles.push_back(new Boomerang(getX, getY, 0, 1, this));
+						projectiles.push_back(new Boomerang(getX, getY, 0, 3, this));
 						break;
 					case 3:
-						projectiles.push_back(new Boomerang(getX, getY, 2, 0, this));
+						projectiles.push_back(new Boomerang(getX, getY, 6, 0, this));
 						break;
 					case 4:
-						projectiles.push_back(new Boomerang(getX, getY, -2, 0, this));
+						projectiles.push_back(new Boomerang(getX, getY, -6, 0, this));
 						break;
 					}
 					cooldown = GORYIA_COOLDOWN;
@@ -1096,7 +1101,7 @@ public:
 			segments.push_back(new MoldormSegment(x, y));
 		}
 
-		SetSpriteSheet(Sprites.blockSprites);
+		SetSpriteSheet(Sprites.moldormSprites);
 	}
 
 	void draw(HANDLE out) {

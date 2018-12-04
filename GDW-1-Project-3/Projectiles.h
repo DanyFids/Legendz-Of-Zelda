@@ -53,10 +53,33 @@ private:
 
 public:	   // x,y coord,                  width*2,height,time, damage, speed
 		   // the x+30 and y+3 is to make it appear infront of link, this needs to be changed by direction. sooner or later.
-	BeamSword(int x, int y, int x_spd, int y_spd, Direction _dir) : Projectile(x, y, 32, 7, 1.0f, 1) {
+	BeamSword(int x, int y, int x_spd, int y_spd, Direction _dir) : Projectile(x, y, 32, 7, 3.0f, 1) {
 		//Sprite sheet
+		//set the sprite sheet!
 		this->setDir(_dir);
 		this->setEnum(PT_BEAMSWORD);
+		this->SetSpriteSheet(Sprites.swordSprites);
+		
+
+		switch (_dir) {
+		case Up:
+			SetCurAnim(0);
+			SetCurFrame(1);
+			break;
+		case Down:
+				SetCurAnim(1);
+				SetCurFrame(1);
+				break;
+			case Right:
+				SetCurAnim(2);
+				SetCurFrame(1);
+				break;
+			case Left:
+				SetCurAnim(3);
+				SetCurFrame(1);
+				break;
+		}
+		
 		//Speeds
 		xSpd = x_spd;
 		ySpd = y_spd;
@@ -86,7 +109,7 @@ private:
 
 
 public:	   // x,y coord,                  width*2,height,							   lifetime, damage
-	Arrow(int x, int y,int x_spd,int y_spd, Direction _dir) : Projectile(x, y, 34, 17, 10.0f, 1) {
+	Arrow(int x, int y,int x_spd,int y_spd, Direction _dir) : Projectile(x, y, 34, 17, 5.0f, 1) {
 		this->setDir(_dir);
 		this->setEnum(PT_ARROW);
 		xSpd = x_spd;
@@ -149,7 +172,7 @@ private:
 
 
 public:	   // x,y coord,                  width*2,height,lifetime, damage, speed 
-	Bomb(int x, int y) : Projectile(x, y, 28, 14, 10.0f, 0) {	   //28 , 14
+	Bomb(int x, int y) : Projectile(x, y, 28, 14, 3.0f, 0) {	   //28 , 14
 		this->setEnum(PT_BOMB);
 		SetSpriteSheet(Sprites.bombSprites);
 		SetCurFrame(0);
@@ -163,6 +186,8 @@ public:	   // x,y coord,                  width*2,height,lifetime, damage, speed
 	void Update(float dt)
 	{
 		this->setTime(this->getTime() - dt);
+		this->nextFrame();
+
 	}
 
 };
@@ -175,7 +200,7 @@ private:
 	
 
 public:	   // x,y coord,                  width*2,height,lifetime, damage, 
-	Explosion(int x, int y) : Projectile(x, y, 32, 7, 2.0f, 3) {
+	Explosion(int x, int y) : Projectile(x, y, 64, 32, 2.0f, 3) {
 		this->setEnum(PT_EXPLOSION);
 		this->SetSpriteSheet(Sprites.explosionSprites);
 		 
@@ -237,13 +262,13 @@ public:	   // x,y coord,                  width*2,height,		   || lifetime, damag
 
 		if (rebounded)
 		{
-			int distX = (parent->GetX() + 16) - this->GetX();
-			int distY = (parent->GetY() + 8) - this->GetY();
+			int distX = (parent->GetX() + (parent->GetWidth() / 2)) - this->GetX();
+			int distY = (parent->GetY() + (parent->GetHeight() / 2)) - this->GetY();
 
 			float dirScale = sqrt(pow(distX, 2) + pow(distY, 2));
 			
-			xSpd = (distX / dirScale) * (14);
-			ySpd = (distY / dirScale) * (7);
+			xSpd = (distX / dirScale) * (12);
+			ySpd = (distY / dirScale) * (6);
 
 		}
 	}
@@ -253,10 +278,12 @@ public:	   // x,y coord,                  width*2,height,		   || lifetime, damag
 		move();
 		rebound();
 		this->setTime(this->getTime() - dt);
-																								//These are checks to see if it's near the player so that it destroys itself
+		this->nextFrame();
+		//These are checks to see if it's near the player/goriya so that it destroys itself
 		if (this->HitDetect(parent) && rebounded)
 		{
 			this->setTime(0.0f);
+			
 		}
 	}
 

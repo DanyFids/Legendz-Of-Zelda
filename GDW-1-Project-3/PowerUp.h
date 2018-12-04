@@ -2,7 +2,7 @@
 
 class HeartPickup : public PowerUp {
 public:
-	HeartPickup(int x, int y) : PowerUp(x, y, 32, 16) {
+	HeartPickup(int x, int y) : PowerUp(x, y, 16, 8) {
 		SetSpriteSheet(Sprites.heartSprites);
 		SetCurAnim(0);
 	}
@@ -31,7 +31,6 @@ class HeartContainerPickup : public PowerUp {
 public:
 	HeartContainerPickup(int x, int y) : PowerUp(x, y, 32, 16) {
 		SetSpriteSheet(Sprites.heartSprites);
-		set
 	}
 
 

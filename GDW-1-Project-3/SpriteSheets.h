@@ -364,7 +364,7 @@ public:
 		NULL);
 
 	bool LoadDodongo() {
-		SetConsoleScreenBufferSize(dodongoSprites, SCREEN_SIZE);
+		SetConsoleScreenBufferSize(dodongoSprites, { SCREEN_SIZE.X + 10, SCREEN_SIZE.Y });
 
 		DWORD output;
 		for (int i = 0; i < 16; i++) {
@@ -372,7 +372,7 @@ public:
 			WriteConsole(playerSprites, &"                             ", 30, &output, NULL);
 		}
 		SetConsoleTextAttribute(playerSprites, 7);
-		
+
 		GoToXY(playerSprites, 5, 3);
 		WriteConsole(playerSprites, &"        ", 8, &output, NULL);
 
@@ -2214,6 +2214,7 @@ public:
 			DrawSprite(dodongoSprites, 56 + 100 + 88 - (c * 2), 0, 2, 30, dodongoSprites, 64 + 56 + 100 + 92 + (c * 2), 0);
 		return true;
 	}
+	
 
 	bool LoadPlayer() {
 
@@ -6048,6 +6049,9 @@ public:
 		WriteConsole(keeseSprites, &"  ", 2, &output, NULL);
 		GoToXY(keeseSprites, 46, 1);
 		WriteConsole(keeseSprites, &"  ", 2, &output, NULL);
+
+
+		DrawSprite(keeseSprites, 34, 0, 32, 8, keeseSprites, 0, 9);
 		return true;
 	}
 
@@ -19656,7 +19660,7 @@ public:
 					}
 				}
 				if (i == 8) {
-					if (c >= 3 || c <= 6) {
+					if (c >= 3 && c <= 6) {
 						SetConsoleTextAttribute(mapSprites, 15 * 16);  //White
 						WriteConsole(mapSprites, &"  ", 2, &output, NULL);
 					}
@@ -19666,7 +19670,7 @@ public:
 					}
 				}
 				if (i == 9) {
-					if (c >= 2 || c <= 5) {
+					if (c >= 2 && c <= 5) {
 						SetConsoleTextAttribute(mapSprites, 15 * 16);  //White
 						WriteConsole(mapSprites, &"  ", 2, &output, NULL);
 					}
@@ -19676,7 +19680,7 @@ public:
 					}
 				}
 				if (i == 10) {
-					if (c >= 1 || c <= 5) {
+					if (c >= 1 && c <= 5) {
 						SetConsoleTextAttribute(mapSprites, 15 * 16);  //White
 						WriteConsole(mapSprites, &"  ", 2, &output, NULL);
 					}
@@ -19686,7 +19690,7 @@ public:
 					}
 				}
 				if (i == 11) {
-					if (c >= 3 || c <= 5) {
+					if (c >= 3 && c <= 5) {
 						SetConsoleTextAttribute(mapSprites, 15 * 16);  //White
 						WriteConsole(mapSprites, &"  ", 2, &output, NULL);
 					}
@@ -20527,6 +20531,16 @@ public:
 					WriteConsole(smokeSprites, &"  ", 2, &output, NULL);
 				}
 				if (i == 2) {
+					if (c >= 5 && c <= 10)
+					{
+						SetConsoleTextAttribute(smokeSprites, 7);  //Empty
+						WriteConsole(smokeSprites, &"  ", 2, &output, NULL);
+					}
+					if (c >= 0 && c <= 3)
+					{
+						SetConsoleTextAttribute(smokeSprites, 7);  //Empty
+						WriteConsole(smokeSprites, &"  ", 2, &output, NULL);
+					}
 					if (c == 4 || c == 11)
 					{
 						SetConsoleTextAttribute(smokeSprites, 15 * 16);  //White
@@ -20534,7 +20548,16 @@ public:
 					}
 				}
 				if (i == 3) {
-
+					if (c >= 3 && c <= 12)
+					{
+						SetConsoleTextAttribute(smokeSprites, 7);  //Empty
+						WriteConsole(smokeSprites, &"  ", 2, &output, NULL);
+					}
+					if (c >= 0 && c <= 1)
+					{
+						SetConsoleTextAttribute(smokeSprites, 7);  //Empty
+						WriteConsole(smokeSprites, &"  ", 2, &output, NULL);
+					}
 					if (c == 2 || c == 13)
 					{
 						SetConsoleTextAttribute(smokeSprites, 15 * 16);  //White
@@ -20542,6 +20565,12 @@ public:
 					}
 				}
 				if (i == 4) {
+					
+					if (c >= 0 && c <= 5)
+					{
+						SetConsoleTextAttribute(smokeSprites, 7);  //Empty
+						WriteConsole(smokeSprites, &"  ", 2, &output, NULL);
+					}
 					if (c >= 6 && c <= 9)
 					{
 						SetConsoleTextAttribute(smokeSprites, 15 * 16);  //White
@@ -20549,6 +20578,16 @@ public:
 					}
 				}
 				if (i == 5) {
+					if (c >= 4 && c <= 11)
+					{
+						SetConsoleTextAttribute(smokeSprites, 7);  //Empty
+						WriteConsole(smokeSprites, &"  ", 2, &output, NULL);
+					}
+					if (c >= 0 && c <= 2)
+					{
+						SetConsoleTextAttribute(smokeSprites, 7);  //Empty
+						WriteConsole(smokeSprites, &"  ", 2, &output, NULL);
+					}
 					if (c == 3 || c == 12)
 					{
 						SetConsoleTextAttribute(smokeSprites, 15 * 16);  //White
@@ -20556,6 +20595,16 @@ public:
 					}
 				}
 				if (i == 6) {
+					if (c >= 3 && c <= 12)
+					{
+						SetConsoleTextAttribute(smokeSprites, 7);  //Empty
+						WriteConsole(smokeSprites, &"  ", 2, &output, NULL);
+					}
+					if (c >= 0 && c <= 1)
+					{
+						SetConsoleTextAttribute(smokeSprites, 7);  //Empty
+						WriteConsole(smokeSprites, &"  ", 2, &output, NULL);
+					}
 					if (c == 2 || c == 13)
 					{
 						SetConsoleTextAttribute(smokeSprites, 15 * 16);  //White
@@ -20563,6 +20612,16 @@ public:
 					}
 				}						
 				if (i == 7) {
+					if (c == 5 || c == 7 || c == 8 || c == 10)
+					{
+						SetConsoleTextAttribute(smokeSprites, 7);  //Empty
+						WriteConsole(smokeSprites, &"  ", 2, &output, NULL);
+					}
+					if (c >= 0 && c <= 3)
+					{
+						SetConsoleTextAttribute(smokeSprites, 7);  //Empty
+						WriteConsole(smokeSprites, &"  ", 2, &output, NULL);
+					}
 					if (c == 4 || c == 6 || c == 9 || c == 11)
 					{
 						SetConsoleTextAttribute(smokeSprites, 15 * 16);  //White
@@ -20570,6 +20629,12 @@ public:
 					}
 				}
 				if (i == 8) {
+					
+					if (c >= 1 && c <= 14)
+					{
+						SetConsoleTextAttribute(smokeSprites, 7);  //Empty
+						WriteConsole(smokeSprites, &"  ", 2, &output, NULL);
+					}
 					if (c == 0 || c == 15)
 					{
 						SetConsoleTextAttribute(smokeSprites, 15 * 16);  //White
@@ -20577,6 +20642,16 @@ public:
 					}
 				}
 				if (i == 9) {
+					if (c == 5 || c == 6 || c == 9 || c == 10)
+					{
+						SetConsoleTextAttribute(smokeSprites, 7);  //Empty
+						WriteConsole(smokeSprites, &"  ", 2, &output, NULL);
+					}
+					if (c >= 0 && c <= 3)
+					{
+						SetConsoleTextAttribute(smokeSprites, 7);  //Empty
+						WriteConsole(smokeSprites, &"  ", 2, &output, NULL);
+					}
 					if (c == 4 || c == 7 || c == 8 || c == 11)
 					{
 						SetConsoleTextAttribute(smokeSprites, 15 * 16);  //White
@@ -20584,6 +20659,16 @@ public:
 					}
 				}
 				if (i == 10) {
+					if (c >= 3 && c <= 12)
+					{
+						SetConsoleTextAttribute(smokeSprites, 7);  //Empty
+						WriteConsole(smokeSprites, &"  ", 2, &output, NULL);
+					}
+					if (c >= 0 && c <= 1)
+					{
+						SetConsoleTextAttribute(smokeSprites, 7);  //Empty
+						WriteConsole(smokeSprites, &"  ", 2, &output, NULL);
+					}
 					if (c == 2 || c == 13)
 					{
 						SetConsoleTextAttribute(smokeSprites, 15 * 16);  //White
@@ -20591,6 +20676,12 @@ public:
 					}
 				}
 				if (i == 11) {
+					
+					if (c >= 0 && c <= 6)
+					{
+						SetConsoleTextAttribute(smokeSprites, 7);  //Empty
+						WriteConsole(smokeSprites, &"  ", 2, &output, NULL);
+					}
 					if (c == 7 || c == 8)
 					{
 						SetConsoleTextAttribute(smokeSprites, 15 * 16);  //White
@@ -20598,6 +20689,17 @@ public:
 					}
 				}
 				if (i == 12) {
+					if (c >= 3 && c <= 12)
+					{
+						SetConsoleTextAttribute(smokeSprites, 7);  //Empty
+						WriteConsole(smokeSprites, &"  ", 2, &output, NULL);
+					}
+					if (c >= 0 && c <= 1)
+					{
+						SetConsoleTextAttribute(smokeSprites, 7);  //Empty
+						WriteConsole(smokeSprites, &"  ", 2, &output, NULL);
+					}
+
 					if (c == 2 || c == 13)
 					{
 						SetConsoleTextAttribute(smokeSprites, 15 * 16);  //White
@@ -20605,6 +20707,16 @@ public:
 					}
 				}
 				if (i == 13) {
+					if (c >= 6 && c <= 9)
+					{
+						SetConsoleTextAttribute(smokeSprites, 7);  //Empty
+						WriteConsole(smokeSprites, &"  ", 2, &output, NULL);
+					}
+					if (c >= 0 && c <= 4)
+					{
+						SetConsoleTextAttribute(smokeSprites, 7);  //Empty
+						WriteConsole(smokeSprites, &"  ", 2, &output, NULL);
+					}
 					if (c == 5 || c == 10)
 					{
 						SetConsoleTextAttribute(smokeSprites, 15 * 16);  //White
@@ -20612,6 +20724,11 @@ public:
 					}
 				}
 				if (i == 14) {
+					if (c >= 0 && c <= 6)
+					{
+						SetConsoleTextAttribute(smokeSprites, 7);  //Empty
+						WriteConsole(smokeSprites, &"  ", 2, &output, NULL);
+					}
 					if (c == 7 || c == 8)
 					{
 						SetConsoleTextAttribute(smokeSprites, 15 * 16);  //White
@@ -20619,6 +20736,16 @@ public:
 					}
 				}
 				if (i == 15) {
+					if (c >= 7 && c <= 8)
+					{
+						SetConsoleTextAttribute(smokeSprites, 7);  //Empty
+						WriteConsole(smokeSprites, &"  ", 2, &output, NULL);
+					}
+					if (c >= 0 && c <= 4)
+					{
+						SetConsoleTextAttribute(smokeSprites, 7);  //Empty
+						WriteConsole(smokeSprites, &"  ", 2, &output, NULL);
+					}
 					if (c == 5 || c == 6 || c == 9 || c == 10)
 					{
 						SetConsoleTextAttribute(smokeSprites, 15 * 16);  //White

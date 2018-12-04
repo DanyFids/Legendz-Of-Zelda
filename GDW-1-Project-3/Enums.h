@@ -13,7 +13,9 @@ enum GameState {
 	CHARACTER_RMV,
 	PLAY,
 	INVENTORY,
-	CREDITS
+	CREDITS,
+	GAME_OVER,
+	PAUSE
 };
 
 enum Weapon {
