@@ -6928,6 +6928,244 @@ public:
 			GoToXY(swordSprites, 126, i);
 			WriteConsole(swordSprites, &"  ", 2, &output, NULL);
 		}
+
+		// Upright, White
+		SetConsoleTextAttribute(swordSprites, 15 * 16); // White
+
+		// First Row
+		GoToXY(swordSprites, 14, 17);
+		WriteConsole(swordSprites, &"  ", 2, &output, NULL);
+
+		// Second Row
+		GoToXY(swordSprites, 12, 18);
+		WriteConsole(swordSprites, &"      ", 6, &output, NULL);
+
+		// Third Row
+		GoToXY(swordSprites, 12, 19);
+		WriteConsole(swordSprites, &"      ", 6, &output, NULL);
+
+		// Fourth Row
+		GoToXY(swordSprites, 12, 20);
+		WriteConsole(swordSprites, &"      ", 6, &output, NULL);
+
+		// Fifth Row
+		GoToXY(swordSprites, 12, 21);
+		WriteConsole(swordSprites, &"      ", 6, &output, NULL);
+
+		// Sixth Row
+		GoToXY(swordSprites, 12, 22);
+		WriteConsole(swordSprites, &"      ", 6, &output, NULL);
+
+		// Seventh Row
+		GoToXY(swordSprites, 12, 23);
+		WriteConsole(swordSprites, &"      ", 6, &output, NULL);
+
+		// Eighth Row
+		GoToXY(swordSprites, 12, 24);
+		WriteConsole(swordSprites, &"      ", 6, &output, NULL);
+
+		// Ninth Row
+		GoToXY(swordSprites, 12, 25);
+		WriteConsole(swordSprites, &"      ", 6, &output, NULL);
+
+		// Tenth Row
+		GoToXY(swordSprites, 12, 26);
+		WriteConsole(swordSprites, &"      ", 6, &output, NULL);
+
+		// Eleventh Row
+		GoToXY(swordSprites, 12, 27);
+		WriteConsole(swordSprites, &"      ", 6, &output, NULL);
+
+		SetConsoleTextAttribute(swordSprites, 10 * 16); // Green
+
+		// Twelfth Row
+		GoToXY(swordSprites, 8, 28);
+		WriteConsole(swordSprites, &"              ", 14, &output, NULL);
+
+		// Thirteenth Row
+		GoToXY(swordSprites, 8, 29);
+		WriteConsole(swordSprites, &"  ", 2, &output, NULL);
+		GoToXY(swordSprites, 20, 29);
+		WriteConsole(swordSprites, &"  ", 2, &output, NULL);
+
+		// Fourteenth Row
+		GoToXY(swordSprites, 12, 30);
+		WriteConsole(swordSprites, &"      ", 6, &output, NULL);
+
+		// Sixteenth Row
+		GoToXY(swordSprites, 12, 32);
+		WriteConsole(swordSprites, &"      ", 6, &output, NULL);
+
+		SetConsoleTextAttribute(swordSprites, 14 * 16); // Light Yellow
+
+		// Thirteenth Row
+		GoToXY(swordSprites, 12, 29);
+		WriteConsole(swordSprites, &"      ", 6, &output, NULL);
+
+		// Fifteenth Row
+		GoToXY(swordSprites, 12, 31);
+		WriteConsole(swordSprites, &"      ", 6, &output, NULL);
+
+		// Down, White
+		SetConsoleTextAttribute(swordSprites, 15 * 16); // White
+
+		// First Row
+		GoToXY(swordSprites, 42, 32);
+		WriteConsole(swordSprites, &"  ", 2, &output, NULL);
+
+		// Second Row
+		GoToXY(swordSprites, 40, 31);
+		WriteConsole(swordSprites, &"      ", 6, &output, NULL);
+
+		// Third Row
+		GoToXY(swordSprites, 40, 30);
+		WriteConsole(swordSprites, &"      ", 6, &output, NULL);
+
+		// Fourth Row
+		GoToXY(swordSprites, 40, 29);
+		WriteConsole(swordSprites, &"      ", 6, &output, NULL);
+
+		// Fifth Row
+		GoToXY(swordSprites, 40, 28);
+		WriteConsole(swordSprites, &"      ", 6, &output, NULL);
+
+		// Sixth Row
+		GoToXY(swordSprites, 40, 27);
+		WriteConsole(swordSprites, &"      ", 6, &output, NULL);
+
+		// Seventh Row
+		GoToXY(swordSprites, 40, 26);
+		WriteConsole(swordSprites, &"      ", 6, &output, NULL);
+
+		// Eighth Row
+		GoToXY(swordSprites, 40, 25);
+		WriteConsole(swordSprites, &"      ", 6, &output, NULL);
+
+		// Ninth Row
+		GoToXY(swordSprites, 40, 24);
+		WriteConsole(swordSprites, &"      ", 6, &output, NULL);
+
+		// Tenth Row
+		GoToXY(swordSprites, 40, 23);
+		WriteConsole(swordSprites, &"      ", 6, &output, NULL);
+
+		// Eleventh Row
+		GoToXY(swordSprites, 40, 22);
+		WriteConsole(swordSprites, &"      ", 6, &output, NULL);
+
+		SetConsoleTextAttribute(swordSprites, 10 * 16); // Green
+
+		// Twelfth Row
+		GoToXY(swordSprites, 36, 21);
+		WriteConsole(swordSprites, &"              ", 14, &output, NULL);
+
+		// Thirteenth Row
+		GoToXY(swordSprites, 36, 20);
+		WriteConsole(swordSprites, &"  ", 2, &output, NULL);
+		GoToXY(swordSprites, 48, 20);
+		WriteConsole(swordSprites, &"  ", 2, &output, NULL);
+
+		// Fourteenth Row
+		GoToXY(swordSprites, 40, 19);
+		WriteConsole(swordSprites, &"      ", 6, &output, NULL);
+
+		// Sixteenth Row
+		GoToXY(swordSprites, 40, 17);
+		WriteConsole(swordSprites, &"      ", 6, &output, NULL);
+
+		SetConsoleTextAttribute(swordSprites, 14 * 16); // Light Yellow
+
+		// Thirteenth Row
+		GoToXY(swordSprites, 40, 20);
+		WriteConsole(swordSprites, &"      ", 6, &output, NULL);
+
+		// Fifteenth Row
+		GoToXY(swordSprites, 40, 18);
+		WriteConsole(swordSprites, &"      ", 6, &output, NULL);
+
+		// Right, White
+		SetConsoleTextAttribute(swordSprites, 15 * 16); // White
+
+		for (int i = 23; i < 26; i++) {
+			GoToXY(swordSprites, 70, i);
+			WriteConsole(swordSprites, &"                      ", 22, &output, NULL);
+		}
+
+		GoToXY(swordSprites, 92, 24);
+		WriteConsole(swordSprites, &"  ", 2, &output, NULL);
+
+		SetConsoleTextAttribute(swordSprites, 10 * 16); // Green
+
+		GoToXY(swordSprites, 66, 21);
+		WriteConsole(swordSprites, &"    ", 4, &output, NULL);
+
+		GoToXY(swordSprites, 68, 22);
+		WriteConsole(swordSprites, &"  ", 2, &output, NULL);
+
+		for (int i = 23; i < 26; i++) {
+			GoToXY(swordSprites, 60, i);
+			WriteConsole(swordSprites, &"          ", 10, &output, NULL);
+		}
+
+		GoToXY(swordSprites, 68, 26);
+		WriteConsole(swordSprites, &"  ", 2, &output, NULL);
+
+		GoToXY(swordSprites, 66, 27);
+		WriteConsole(swordSprites, &"    ", 4, &output, NULL);
+
+		SetConsoleTextAttribute(swordSprites, 14 * 16); // Light Yellow
+
+		for (int i = 23; i < 26; i++) {
+			GoToXY(swordSprites, 62, i);
+			WriteConsole(swordSprites, &"  ", 2, &output, NULL);
+		}
+
+		for (int i = 23; i < 26; i++) {
+			GoToXY(swordSprites, 66, i);
+			WriteConsole(swordSprites, &"  ", 2, &output, NULL);
+		}
+
+		// Left, White
+		SetConsoleTextAttribute(swordSprites, 15 * 16); // White
+
+		for (int i = 23; i < 26; i++) {
+			GoToXY(swordSprites, 98, i);
+			WriteConsole(swordSprites, &"                      ", 22, &output, NULL);
+		}
+
+		GoToXY(swordSprites, 96, 24);
+		WriteConsole(swordSprites, &"  ", 2, &output, NULL);
+
+		SetConsoleTextAttribute(swordSprites, 10 * 16); // Green
+
+		GoToXY(swordSprites, 120, 21);
+		WriteConsole(swordSprites, &"    ", 4, &output, NULL);
+
+		GoToXY(swordSprites, 120, 22);
+		WriteConsole(swordSprites, &"  ", 2, &output, NULL);
+
+		for (int i = 23; i < 26; i++) {
+			GoToXY(swordSprites, 120, i);
+			WriteConsole(swordSprites, &"          ", 10, &output, NULL);
+		}
+
+		GoToXY(swordSprites, 120, 26);
+		WriteConsole(swordSprites, &"  ", 2, &output, NULL);
+
+		GoToXY(swordSprites, 120, 27);
+		WriteConsole(swordSprites, &"    ", 4, &output, NULL);
+
+		SetConsoleTextAttribute(swordSprites, 14 * 16); // Light Yellow
+
+		for (int i = 23; i < 26; i++) {
+			GoToXY(swordSprites, 122, i);
+			WriteConsole(swordSprites, &"  ", 2, &output, NULL);
+		}
+
+		for (int i = 23; i < 26; i++) {
+			GoToXY(swordSprites, 126, i);
+			WriteConsole(swordSprites, &"  ", 2, &output, NULL);
+		}
 		return true;
 	}
 
