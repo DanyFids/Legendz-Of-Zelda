@@ -740,380 +740,380 @@ public:
 
 		// Dodongo Facing Right One Foot
 		for (int c = 0; c < 29; c++)
-			DrawSprite(dodongoSprites, 56 - (c * 2), 0, 2, 30, dodongoSprites, 198 - 32 + 4 + 16 + (c * 2), 0);
+			DrawSprite(dodongoSprites, 56 - (c * 2), 0, 2, 30, dodongoSprites, 198 - 32 + 4 + 8 + (c * 2), 0);
 
 		// Dodongo Front Facing One Foot
 		SetConsoleTextAttribute(dodongoSprites, 4 * 16 + 14);
 		for (int i = 0; i < 15; i++) {
-			GoToXY(dodongoSprites, 68 + 16, i);
+			GoToXY(dodongoSprites, 68 + 16 - 2, i);
 			for (int c = 0; c < 10; c++) {
 				WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 			}
 		}
 		for (int i = 1; i < 14; i++) {
-			GoToXY(dodongoSprites, 64 + 16, i);
+			GoToXY(dodongoSprites, 64 + 16 - 2, i);
 			for (int c = 0; c < 18; c++) {
 				WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 			}
 		}
 		for (int i = 7; i < 14; i++) {
-			GoToXY(dodongoSprites, 58 + 16, i);
+			GoToXY(dodongoSprites, 58 + 16 - 2, i);
 			for (int c = 0; c < 6; c++) {
 				WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 			}
 		}
 		for (int i = 8; i < 16; i++) {
-			GoToXY(dodongoSprites, 80 + 16, i);
+			GoToXY(dodongoSprites, 80 + 16 - 2, i);
 			for (int c = 0; c < 6; c++) {
 				WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 			}
 		}
-		GoToXY(dodongoSprites, 70 + 16, 15);
+		GoToXY(dodongoSprites, 70 + 16 - 2, 15);
 		for (int c = 0; c < 6; c++) {
 			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 		}
 		for (int i = 2; i < 4; i++) {
-			GoToXY(dodongoSprites, 62 + 16, i);
+			GoToXY(dodongoSprites, 62 + 16 - 2, i);
 			for (int c = 0; c < 22; c++) {
 				WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 			}
 		}
 		for (int i = 4; i < 8; i++) {
-			GoToXY(dodongoSprites, 60 + 16, i);
+			GoToXY(dodongoSprites, 60 + 16 - 2, i);
 			for (int c = 0; c < 26; c++) {
 				WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 			}
 		}
 		for (int i = 7; i < 15; i++) {
-			GoToXY(dodongoSprites, 86 + 16, i);
+			GoToXY(dodongoSprites, 86 + 16 - 2, i);
 			for (int c = 0; c < 2; c++) {
 				WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 			}
 		}
 		SetConsoleTextAttribute(dodongoSprites, 4 * 16 + 6);
-		GoToXY(dodongoSprites, 70 + 16, 0);
+		GoToXY(dodongoSprites, 70 + 16 - 2, 0);
 		for (int c = 0; c < 2; c++) {
 			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 		}
-		GoToXY(dodongoSprites, 74 + 16, 0);
+		GoToXY(dodongoSprites, 74 + 16 - 2, 0);
 		for (int c = 0; c < 2; c++) {
 			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 		}
-		GoToXY(dodongoSprites, 66 + 16, 2);
+		GoToXY(dodongoSprites, 66 + 16 - 2, 2);
 		for (int c = 0; c < 4; c++) {
 			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 		}
-		GoToXY(dodongoSprites, 76 + 16, 2);
+		GoToXY(dodongoSprites, 76 + 16 - 2, 2);
 		for (int c = 0; c < 4; c++) {
 			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 		}
-		GoToXY(dodongoSprites, 64 + 16, 3);
+		GoToXY(dodongoSprites, 64 + 16 - 2, 3);
 		for (int c = 0; c < 2; c++) {
 			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 		}
-		GoToXY(dodongoSprites, 70 + 16, 3);
+		GoToXY(dodongoSprites, 70 + 16 - 2, 3);
 		for (int c = 0; c < 6; c++) {
 			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 		}
-		GoToXY(dodongoSprites, 80 + 16, 3);
+		GoToXY(dodongoSprites, 80 + 16 - 2, 3);
 		for (int c = 0; c < 2; c++) {
 			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 		}
 		for (int i = 4; i < 7; i++) {
-			GoToXY(dodongoSprites, 62 + 16, i);
+			GoToXY(dodongoSprites, 62 + 16 - 2, i);
 			for (int c = 0; c < 2; c++) {
 				WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 			}
-			GoToXY(dodongoSprites, 82 + 16, i);
+			GoToXY(dodongoSprites, 82 + 16 - 2, i);
 			for (int c = 0; c < 2; c++) {
 				WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 			}
 		}
 		for (int i = 7; i < 11; i++) {
-			GoToXY(dodongoSprites, 60 + 16, i);
+			GoToXY(dodongoSprites, 60 + 16 - 2, i);
 			for (int c = 0; c < 2; c++) {
 				WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 			}
-			GoToXY(dodongoSprites, 84 + 16, i);
+			GoToXY(dodongoSprites, 84 + 16 - 2, i);
 			for (int c = 0; c < 2; c++) {
 				WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 			}
 		}
-		GoToXY(dodongoSprites, 66 + 16, 7);
+		GoToXY(dodongoSprites, 66 + 16 - 2, 7);
 		for (int c = 0; c < 2; c++) {
 			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 		}
-		GoToXY(dodongoSprites, 78 + 16, 7);
+		GoToXY(dodongoSprites, 78 + 16 - 2, 7);
 		for (int c = 0; c < 2; c++) {
 			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 		}
-		GoToXY(dodongoSprites, 68 + 16, 8);
+		GoToXY(dodongoSprites, 68 + 16 - 2, 8);
 		for (int c = 0; c < 2; c++) {
 			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 		}
-		GoToXY(dodongoSprites, 76 + 16, 8);
+		GoToXY(dodongoSprites, 76 + 16 - 2, 8);
 		for (int c = 0; c < 2; c++) {
 			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 		}
-		GoToXY(dodongoSprites, 68 + 16, 9);
+		GoToXY(dodongoSprites, 68 + 16 - 2, 9);
 		for (int c = 0; c < 2; c++) {
 			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 		}
-		GoToXY(dodongoSprites, 76 + 16, 9);
+		GoToXY(dodongoSprites, 76 + 16 - 2, 9);
 		for (int c = 0; c < 2; c++) {
 			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 		}
-		GoToXY(dodongoSprites, 68 + 16, 10);
+		GoToXY(dodongoSprites, 68 + 16 - 2, 10);
 		for (int c = 0; c < 2; c++) {
 			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 		}
-		GoToXY(dodongoSprites, 76 + 16, 10);
+		GoToXY(dodongoSprites, 76 + 16 - 2, 10);
 		for (int c = 0; c < 2; c++) {
 			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 		}
-		GoToXY(dodongoSprites, 62 + 16, 11);
+		GoToXY(dodongoSprites, 62 + 16 - 2, 11);
 		for (int c = 0; c < 2; c++) {
 			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 		}
-		GoToXY(dodongoSprites, 82 + 16, 11);
+		GoToXY(dodongoSprites, 82 + 16 - 2, 11);
 		for (int c = 0; c < 2; c++) {
 			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 		}
-		GoToXY(dodongoSprites, 64 + 16, 12);
+		GoToXY(dodongoSprites, 64 + 16 - 2, 12);
 		for (int c = 0; c < 2; c++) {
 			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 		}
-		GoToXY(dodongoSprites, 80 + 16, 12);
+		GoToXY(dodongoSprites, 80 + 16 - 2, 12);
 		for (int c = 0; c < 2; c++) {
 			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 		}
-		GoToXY(dodongoSprites, 70 + 16, 13);
+		GoToXY(dodongoSprites, 70 + 16 - 2, 13);
 		for (int c = 0; c < 2; c++) {
 			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 		}
-		GoToXY(dodongoSprites, 74 + 16, 13);
+		GoToXY(dodongoSprites, 74 + 16 - 2, 13);
 		for (int c = 0; c < 2; c++) {
 			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 		}
-		GoToXY(dodongoSprites, 80 + 16, 13);
+		GoToXY(dodongoSprites, 80 + 16 - 2, 13);
 		for (int c = 0; c < 2; c++) {
 			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 		}
-		GoToXY(dodongoSprites, 78 + 16, 14);
+		GoToXY(dodongoSprites, 78 + 16 - 2, 14);
 		for (int c = 0; c < 2; c++) {
 			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 		}
 		SetConsoleTextAttribute(dodongoSprites, 15 * 16);
-		GoToXY(dodongoSprites, 72 + 16, 6);
+		GoToXY(dodongoSprites, 72 + 16 - 2, 6);
 		WriteConsole(dodongoSprites, &"  ", 2, &output, NULL);
-		GoToXY(dodongoSprites, 72 + 16, 7);
+		GoToXY(dodongoSprites, 72 + 16 - 2, 7);
 		WriteConsole(dodongoSprites, &"  ", 2, &output, NULL);
-		GoToXY(dodongoSprites, 66 + 16, 8);
+		GoToXY(dodongoSprites, 66 + 16 - 2, 8);
 		WriteConsole(dodongoSprites, &"  ", 2, &output, NULL);
-		GoToXY(dodongoSprites, 66 + 16, 9);
+		GoToXY(dodongoSprites, 66 + 16 - 2, 9);
 		WriteConsole(dodongoSprites, &"  ", 2, &output, NULL);
-		GoToXY(dodongoSprites, 78 + 16, 8);
+		GoToXY(dodongoSprites, 78 + 16 - 2, 8);
 		WriteConsole(dodongoSprites, &"  ", 2, &output, NULL);
-		GoToXY(dodongoSprites, 78 + 16, 9);
+		GoToXY(dodongoSprites, 78 + 16 - 2, 9);
 		WriteConsole(dodongoSprites, &"  ", 2, &output, NULL);
-		GoToXY(dodongoSprites, 72 + 16, 9);
+		GoToXY(dodongoSprites, 72 + 16 - 2, 9);
 		WriteConsole(dodongoSprites, &"  ", 2, &output, NULL);
-		GoToXY(dodongoSprites, 72 + 16, 10);
+		GoToXY(dodongoSprites, 72 + 16 - 2, 10);
 		WriteConsole(dodongoSprites, &"  ", 2, &output, NULL);
-		GoToXY(dodongoSprites, 72 + 16, 11);
+		GoToXY(dodongoSprites, 72 + 16 - 2, 11);
 		WriteConsole(dodongoSprites, &"  ", 2, &output, NULL);
-		GoToXY(dodongoSprites, 60 + 16, 13);
+		GoToXY(dodongoSprites, 60 + 16 - 2, 13);
 		WriteConsole(dodongoSprites, &"  ", 2, &output, NULL);
-		GoToXY(dodongoSprites, 64 + 16, 13);
+		GoToXY(dodongoSprites, 64 + 16 - 2, 13);
 		WriteConsole(dodongoSprites, &"  ", 2, &output, NULL);
-		GoToXY(dodongoSprites, 78 + 16, 15);
+		GoToXY(dodongoSprites, 78 + 16 - 2, 15);
 		WriteConsole(dodongoSprites, &"  ", 2, &output, NULL);
-		GoToXY(dodongoSprites, 82 + 16, 15);
+		GoToXY(dodongoSprites, 82 + 16 - 2, 15);
 		WriteConsole(dodongoSprites, &"  ", 2, &output, NULL);
 
 		// Dodongo Facing Front Other Foot
-		for (int c = 0; c < 29; c++)
-			DrawSprite(dodongoSprites, 112 - (c * 2), 0, 2, 16, dodongoSprites, 32 + 32 + (c * 2), 17);
+		for (int c = 0; c < 28; c++)
+			DrawSprite(dodongoSprites, 112 - 2 - (c * 2), 0, 2, 16, dodongoSprites, 32 + 32 - 2 + (c * 2), 17);
 
 		// Dodongo Facing Back One Foot
 		SetConsoleTextAttribute(dodongoSprites, 4 * 16 + 14);
 
 		for (int i = 3; i < 15; i++) {
-			GoToXY(dodongoSprites, 100 + 16 + 16 + 2 + 16, i);
+			GoToXY(dodongoSprites, 100 + 16 + 16 + 2 + 16 - 6, i);
 			for (int c = 0; c < 10; c++) {
 				WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 			}
 		}
-		GoToXY(dodongoSprites, 102 + 16 + 16 + 2 + 16, 15);
+		GoToXY(dodongoSprites, 102 + 16 + 16 + 2 + 16 - 6, 15);
 		for (int c = 0; c < 6; c++) {
 			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 		}
 		for (int i = 4; i < 13; i++) {
-			GoToXY(dodongoSprites, 96 + 16 + 16 + 2 + 16, i);
+			GoToXY(dodongoSprites, 96 + 16 + 16 + 2 + 16 - 6, i);
 			for (int c = 0; c < 18; c++) {
 				WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 			}
 		}
 		for (int i = 5; i < 12; i++) {
-			GoToXY(dodongoSprites, 94 + 16 + 16 + 2 + 16, i);
+			GoToXY(dodongoSprites, 94 + 16 + 16 + 2 + 16 - 6, i);
 			for (int c = 0; c < 22; c++) {
 				WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 			}
 		}
 		for (int i = 7; i < 10; i++) {
-			GoToXY(dodongoSprites, 92 + 16 + 16 + 2 + 16, i);
+			GoToXY(dodongoSprites, 92 + 16 + 16 + 2 + 16 - 6, i);
 			for (int c = 0; c < 2; c++) {
 				WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 			}
 		}
 		for (int i = 7; i < 11; i++) {
-			GoToXY(dodongoSprites, 116 + 16 + 16 + 2 + 16, i);
+			GoToXY(dodongoSprites, 116 + 16 + 16 + 2 + 16 - 6, i);
 			for (int c = 0; c < 2; c++) {
 				WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 			}
 		}
-		GoToXY(dodongoSprites, 98 + 16 + 16 + 2 + 16, 13);
+		GoToXY(dodongoSprites, 98 + 16 + 16 + 2 + 16 - 6, 13);
 		for (int c = 0; c < 14; c++) {
 			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 		}
 		for (int i = 10; i < 15; i++) {
-			GoToXY(dodongoSprites, 90 + 16 + 16 + 2 + 16, i);
+			GoToXY(dodongoSprites, 90 + 16 + 16 + 2 + 16 - 6, i);
 			for (int c = 0; c < 2; c++) {
 				WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 			}
 		}
 		for (int i = 12; i < 16; i++) {
-			GoToXY(dodongoSprites, 92 + 16 + 16 + 2 + 16, i);
+			GoToXY(dodongoSprites, 92 + 16 + 16 + 2 + 16 - 6, i);
 			for (int c = 0; c < 2; c++) {
 				WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 			}
 		}
 		for (int i = 13; i < 16; i++) {
-			GoToXY(dodongoSprites, 94 + 16 + 16 + 2 + 16, i);
+			GoToXY(dodongoSprites, 94 + 16 + 16 + 2 + 16 - 6, i);
 			for (int c = 0; c < 2; c++) {
 				WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 			}
 		}
-		GoToXY(dodongoSprites, 96 + 16 + 16 + 2 + 16, 14);
+		GoToXY(dodongoSprites, 96 + 16 + 16 + 2 + 16 - 6, 14);
 		for (int c = 0; c < 2; c++) {
 			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 		}
-		GoToXY(dodongoSprites, 96 + 16 + 16 + 2 + 16, 15);
+		GoToXY(dodongoSprites, 96 + 16 + 16 + 2 + 16 - 6, 15);
 		for (int c = 0; c < 4; c++) {
 			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 		}
-		GoToXY(dodongoSprites, 114 + 16 + 16 + 2 + 16, 13);
+		GoToXY(dodongoSprites, 114 + 16 + 16 + 2 + 16 - 6, 13);
 		for (int c = 0; c < 4; c++) {
 			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 		}
-		GoToXY(dodongoSprites, 116 + 16 + 16 + 2 + 16, 12);
+		GoToXY(dodongoSprites, 116 + 16 + 16 + 2 + 16 - 6, 12);
 		for (int c = 0; c < 4; c++) {
 			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 		}
-		GoToXY(dodongoSprites, 118 + 16 + 16 + 2 + 16, 11);
+		GoToXY(dodongoSprites, 118 + 16 + 16 + 2 + 16 - 6, 11);
 		for (int c = 0; c < 2; c++) {
 			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 		}
 
 		SetConsoleTextAttribute(dodongoSprites, 4 * 16 + 6);
 
-		GoToXY(dodongoSprites, 98 + 16 + 16 + 2 + 16, 0);
+		GoToXY(dodongoSprites, 98 + 16 + 16 + 2 + 16 - 6, 0);
 		for (int c = 0; c < 4; c++) {
 			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 		}
-		GoToXY(dodongoSprites, 108 + 16 + 16 + 2 + 16, 0);
+		GoToXY(dodongoSprites, 108 + 16 + 16 + 2 + 16 - 6, 0);
 		for (int c = 0; c < 4; c++) {
 			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 		}
 		for (int i = 1; i < 3; i++) {
-			GoToXY(dodongoSprites, 94 + 16 + 16 + 2 + 16, i);
+			GoToXY(dodongoSprites, 94 + 16 + 16 + 2 + 16 - 6, i);
 			for (int c = 0; c < 22; c++) {
 				WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 			}
 		}
-		GoToXY(dodongoSprites, 92 + 16 + 16 + 2 + 16, 3);
+		GoToXY(dodongoSprites, 92 + 16 + 16 + 2 + 16 - 6, 3);
 		for (int c = 0; c < 8; c++) {
 			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 		}
-		GoToXY(dodongoSprites, 110 + 16 + 16 + 2 + 16, 3);
+		GoToXY(dodongoSprites, 110 + 16 + 16 + 2 + 16 - 6, 3);
 		for (int c = 0; c < 8; c++) {
 			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 		}
-		GoToXY(dodongoSprites, 92 + 16 + 16 + 2 + 16, 4);
+		GoToXY(dodongoSprites, 92 + 16 + 16 + 2 + 16 - 6, 4);
 		for (int c = 0; c < 4; c++) {
 			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 		}
-		GoToXY(dodongoSprites, 114 + 16 + 16 + 2 + 16, 4);
+		GoToXY(dodongoSprites, 114 + 16 + 16 + 2 + 16 - 6, 4);
 		for (int c = 0; c < 4; c++) {
 			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 		}
-		GoToXY(dodongoSprites, 90 + 16 + 16 + 2 + 16, 5);
+		GoToXY(dodongoSprites, 90 + 16 + 16 + 2 + 16 - 6, 5);
 		for (int c = 0; c < 4; c++) {
 			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 		}
-		GoToXY(dodongoSprites, 116 + 16 + 16 + 2 + 16, 5);
+		GoToXY(dodongoSprites, 116 + 16 + 16 + 2 + 16 - 6, 5);
 		for (int c = 0; c < 4; c++) {
 			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 		}
-		GoToXY(dodongoSprites, 90 + 16 + 16 + 2 + 16, 6);
+		GoToXY(dodongoSprites, 90 + 16 + 16 + 2 + 16 - 6, 6);
 		for (int c = 0; c < 4; c++) {
 			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 		}
-		GoToXY(dodongoSprites, 116 + 16 + 16 + 2 + 16, 6);
+		GoToXY(dodongoSprites, 116 + 16 + 16 + 2 + 16 - 6, 6);
 		for (int c = 0; c < 4; c++) {
 			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 		}
-		GoToXY(dodongoSprites, 90 + 16 + 16 + 2 + 16, 7);
+		GoToXY(dodongoSprites, 90 + 16 + 16 + 2 + 16 - 6, 7);
 		for (int c = 0; c < 2; c++) {
 			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 		}
-		GoToXY(dodongoSprites, 118 + 16 + 16 + 2 + 16, 7);
+		GoToXY(dodongoSprites, 118 + 16 + 16 + 2 + 16 - 6, 7);
 		for (int c = 0; c < 2; c++) {
 			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 		}
-		GoToXY(dodongoSprites, 118 + 16 + 16 + 2 + 16, 9);
+		GoToXY(dodongoSprites, 118 + 16 + 16 + 2 + 16 - 6, 9);
 		for (int c = 0; c < 2; c++) {
 			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 		}
-		GoToXY(dodongoSprites, 118 + 16 + 16 + 2 + 16, 10);
+		GoToXY(dodongoSprites, 118 + 16 + 16 + 2 + 16 - 6, 10);
 		for (int c = 0; c < 2; c++) {
 			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 		}
-		GoToXY(dodongoSprites, 116 + 16 + 16 + 2 + 16, 11);
+		GoToXY(dodongoSprites, 116 + 16 + 16 + 2 + 16 - 6, 11);
 		for (int c = 0; c < 2; c++) {
 			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 		}
-		GoToXY(dodongoSprites, 114 + 16 + 16 + 2 + 16, 12);
+		GoToXY(dodongoSprites, 114 + 16 + 16 + 2 + 16 - 6, 12);
 		for (int c = 0; c < 2; c++) {
 			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 		}
-		GoToXY(dodongoSprites, 112 + 16 + 16 + 2 + 16, 13);
+		GoToXY(dodongoSprites, 112 + 16 + 16 + 2 + 16 - 6, 13);
 		for (int c = 0; c < 2; c++) {
 			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 		}
-		GoToXY(dodongoSprites, 92 + 16 + 16 + 2 + 16, 10);
+		GoToXY(dodongoSprites, 92 + 16 + 16 + 2 + 16 - 6, 10);
 		for (int c = 0; c < 2; c++) {
 			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 		}
-		GoToXY(dodongoSprites, 92 + 16 + 16 + 2 + 16, 11);
+		GoToXY(dodongoSprites, 92 + 16 + 16 + 2 + 16 - 6, 11);
 		for (int c = 0; c < 2; c++) {
 			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 		}
-		GoToXY(dodongoSprites, 94 + 16 + 16 + 2 + 16, 12);
+		GoToXY(dodongoSprites, 94 + 16 + 16 + 2 + 16 - 6, 12);
 		for (int c = 0; c < 2; c++) {
 			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 		}
-		GoToXY(dodongoSprites, 96 + 16 + 16 + 2 + 16, 13);
+		GoToXY(dodongoSprites, 96 + 16 + 16 + 2 + 16 - 6, 13);
 		for (int c = 0; c < 2; c++) {
 			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 		}
-		GoToXY(dodongoSprites, 98 + 16 + 16 + 2 + 16, 14);
+		GoToXY(dodongoSprites, 98 + 16 + 16 + 2 + 16 - 6, 14);
 		for (int c = 0; c < 2; c++) {
 			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 		}
 		// Dodongo Facing Back Other Foot
 		for (int c = 0; c < 16; c++)
-			DrawSprite(dodongoSprites, 120 + 32 + 16 - (c * 2), 0, 2, 16, dodongoSprites, 88 + 34 + 16 + 2 + (c * 2), 17);
+			DrawSprite(dodongoSprites, 120 + 32 + 16 - 6 - (c * 2), 0, 2, 16, dodongoSprites, 88 + 34 + 16 + 2 - 6 + (c * 2), 17);
 
 		// Dodongo Facing Left Other Foot
 
@@ -1468,574 +1468,574 @@ public:
 
 		// Dodongo Facing Right Other Foot
 		for (int c = 0; c < 29; c++)
-			DrawSprite(dodongoSprites, 56 - (c * 2), 17, 2, 30, dodongoSprites, 64 + 56 + 16 + 16 + 16 + 16 + 2 + (c * 2), 17);
+			DrawSprite(dodongoSprites, 56 - (c * 2), 17, 2, 30, dodongoSprites, 64 + 56 + 16 + 16 + 16 + 16 + 2 - 8 + (c * 2), 17);
 
 		// Dodongo Facing Forward Bomb
 		SetConsoleTextAttribute(dodongoSprites, 4 * 16 + 14);
 
-		GoToXY(dodongoSprites, 256 + 16 + 16 + 16 + 2 + 16 + 16, 34 - 34);
+		GoToXY(dodongoSprites, 256 + 16 + 16 + 16 + 2 + 16 + 16 - 10, 34 - 34);
 		for (int c = 0; c < 12; c++) {
 			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 		}
 		for (int i = 35; i < 50; i++) {
-			GoToXY(dodongoSprites, 252 + 16 + 16 + 16 + 2 + 16 + 16, i - 34);
+			GoToXY(dodongoSprites, 252 + 16 + 16 + 16 + 2 + 16 + 16 - 10, i - 34);
 			for (int c = 0; c < 20; c++) {
 				WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 			}
 		}
 		for (int i = 36; i < 49; i++) {
-			GoToXY(dodongoSprites, 248 + 16 + 16 + 16 + 2 + 16 + 16, i - 34);
+			GoToXY(dodongoSprites, 248 + 16 + 16 + 16 + 2 + 16 + 16 - 10, i - 34);
 			for (int c = 0; c < 28; c++) {
 				WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 			}
 		}
 		for (int i = 39; i < 47; i++) {
-			GoToXY(dodongoSprites, 246 + 16 + 16 + 16 + 2 + 16 + 16, i - 34);
+			GoToXY(dodongoSprites, 246 + 16 + 16 + 16 + 2 + 16 + 16 - 10, i - 34);
 			for (int c = 0; c < 32; c++) {
 				WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 			}
 		}
-		GoToXY(dodongoSprites, 250 + 16 + 16 + 16 + 2 + 16 + 16, 49 - 34);
+		GoToXY(dodongoSprites, 250 + 16 + 16 + 16 + 2 + 16 + 16 - 10, 49 - 34);
 		for (int c = 0; c < 24; c++) {
 			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 		}
 
 		SetConsoleTextAttribute(dodongoSprites, 4 * 16 + 6);
 
-		GoToXY(dodongoSprites, 260 + 16 + 16 + 16 + 16 + 2 + 16, 38 - 34);
+		GoToXY(dodongoSprites, 260 + 16 + 16 + 16 + 16 + 2 + 16 - 10, 38 - 34);
 		for (int c = 0; c < 4; c++) {
 			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 		}
-		GoToXY(dodongoSprites, 258 + 16 + 16 + 16 + 2 + 16 + 16, 37 - 34);
+		GoToXY(dodongoSprites, 258 + 16 + 16 + 16 + 2 + 16 + 16 - 10, 37 - 34);
 		for (int c = 0; c < 2; c++) {
 			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 		}
-		GoToXY(dodongoSprites, 264 + 16 + 16 + 16 + 2 + 16 + 16, 37 - 34);
+		GoToXY(dodongoSprites, 264 + 16 + 16 + 16 + 2 + 16 + 16 - 10, 37 - 34);
 		for (int c = 0; c < 2; c++) {
 			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 		}
-		GoToXY(dodongoSprites, 252 + 16 + 16 + 16 + 2 + 16 + 16, 37 - 34);
+		GoToXY(dodongoSprites, 252 + 16 + 16 + 16 + 2 + 16 + 16 - 10, 37 - 34);
 		for (int c = 0; c < 2; c++) {
 			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 		}
-		GoToXY(dodongoSprites, 270 + 16 + 16 + 16 + 2 + 16 + 16, 37 - 34);
+		GoToXY(dodongoSprites, 270 + 16 + 16 + 16 + 2 + 16 + 16 - 10, 37 - 34);
 		for (int c = 0; c < 2; c++) {
 			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 		}
-		GoToXY(dodongoSprites, 254 + 16 + 16 + 16 + 2 + 16 + 16, 36 - 34);
+		GoToXY(dodongoSprites, 254 + 16 + 16 + 16 + 2 + 16 + 16 - 10, 36 - 34);
 		for (int c = 0; c < 4; c++) {
 			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 		}
-		GoToXY(dodongoSprites, 266 + 16 + 16 + 16 + 2 + 16 + 16, 36 - 34);
+		GoToXY(dodongoSprites, 266 + 16 + 16 + 16 + 2 + 16 + 16 - 10, 36 - 34);
 		for (int c = 0; c < 4; c++) {
 			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 		}
 		for (int i = 45; i < 49; i++) {
-			GoToXY(dodongoSprites, 258 + 16 + 16 + 16 + 2 + 16 + 16, i - 34);
+			GoToXY(dodongoSprites, 258 + 16 + 16 + 16 + 2 + 16 + 16 - 10, i - 34);
 			for (int c = 0; c < 8; c++) {
 				WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 			}
 		}
 		for (int i = 38; i < 41; i++) {
-			GoToXY(dodongoSprites, 250 + 16 + 16 + 16 + 2 + 16 + 16, i - 34);
+			GoToXY(dodongoSprites, 250 + 16 + 16 + 16 + 2 + 16 + 16 - 10, i - 34);
 			for (int c = 0; c < 2; c++) {
 				WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 			}
-			GoToXY(dodongoSprites, 272 + 16 + 16 + 16 + 2 + 16 + 16, i - 34);
+			GoToXY(dodongoSprites, 272 + 16 + 16 + 16 + 2 + 16 + 16 - 10, i - 34);
 			for (int c = 0; c < 2; c++) {
 				WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 			}
 		}
 		for (int i = 41; i < 45; i++) {
-			GoToXY(dodongoSprites, 248 + 16 + 16 + 16 + 2 + 16 + 16, i - 34);
+			GoToXY(dodongoSprites, 248 + 16 + 16 + 16 + 2 + 16 + 16 - 10, i - 34);
 			for (int c = 0; c < 2; c++) {
 				WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 			}
-			GoToXY(dodongoSprites, 274 + 16 + 16 + 16 + 2 + 16 + 16, i - 34);
+			GoToXY(dodongoSprites, 274 + 16 + 16 + 16 + 2 + 16 + 16 - 10, i - 34);
 			for (int c = 0; c < 2; c++) {
 				WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 			}
 		}
-		GoToXY(dodongoSprites, 250 + 16 + 16 + 16 + 2 + 16 + 16, 45 - 34);
+		GoToXY(dodongoSprites, 250 + 16 + 16 + 16 + 2 + 16 + 16 - 10, 45 - 34);
 		for (int c = 0; c < 2; c++) {
 			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 		}
-		GoToXY(dodongoSprites, 272 + 16 + 16 + 16 + 2 + 16 + 16, 45 - 34);
+		GoToXY(dodongoSprites, 272 + 16 + 16 + 16 + 2 + 16 + 16 - 10, 45 - 34);
 		for (int c = 0; c < 2; c++) {
 			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 		}
-		GoToXY(dodongoSprites, 252 + 16 + 16 + 16 + 2 + 16 + 16, 46 - 34);
+		GoToXY(dodongoSprites, 252 + 16 + 16 + 16 + 2 + 16 + 16 - 10, 46 - 34);
 		for (int c = 0; c < 2; c++) {
 			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 		}
-		GoToXY(dodongoSprites, 270 + 16 + 16 + 16 + 2 + 16 + 16, 46 - 34);
+		GoToXY(dodongoSprites, 270 + 16 + 16 + 16 + 2 + 16 + 16 - 10, 46 - 34);
 		for (int c = 0; c < 2; c++) {
 			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 		}
-		GoToXY(dodongoSprites, 252 + 16 + 16 + 16 + 2 + 16 + 16, 47 - 34);
+		GoToXY(dodongoSprites, 252 + 16 + 16 + 16 + 2 + 16 + 16 - 10, 47 - 34);
 		for (int c = 0; c < 2; c++) {
 			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 		}
-		GoToXY(dodongoSprites, 270 + 16 + 16 + 16 + 2 + 16 + 16, 47 - 34);
+		GoToXY(dodongoSprites, 270 + 16 + 16 + 16 + 2 + 16 + 16 - 10, 47 - 34);
 		for (int c = 0; c < 2; c++) {
 			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 		}
-		GoToXY(dodongoSprites, 254 + 16 + 16 + 16 + 2 + 16 + 16, 48 - 34);
+		GoToXY(dodongoSprites, 254 + 16 + 16 + 16 + 2 + 16 + 16 - 10, 48 - 34);
 		for (int c = 0; c < 2; c++) {
 			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 		}
-		GoToXY(dodongoSprites, 268 + 16 + 16 + 16 + 2 + 16 + 16, 48 - 34);
+		GoToXY(dodongoSprites, 268 + 16 + 16 + 16 + 2 + 16 + 16 - 10, 48 - 34);
 		for (int c = 0; c < 2; c++) {
 			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 		}
-		GoToXY(dodongoSprites, 258 + 16 + 16 + 16 + 2 + 16 + 16, 34 - 34);
+		GoToXY(dodongoSprites, 258 + 16 + 16 + 16 + 2 + 16 + 16 - 10, 34 - 34);
 		for (int c = 0; c < 2; c++) {
 			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 		}
-		GoToXY(dodongoSprites, 264 + 16 + 16 + 16 + 2 + 16 + 16, 34 - 34);
+		GoToXY(dodongoSprites, 264 + 16 + 16 + 16 + 2 + 16 + 16 - 10, 34 - 34);
 		for (int c = 0; c < 2; c++) {
 			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 		}
-		GoToXY(dodongoSprites, 256 + 16 + 16 + 16 + 2 + 16 + 16, 43 - 34);
+		GoToXY(dodongoSprites, 256 + 16 + 16 + 16 + 2 + 16 + 16 - 10, 43 - 34);
 		for (int c = 0; c < 2; c++) {
 			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 		}
-		GoToXY(dodongoSprites, 266 + 16 + 16 + 16 + 2 + 16 + 16, 43 - 34);
+		GoToXY(dodongoSprites, 266 + 16 + 16 + 16 + 2 + 16 + 16 - 10, 43 - 34);
 		for (int c = 0; c < 2; c++) {
 			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 		}
-		GoToXY(dodongoSprites, 254 + 16 + 16 + 16 + 2 + 16 + 16, 44 - 34);
+		GoToXY(dodongoSprites, 254 + 16 + 16 + 16 + 2 + 16 + 16 - 10, 44 - 34);
 		for (int c = 0; c < 2; c++) {
 			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 		}
-		GoToXY(dodongoSprites, 268 + 16 + 16 + 16 + 2 + 16 + 16, 44 - 34);
+		GoToXY(dodongoSprites, 268 + 16 + 16 + 16 + 2 + 16 + 16 - 10, 44 - 34);
 		for (int c = 0; c < 2; c++) {
 			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 		}
-		GoToXY(dodongoSprites, 254 + 16 + 16 + 16 + 2 + 16 + 16, 41 - 34);
+		GoToXY(dodongoSprites, 254 + 16 + 16 + 16 + 2 + 16 + 16 - 10, 41 - 34);
 		for (int c = 0; c < 2; c++) {
 			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 		}
-		GoToXY(dodongoSprites, 268 + 16 + 16 + 16 + 2 + 16 + 16, 41 - 34);
+		GoToXY(dodongoSprites, 268 + 16 + 16 + 16 + 2 + 16 + 16 - 10, 41 - 34);
 		for (int c = 0; c < 2; c++) {
 			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 		}
-		GoToXY(dodongoSprites, 252 + 16 + 16 + 16 + 2 + 16 + 16, 42 - 34);
+		GoToXY(dodongoSprites, 252 + 16 + 16 + 16 + 2 + 16 + 16 - 10, 42 - 34);
 		for (int c = 0; c < 2; c++) {
 			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 		}
-		GoToXY(dodongoSprites, 270 + 16 + 16 + 16 + 2 + 16 + 16, 42 - 34);
+		GoToXY(dodongoSprites, 270 + 16 + 16 + 16 + 2 + 16 + 16 - 10, 42 - 34);
 		for (int c = 0; c < 2; c++) {
 			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 		}
-		GoToXY(dodongoSprites, 252 + 16 + 16 + 16 + 2 + 16 + 16, 43 - 34);
+		GoToXY(dodongoSprites, 252 + 16 + 16 + 16 + 2 + 16 + 16 - 10, 43 - 34);
 		for (int c = 0; c < 2; c++) {
 			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 		}
-		GoToXY(dodongoSprites, 270 + 16 + 16 + 16 + 2 + 16 + 16, 43 - 34);
+		GoToXY(dodongoSprites, 270 + 16 + 16 + 16 + 2 + 16 + 16 - 10, 43 - 34);
 		for (int c = 0; c < 2; c++) {
 			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 		}
 
 		SetConsoleTextAttribute(dodongoSprites, 15 * 16);
 
-		GoToXY(dodongoSprites, 260 + 16 + 16 + 16 + 2 + 16 + 16, 39 - 34);
+		GoToXY(dodongoSprites, 260 + 16 + 16 + 16 + 2 + 16 + 16 - 10, 39 - 34);
 		WriteConsole(dodongoSprites, &"    ", 4, &output, NULL);
-		GoToXY(dodongoSprites, 260 + 16 + 16 + 16 + 2 + 16 + 16, 40 - 34);
+		GoToXY(dodongoSprites, 260 + 16 + 16 + 16 + 2 + 16 + 16 - 10, 40 - 34);
 		WriteConsole(dodongoSprites, &"    ", 4, &output, NULL);
-		GoToXY(dodongoSprites, 68 + 188 + 16 + 16 + 16 + 2 + 16 + 16, 41 - 34);
+		GoToXY(dodongoSprites, 68 + 188 + 16 + 16 + 16 + 2 + 16 + 16 - 10, 41 - 34);
 		WriteConsole(dodongoSprites, &"  ", 2, &output, NULL);
-		GoToXY(dodongoSprites, 78 + 188 + 16 + 16 + 16 + 2 + 16 + 16, 41 - 34);
+		GoToXY(dodongoSprites, 78 + 188 + 16 + 16 + 16 + 2 + 16 + 16 - 10, 41 - 34);
 		WriteConsole(dodongoSprites, &"  ", 2, &output, NULL);
-		GoToXY(dodongoSprites, 66 + 188 + 16 + 16 + 16 + 2 + 16 + 16, 42 - 34);
+		GoToXY(dodongoSprites, 66 + 188 + 16 + 16 + 16 + 2 + 16 + 16 - 10, 42 - 34);
 		WriteConsole(dodongoSprites, &"      ", 6, &output, NULL);
-		GoToXY(dodongoSprites, 76 + 188 + 16 + 16 + 16 + 2 + 16 + 16, 42 - 34);
+		GoToXY(dodongoSprites, 76 + 188 + 16 + 16 + 16 + 2 + 16 + 16 - 10, 42 - 34);
 		WriteConsole(dodongoSprites, &"      ", 6, &output, NULL);
-		GoToXY(dodongoSprites, 66 + 188 + 16 + 16 + 16 + 2 + 16 + 16, 43 - 34);
+		GoToXY(dodongoSprites, 66 + 188 + 16 + 16 + 16 + 2 + 16 + 16 - 10, 43 - 34);
 		WriteConsole(dodongoSprites, &"  ", 2, &output, NULL);
-		GoToXY(dodongoSprites, 70 + 188 + 16 + 16 + 16 + 2 + 16 + 16, 43 - 34);
+		GoToXY(dodongoSprites, 70 + 188 + 16 + 16 + 16 + 2 + 16 + 16 - 10, 43 - 34);
 		WriteConsole(dodongoSprites, &"  ", 2, &output, NULL);
-		GoToXY(dodongoSprites, 76 + 188 + 16 + 16 + 16 + 2 + 16 + 16, 43 - 34);
+		GoToXY(dodongoSprites, 76 + 188 + 16 + 16 + 16 + 2 + 16 + 16 - 10, 43 - 34);
 		WriteConsole(dodongoSprites, &"  ", 2, &output, NULL);
-		GoToXY(dodongoSprites, 80 + 188 + 16 + 16 + 16 + 2 + 16 + 16, 43 - 34);
+		GoToXY(dodongoSprites, 80 + 188 + 16 + 16 + 16 + 2 + 16 + 16 - 10, 43 - 34);
 		WriteConsole(dodongoSprites, &"  ", 2, &output, NULL);
-		GoToXY(dodongoSprites, 68 + 188 + 16 + 16 + 16 + 2 + 16 + 16, 44 - 34);
+		GoToXY(dodongoSprites, 68 + 188 + 16 + 16 + 16 + 2 + 16 + 16 - 10, 44 - 34);
 		WriteConsole(dodongoSprites, &"  ", 2, &output, NULL);
-		GoToXY(dodongoSprites, 78 + 188 + 16 + 16 + 16 + 2 + 16 + 16, 44 - 34);
+		GoToXY(dodongoSprites, 78 + 188 + 16 + 16 + 16 + 2 + 16 + 16 - 10, 44 - 34);
 		WriteConsole(dodongoSprites, &"  ", 2, &output, NULL);
-		GoToXY(dodongoSprites, 72 + 188 + 16 + 16 + 16 + 2 + 16 + 16, 45 - 34);
+		GoToXY(dodongoSprites, 72 + 188 + 16 + 16 + 16 + 2 + 16 + 16 - 10, 45 - 34);
 		WriteConsole(dodongoSprites, &"    ", 4, &output, NULL);
-		GoToXY(dodongoSprites, 64 + 188 + 16 + 16 + 16 + 2 + 16 + 16, 49 - 34);
+		GoToXY(dodongoSprites, 64 + 188 + 16 + 16 + 16 + 2 + 16 + 16 - 10, 49 - 34);
 		WriteConsole(dodongoSprites, &"  ", 2, &output, NULL);
-		GoToXY(dodongoSprites, 68 + 188 + 16 + 16 + 16 + 2 + 16 + 16, 49 - 34);
+		GoToXY(dodongoSprites, 68 + 188 + 16 + 16 + 16 + 2 + 16 + 16 - 10, 49 - 34);
 		WriteConsole(dodongoSprites, &"  ", 2, &output, NULL);
-		GoToXY(dodongoSprites, 78 + 188 + 16 + 16 + 16 + 2 + 16 + 16, 49 - 34);
+		GoToXY(dodongoSprites, 78 + 188 + 16 + 16 + 16 + 2 + 16 + 16 - 10, 49 - 34);
 		WriteConsole(dodongoSprites, &"  ", 2, &output, NULL);
-		GoToXY(dodongoSprites, 82 + 188 + 16 + 16 + 16 + 2 + 16 + 16, 49 - 34);
+		GoToXY(dodongoSprites, 82 + 188 + 16 + 16 + 16 + 2 + 16 + 16 - 10, 49 - 34);
 		WriteConsole(dodongoSprites, &"  ", 2, &output, NULL);
 
 		// Dodongo Facing Left, Bomb
 		SetConsoleTextAttribute(dodongoSprites, 4 * 16 + 14);
 
 		for (int i = 1; i < 12; i++) {
-			GoToXY(dodongoSprites, 200 + 16 + 34 + 16, i);
+			GoToXY(dodongoSprites, 200 + 16 + 34 + 16 - 8, i);
 			for (int c = 0; c < 30; c++) {
 				WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 			}
 		}
-		GoToXY(dodongoSprites, 204 + 16 + 34 + 16, 0);
+		GoToXY(dodongoSprites, 204 + 16 + 34 + 16 - 8, 0);
 		for (int c = 0; c < 8; c++) {
 			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 		}
-		GoToXY(dodongoSprites, 218 + 16 + 34 + 16, 0);
+		GoToXY(dodongoSprites, 218 + 16 + 34 + 16 - 8, 0);
 		for (int c = 0; c < 8; c++) {
 			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 		}
 		for (int i = 3; i < 11; i++) {
-			GoToXY(dodongoSprites, 196 + 16 + 34 + 16, i);
+			GoToXY(dodongoSprites, 196 + 16 + 34 + 16 - 8, i);
 			for (int c = 0; c < 4; c++) {
 				WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 			}
 		}
 		for (int i = 5; i < 12; i++) {
-			GoToXY(dodongoSprites, 194 + 16 + 34 + 16, i);
+			GoToXY(dodongoSprites, 194 + 16 + 34 + 16 - 8, i);
 			for (int c = 0; c < 2; c++) {
 				WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 			}
 		}
 		for (int i = 6; i < 12; i++) {
-			GoToXY(dodongoSprites, 192 + 16 + 34 + 16, i);
+			GoToXY(dodongoSprites, 192 + 16 + 34 + 16 - 8, i);
 			for (int c = 0; c < 2; c++) {
 				WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 			}
 		}
-		GoToXY(dodongoSprites, 188 + 16 + 34 + 16, 7);
+		GoToXY(dodongoSprites, 188 + 16 + 34 + 16 - 8, 7);
 		for (int c = 0; c < 4; c++) {
 			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 		}
-		GoToXY(dodongoSprites, 190 + 16 + 34 + 16, 10);
+		GoToXY(dodongoSprites, 190 + 16 + 34 + 16 - 8, 10);
 		for (int c = 0; c < 2; c++) {
 			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 		}
-		GoToXY(dodongoSprites, 196 + 16 + 34 + 16, 11);
+		GoToXY(dodongoSprites, 196 + 16 + 34 + 16 - 8, 11);
 		for (int c = 0; c < 16; c++) {
 			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 		}
-		GoToXY(dodongoSprites, 198 + 16 + 34 + 16, 12);
+		GoToXY(dodongoSprites, 198 + 16 + 34 + 16 - 8, 12);
 		for (int c = 0; c < 14; c++) {
 			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 		}
-		GoToXY(dodongoSprites, 202 + 16 + 34 + 16, 13);
+		GoToXY(dodongoSprites, 202 + 16 + 34 + 16 - 8, 13);
 		for (int c = 0; c < 8; c++) {
 			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 		}
-		GoToXY(dodongoSprites, 204 + 16 + 34 + 16, 14);
+		GoToXY(dodongoSprites, 204 + 16 + 34 + 16 - 8, 14);
 		for (int c = 0; c < 4; c++) {
 			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 		}
-		GoToXY(dodongoSprites, 218 + 16 + 34 + 16, 12);
+		GoToXY(dodongoSprites, 218 + 16 + 34 + 16 - 8, 12);
 		for (int c = 0; c < 14; c++) {
 			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 		}
-		GoToXY(dodongoSprites, 228 + 16 + 34 + 16, 8);
+		GoToXY(dodongoSprites, 228 + 16 + 34 + 16 - 8, 8);
 		for (int c = 0; c < 14; c++) {
 			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 		}
-		GoToXY(dodongoSprites, 228 + 16 + 34 + 16, 9);
+		GoToXY(dodongoSprites, 228 + 16 + 34 + 16 - 8, 9);
 		for (int c = 0; c < 14; c++) {
 			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 		}
-		GoToXY(dodongoSprites, 228 + 16 + 34 + 16, 10);
+		GoToXY(dodongoSprites, 228 + 16 + 34 + 16 - 8, 10);
 		for (int c = 0; c < 14; c++) {
 			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 		}
-		GoToXY(dodongoSprites, 230 + 16 + 34 + 16, 11);
+		GoToXY(dodongoSprites, 230 + 16 + 34 + 16 - 8, 11);
 		for (int c = 0; c < 14; c++) {
 			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 		}
-		GoToXY(dodongoSprites, 230 + 16 + 34 + 16, 12);
+		GoToXY(dodongoSprites, 230 + 16 + 34 + 16 - 8, 12);
 		for (int c = 0; c < 14; c++) {
 			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 		}
-		GoToXY(dodongoSprites, 228 + 16 + 34 + 16, 13);
+		GoToXY(dodongoSprites, 228 + 16 + 34 + 16 - 8, 13);
 		for (int c = 0; c < 16; c++) {
 			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 		}
-		GoToXY(dodongoSprites, 220 + 16 + 34 + 16, 2);
+		GoToXY(dodongoSprites, 220 + 16 + 34 + 16 - 8, 2);
 		for (int c = 0; c < 14; c++) {
 			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 		}
-		GoToXY(dodongoSprites, 222 + 16 + 34 + 16, 3);
+		GoToXY(dodongoSprites, 222 + 16 + 34 + 16 - 8, 3);
 		for (int c = 0; c < 14; c++) {
 			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 		}
-		GoToXY(dodongoSprites, 224 + 16 + 34 + 16, 4);
+		GoToXY(dodongoSprites, 224 + 16 + 34 + 16 - 8, 4);
 		for (int c = 0; c < 14; c++) {
 			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 		}
-		GoToXY(dodongoSprites, 224 + 16 + 34 + 16, 5);
+		GoToXY(dodongoSprites, 224 + 16 + 34 + 16 - 8, 5);
 		for (int c = 0; c < 14; c++) {
 			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 		}
-		GoToXY(dodongoSprites, 226 + 16 + 34 + 16, 6);
+		GoToXY(dodongoSprites, 226 + 16 + 34 + 16 - 8, 6);
 		for (int c = 0; c < 14; c++) {
 			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 		}
-		GoToXY(dodongoSprites, 226 + 16 + 34 + 16, 7);
+		GoToXY(dodongoSprites, 226 + 16 + 34 + 16 - 8, 7);
 		for (int c = 0; c < 14; c++) {
 			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 		}
-		GoToXY(dodongoSprites, 230 + 16 + 34 + 16, 14);
+		GoToXY(dodongoSprites, 230 + 16 + 34 + 16 - 8, 14);
 		for (int c = 0; c < 4; c++) {
 			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 		}
-		GoToXY(dodongoSprites, 242 + 16 + 34 + 16, 14);
+		GoToXY(dodongoSprites, 242 + 16 + 34 + 16 - 8, 14);
 		for (int c = 0; c < 2; c++) {
 			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 		}
 
 		SetConsoleTextAttribute(dodongoSprites, 4 * 16 + 6);
 
-		GoToXY(dodongoSprites, 216 + 16 + 34 + 16, 0);
+		GoToXY(dodongoSprites, 216 + 16 + 34 + 16 - 8, 0);
 		for (int c = 0; c < 2; c++) {
 			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 		}
-		GoToXY(dodongoSprites, 214 + 16 + 34 + 16, 1);
+		GoToXY(dodongoSprites, 214 + 16 + 34 + 16 - 8, 1);
 		for (int c = 0; c < 2; c++) {
 			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 		}
-		GoToXY(dodongoSprites, 214 + 16 + 34 + 16, 2);
+		GoToXY(dodongoSprites, 214 + 16 + 34 + 16 - 8, 2);
 		for (int c = 0; c < 2; c++) {
 			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 		}
-		GoToXY(dodongoSprites, 212 + 16 + 34 + 16, 3);
+		GoToXY(dodongoSprites, 212 + 16 + 34 + 16 - 8, 3);
 		for (int c = 0; c < 2; c++) {
 			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 		}
-		GoToXY(dodongoSprites, 212 + 16 + 34 + 16, 4);
+		GoToXY(dodongoSprites, 212 + 16 + 34 + 16 - 8, 4);
 		for (int c = 0; c < 2; c++) {
 			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 		}
-		GoToXY(dodongoSprites, 214 + 16 + 34 + 16, 5);
+		GoToXY(dodongoSprites, 214 + 16 + 34 + 16 - 8, 5);
 		for (int c = 0; c < 2; c++) {
 			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 		}
-		GoToXY(dodongoSprites, 214 + 16 + 34 + 16, 6);
+		GoToXY(dodongoSprites, 214 + 16 + 34 + 16 - 8, 6);
 		for (int c = 0; c < 2; c++) {
 			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 		}
-		GoToXY(dodongoSprites, 212 + 16 + 34 + 16, 7);
+		GoToXY(dodongoSprites, 212 + 16 + 34 + 16 - 8, 7);
 		for (int c = 0; c < 2; c++) {
 			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 		}
-		GoToXY(dodongoSprites, 212 + 16 + 34 + 16, 8);
+		GoToXY(dodongoSprites, 212 + 16 + 34 + 16 - 8, 8);
 		for (int c = 0; c < 2; c++) {
 			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 		}
-		GoToXY(dodongoSprites, 208 + 16 + 34 + 16, 9);
+		GoToXY(dodongoSprites, 208 + 16 + 34 + 16 - 8, 9);
 		for (int c = 0; c < 6; c++) {
 			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 		}
-		GoToXY(dodongoSprites, 204 + 16 + 34 + 16, 10);
+		GoToXY(dodongoSprites, 204 + 16 + 34 + 16 - 8, 10);
 		for (int c = 0; c < 4; c++) {
 			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 		}
-		GoToXY(dodongoSprites, 212 + 16 + 34 + 16, 10);
+		GoToXY(dodongoSprites, 212 + 16 + 34 + 16 - 8, 10);
 		for (int c = 0; c < 4; c++) {
 			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 		}
-		GoToXY(dodongoSprites, 212 + 16 + 34 + 16, 11);
+		GoToXY(dodongoSprites, 212 + 16 + 34 + 16 - 8, 11);
 		for (int c = 0; c < 4; c++) {
 			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 		}
-		GoToXY(dodongoSprites, 212 + 16 + 34 + 16, 12);
+		GoToXY(dodongoSprites, 212 + 16 + 34 + 16 - 8, 12);
 		for (int c = 0; c < 6; c++) {
 			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 		}
-		GoToXY(dodongoSprites, 214 + 16 + 34 + 16, 13);
+		GoToXY(dodongoSprites, 214 + 16 + 34 + 16 - 8, 13);
 		for (int c = 0; c < 14; c++) {
 			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 		}
-		GoToXY(dodongoSprites, 226 + 16 + 34 + 16, 12);
+		GoToXY(dodongoSprites, 226 + 16 + 34 + 16 - 8, 12);
 		for (int c = 0; c < 2; c++) {
 			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 		}
-		GoToXY(dodongoSprites, 224 + 16 + 34 + 16, 11);
+		GoToXY(dodongoSprites, 224 + 16 + 34 + 16 - 8, 11);
 		for (int c = 0; c < 2; c++) {
 			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 		}
-		GoToXY(dodongoSprites, 224 + 16 + 34 + 16, 10);
+		GoToXY(dodongoSprites, 224 + 16 + 34 + 16 - 8, 10);
 		for (int c = 0; c < 2; c++) {
 			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 		}
-		GoToXY(dodongoSprites, 224 + 16 + 34 + 16, 9);
+		GoToXY(dodongoSprites, 224 + 16 + 34 + 16 - 8, 9);
 		for (int c = 0; c < 2; c++) {
 			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 		}
-		GoToXY(dodongoSprites, 226 + 16 + 34 + 16, 8);
+		GoToXY(dodongoSprites, 226 + 16 + 34 + 16 - 8, 8);
 		for (int c = 0; c < 2; c++) {
 			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 		}
-		GoToXY(dodongoSprites, 228 + 16 + 34 + 16, 14);
+		GoToXY(dodongoSprites, 228 + 16 + 34 + 16 - 8, 14);
 		for (int c = 0; c < 2; c++) {
 			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 		}
-		GoToXY(dodongoSprites, 232 + 16 + 34 + 16, 9);
+		GoToXY(dodongoSprites, 232 + 16 + 34 + 16 - 8, 9);
 		for (int c = 0; c < 2; c++) {
 			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 		}
-		GoToXY(dodongoSprites, 234 + 16 + 34 + 16, 10);
+		GoToXY(dodongoSprites, 234 + 16 + 34 + 16 - 8, 10);
 		for (int c = 0; c < 2; c++) {
 			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 		}
-		GoToXY(dodongoSprites, 234 + 16 + 34 + 16, 11);
+		GoToXY(dodongoSprites, 234 + 16 + 34 + 16 - 8, 11);
 		for (int c = 0; c < 2; c++) {
 			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 		}
-		GoToXY(dodongoSprites, 236 + 16 + 34 + 16, 12);
+		GoToXY(dodongoSprites, 236 + 16 + 34 + 16 - 8, 12);
 		for (int c = 0; c < 2; c++) {
 			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 		}
-		GoToXY(dodongoSprites, 236 + 16 + 34 + 16, 13);
+		GoToXY(dodongoSprites, 236 + 16 + 34 + 16 - 8, 13);
 		for (int c = 0; c < 4; c++) {
 			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 		}
-		GoToXY(dodongoSprites, 238 + 16 + 34 + 16, 14);
+		GoToXY(dodongoSprites, 238 + 16 + 34 + 16 - 8, 14);
 		for (int c = 0; c < 4; c++) {
 			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 		}
-		GoToXY(dodongoSprites, 240 + 16 + 34 + 16, 15);
+		GoToXY(dodongoSprites, 240 + 16 + 34 + 16 - 8, 15);
 		for (int c = 0; c < 2; c++) {
 			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 		}
-		GoToXY(dodongoSprites, 190 + 16 + 34 + 16, 6);
+		GoToXY(dodongoSprites, 190 + 16 + 34 + 16 - 8, 6);
 		for (int c = 0; c < 2; c++) {
 			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 		}
-		GoToXY(dodongoSprites, 190 + 16 + 34 + 16, 8);
+		GoToXY(dodongoSprites, 190 + 16 + 34 + 16 - 8, 8);
 		for (int c = 0; c < 6; c++) {
 			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 		}
-		GoToXY(dodongoSprites, 192 + 16 + 34 + 16, 9);
+		GoToXY(dodongoSprites, 192 + 16 + 34 + 16 - 8, 9);
 		for (int c = 0; c < 6; c++) {
 			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 		}
-		GoToXY(dodongoSprites, 204 + 16 + 34 + 16, 10);
+		GoToXY(dodongoSprites, 204 + 16 + 34 + 16 - 8, 10);
 		for (int c = 0; c < 4; c++) {
 			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 		}
-		GoToXY(dodongoSprites, 202 + 16 + 34 + 16, 11);
+		GoToXY(dodongoSprites, 202 + 16 + 34 + 16 - 8, 11);
 		for (int c = 0; c < 2; c++) {
 			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 		}
-		GoToXY(dodongoSprites, 200 + 16 + 34 + 16, 12);
+		GoToXY(dodongoSprites, 200 + 16 + 34 + 16 - 8, 12);
 		for (int c = 0; c < 2; c++) {
 			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 		}
-		GoToXY(dodongoSprites, 196 + 16 + 34 + 16, 7);
+		GoToXY(dodongoSprites, 196 + 16 + 34 + 16 - 8, 7);
 		for (int c = 0; c < 2; c++) {
 			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 		}
-		GoToXY(dodongoSprites, 198 + 16 + 34 + 16, 8);
+		GoToXY(dodongoSprites, 198 + 16 + 34 + 16 - 8, 8);
 		for (int c = 0; c < 4; c++) {
 			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 		}
-		GoToXY(dodongoSprites, 202 + 16 + 34 + 16, 7);
+		GoToXY(dodongoSprites, 202 + 16 + 34 + 16 - 8, 7);
 		for (int c = 0; c < 2; c++) {
 			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 		}
-		GoToXY(dodongoSprites, 204 + 16 + 34 + 16, 6);
+		GoToXY(dodongoSprites, 204 + 16 + 34 + 16 - 8, 6);
 		for (int c = 0; c < 2; c++) {
 			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 		}
-		GoToXY(dodongoSprites, 204 + 16 + 34 + 16, 5);
+		GoToXY(dodongoSprites, 204 + 16 + 34 + 16 - 8, 5);
 		for (int c = 0; c < 2; c++) {
 			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 		}
-		GoToXY(dodongoSprites, 204 + 16 + 34 + 16, 4);
+		GoToXY(dodongoSprites, 204 + 16 + 34 + 16 - 8, 4);
 		for (int c = 0; c < 2; c++) {
 			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 		}
-		GoToXY(dodongoSprites, 198 + 16 + 34 + 16, 5);
+		GoToXY(dodongoSprites, 198 + 16 + 34 + 16 - 8, 5);
 		for (int c = 0; c < 2; c++) {
 			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 		}
-		GoToXY(dodongoSprites, 200 + 16 + 34 + 16, 2);
+		GoToXY(dodongoSprites, 200 + 16 + 34 + 16 - 8, 2);
 		for (int c = 0; c < 4; c++) {
 			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 		}
 
 		SetConsoleTextAttribute(dodongoSprites, 15 * 16);
 
-		GoToXY(dodongoSprites, 186 + 16 + 34 + 16, 1);
+		GoToXY(dodongoSprites, 186 + 16 + 34 + 16 - 8, 1);
 		WriteConsole(dodongoSprites, &"  ", 2, &output, NULL);
-		GoToXY(dodongoSprites, 194 + 16 + 34 + 16, 1);
+		GoToXY(dodongoSprites, 194 + 16 + 34 + 16 - 8, 1);
 		WriteConsole(dodongoSprites, &"    ", 4, &output, NULL);
-		GoToXY(dodongoSprites, 186 + 16 + 34 + 16, 2);
+		GoToXY(dodongoSprites, 186 + 16 + 34 + 16 - 8, 2);
 		WriteConsole(dodongoSprites, &"    ", 4, &output, NULL);
-		GoToXY(dodongoSprites, 194 + 16 + 34 + 16, 2);
+		GoToXY(dodongoSprites, 194 + 16 + 34 + 16 - 8, 2);
 		WriteConsole(dodongoSprites, &"  ", 2, &output, NULL);
-		GoToXY(dodongoSprites, 188 + 16 + 34 + 16, 3);
+		GoToXY(dodongoSprites, 188 + 16 + 34 + 16 - 8, 3);
 		WriteConsole(dodongoSprites, &"    ", 4, &output, NULL);
-		GoToXY(dodongoSprites, 188 + 16 + 34 + 16, 4);
+		GoToXY(dodongoSprites, 188 + 16 + 34 + 16 - 8, 4);
 		WriteConsole(dodongoSprites, &"  ", 2, &output, NULL);
-		GoToXY(dodongoSprites, 180 + 16 + 34 + 16, 7);
+		GoToXY(dodongoSprites, 180 + 16 + 34 + 16 - 8, 7);
 		WriteConsole(dodongoSprites, &"    ", 4, &output, NULL);
-		GoToXY(dodongoSprites, 180 + 16 + 34 + 16, 8);
+		GoToXY(dodongoSprites, 180 + 16 + 34 + 16 - 8, 8);
 		WriteConsole(dodongoSprites, &"      ", 6, &output, NULL);
-		GoToXY(dodongoSprites, 180 + 16 + 34 + 16, 9);
+		GoToXY(dodongoSprites, 180 + 16 + 34 + 16 - 8, 9);
 		WriteConsole(dodongoSprites, &"    ", 4, &output, NULL);
-		GoToXY(dodongoSprites, 198 + 16 + 34 + 16, 4);
+		GoToXY(dodongoSprites, 198 + 16 + 34 + 16 - 8, 4);
 		WriteConsole(dodongoSprites, &"      ", 6, &output, NULL);
-		GoToXY(dodongoSprites, 196 + 16 + 34 + 16, 5);
+		GoToXY(dodongoSprites, 196 + 16 + 34 + 16 - 8, 5);
 		WriteConsole(dodongoSprites, &"  ", 2, &output, NULL);
-		GoToXY(dodongoSprites, 200 + 16 + 34 + 16, 5);
+		GoToXY(dodongoSprites, 200 + 16 + 34 + 16 - 8, 5);
 		WriteConsole(dodongoSprites, &"    ", 4, &output, NULL);
-		GoToXY(dodongoSprites, 196 + 16 + 34 + 16, 6);
+		GoToXY(dodongoSprites, 196 + 16 + 34 + 16 - 8, 6);
 		WriteConsole(dodongoSprites, &"        ", 8, &output, NULL);
-		GoToXY(dodongoSprites, 198 + 16 + 34 + 16, 7);
+		GoToXY(dodongoSprites, 198 + 16 + 34 + 16 - 8, 7);
 		WriteConsole(dodongoSprites, &"    ", 4, &output, NULL);
-		GoToXY(dodongoSprites, 210 + 16 + 34 + 16, 13);
+		GoToXY(dodongoSprites, 210 + 16 + 34 + 16 - 8, 13);
 		WriteConsole(dodongoSprites, &"    ", 4, &output, NULL);
-		GoToXY(dodongoSprites, 212 + 16 + 34 + 16, 14);
+		GoToXY(dodongoSprites, 212 + 16 + 34 + 16 - 8, 14);
 		WriteConsole(dodongoSprites, &"              ", 14, &output, NULL);
-		GoToXY(dodongoSprites, 214 + 16 + 34 + 16, 15);
+		GoToXY(dodongoSprites, 214 + 16 + 34 + 16 - 8, 15);
 		WriteConsole(dodongoSprites, &"          ", 10, &output, NULL);
 
 		// Dodongo Facing Back Bomb
 		SetConsoleTextAttribute(dodongoSprites, 4 * 16 + 14);
 
-		GoToXY(dodongoSprites, 256 + 34 + 34 + 16 + 16 + 16 + 16 + 16, 34 - 34);
+		GoToXY(dodongoSprites, 256 + 34 + 34 + 16 + 16 + 16 + 16 + 16 - 12, 34 - 34);
 		for (int c = 0; c < 12; c++) {
 			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 		}
 		for (int i = 35; i < 49; i++) {
-			GoToXY(dodongoSprites, 252 + 34 + 34 + 16 + 16 + 16 + 16 + 16, i - 34);
+			GoToXY(dodongoSprites, 252 + 34 + 34 + 16 + 16 + 16 + 16 + 16 - 12, i - 34);
 			for (int c = 0; c < 20; c++) {
 				WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 			}
 		}
 		for (int i = 36; i < 49; i++) {
-			GoToXY(dodongoSprites, 248 + 34 + 34 + 16 + 16 + 16 + 16 + 16, i - 34);
+			GoToXY(dodongoSprites, 248 + 34 + 34 + 16 + 16 + 16 + 16 + 16 - 12, i - 34);
 			for (int c = 0; c < 28; c++) {
 				WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 			}
 		}
 		for (int i = 39; i < 49; i++) {
-			GoToXY(dodongoSprites, 246 + 34 + 34 + 16 + 16 + 16 + 16 + 16, i - 34);
+			GoToXY(dodongoSprites, 246 + 34 + 34 + 16 + 16 + 16 + 16 + 16 - 12, i - 34);
 			for (int c = 0; c < 32; c++) {
 				WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 			}
 		}
-		GoToXY(dodongoSprites, 248 + 34 + 34 + 16 + 16 + 16 + 16 + 16, 49 - 34);
+		GoToXY(dodongoSprites, 248 + 34 + 34 + 16 + 16 + 16 + 16 + 16 - 12, 49 - 34);
 		for (int c = 0; c < 6; c++) {
 			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 		}
-		GoToXY(dodongoSprites, 258 + 34 + 34 + 16 + 16 + 16 + 16 + 16, 49 - 34);
+		GoToXY(dodongoSprites, 258 + 34 + 34 + 16 + 16 + 16 + 16 + 16 - 12, 49 - 34);
 		for (int c = 0; c < 8; c++) {
 			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 		}
-		GoToXY(dodongoSprites, 270 + 34 + 34 + 16 + 16 + 16 + 16 + 16, 49 - 34);
+		GoToXY(dodongoSprites, 270 + 34 + 34 + 16 + 16 + 16 + 16 + 16 - 12, 49 - 34);
 		for (int c = 0; c < 6; c++) {
 			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 		}
@@ -2043,29 +2043,29 @@ public:
 		SetConsoleTextAttribute(dodongoSprites, 4 * 16 + 6);
 
 		for (int i = 10, j = 280; i < 16; j += 2, i++) {
-			GoToXY(dodongoSprites, j + 34 + 16 + 16 + 16 + 16 + 16, i);
+			GoToXY(dodongoSprites, j + 34 + 16 + 16 + 16 + 16 + 16 - 12, i);
 			for (int c = 0; c < 2; c++) {
 				WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 			}
 		}
 		for (int i = 10, j = 310; i < 16; j -= 2, i++) {
-			GoToXY(dodongoSprites, j + 34 + 16 + 16 + 16 + 16 + 16, i);
+			GoToXY(dodongoSprites, j + 34 + 16 + 16 + 16 + 16 + 16 - 12, i);
 			for (int c = 0; c < 2; c++) {
 				WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 			}
 		}
-		GoToXY(dodongoSprites, 310 + 34 + 16 + 16 + 16 + 16 + 16, 9);
+		GoToXY(dodongoSprites, 310 + 34 + 16 + 16 + 16 + 16 + 16 - 12, 9);
 		for (int c = 0; c < 2; c++) {
 			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 		}
-		GoToXY(dodongoSprites, 280 + 34 + 16 + 16 + 16 + 16 + 16, 9);
+		GoToXY(dodongoSprites, 280 + 34 + 16 + 16 + 16 + 16 + 16 - 12, 9);
 		for (int c = 0; c < 2; c++) {
 			WriteConsole(dodongoSprites, &mGrad, 1, &output, NULL);
 		}
 
 		// Dodongo Facing Right Bomb
-		for (int c = 0; c < 40; c++)
-			DrawSprite(dodongoSprites, 56 + 100 + 34 + 16 + 16 + 88 - (c * 2), 0, 2, 30, dodongoSprites, 64 + 56 + 100 + 92 + 34 + 32 + 16 + 16 + 16 + 16 + (c * 2), 0);
+		for (int c = 0; c < 34; c++)
+			DrawSprite(dodongoSprites, 56 + 100 + 34 + 16 + 16 + 88 - 8 - (c * 2), 0, 2, 30, dodongoSprites, 64 + 56 + 100 + 92 + 34 + 32 + 16 + 16 + 16 + 16 - 12 + (c * 2), 0);
 		return true;
 	}
 
