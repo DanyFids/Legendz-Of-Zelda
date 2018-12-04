@@ -152,6 +152,13 @@ public:
 		CONSOLE_TEXTMODE_BUFFER,
 		NULL);
 
+	HANDLE heartcontainerSprites = CreateConsoleScreenBuffer(
+		GENERIC_READ | GENERIC_WRITE,
+		FILE_SHARE_READ | FILE_SHARE_WRITE,
+		NULL,
+		CONSOLE_TEXTMODE_BUFFER,
+		NULL);
+
 	HANDLE stopwatchSprites = CreateConsoleScreenBuffer(
 		GENERIC_READ | GENERIC_WRITE,
 		FILE_SHARE_READ | FILE_SHARE_WRITE,
@@ -10069,137 +10076,148 @@ public:
 		GoToXY(heartSprites, 38, 7);
 		WriteConsole(heartSprites, &mGrad, 2, &output, NULL);
 
+		return true;
+	}
+
+	bool LoadHeartContainer() {
+
+		SetConsoleScreenBufferSize(heartcontainerSprites, SCREEN_SIZE);
+
+		DWORD output;
+
+		char mGrad = { (char)177 };
+
 		// Heart Container
 
-		SetConsoleTextAttribute(heartSprites, 4 * 16);
+		SetConsoleTextAttribute(heartcontainerSprites, 4 * 16);
 
 		for (int i = 1; i < 8; i++) {
-			GoToXY(heartSprites, 52, i);
-			WriteConsole(heartSprites, &"      ", 6, &output, NULL);
-			GoToXY(heartSprites, 64, i);
-			WriteConsole(heartSprites, &"      ", 6, &output, NULL);
+			GoToXY(heartcontainerSprites, 4, i);
+			WriteConsole(heartcontainerSprites, &"      ", 6, &output, NULL);
+			GoToXY(heartcontainerSprites, 16, i);
+			WriteConsole(heartcontainerSprites, &"      ", 6, &output, NULL);
 		}
 
 		for (int i = 2; i < 6; i++) {
-			GoToXY(heartSprites, 50, i);
-			WriteConsole(heartSprites, &"          ", 10, &output, NULL);
-			GoToXY(heartSprites, 62, i);
-			WriteConsole(heartSprites, &"          ", 10, &output, NULL);
+			GoToXY(heartcontainerSprites, 2, i);
+			WriteConsole(heartcontainerSprites, &"          ", 10, &output, NULL);
+			GoToXY(heartcontainerSprites, 14, i);
+			WriteConsole(heartcontainerSprites, &"          ", 10, &output, NULL);
 		}
 
 		for (int i = 3; i < 10; i++) {
-			GoToXY(heartSprites, 56, i);
-			WriteConsole(heartSprites, &"          ", 10, &output, NULL);
+			GoToXY(heartcontainerSprites, 8, i);
+			WriteConsole(heartcontainerSprites, &"          ", 10, &output, NULL);
 		}
 
-		GoToXY(heartSprites, 54, 8);
-		WriteConsole(heartSprites, &"              ", 14, &output, NULL);
+		GoToXY(heartcontainerSprites, 6, 8);
+		WriteConsole(heartcontainerSprites, &"              ", 14, &output, NULL);
 
-		GoToXY(heartSprites, 58, 10);
-		WriteConsole(heartSprites, &"      ", 6, &output, NULL);
+		GoToXY(heartcontainerSprites, 10, 10);
+		WriteConsole(heartcontainerSprites, &"      ", 6, &output, NULL);
 
-		GoToXY(heartSprites, 60, 11);
-		WriteConsole(heartSprites, &"  ", 2, &output, NULL);
+		GoToXY(heartcontainerSprites, 12, 11);
+		WriteConsole(heartcontainerSprites, &"  ", 2, &output, NULL);
 
-		SetConsoleTextAttribute(heartSprites, 14 * 16 + 4);
+		SetConsoleTextAttribute(heartcontainerSprites, 14 * 16 + 4);
 
-		GoToXY(heartSprites, 48, 2);
-		WriteConsole(heartSprites, &mGrad, 2, &output, NULL);
+		GoToXY(heartcontainerSprites, 0, 2);
+		WriteConsole(heartcontainerSprites, &mGrad, 2, &output, NULL);
 
-		GoToXY(heartSprites, 52, 0);
-		WriteConsole(heartSprites, &mGrad, 2, &output, NULL);
+		GoToXY(heartcontainerSprites, 4, 0);
+		WriteConsole(heartcontainerSprites, &mGrad, 2, &output, NULL);
 
-		GoToXY(heartSprites, 56, 0);
-		WriteConsole(heartSprites, &mGrad, 2, &output, NULL);
+		GoToXY(heartcontainerSprites, 8, 0);
+		WriteConsole(heartcontainerSprites, &mGrad, 2, &output, NULL);
 
-		GoToXY(heartSprites, 60, 2);
-		WriteConsole(heartSprites, &mGrad, 2, &output, NULL);
+		GoToXY(heartcontainerSprites, 12, 2);
+		WriteConsole(heartcontainerSprites, &mGrad, 2, &output, NULL);
 
-		GoToXY(heartSprites, 64, 0);
-		WriteConsole(heartSprites, &mGrad, 2, &output, NULL);
+		GoToXY(heartcontainerSprites, 16, 0);
+		WriteConsole(heartcontainerSprites, &mGrad, 2, &output, NULL);
 
-		GoToXY(heartSprites, 68, 0);
-		WriteConsole(heartSprites, &mGrad, 2, &output, NULL);
+		GoToXY(heartcontainerSprites, 20, 0);
+		WriteConsole(heartcontainerSprites, &mGrad, 2, &output, NULL);
 
-		GoToXY(heartSprites, 72, 2);
-		WriteConsole(heartSprites, &mGrad, 2, &output, NULL);
+		GoToXY(heartcontainerSprites, 24, 2);
+		WriteConsole(heartcontainerSprites, &mGrad, 2, &output, NULL);
 
-		GoToXY(heartSprites, 72, 4);
-		WriteConsole(heartSprites, &mGrad, 2, &output, NULL);
+		GoToXY(heartcontainerSprites, 24, 4);
+		WriteConsole(heartcontainerSprites, &mGrad, 2, &output, NULL);
 
-		GoToXY(heartSprites, 70, 6);
-		WriteConsole(heartSprites, &mGrad, 2, &output, NULL);
+		GoToXY(heartcontainerSprites, 22, 6);
+		WriteConsole(heartcontainerSprites, &mGrad, 2, &output, NULL);
 
-		GoToXY(heartSprites, 68, 8);
-		WriteConsole(heartSprites, &mGrad, 2, &output, NULL);
+		GoToXY(heartcontainerSprites, 20, 8);
+		WriteConsole(heartcontainerSprites, &mGrad, 2, &output, NULL);
 
-		GoToXY(heartSprites, 64, 10);
-		WriteConsole(heartSprites, &mGrad, 2, &output, NULL);
+		GoToXY(heartcontainerSprites, 16, 10);
+		WriteConsole(heartcontainerSprites, &mGrad, 2, &output, NULL);
 
-		GoToXY(heartSprites, 60, 12);
-		WriteConsole(heartSprites, &mGrad, 2, &output, NULL);
+		GoToXY(heartcontainerSprites, 12, 12);
+		WriteConsole(heartcontainerSprites, &mGrad, 2, &output, NULL);
 
-		GoToXY(heartSprites, 56, 10);
-		WriteConsole(heartSprites, &mGrad, 2, &output, NULL);
+		GoToXY(heartcontainerSprites, 8, 10);
+		WriteConsole(heartcontainerSprites, &mGrad, 2, &output, NULL);
 
-		GoToXY(heartSprites, 52, 8);
-		WriteConsole(heartSprites, &mGrad, 2, &output, NULL);
+		GoToXY(heartcontainerSprites, 4, 8);
+		WriteConsole(heartcontainerSprites, &mGrad, 2, &output, NULL);
 
-		GoToXY(heartSprites, 50, 6);
-		WriteConsole(heartSprites, &mGrad, 2, &output, NULL);
+		GoToXY(heartcontainerSprites, 2, 6);
+		WriteConsole(heartcontainerSprites, &mGrad, 2, &output, NULL);
 
-		GoToXY(heartSprites, 48, 4);
-		WriteConsole(heartSprites, &mGrad, 2, &output, NULL);
+		GoToXY(heartcontainerSprites, 0, 4);
+		WriteConsole(heartcontainerSprites, &mGrad, 2, &output, NULL);
 
-		SetConsoleTextAttribute(heartSprites, 14 * 16);
+		SetConsoleTextAttribute(heartcontainerSprites, 14 * 16);
 
-		GoToXY(heartSprites, 48, 5);
-		WriteConsole(heartSprites, &"  ", 2, &output, NULL);
+		GoToXY(heartcontainerSprites, 0, 5);
+		WriteConsole(heartcontainerSprites, &"  ", 2, &output, NULL);
 
-		GoToXY(heartSprites, 48, 3);
-		WriteConsole(heartSprites, &"  ", 2, &output, NULL);
+		GoToXY(heartcontainerSprites, 0, 3);
+		WriteConsole(heartcontainerSprites, &"  ", 2, &output, NULL);
 
-		GoToXY(heartSprites, 50, 1);
-		WriteConsole(heartSprites, &"  ", 2, &output, NULL);
+		GoToXY(heartcontainerSprites, 2, 1);
+		WriteConsole(heartcontainerSprites, &"  ", 2, &output, NULL);
 
-		GoToXY(heartSprites, 72, 5);
-		WriteConsole(heartSprites, &"  ", 2, &output, NULL);
+		GoToXY(heartcontainerSprites, 24, 5);
+		WriteConsole(heartcontainerSprites, &"  ", 2, &output, NULL);
 
-		GoToXY(heartSprites, 72, 3);
-		WriteConsole(heartSprites, &"  ", 2, &output, NULL);
+		GoToXY(heartcontainerSprites, 24, 3);
+		WriteConsole(heartcontainerSprites, &"  ", 2, &output, NULL);
 
-		GoToXY(heartSprites, 70, 1);
-		WriteConsole(heartSprites, &"  ", 2, &output, NULL);
+		GoToXY(heartcontainerSprites, 22, 1);
+		WriteConsole(heartcontainerSprites, &"  ", 2, &output, NULL);
 
-		GoToXY(heartSprites, 62, 1);
-		WriteConsole(heartSprites, &"  ", 2, &output, NULL);
+		GoToXY(heartcontainerSprites, 14, 1);
+		WriteConsole(heartcontainerSprites, &"  ", 2, &output, NULL);
 
-		GoToXY(heartSprites, 58, 1);
-		WriteConsole(heartSprites, &"  ", 2, &output, NULL);
+		GoToXY(heartcontainerSprites, 10, 1);
+		WriteConsole(heartcontainerSprites, &"  ", 2, &output, NULL);
 
-		GoToXY(heartSprites, 66, 0);
-		WriteConsole(heartSprites, &"  ", 2, &output, NULL);
+		GoToXY(heartcontainerSprites, 18, 0);
+		WriteConsole(heartcontainerSprites, &"  ", 2, &output, NULL);
 
-		GoToXY(heartSprites, 54, 0);
-		WriteConsole(heartSprites, &"  ", 2, &output, NULL);
+		GoToXY(heartcontainerSprites, 6, 0);
+		WriteConsole(heartcontainerSprites, &"  ", 2, &output, NULL);
 
-		GoToXY(heartSprites, 70, 7);
-		WriteConsole(heartSprites, &"  ", 2, &output, NULL);
+		GoToXY(heartcontainerSprites, 22, 7);
+		WriteConsole(heartcontainerSprites, &"  ", 2, &output, NULL);
 
-		GoToXY(heartSprites, 50, 7);
-		WriteConsole(heartSprites, &"  ", 2, &output, NULL);
+		GoToXY(heartcontainerSprites, 2, 7);
+		WriteConsole(heartcontainerSprites, &"  ", 2, &output, NULL);
 
-		GoToXY(heartSprites, 66, 9);
-		WriteConsole(heartSprites, &"  ", 2, &output, NULL);
+		GoToXY(heartcontainerSprites, 18, 9);
+		WriteConsole(heartcontainerSprites, &"  ", 2, &output, NULL);
 
-		GoToXY(heartSprites, 54, 9);
-		WriteConsole(heartSprites, &"  ", 2, &output, NULL);
+		GoToXY(heartcontainerSprites, 6, 9);
+		WriteConsole(heartcontainerSprites, &"  ", 2, &output, NULL);
 
-		GoToXY(heartSprites, 62, 11);
-		WriteConsole(heartSprites, &"  ", 2, &output, NULL);
+		GoToXY(heartcontainerSprites, 14, 11);
+		WriteConsole(heartcontainerSprites, &"  ", 2, &output, NULL);
 
-		GoToXY(heartSprites, 58, 11);
-		WriteConsole(heartSprites, &"  ", 2, &output, NULL);
+		GoToXY(heartcontainerSprites, 10, 11);
+		WriteConsole(heartcontainerSprites, &"  ", 2, &output, NULL);
 
 		return true;
 	}

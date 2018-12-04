@@ -1,8 +1,5 @@
-﻿  main.cpp
-c:\users\100700305\documents\visual studio 2017\projects\legendz-of-zelda\gdw-1-project-3\spritesheets.h(1129): error C2065: 'SCREEN_SIZE': undeclared identifier
-c:\users\100700305\documents\visual studio 2017\projects\legendz-of-zelda\gdw-1-project-3\enemies.h(10): error C2039: 'enemySprites': is not a member of 'SpriteSheets'
-  c:\users\100700305\documents\visual studio 2017\projects\legendz-of-zelda\gdw-1-project-3\spritesheets.h(3): note: see declaration of 'SpriteSheets'
-c:\users\100700305\documents\visual studio 2017\projects\legendz-of-zelda\gdw-1-project-3\rope.h(12): error C2039: 'enemySprites': is not a member of 'SpriteSheets'
-  c:\users\100700305\documents\visual studio 2017\projects\legendz-of-zelda\gdw-1-project-3\spritesheets.h(3): note: see declaration of 'SpriteSheets'
-c:\users\100700305\documents\visual studio 2017\projects\legendz-of-zelda\gdw-1-project-3\rope.h(144): error C2039: 'enemySprites': is not a member of 'SpriteSheets'
-  c:\users\100700305\documents\visual studio 2017\projects\legendz-of-zelda\gdw-1-project-3\spritesheets.h(3): note: see declaration of 'SpriteSheets'
+﻿  bgMusicManager.cpp
+  main.cpp
+c:\users\100697620\documents\visual studio 2017\source\repos\legendz-of-zelda\gdw-1-project-3\coreclasses.h(150): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+  Generating Code...
+  GDW-1-Project-3.vcxproj -> C:\Users\100697620\Documents\Visual Studio 2017\source\repos\Legendz-Of-Zelda\GDW-1-Project-3\x64\Debug\GDW-1-Project-3.exe
