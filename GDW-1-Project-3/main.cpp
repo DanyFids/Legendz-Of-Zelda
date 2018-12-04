@@ -306,6 +306,11 @@ void KeyHandler(KEY_EVENT_RECORD e) {
 				case INVENTORY:
 					state = PLAY;
 					break;
+				case CREDITS:
+					Save();
+					state = TITLE;
+					sounds.PlayTitleTheme();
+					break;
 				}
 			break;
 			case VK_DOWN:
@@ -482,6 +487,10 @@ void Draw() {
 	case PAUSE:
 		clear();
 		GameOverMenu.Draw(drawBuff);
+		break;
+	case CREDITS:
+		clear();
+		DrawScreen(Sprites.victoryScreen);
 		break;
 	}
 
@@ -1297,6 +1306,7 @@ void DrawUI(int y) {
 }
 
 void Victory() {
+	state = CREDITS;
 
 }
 

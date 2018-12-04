@@ -168,7 +168,9 @@ public:
 			},
 			{},
 			{},
-			{}
+			{
+				new Triforce(246, 150)
+			}
 		);
 
 		// =================== BOSS ROOM =========================
@@ -683,7 +685,7 @@ public:
 	}
 
 	Room * GetStartRoom() {
-		return &rooms[5][3];
+		return &rooms[3][0];
 	}
 
 	void GenerateRoomWalls() {
@@ -730,9 +732,10 @@ public:
 
 	void SetupDungeon() {
 		for (int s = 0; s < puzzles.size(); s++) {
-			if (!player_file->puzzles_solved[s]) {
-				puzzles[s]->Setup();
-			}
+			puzzles[s]->Setup();
+			/*if (player_file->puzzles_solved[s]) {
+				puzzles[s]->
+			}*/
 		}
 
 		if (!player_file->HasCompass) {

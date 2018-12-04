@@ -7,7 +7,7 @@ int DrawThread()
 	return 0;
 }
 
-const int TO_LOAD = 40;
+const int TO_LOAD = 41;
 int LoadThread(int & LOADED)
 {
 if (Sprites.LoadPlayer()) {
@@ -103,6 +103,9 @@ if (Sprites.LoadMoldorm()) {
 if (Sprites.LoadGoriya()) {
 	LOADED++;
 }
+	if (Sprites.LoadVictoryScreen()) {
+		LOADED++;
+	}
 	
 
 // load player saves

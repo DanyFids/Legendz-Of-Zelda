@@ -77,6 +77,13 @@ public:
 		CONSOLE_TEXTMODE_BUFFER,
 		NULL);
 
+	HANDLE victoryScreen = CreateConsoleScreenBuffer(
+		GENERIC_READ | GENERIC_WRITE,
+		FILE_SHARE_READ | FILE_SHARE_WRITE,
+		NULL,
+		CONSOLE_TEXTMODE_BUFFER,
+		NULL);
+
 	HANDLE playerSprites = CreateConsoleScreenBuffer(
 		GENERIC_READ | GENERIC_WRITE,
 		FILE_SHARE_READ | FILE_SHARE_WRITE,
@@ -21067,6 +21074,26 @@ public:
 				}
 			}
 		}
+		return true;
+	}
+
+	bool LoadVictoryScreen() {
+		SetConsoleScreenBufferSize(victoryScreen, SCREEN_SIZE);
+		//512x240
+		DrawTextSprites(victoryScreen, " A winner is you!", 120, 20, 3*16);
+		DrawSprite(playerSprites, ((34) * 9), 0, 32, 16, victoryScreen, 250, 60);
+		DrawSprite(triforceSprites, 0, 0, 20, 10, victoryScreen, 256, 50);
+
+		DrawTextSprites(victoryScreen, "A game created by", 124, 90, 7 * 16);
+		DrawTextSprites(victoryScreen, "Legendz Productionz", 110, 100, 15 * 16);
+
+		DrawTextSprites(victoryScreen, "dAn fINdlETon", 154, 140, 4 * 16);
+		DrawTextSprites(victoryScreen, "dYLaN bRUsh", 164, 155, 10 * 16);
+		DrawTextSprites(victoryScreen, "aNThoNY oNA", 164, 170, 9 * 16);
+		DrawTextSprites(victoryScreen, "kATY bLaCKsTONe", 142, 185, 11 * 16);
+		DrawTextSprites(victoryScreen, "mAIjA KinNUneN", 146, 200, 5 * 16);
+		DrawTextSprites(victoryScreen, "lOGaN sOuLLiEre", 142, 215, 6 * 16);
+
 		return true;
 	}
 };

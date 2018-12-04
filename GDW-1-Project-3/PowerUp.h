@@ -204,10 +204,10 @@ public:
 class Triforce : public PowerUp {
 public:
 	Triforce(int x, int y) : PowerUp(x, y, 20, 10) {
-		
+		SetSpriteSheet(Sprites.triforceSprites);
 	}
 
-	void Effect(Player_Info stats) {
+	void Effect(Player_Info * stats) {
 		Victory();
 	}
 
