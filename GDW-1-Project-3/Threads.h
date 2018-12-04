@@ -106,6 +106,9 @@ if (Sprites.LoadGoriya()) {
 	if (Sprites.LoadVictoryScreen()) {
 		LOADED++;
 	}
+	if (Sprites.LoadMapDoor()) {
+		LOADED++;
+	}
 	
 
 // load player saves
@@ -154,9 +157,8 @@ if (sounds.LoadDarkSouls()) {
 }
 	
 
-LEVEL2.GenerateRoomWalls();
-LOADED++;
-	
+	LEVEL2.GenerateRoomWalls();
+	LOADED++;
 
 return 0;
 }

@@ -9,6 +9,8 @@ private:
 	CHAR_INFO * bottomWall;
 	CHAR_INFO * rightWall;
 	CHAR_INFO * leftWall;
+	ROOM_LAYOUT rl = RL_U;
+	bool discovered = false;
 public:
 	std::vector<Enemy *> EnemyList;
 	std::vector<Terrain *> TerrainList = {
@@ -32,7 +34,7 @@ public:
 		NullRoom = true;
 	}
 
-	Room(std::vector<Terrain *> tl, std::vector<Enemy *> sl, std::vector<Enemy *> hl, std::vector<PowerUp *> pl, RoomType t = RT_DEFAULT) {
+	Room(std::vector<Terrain *> tl, std::vector<Enemy *> sl, std::vector<Enemy *> hl, std::vector<PowerUp *> pl, ROOM_LAYOUT rl, RoomType t = RT_DEFAULT) {
 		for (int t = 0; t < tl.size(); t++) {
 			TerrainList.push_back(tl[t]);
 		}
@@ -40,6 +42,7 @@ public:
 		type = t;
 		hazards = hl;
 		powerups = pl;
+		this->rl = rl;
 
 		sprite_sheet = Sprites.roomSprites;
 	}
@@ -182,6 +185,58 @@ public:
 		WriteConsoleOutput(out, rightWall, sizeLR, start, &screenR);
 	}
 
+	void DrawMap(HANDLE out, int x, int y) {
+		switch (rl) {
+		case RL_U:
+			Sprites.DrawSprite(Sprites.mapdoorSprites, 36, 0, 16, 8, out, x, y);
+			break;
+		case RL_L:
+			Sprites.DrawSprite(Sprites.mapdoorSprites, 18, 0, 16, 8, out, x, y);
+			break;
+		case RL_D:
+			Sprites.DrawSprite(Sprites.mapdoorSprites, 54, 0, 16, 8, out, x, y);
+			break;
+		case RL_R:
+			Sprites.DrawSprite(Sprites.mapdoorSprites, 0, 0, 16, 8, out, x, y);
+			break;
+		case RL_UL:
+			Sprites.DrawSprite(Sprites.mapdoorSprites, 18, 9, 16, 8, out, x, y);
+			break;
+		case RL_UD:
+			Sprites.DrawSprite(Sprites.mapdoorSprites, (18 * 5), 9, 16, 8, out, x, y);
+			break;
+		case RL_UR:
+			Sprites.DrawSprite(Sprites.mapdoorSprites, (18 * 0), 9, 16, 8, out, x, y);
+			break;
+		case RL_LD:
+			Sprites.DrawSprite(Sprites.mapdoorSprites, (18 * 2), 9, 16, 8, out, x, y);
+			break;
+		case RL_LR:
+			Sprites.DrawSprite(Sprites.mapdoorSprites, (18 * 4), 9, 16, 8, out, x, y);
+			break;
+		case RL_DR:
+			Sprites.DrawSprite(Sprites.mapdoorSprites, (18 * 3), 9, 16, 8, out, x, y);
+			break;
+		case RL_ULD:
+			Sprites.DrawSprite(Sprites.mapdoorSprites, (18 * 1), 18, 16, 8, out, x, y);
+			break;
+		case RL_ULR:
+			Sprites.DrawSprite(Sprites.mapdoorSprites, (18 * 0), 18, 16, 8, out, x, y);
+			break;
+		case RL_UDR:
+			Sprites.DrawSprite(Sprites.mapdoorSprites, (18 * 3), 18, 16, 8, out, x, y);
+			break;
+		case RL_LDR:
+			Sprites.DrawSprite(Sprites.mapdoorSprites, (18 * 2), 18, 16, 8, out, x, y);
+			break;
+		case RL_ULDR:
+			Sprites.DrawSprite(Sprites.mapdoorSprites, 0, 27, 16, 8, out, x, y);
+			break;
+		default:
+			break;
+		}
+	}
+
 	bool IsNull() {
 		return NullRoom;
 	}
@@ -191,6 +246,7 @@ class Trigger {
 public:
 	virtual bool Check() = 0;
 	virtual void Setup(Room * r) = 0;
+	virtual void Solve() = 0;
 };
 
 class NULL_TRIGGER : public Trigger {
@@ -202,6 +258,8 @@ public:
 	void Setup(Room * r) {
 
 	}
+
+	void Solve() {}
 };
 
 class KillTrigger : public Trigger {
@@ -226,6 +284,12 @@ public:
 		hitList = &r->EnemyList;
 		for (int e = 0; e < targets.size(); e++) {
 			hitList->push_back(targets[e]->Clone());
+		}
+	}
+
+	void Solve() {
+		while (hitList->size() > 0) {
+			hitList->pop_back();
 		}
 	}
 };
@@ -325,6 +389,13 @@ public:
 		}
 		else {
 			return false;
+		}
+	}
+
+	void Solve() {
+		trigger->Solve();
+		for (int r = 0; r < results.size(); r++) {
+			results[r]->Effect();
 		}
 	}
 };

@@ -60,3 +60,22 @@ enum RoomType {
 	RT_MINI_BOSS,
 	RT_SECRET
 };
+
+
+enum ROOM_LAYOUT {
+	RL_U,
+	RL_L,
+	RL_D,
+	RL_R,
+	RL_UL,
+	RL_UD,
+	RL_UR,
+	RL_LD,
+	RL_LR,
+	RL_DR,
+	RL_ULD,
+	RL_ULR,
+	RL_UDR,
+	RL_LDR,
+	RL_ULDR
+};

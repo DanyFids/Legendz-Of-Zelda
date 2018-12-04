@@ -1,10 +1,12 @@
 #pragma once
 struct Player_Input {
-	bool keyUp;
-	bool keyDown;
-	bool keyLeft;
-	bool keyRight;
-	bool keySpace;
+	bool keyUp = false;
+	bool keyDown = false;
+	bool keyLeft = false;
+	bool keyRight = false;
+	bool keySpace = false;
+	bool keySpecial = false;
+	bool usedSpecial = false;
 };
 
 typedef struct _FCOORD {
@@ -19,10 +21,23 @@ struct Player_Info {
 	int Bombs = 0;
 	int Keys = 0;
 	int Rupees = 10;
+	Weapon wpn_sel = W_BOMB;
 	bool HasMap = false;
 	bool HasCompass = false;
 	bool file_exists = false;
 	bool puzzles_solved[10] = { false, false, false, false, false, false, false, false, false, false };
+	bool map_discovered[8][8] = {
+		{ false, false, false, false,false, false, false, false},
+		{ false, false, false, false,false, false, false, false},
+		{ false, false, false, false,false, false, false, false},
+		{ false, false, false, false,false, false, false, false},
+		{ false, false, false, false,false, false, false, false},
+		{ false, false, false, false,false, false, false, false},
+		{ false, false, false, false,false, false, false, false},
+		{ false, false, false, false,false, false, false, false}
+	};
+	bool LocksOpened[3] = { false, false, false };
+	bool bombsOpened[5] = { false, false, false, false,false };
 };
 
 Player_Info PLAYER_FILES[3];
@@ -216,25 +231,21 @@ public:
 	void Drop(std::vector<PowerUp *> * pl);
 
 
-	bool Boundries(Entity * other) {
+	void Boundries() {
 		//Test Wall
-		if (GetX() + GetWidth() + xSpd < 32) {
-			xSpd = 32 - GetX();
+		if (GetX() + xSpd < 64) {
+			xSpd = 64 - GetX();
 		}
-		if (GetY() + GetHeight() + ySpd < 80) {
-			ySpd = 80 - GetY();
+		if (GetY() + ySpd < 96) {
+			ySpd = 96 - GetY();
 		}
-		if (GetX() + GetWidth() + xSpd > 480) {
-			xSpd = 480 - GetX();
+		if (GetX() + xSpd > 512 - 64) {
+			xSpd = 512 - 64 - GetX();
 		}
-		if (GetY() + GetHeight() + ySpd > 224) {
-			ySpd = 224 - GetY();
+		if (GetY() + ySpd > 240 - 32) {
+			ySpd = 240 - 32 - GetY();
 		}
-		if (willHit(other, 0, 0)) {
 
-		}
-		//Can Remove Later
-		return (willHit(other, 0, 0));
 	}
 
 	void draw(HANDLE out);
