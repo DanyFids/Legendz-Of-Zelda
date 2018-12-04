@@ -30,7 +30,7 @@ public:
 class HeartContainerPickup : public PowerUp {
 public:
 	HeartContainerPickup(int x, int y) : PowerUp(x, y, 32, 16) {
-		SetSpriteSheet(Sprites.heartSprites);
+		SetSpriteSheet(Sprites.heartcontainerSprites);
 	}
 
 
