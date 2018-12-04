@@ -7,7 +7,7 @@ int DrawThread()
 	return 0;
 }
 
-const int TO_LOAD = 32;
+const int TO_LOAD = 38;
  int LoadThread(int & LOADED)
 {
 	if (Sprites.LoadPlayer()) {
@@ -97,6 +97,12 @@ const int TO_LOAD = 32;
 	if (Sprites.LoadBlip()) {
 		LOADED++;
 	}
+	if (Sprites.LoadTriforce()) {
+		LOADED++;
+	}
+	if (Sprites.LoadVictoryScreen()) {
+		LOADED++;
+	}
 	
 
 	// load player saves
@@ -136,6 +142,7 @@ const int TO_LOAD = 32;
 	}
 
 	LEVEL2.GenerateRoomWalls();
+	LOADED++;
 	
 
 	return 0;

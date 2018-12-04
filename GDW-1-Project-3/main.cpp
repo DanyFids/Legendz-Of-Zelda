@@ -300,6 +300,11 @@ void KeyHandler(KEY_EVENT_RECORD e) {
 				case INVENTORY:
 					state = PLAY;
 					break;
+				case CREDITS:
+					Save();
+					state = TITLE;
+					sounds.PlayTitleTheme();
+					break;
 				}
 			break;
 			case VK_DOWN:
@@ -445,6 +450,10 @@ void Draw() {
 		DrawScreen(Sprites.GenericScreen);
 		Sprites.DrawTextSprites(drawBuff, "- Elimination Mode -", 80, 40);
 		ElimMenu.Draw(drawBuff);
+		break;
+	case CREDITS:
+		clear();
+		DrawScreen(Sprites.victoryScreen);
 		break;
 	}
 
@@ -1123,6 +1132,7 @@ void DrawUI(int y) {
 }
 
 void Victory() {
+	state = CREDITS;
 
 }
 

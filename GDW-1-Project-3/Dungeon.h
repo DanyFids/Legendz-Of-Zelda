@@ -168,7 +168,9 @@ public:
 			},
 			{},
 			{},
-			{}
+			{
+				new Triforce(246, 150)
+			}
 		);
 
 		// =================== BOSS ROOM =========================
@@ -683,7 +685,7 @@ public:
 	}
 
 	Room * GetStartRoom() {
-		return &rooms[5][3];
+		return &rooms[3][0];
 	}
 
 	void GenerateRoomWalls() {

@@ -31,7 +31,6 @@ class HeartContainerPickup : public PowerUp {
 public:
 	HeartContainerPickup(int x, int y) : PowerUp(x, y, 32, 16) {
 		SetSpriteSheet(Sprites.heartSprites);
-		set
 	}
 
 
@@ -205,10 +204,10 @@ public:
 class Triforce : public PowerUp {
 public:
 	Triforce(int x, int y) : PowerUp(x, y, 20, 10) {
-		
+		SetSpriteSheet(Sprites.triforceSprites);
 	}
 
-	void Effect(Player_Info stats) {
+	void Effect(Player_Info * stats) {
 		Victory();
 	}
 
