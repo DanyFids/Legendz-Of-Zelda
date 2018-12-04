@@ -149,7 +149,7 @@ private:
 
 
 public:	   // x,y coord,                  width*2,height,lifetime, damage, speed 
-	Bomb(int x, int y) : Projectile(x, y, 28, 14, 10.0f, 0) {	   //28 , 14
+	Bomb(int x, int y) : Projectile(x, y, 28, 14, 3.0f, 0) {	   //28 , 14
 		this->setEnum(PT_BOMB);
 		SetSpriteSheet(Sprites.bombSprites);
 		SetCurFrame(0);
@@ -175,7 +175,7 @@ private:
 	
 
 public:	   // x,y coord,                  width*2,height,lifetime, damage, 
-	Explosion(int x, int y) : Projectile(x, y, 32, 7, 2.0f, 3) {
+	Explosion(int x, int y) : Projectile(x, y, 64, 32, 2.0f, 3) {
 		this->setEnum(PT_EXPLOSION);
 		this->SetSpriteSheet(Sprites.explosionSprites);
 		 

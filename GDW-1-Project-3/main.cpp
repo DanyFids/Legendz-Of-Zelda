@@ -60,7 +60,7 @@ std::vector<Projectile*> projectiles = {};
 //std::vector<Terrain*> * roomTer;
 std::vector<VisualFX*> fx = {new Smoke(60,40), new Blip(100,40)};
 
-Room * curRoom = LEVEL2.GetStartRoom();
+Room * curRoom = NULL;
 
 //std::vector<PowerUp *> powerups = {};
 
@@ -146,8 +146,6 @@ int main() {
 	if (!SetConsoleMode(inputH, consoleMode)) {
 		return 103;
 	}
-
-	curRoom->Respawn();
 
 	while (Play) {
 		DWORD unreadInputs;
@@ -315,6 +313,9 @@ void KeyHandler(KEY_EVENT_RECORD e) {
 			case 'C':
 				player_input.keySpace = true;
 				break;
+			case 'X':
+				player_input.keySpecial = true;
+				break;
 			}
 		}
 		else {
@@ -334,6 +335,10 @@ void KeyHandler(KEY_EVENT_RECORD e) {
 			case VK_SPACE:
 			case 'C':
 				player_input.keySpace = false;
+				break;
+			case 'X':
+				player_input.keySpecial = false;
+				player_input.usedSpecial = false;
 				break;
 			}
 
@@ -420,6 +425,7 @@ void Draw() {
 		break;
 	case INVENTORY:
 		DrawScreen(Sprites.InventoryScreen);
+		LEVEL2.DrawInvMap(drawBuff);
 		DrawUI(176);
 		break;
 	case CHARACTER_ADD:
@@ -546,8 +552,8 @@ void Update() {
 
 		if (player_input.keySpace)
 		{
-			sounds.PlaySwing();
 			if (player.CanAtk()) {
+				sounds.PlaySwing();
 				Direction d = player.GetDir();
 				switch (d) {
 				case Up:
@@ -564,6 +570,96 @@ void Update() {
 					break;
 				}
 				player.SwingSword();
+			}
+		}
+
+		if (player_input.keySpecial) {
+			if (player.CanAtk() && !player_input.usedSpecial) {
+				player_input.usedSpecial = true;
+				switch (player.GetDir()) {
+				case Up:
+					switch (player_file->wpn_sel) {
+					case W_BOMB:
+						if (player_file->Bombs > 0) {
+							projectiles.push_back(new Bomb(player.GetX() + 2, player.GetY() - 14));
+							player_file->Bombs--;
+						}
+						else if (player_file->Rupees >= 5) {
+							projectiles.push_back(new Bomb(player.GetX() + 2, player.GetY() - 14));
+							player_file->Rupees -= 5;
+						}
+						break;
+					case W_BOW:
+						projectiles.push_back(new Arrow(player.GetX() + (player.GetWidth() / 2), player.GetY() + (player.GetHeight() / 2), 0.0f, -4.0f, player.GetDir()));
+						break;
+					case W_BOOMERANG:
+						projectiles.push_back(new Boomerang(player.GetX() + (player.GetWidth() / 2), player.GetY() + (player.GetHeight() / 2), 0.0f, -3.0f, &player));
+						break;
+					}
+					break;
+				case Down:
+					switch (player_file->wpn_sel) {
+					case W_BOMB:
+						if (player_file->Bombs > 0) {
+							projectiles.push_back(new Bomb(player.GetX() + 2, player.GetY() + 14));
+							player_file->Bombs--;
+						}
+						else if (player_file->Rupees >= 5) {
+							projectiles.push_back(new Bomb(player.GetX() + 2, player.GetY() + 14));
+							player_file->Rupees -= 5;
+						}
+						break;
+					case W_BOW:
+						projectiles.push_back(new Arrow(player.GetX() + (player.GetWidth() / 2), player.GetY() + (player.GetHeight() / 2), 0.0f, 4.0f, player.GetDir()));
+						break;
+					case W_BOOMERANG:
+						projectiles.push_back(new Boomerang(player.GetX() + (player.GetWidth() / 2), player.GetY() + (player.GetHeight() / 2), 0.0f, 3.0f, &player));
+						break;
+					}
+					break;
+				case Left:
+					switch (player_file->wpn_sel) {
+					case W_BOMB:
+						if (player_file->Bombs > 0) {
+							projectiles.push_back(new Bomb(player.GetX() + 2 - 28, player.GetY()));
+							player_file->Bombs--;
+						}
+						else if (player_file->Rupees >= 5) {
+							projectiles.push_back(new Bomb(player.GetX() + 2 - 28, player.GetY()));
+							player_file->Rupees -= 5;
+						}
+						break;
+					case W_BOW:
+						projectiles.push_back(new Arrow(player.GetX() + (player.GetWidth() / 2), player.GetY() + (player.GetHeight() / 2), -4.0f, 0.0f, player.GetDir()));
+						break;
+					case W_BOOMERANG:
+						projectiles.push_back(new Boomerang(player.GetX() + (player.GetWidth() / 2), player.GetY() + (player.GetHeight() / 2), -3.0f, 0.0f, &player));
+						break;
+					}
+					break;
+
+				case Right:
+					switch (player_file->wpn_sel) {
+					case W_BOMB:
+						if (player_file->Bombs > 0) {
+							projectiles.push_back(new Bomb(player.GetX() + 28, player.GetY()));
+							player_file->Bombs--;
+						}
+						else if (player_file->Rupees >= 5) {
+							projectiles.push_back(new Bomb(player.GetX() + 28, player.GetY()));
+							player_file->Rupees -= 5;
+						}
+						break;
+					case W_BOW:
+						projectiles.push_back(new Arrow(player.GetX() + (player.GetWidth() / 2), player.GetY() + (player.GetHeight() / 2), 4.0f, 0.0f, player.GetDir()));
+						break;
+					case W_BOOMERANG:
+						projectiles.push_back(new Boomerang(player.GetX() + (player.GetWidth() / 2), player.GetY() + (player.GetHeight() / 2), 3.0f, 0.0f, &player));
+						break;
+					}
+					break;
+
+				}
 			}
 		}
 
@@ -591,8 +687,7 @@ void Update() {
 							boss->BombHurt();
 							projectiles[p]->setTime(0.0f);
 						}
-					}
-					if (projectiles[p]->getEnum() == PT_BOOMERANG && curRoom->EnemyList[e]->GetType() != ET_GEL && curRoom->EnemyList[e]->GetType() != ET_KEESE) {
+					}else if (projectiles[p]->getEnum() == PT_BOOMERANG && curRoom->EnemyList[e]->GetType() != ET_GEL && curRoom->EnemyList[e]->GetType() != ET_KEESE) {
 						curRoom->EnemyList[e]->stun();
 					}
 					else
@@ -644,10 +739,10 @@ void Update() {
 				for (int h = 0; h < curRoom->hazards.size(); h++) {
 					curRoom->TerrainList[t]->HitDetect(curRoom->hazards[h]);
 				}
-				for (int p = 0; p < projectiles.size(); p++) {
-					if (projectiles[p]->getEnum() == PT_EXPLOSION) {
-						curRoom->TerrainList[t]->HitDetect(projectiles[p]);
-					}
+			}
+			for (int p = 0; p < projectiles.size(); p++) {
+				if (projectiles[p]->getEnum() == PT_EXPLOSION) {
+					curRoom->TerrainList[t]->HitDetect(projectiles[p]);
 				}
 			}
 		}
@@ -683,10 +778,9 @@ void Update() {
 		for (int p = 0; p < projectiles.size(); p++) {
 			projectiles[p]->Update(dt);
 			if (projectiles[p]->getTime() <= 0) {
-				std::vector<Projectile*>::iterator it = projectiles.begin();
 				if (projectiles[p]->getEnum() == PT_BOMB)
 				{
-					projectiles.push_back(new Explosion(projectiles[p]->GetX(), projectiles[p]->GetY()));
+					projectiles.push_back(new Explosion(projectiles[p]->GetX() + (projectiles[p]->GetWidth()/2) - 32, projectiles[p]->GetY() + (projectiles[p]->GetHeight()/2) - 16));
 
 					fx.push_back(new Smoke(projectiles[p]->GetX(), projectiles[p]->GetY()));//Smoke puffs @location
 					fx.push_back(new Smoke(projectiles[p]->GetX() + 28, projectiles[p]->GetY()));	//@Right
@@ -697,6 +791,7 @@ void Update() {
 					fx.push_back(new Smoke(projectiles[p]->GetX() + 28, projectiles[p]->GetY() + 7));//Down&Right
 				}
 				delete projectiles[p];
+				std::vector<Projectile*>::iterator it = projectiles.begin();
 				projectiles.erase(it + p);
 
 			}
@@ -881,7 +976,10 @@ void ButtonHandler(BtnAction action, int extra) {
 		if (state == CHARACTER_SEL) {
 			if (PLAYER_FILES[extra].file_exists) {
 				player_file = &PLAYER_FILES[extra];
+				curRoom = LEVEL2.GetStartRoom();
+				player.MoveTo({ ROOM_BOTTOM_WALL.X, ROOM_BOTTOM_WALL.Y - 16 });
 				LEVEL2.SetupDungeon();
+				curRoom->Respawn();
 				state = PLAY;
 				//Dungeon Theme here
 				sounds.PlayDungeonTheme();
@@ -1117,6 +1215,18 @@ void DrawUI(int y) {
 	}
 	else {
 		Sprites.DrawTextSprites(drawBuff, "x" + std::to_string(player_file->Bombs), 192, y + 48);
+	}
+
+	switch (player_file->wpn_sel) {
+	case W_BOMB:
+		Sprites.DrawSprite(Sprites.bombSprites, 0, 0, 28, 14, drawBuff, 248, y + 32, true);
+		break;
+	case W_BOW:
+		Sprites.DrawSprite(Sprites.bowSprites, 0, 0, 28, 14, drawBuff, 252, y + 32, true);
+		break;
+	case W_BOOMERANG:
+		Sprites.DrawSprite(Sprites.boomerangSprites, 0, 0, 28, 14, drawBuff, 256, y + 32, true);
+		break;
 	}
 
 	LEVEL2.DrawMap(drawBuff, y, curRoom);

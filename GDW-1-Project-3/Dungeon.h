@@ -3,9 +3,12 @@
 class LockedDoorPair {
 	bool open = false;
 	LockedDoor * doors[2];
+	int id;
 
 public:
-	LockedDoorPair( Direction door1, Direction door2, Room * room1, Room * room2 ) {
+	LockedDoorPair(int id, Direction door1, Direction door2, Room * room1, Room * room2 ) {
+		this->id = id;
+
 		LockedDoor * tempDoor = NULL;
 		switch (door1) {
 		case Up:
@@ -52,9 +55,10 @@ public:
 class BombablePair {
 	bool open = false;
 	BombableWall * walls[2];
-
+	int id;
 public:
-	BombablePair(Direction door1, Direction door2, Room * room1, Room * room2) {
+	BombablePair(int id, Direction door1, Direction door2, Room * room1, Room * room2) {
+		this->id = id;
 		BombableWall * tempWall = NULL;
 		switch (door1) {
 		case Up:
@@ -95,6 +99,8 @@ public:
 	void OpenWalls() {
 		walls[0]->setGone(true);
 		walls[1]->setGone(true);
+
+		player_file->bombsOpened[id] = true;
 	}
 };
 
@@ -114,23 +120,25 @@ public:
 				new Door(ROOM_TOP_DOOR, Up, true),
 				new Door(ROOM_BOTTOM_DOOR, Down, false),
 				new Door(ROOM_RIGHT_DOOR, Right, true),
-				new Block(96, 112),
-				new Block(96, 144),
-				new Block(96, 176),
-				new Block(192, 112),
-				new Block(192, 144),
-				new Block(192, 176),
-				new Block(288, 112),
-				new Block(288, 144),
-				new Block(288, 176),
-				new Block(384, 112),
-				new Block(384, 144),
-				new Block(384, 176),
 			},
 			{
 			}, // Enemy List, Empty
+			{
+				new Statue(96, 112, true),
+				new Statue(96, 144, true),
+				new Statue(96, 176, true),
+				new Statue(192, 112, true),
+				new Statue(192, 144, true),
+				new Statue(192, 176, true),
+				new Statue(288, 112, true),
+				new Statue(288, 144, true),
+				new Statue(288, 176, true),
+				new Statue(384, 112, true),
+				new Statue(384, 144, true),
+				new Statue(384, 176, true)
+			},
 			{},
-			{},
+			RL_ULD,
 			RT_START
 			);
 		// ================= TRIFORCE ROOM =======================
@@ -167,8 +175,16 @@ public:
 				new Block(64 + (32 * 10), 96 + (16 * 5))
 			},
 			{},
-			{},
-			{}
+			{
+				new Statue(64 + (32 * 4), 96 + (16 * 2), true),
+				new Statue(64 + (32 * 3), 96 + (16 * 3), true),
+				new Statue(64 + (32 * 7), 96 + (16 * 2), true),
+				new Statue(64 + (32 * 8), 96 + (16 * 3), true)
+			},
+			{
+				new Triforce(64 + (32 * 6) - 10, 96 + (16 * 4) - 10)
+			},
+			RL_L
 		);
 
 		// =================== BOSS ROOM =========================
@@ -181,6 +197,7 @@ public:
 			{},
 			{},
 			{},
+			RL_DR,
 			RT_BOSS
 		);
 
@@ -195,6 +212,7 @@ public:
 			{},// Enemy List, Empty
 			{},
 			{},
+			RL_ULD,
 			RT_MINI_BOSS
 		);
 
@@ -224,7 +242,8 @@ public:
 			// Enemy List, Empty
 			{},
 			{},
-			{} 
+			{},
+			RL_UD
 		);
 
 		rooms[5][1] = Room(
@@ -236,6 +255,7 @@ public:
 			{}, // Enemy List, Empty
 			{},
 			{},
+			RL_D,
 			RT_SECRET
 		);
 
@@ -258,7 +278,8 @@ public:
 			},
 			{}, // Enemy List, Empty
 			{},
-			{}
+			{},
+			RL_ULD
 		);
 
 		rooms[5][2] = Room(
@@ -268,7 +289,8 @@ public:
 			},
 			{}, // Enemy List, Empty
 			{},
-			{}
+			{},
+			RL_UR
 			);
 
 		rooms[5][3] = Room(
@@ -290,7 +312,8 @@ public:
 			},
 			{
 				new BombPickup(264, 145)
-			}
+			},
+			RL_R
 		);
 
 		rooms[4][4] = Room(
@@ -305,7 +328,8 @@ public:
 			},
 			{},// Enemy List, Empty
 			{},
-			{}
+			{},
+			RL_ULD
 		);
 
 		rooms[5][4] = Room(
@@ -314,8 +338,14 @@ public:
 				new Door(ROOM_LEFT_DOOR, Left)
 			},
 			{},// Enemy List, Empty
+			{
+				new Statue(64 + (32 * 0), 94 + (16 * 0), false),
+				new Statue(64 + (32 * 11), 94 + (16 * 0), false),
+				new Statue(64 + (32 * 0), 94 + (16 * 6), false),
+				new Statue(64 + (32 * 11), 94 + (16 * 6), false)
+			},
 			{},
-			{}
+			RL_R
 		);
 
 		rooms[4][5] = Room(
@@ -336,7 +366,8 @@ public:
 			},
 			{},// Enemy List, Empty
 			{},
-			{}
+			{},
+			RL_ULD
 		);
 
 		rooms[5][5] = Room(
@@ -355,7 +386,8 @@ public:
 				new Gel(80 + (32 * 8) - 6, 104 + (16 * 4) - 4)
 			},// Enemy List, Empty
 			{},
-			{}
+			{},
+			RL_R
 		);
 		
 		rooms[2][6] = Room(
@@ -369,7 +401,8 @@ public:
 			}, 
 			{},
 			{
-			}
+			},
+			RL_L
 		);
 
 		rooms[3][6] = Room(
@@ -384,7 +417,8 @@ public:
 			},
 			{}, // Enemy List, Empty
 			{},
-			{}
+			{},
+			RL_LDR
 			);
 		rooms[4][6] = Room(
 			{	//Terrain List
@@ -417,7 +451,8 @@ public:
 				new Rope(170, 160)
 			}, 
 			{},
-			{}
+			{},
+			RL_ULDR
 			);
 
 		rooms[5][6] = Room(
@@ -444,7 +479,8 @@ public:
 			{},
 			// Pick Ups
 			{
-			}
+			},
+			RL_R
 		);
 
 		rooms[4][7] = Room(
@@ -456,7 +492,8 @@ public:
 			},
 			{}, // Enemy List, Empty
 			{},
-			{}
+			{},
+			RL_UR
 		);
 
 
@@ -510,7 +547,9 @@ public:
 			// Puzzle 3
 			new Puzzle(
 				new KillTrigger({
-
+					new Goryia(64 + (32 * 3), 96 + (16 * 0), true),
+					new Goryia(64 + (32 * 8), 96 + (16 * 0), true),
+					new Goryia(64 + (32 * 4), 96 + (16 * 2), true)
 					}),
 				{
 					new Reward({new HeartContainerPickup(264, 145)}, r3)
@@ -539,7 +578,11 @@ public:
 			//Puzzle 5
 			new Puzzle(
 				new KillTrigger({
-					new Keese(252, 100)
+					new Goryia( 64 + (32 * 3), 96 + (16 * 0), false),
+					new Goryia(64 + (32 * 8), 96 + (16 * 0), false),
+					new Goryia(64 + (32 * 4), 96 + (16 * 2), false),
+					new Goryia(64 + (32 * 3), 96 + (16 * 4), false),
+					new Goryia(64 + (32 * 8), 96 + (16 * 4), false)
 				}),
 				{
 					new Open({
@@ -554,7 +597,7 @@ public:
 			// Puzzle 6
 			new Puzzle(
 				new KillTrigger({
-
+					new Dodongo(512 - 128, 96)
 					}),
 				{
 					new Open({
@@ -637,17 +680,17 @@ public:
 		};
 
 		lockPairs = {
-			new LockedDoorPair(Right, Left, &rooms[4][6], &rooms[5][6]),
-			new LockedDoorPair(Right, Left, &rooms[4][5], &rooms[5][5]),
-			new LockedDoorPair(Right, Left, &rooms[4][2], &rooms[5][2])
+			new LockedDoorPair(0,Right, Left, &rooms[4][6], &rooms[5][6]),
+			new LockedDoorPair(1,Right, Left, &rooms[4][5], &rooms[5][5]),
+			new LockedDoorPair(2,Right, Left, &rooms[4][2], &rooms[5][2])
 		};
 
 		bombPairs = {
-			new BombablePair(Up, Down, &rooms[5][6], &rooms[5][5]),
-			new BombablePair(Up, Down, &rooms[5][5], &rooms[5][4]),
-			new BombablePair(Up, Down, &rooms[5][4], &rooms[5][3]),
-			new BombablePair(Up, Down, &rooms[5][3], &rooms[5][2]),
-			new BombablePair(Right, Left, &rooms[4][1], &rooms[5][1])
+			new BombablePair(0, Up, Down, &rooms[5][6], &rooms[5][5]),
+			new BombablePair(1, Up, Down, &rooms[5][5], &rooms[5][4]),
+			new BombablePair(2, Up, Down, &rooms[5][4], &rooms[5][3]),
+			new BombablePair(3, Up, Down, &rooms[5][3], &rooms[5][2]),
+			new BombablePair(4, Right, Left, &rooms[4][1], &rooms[5][1])
 		};
 	}
 
@@ -682,7 +725,18 @@ public:
 		}
 	}
 
+	void DrawInvMap(HANDLE out) {
+		for (int y = 0; y < 8; y++) {
+			for (int x = 0; x < 8; x++) {
+				if (player_file->map_discovered[x][y]) {
+					rooms[x][y].DrawMap(out, 240 + (16 * x), 103 + (8 * y));
+				}
+			}
+		}
+	}
+
 	Room * GetStartRoom() {
+		player_file->map_discovered[5][3] = true;
 		return &rooms[5][3];
 	}
 
@@ -702,23 +756,31 @@ public:
 				if (curRoom == &rooms[x][y]) {
 					switch (d) {
 					case Up:
-						if (y != 0)
+						if (y != 0) {
+							player_file->map_discovered[x][y-1] = true;
 							return &rooms[x][y - 1];
+						}
 						else
 							return NULL;
 					case Down:
-						if (y != 7)
+						if (y != 7) {
+							player_file->map_discovered[x][y+1] = true;
 							return &rooms[x][y + 1];
+						}
 						else
 							return NULL;
 					case Left:
-						if (x != 0)
+						if (x != 0) {
+							player_file->map_discovered[x-1][y] = true;
 							return &rooms[x - 1][y];
+						}
 						else
 							return NULL;
 					case Right:
-						if (x != 7)
+						if (x != 7) {
+							player_file->map_discovered[x+1][y] = true;
 							return &rooms[x + 1][y];
+						}
 						else
 							return NULL;
 					}
@@ -730,8 +792,21 @@ public:
 
 	void SetupDungeon() {
 		for (int s = 0; s < puzzles.size(); s++) {
-			if (!player_file->puzzles_solved[s]) {
-				puzzles[s]->Setup();
+			puzzles[s]->Setup();
+			if (player_file->puzzles_solved[s]) {
+				puzzles[s]->Solve();
+			}
+		}
+
+		for (int ld = 0; ld < lockPairs.size(); ld++) {
+			if (player_file->LocksOpened[ld]) {
+				lockPairs[ld]->OpenDoors();
+			}
+		}
+
+		for (int bw = 0; bw < bombPairs.size(); bw++) {
+			if (player_file->bombsOpened[bw]) {
+				bombPairs[bw]->OpenWalls();
 			}
 		}
 

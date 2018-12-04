@@ -16790,6 +16790,20 @@ public:
 			}
 		}
 
+		DrawSprite(roomSprites, 0, 0, 512, 176, roomSprites, (SCREEN_SIZE.X + 2) * 3, 0);
+		for (int y = 0; y < 14; y++) {
+			for (int x = 0; x < 24; x++) {
+				DrawSprite(floorSprites, 52, 0, 16, 8, roomSprites, ((SCREEN_SIZE.X + 2) * 3) + 64 + (16 * x), 32 + (8 * y));
+			}
+		}
+
+		DrawSprite(roomSprites, 0, 0, 512, 176, roomSprites, (SCREEN_SIZE.X + 2) * 4, 0);
+		for (int y = 0; y < 14; y++) {
+			for (int x = 0; x < 24; x++) {
+				DrawSprite(floorSprites, 68, 0, 16, 8, roomSprites, ((SCREEN_SIZE.X + 2) * 4) + 64 + (16 * x), 32 + (8 * y));
+			}
+		}
+
 		//Area to read/write
 		int w = 512;
 		int h = 176;

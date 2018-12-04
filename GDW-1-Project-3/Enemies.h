@@ -320,9 +320,16 @@ public:
 
 	std::vector<Projectile *> fireballs;
 	Statue(int x, int y, bool i = true) :Enemy(x, y, 32, 16, 1, 1) {
-		SetNumAnim(1);
+		SetNumAnim(2);
 
-		SetSpriteSheet(Sprites.spiketrapSprites);
+		SetSpriteSheet(Sprites.statueSprites);
+
+		if (x < 256) {
+			SetCurAnim(0);
+		}
+		else {
+			SetCurAnim(1);
+		}
 
 		origin.X = x;
 		origin.Y = y;
@@ -733,7 +740,7 @@ public:
 	Dodongo(int x, int y) : Enemy(x, y, 32, 16, 1, 1) {
 		SetNumAnim(5);
 		setBoss(true);
-		SetSpriteSheet(Sprites.playerSprites);
+		SetSpriteSheet(Sprites.dodongoSprites);
 		setHP(2);
 	}
 
@@ -875,7 +882,7 @@ private:
 	int getX = 0;
 	int getY = 0;
 public:
-	Goryia(int x, int y, bool b) : Enemy(x, y, 12, 8, 3, 1) {
+	Goryia(int x, int y, bool b) : Enemy(x, y, 28, 16, 3, 1) {
 		SetNumAnim(1);
 		isBlue = b;
 		getX = x;
@@ -883,7 +890,7 @@ public:
 		if (isBlue) {
 			setHP(5);
 		}
-		SetSpriteSheet(Sprites.gelSprites);
+		SetSpriteSheet(Sprites.goriyaSprites);
 	}
 
 	void AI(Player p) {
@@ -1004,6 +1011,10 @@ public:
 		for (int b = 0; b < projectiles.size(); b++) {
 			projectiles[b]->Update(dt);
 		}
+
+		if (invulnTimer > 0) {
+			invulnTimer--;
+		}
 	}
 
 	Enemy * Clone() {
@@ -1058,6 +1069,8 @@ public:
 		default:
 			break;
 		}
+
+		Boundries();
 	}
 
 	void Update(float dt) {
@@ -1096,13 +1109,13 @@ public:
 			segments.push_back(new MoldormSegment(x, y));
 		}
 
-		SetSpriteSheet(Sprites.blockSprites);
+		SetSpriteSheet(Sprites.moldormSprites);
 	}
 
 	void draw(HANDLE out) {
 		for (int s = 0; s < segments.size(); s++) {
 			if (segments[s]->GetAIDir() != 0 && (segments[s]->invulnTimer % 4) < 2) {
-				Sprites.DrawSprite(sprite_sheet, 0, 0, GetWidth(), GetHeight(), out, segments[s]->GetX(), segments[s]->GetY());
+				Sprites.DrawSprite(sprite_sheet, 0, 0, GetWidth(), GetHeight(), out, segments[s]->GetX(), segments[s]->GetY(), true);
 			}
 		}
 	}
@@ -1216,6 +1229,10 @@ public:
 		if (moveTimer > 0) {
 			moveTimer -= 1;
 		}
+
+		xSpd = segments[0]->xSpd;
+		ySpd = segments[0]->ySpd;
+		move();
 
 		for (int s = 0; s < segments.size(); s++) {
 			segments[s]->Update(dt);

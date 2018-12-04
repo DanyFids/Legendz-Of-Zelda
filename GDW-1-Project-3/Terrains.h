@@ -316,10 +316,10 @@ public:
 	}
 
 	BombableWall(COORD XY, Direction d, BombablePair * pair) : Terrain(XY.X, XY.Y, 32, 16) {
-		SetSpriteSheet(Sprites.blockSprites);
+		SetSpriteSheet(Sprites.bombablewallSprites);
 
 		//b, t , l r
-		/*
+		
 		switch (d) {
 		case Up:
 			SetCurAnim(1);
@@ -333,7 +333,7 @@ public:
 		case Right:
 			SetCurAnim(3);
 			break;
-		}*/
+		}
 
 		SetHidden(true);
 
