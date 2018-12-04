@@ -103,6 +103,9 @@ if (Sprites.LoadMoldorm()) {
 if (Sprites.LoadGoriya()) {
 	LOADED++;
 }
+if (Sprites.LoadTriforce()) {
+	LOADED++;
+}
 if (Sprites.LoadVictoryScreen()) {
 	LOADED++;
 }
@@ -124,9 +127,7 @@ if (Sprites.LoadHeartContainer()) {
 if (Sprites.LoadStopwatch()) {
 	LOADED++;
 }
-if (Sprites.LoadTriforce()) {
-	LOADED++;
-}
+
 
 
 	

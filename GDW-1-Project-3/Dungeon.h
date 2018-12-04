@@ -49,6 +49,8 @@ public:
 	void OpenDoors() {
 		doors[0]->setOpen(true);
 		doors[1]->setOpen(true);
+
+		player_file->LocksOpened[id] = true;
 	}
 };
 

@@ -1,7 +1,7 @@
 ﻿  main.cpp
 c:\users\100706824\documents\githubkraken\legendz-of-zelda\gdw-1-project-3\spritesheets.h(16545): warning C4018: '<': signed/unsigned mismatch
-c:\users\100706824\documents\githubkraken\legendz-of-zelda\gdw-1-project-3\coreclasses.h(151): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-c:\users\100706824\documents\githubkraken\legendz-of-zelda\gdw-1-project-3\coreclasses.h(152): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+c:\users\100706824\documents\githubkraken\legendz-of-zelda\gdw-1-project-3\coreclasses.h(162): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+c:\users\100706824\documents\githubkraken\legendz-of-zelda\gdw-1-project-3\coreclasses.h(163): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
 c:\users\100706824\documents\githubkraken\legendz-of-zelda\gdw-1-project-3\projectiles.h(148): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
 c:\users\100706824\documents\githubkraken\legendz-of-zelda\gdw-1-project-3\projectiles.h(149): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
 c:\users\100706824\documents\githubkraken\legendz-of-zelda\gdw-1-project-3\projectiles.h(268): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
@@ -34,10 +34,10 @@ c:\users\100706824\documents\githubkraken\legendz-of-zelda\gdw-1-project-3\room.
 c:\users\100706824\documents\githubkraken\legendz-of-zelda\gdw-1-project-3\room.h(393): warning C4018: '<': signed/unsigned mismatch
 c:\users\100706824\documents\githubkraken\legendz-of-zelda\gdw-1-project-3\room.h(401): warning C4018: '<': signed/unsigned mismatch
 c:\users\100706824\documents\githubkraken\legendz-of-zelda\gdw-1-project-3\room.h(414): warning C4018: '<': signed/unsigned mismatch
-c:\users\100706824\documents\githubkraken\legendz-of-zelda\gdw-1-project-3\dungeon.h(794): warning C4018: '<': signed/unsigned mismatch
-c:\users\100706824\documents\githubkraken\legendz-of-zelda\gdw-1-project-3\dungeon.h(801): warning C4018: '<': signed/unsigned mismatch
-c:\users\100706824\documents\githubkraken\legendz-of-zelda\gdw-1-project-3\dungeon.h(807): warning C4018: '<': signed/unsigned mismatch
-c:\users\100706824\documents\githubkraken\legendz-of-zelda\gdw-1-project-3\dungeon.h(823): warning C4018: '<': signed/unsigned mismatch
+c:\users\100706824\documents\githubkraken\legendz-of-zelda\gdw-1-project-3\dungeon.h(796): warning C4018: '<': signed/unsigned mismatch
+c:\users\100706824\documents\githubkraken\legendz-of-zelda\gdw-1-project-3\dungeon.h(803): warning C4018: '<': signed/unsigned mismatch
+c:\users\100706824\documents\githubkraken\legendz-of-zelda\gdw-1-project-3\dungeon.h(809): warning C4018: '<': signed/unsigned mismatch
+c:\users\100706824\documents\githubkraken\legendz-of-zelda\gdw-1-project-3\dungeon.h(825): warning C4018: '<': signed/unsigned mismatch
 c:\users\100706824\documents\githubkraken\legendz-of-zelda\gdw-1-project-3\main.cpp(127): warning C4101: 'drawThreadID': unreferenced local variable
 c:\users\100706824\documents\githubkraken\legendz-of-zelda\gdw-1-project-3\main.cpp(414): warning C4018: '<': signed/unsigned mismatch
 c:\users\100706824\documents\githubkraken\legendz-of-zelda\gdw-1-project-3\main.cpp(424): warning C4018: '<': signed/unsigned mismatch
@@ -54,21 +54,21 @@ c:\users\100706824\documents\githubkraken\legendz-of-zelda\gdw-1-project-3\main.
 c:\users\100706824\documents\githubkraken\legendz-of-zelda\gdw-1-project-3\main.cpp(828): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
 c:\users\100706824\documents\githubkraken\legendz-of-zelda\gdw-1-project-3\main.cpp(831): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
 c:\users\100706824\documents\githubkraken\legendz-of-zelda\gdw-1-project-3\main.cpp(840): warning C4018: '<': signed/unsigned mismatch
-c:\users\100706824\documents\githubkraken\legendz-of-zelda\gdw-1-project-3\main.cpp(864): warning C4018: '<': signed/unsigned mismatch
-c:\users\100706824\documents\githubkraken\legendz-of-zelda\gdw-1-project-3\main.cpp(899): warning C4018: '<': signed/unsigned mismatch
-c:\users\100706824\documents\githubkraken\legendz-of-zelda\gdw-1-project-3\main.cpp(918): warning C4018: '<': signed/unsigned mismatch
-c:\users\100706824\documents\githubkraken\legendz-of-zelda\gdw-1-project-3\main.cpp(925): warning C4018: '<': signed/unsigned mismatch
-c:\users\100706824\documents\githubkraken\legendz-of-zelda\gdw-1-project-3\main.cpp(927): warning C4018: '<': signed/unsigned mismatch
+c:\users\100706824\documents\githubkraken\legendz-of-zelda\gdw-1-project-3\main.cpp(851): warning C4018: '<': signed/unsigned mismatch
+c:\users\100706824\documents\githubkraken\legendz-of-zelda\gdw-1-project-3\main.cpp(886): warning C4018: '<': signed/unsigned mismatch
+c:\users\100706824\documents\githubkraken\legendz-of-zelda\gdw-1-project-3\main.cpp(905): warning C4018: '<': signed/unsigned mismatch
+c:\users\100706824\documents\githubkraken\legendz-of-zelda\gdw-1-project-3\main.cpp(912): warning C4018: '<': signed/unsigned mismatch
+c:\users\100706824\documents\githubkraken\legendz-of-zelda\gdw-1-project-3\main.cpp(914): warning C4018: '<': signed/unsigned mismatch
+c:\users\100706824\documents\githubkraken\legendz-of-zelda\gdw-1-project-3\main.cpp(917): warning C4018: '<': signed/unsigned mismatch
+c:\users\100706824\documents\githubkraken\legendz-of-zelda\gdw-1-project-3\main.cpp(921): warning C4018: '<': signed/unsigned mismatch
+c:\users\100706824\documents\githubkraken\legendz-of-zelda\gdw-1-project-3\main.cpp(926): warning C4018: '<': signed/unsigned mismatch
 c:\users\100706824\documents\githubkraken\legendz-of-zelda\gdw-1-project-3\main.cpp(930): warning C4018: '<': signed/unsigned mismatch
-c:\users\100706824\documents\githubkraken\legendz-of-zelda\gdw-1-project-3\main.cpp(934): warning C4018: '<': signed/unsigned mismatch
-c:\users\100706824\documents\githubkraken\legendz-of-zelda\gdw-1-project-3\main.cpp(939): warning C4018: '<': signed/unsigned mismatch
-c:\users\100706824\documents\githubkraken\legendz-of-zelda\gdw-1-project-3\main.cpp(943): warning C4018: '<': signed/unsigned mismatch
-c:\users\100706824\documents\githubkraken\legendz-of-zelda\gdw-1-project-3\main.cpp(950): warning C4018: '<': signed/unsigned mismatch
-c:\users\100706824\documents\githubkraken\legendz-of-zelda\gdw-1-project-3\main.cpp(961): warning C4018: '<': signed/unsigned mismatch
-c:\users\100706824\documents\githubkraken\legendz-of-zelda\gdw-1-project-3\main.cpp(977): warning C4018: '<': signed/unsigned mismatch
-c:\users\100706824\documents\githubkraken\legendz-of-zelda\gdw-1-project-3\main.cpp(982): warning C4018: '<': signed/unsigned mismatch
-c:\users\100706824\documents\githubkraken\legendz-of-zelda\gdw-1-project-3\main.cpp(1005): warning C4018: '<': signed/unsigned mismatch
-c:\users\100706824\documents\githubkraken\legendz-of-zelda\gdw-1-project-3\main.cpp(1115): warning C4101: 'loadThreadID': unreferenced local variable
-c:\users\100706824\documents\githubkraken\legendz-of-zelda\gdw-1-project-3\main.cpp(1519): warning C4018: '<': signed/unsigned mismatch
-c:\users\100706824\documents\githubkraken\legendz-of-zelda\gdw-1-project-3\main.cpp(1527): warning C4018: '<': signed/unsigned mismatch
+c:\users\100706824\documents\githubkraken\legendz-of-zelda\gdw-1-project-3\main.cpp(937): warning C4018: '<': signed/unsigned mismatch
+c:\users\100706824\documents\githubkraken\legendz-of-zelda\gdw-1-project-3\main.cpp(948): warning C4018: '<': signed/unsigned mismatch
+c:\users\100706824\documents\githubkraken\legendz-of-zelda\gdw-1-project-3\main.cpp(964): warning C4018: '<': signed/unsigned mismatch
+c:\users\100706824\documents\githubkraken\legendz-of-zelda\gdw-1-project-3\main.cpp(969): warning C4018: '<': signed/unsigned mismatch
+c:\users\100706824\documents\githubkraken\legendz-of-zelda\gdw-1-project-3\main.cpp(992): warning C4018: '<': signed/unsigned mismatch
+c:\users\100706824\documents\githubkraken\legendz-of-zelda\gdw-1-project-3\main.cpp(1102): warning C4101: 'loadThreadID': unreferenced local variable
+c:\users\100706824\documents\githubkraken\legendz-of-zelda\gdw-1-project-3\main.cpp(1533): warning C4018: '<': signed/unsigned mismatch
+c:\users\100706824\documents\githubkraken\legendz-of-zelda\gdw-1-project-3\main.cpp(1541): warning C4018: '<': signed/unsigned mismatch
   GDW-1-Project-3.vcxproj -> C:\Users\100706824\Documents\GitHubKraken\Legendz-Of-Zelda\GDW-1-Project-3\Debug\GDW-1-Project-3.exe

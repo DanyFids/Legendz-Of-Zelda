@@ -847,19 +847,6 @@ void Update() {
 			}
 			if (curRoom->EnemyList[e]->HitDetect(&player)) {
 				curRoom->EnemyList[e]->Hit(player);
-				if (!beenHit)
-				{
-					beenHit = true;
-					switch (rdm) {
-					case 0:
-						sounds.PlayLinkHurt();
-						break;
-					case 1:
-						sounds.PlayMC();
-						break;
-					}
-				}
-				beenHit = false;
 			}
 			for (int p = 0; p < projectiles.size(); p++) {
 				bool check;
@@ -1457,7 +1444,34 @@ void DrawUI(int y) {
 void Victory() {
 	state = CREDITS;
 	sounds.StopMusic();
-	sounds.PlayFileSelect();
+	
+	player_file->HasCompass = false;
+	player_file->HasMap = false;
+
+	for (int i = 0; i < 10; i++)
+	{
+		player_file->puzzles_solved[i] = false;
+	}
+
+	for (int i = 0; i < 3; i++)
+	{
+		player_file->LocksOpened[i] = false;
+	}
+
+	for (int i = 0; i < 5; i++)
+	{
+		player_file->bombsOpened[i] = false;
+	}
+
+	for (int i = 0; i < 8; i++)
+	{
+		for (int j = 0; j < 8; j++)
+		{
+			player_file->map_discovered[i][j] = false;
+		}
+	}
+
+	player_file->CurLife = player_file->MaxLife;
 }
 
 void GameOver() {

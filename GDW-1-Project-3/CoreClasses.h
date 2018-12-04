@@ -72,6 +72,17 @@ public:
 		if (invulnTimer <= 0) {
 			player_file->CurLife -= d;
 			invulnTimer = 15;
+
+			int rdm = rand() % 2;
+
+			switch (rdm) {
+			case 0:
+				sounds.PlayLinkHurt();
+				break;
+			case 1:
+				sounds.PlayMC();
+				break;
+			}
 		}
 	}
 

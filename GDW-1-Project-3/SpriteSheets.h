@@ -17021,6 +17021,8 @@ public:
 	bool LoadRooms() {
 		LoadBrick();
 		LoadWall();
+		LoadOldman();
+		LoadFire();
 
 		SetConsoleScreenBufferSize(roomSprites, { SCREEN_SIZE.X * 5 + 8, SCREEN_SIZE.Y });
 		DrawSprite(wallSprites, 0, 64, 512, 176, roomSprites, 0, 0);
@@ -17060,12 +17062,17 @@ public:
 			}
 		}
 
+		// Secret Room
 		DrawSprite(roomSprites, 0, 0, 512, 176, roomSprites, (SCREEN_SIZE.X + 2) * 4, 0);
 		for (int y = 0; y < 14; y++) {
 			for (int x = 0; x < 24; x++) {
 				DrawSprite(floorSprites, 68, 0, 16, 8, roomSprites, ((SCREEN_SIZE.X + 2) * 4) + 64 + (16 * x), 32 + (8 * y));
 			}
 		}
+		DrawSprite(oldmanSprites, 0, 0, 32, 16, roomSprites, ((SCREEN_SIZE.X + 2) * 4) + 256 - 16, 32 + 33);
+		DrawSprite(fireSprites, 0, 0, 32, 16, roomSprites, ((SCREEN_SIZE.X + 2) * 4) + 256 - 16 - 80, 32 + 33);
+		DrawSprite(fireSprites, 0, 0, 32, 16, roomSprites, ((SCREEN_SIZE.X + 2) * 4) + 256 + 16 + 48, 32 + 33);
+		DrawTextSprites(roomSprites, "Dodongo Dislikes smoke", ((SCREEN_SIZE.X + 2) * 4) + 64 + 18, 32 + 3);
 
 		//Area to read/write
 		int w = 512;
