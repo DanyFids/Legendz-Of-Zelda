@@ -297,16 +297,10 @@ void KeyHandler(KEY_EVENT_RECORD e) {
 					state = INVENTORY;
 					//LoZTitleScreenBGM();          //Legacy Player
 					break;
+				case INVENTORY:
+					state = PLAY;
+					break;
 				}
-				break;
-			case PLAY:
-				state = INVENTORY;
-				//LoZTitleScreenBGM();		  //Legacy Player
-				break;
-			case INVENTORY:
-				state = PLAY;
-				break;
-			}
 			break;
 			case VK_DOWN:
 				player_input.keyDown = true;
@@ -574,40 +568,40 @@ void Update() {
 		}
 
 		for (int e = 0; e < curRoom->EnemyList.size(); e++) {
-			if (enemies[e]->getStunTime() <= 0.0f) {
-				enemies[e]->AI(player);
+			if (curRoom->EnemyList[e]->getStunTime() <= 0.0f) {
+				curRoom->EnemyList[e]->AI(player);
 			}
 			else
 			{
-				enemies[e]->setStunTime(enemies[e]->getStunTime() - dt);
+				curRoom->EnemyList[e]->setStunTime(curRoom->EnemyList[e]->getStunTime() - dt);
 			}
 			if (curRoom->EnemyList[e]->HitDetect(&player)) {
 				curRoom->EnemyList[e]->Hit(player);
 			}
 			for (int p = 0; p < projectiles.size(); p++) {
 				bool check;
-				if(curRoom->EnemyList[e]->GetType() == ET_MOLDORM)
+				if (curRoom->EnemyList[e]->GetType() == ET_MOLDORM)
 					check = curRoom->EnemyList[e]->HitDetect(projectiles[p]);
 				else
 					check = projectiles[p]->HitDetect(curRoom->EnemyList[e]);
 				if (check) {
 					if (projectiles[p]->getEnum() == PT_BOMB) {
-						if (enemies[e]->getBoss()) {
-							Dodongo * boss = (Dodongo *)enemies[e];
+						if (curRoom->EnemyList[e]->getBoss()) {
+							Dodongo * boss = (Dodongo *)curRoom->EnemyList[e];
 							boss->BombHurt();
 							projectiles[p]->setTime(0.0f);
 						}
 					}
-					if (projectiles[p]->getEnum() == PT_BOOMERANG && enemies[e]->GetType() != ET_GEL && enemies[e]->GetType() != ET_KEESE) {
-						enemies[e]->stun();
+					if (projectiles[p]->getEnum() == PT_BOOMERANG && curRoom->EnemyList[e]->GetType() != ET_GEL && curRoom->EnemyList[e]->GetType() != ET_KEESE) {
+						curRoom->EnemyList[e]->stun();
 					}
 					else
 					{
-						projectiles[p]->Hit(*enemies[e]);
+						projectiles[p]->Hit(curRoom->EnemyList[e]);
 					}
-					
-						
-					
+
+
+
 					if (projectiles[p]->getEnum() == PT_ARROW) { //Removing Projectiles When they strike an Entity
 						std::vector<Projectile*>::iterator it = projectiles.begin();
 						delete projectiles[p];
@@ -632,32 +626,33 @@ void Update() {
 				}
 			}
 		}
-		
+
 		for (int t = 0; t < curRoom->TerrainList.size(); t++) {
 			curRoom->TerrainList[t]->HitDetect(&player);
 			for (int e = 0; e < curRoom->EnemyList.size(); e++) {
 				curRoom->TerrainList[t]->HitDetect(curRoom->EnemyList[e]);
 			}
-			for (int e = 0; e < enemies.size(); e++) {
-				if (roomTer[t]->HitDetect(enemies[e])) {
-					enemies[e]->hitTerrain();
+			for (int e = 0; e < curRoom->EnemyList.size(); e++) {
+				if (curRoom->TerrainList[t]->HitDetect(curRoom->EnemyList[e])) {
+					curRoom->EnemyList[e]->hitTerrain();
 				}
-				for (int ep = 0; ep < enemies[e]->projectiles.size(); ep++) {
-					if (roomTer[t]->HitDetect(enemies[e]->projectiles[ep])) {
-						enemies[e]->projectiles[ep]->setTime(0.0f);
+				for (int ep = 0; ep < curRoom->EnemyList[e]->projectiles.size(); ep++) {
+					if (curRoom->TerrainList[t]->HitDetect(curRoom->EnemyList[e]->projectiles[ep])) {
+						curRoom->EnemyList[e]->projectiles[ep]->setTime(0.0f);
 					}
 				}
-			for (int h = 0; h < curRoom->hazards.size(); h++) {
-				curRoom->TerrainList[t]->HitDetect(curRoom->hazards[h]);
-			}
-			for (int p = 0; p < projectiles.size(); p++) {
-				if (projectiles[p]->getEnum() == PT_EXPLOSION) {
-					curRoom->TerrainList[t]->HitDetect(projectiles[p]);
+				for (int h = 0; h < curRoom->hazards.size(); h++) {
+					curRoom->TerrainList[t]->HitDetect(curRoom->hazards[h]);
+				}
+				for (int p = 0; p < projectiles.size(); p++) {
+					if (projectiles[p]->getEnum() == PT_EXPLOSION) {
+						curRoom->TerrainList[t]->HitDetect(projectiles[p]);
+					}
 				}
 			}
 		}
 		for (int u = 0; u < curRoom->powerups.size(); u++) {
-			
+
 			if (curRoom->powerups[u]->HitDetect(&player)) {
 				curRoom->powerups[u]->Effect(player_file);
 				delete curRoom->powerups[u];
@@ -669,7 +664,7 @@ void Update() {
 		player.Update(dt);
 		for (int e = 0; e < curRoom->EnemyList.size(); e++) {
 			if (curRoom->EnemyList[e]->GetHP() <= 0) {
-				enemies[e]->Drop(&powerups);
+				curRoom->EnemyList[e]->Drop(&curRoom->powerups);
 				delete curRoom->EnemyList[e];
 				curRoom->EnemyList.erase(curRoom->EnemyList.begin() + e);
 			}
@@ -687,23 +682,23 @@ void Update() {
 		}
 		for (int p = 0; p < projectiles.size(); p++) {
 			projectiles[p]->Update(dt);
-			if (projectiles[p]->getTime() <= 0){
+			if (projectiles[p]->getTime() <= 0) {
 				std::vector<Projectile*>::iterator it = projectiles.begin();
 				if (projectiles[p]->getEnum() == PT_BOMB)
 				{
-					projectiles.push_back(new Explosion(projectiles[p]->GetX(),projectiles[p]->GetY()));
+					projectiles.push_back(new Explosion(projectiles[p]->GetX(), projectiles[p]->GetY()));
 
 					fx.push_back(new Smoke(projectiles[p]->GetX(), projectiles[p]->GetY()));//Smoke puffs @location
-					fx.push_back(new Smoke(projectiles[p]->GetX()+28, projectiles[p]->GetY()));	//@Right
-					fx.push_back(new Smoke(projectiles[p]->GetX(), projectiles[p]->GetY() - 14 )); //@Up
-					fx.push_back(new Smoke(projectiles[p]->GetX() - 28, projectiles[p]->GetY() -7 ));//@Left&Up
+					fx.push_back(new Smoke(projectiles[p]->GetX() + 28, projectiles[p]->GetY()));	//@Right
+					fx.push_back(new Smoke(projectiles[p]->GetX(), projectiles[p]->GetY() - 14)); //@Up
+					fx.push_back(new Smoke(projectiles[p]->GetX() - 28, projectiles[p]->GetY() - 7));//@Left&Up
 					fx.push_back(new Smoke(projectiles[p]->GetX(), projectiles[p]->GetY() + 14));//@Down
 					fx.push_back(new Smoke(projectiles[p]->GetX() - 28, projectiles[p]->GetY()));//Left
 					fx.push_back(new Smoke(projectiles[p]->GetX() + 28, projectiles[p]->GetY() + 7));//Down&Right
 				}
 				delete projectiles[p];
 				projectiles.erase(it + p);
-				
+
 			}
 		}
 
@@ -713,7 +708,7 @@ void Update() {
 			if (fx[f]->getTime() <= 0)
 			{
 				std::vector<VisualFX*>::iterator it = fx.begin();
-				
+
 				delete fx[f];
 				fx.erase(it + f);
 			}

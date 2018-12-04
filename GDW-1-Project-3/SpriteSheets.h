@@ -7213,6 +7213,48 @@ public:
 		return true;
 	}
 
+	bool LoadBrick() {
+
+		SetConsoleScreenBufferSize(brickSprites, SCREEN_SIZE);
+
+		DWORD output;
+
+		SetConsoleTextAttribute(brickSprites, 9 * 16);
+
+		for (int i = 0; i < 8; i++) {
+			GoToXY(brickSprites, 0, i);
+			WriteConsole(brickSprites, &"                ", 16, &output, NULL);
+		}
+
+		SetConsoleTextAttribute(brickSprites, 1 * 16);
+
+		GoToXY(brickSprites, 0, 3);
+		WriteConsole(brickSprites, &"                ", 16, &output, NULL);
+
+		for (int i = 0; i < 3; i++) {
+			GoToXY(brickSprites, 2, i);
+			WriteConsole(brickSprites, "  ", 2, &output, NULL);
+		}
+
+		for (int i = 4; i < 8; i++) {
+			GoToXY(brickSprites, 10, i);
+			WriteConsole(brickSprites, "  ", 2, &output, NULL);
+		}
+
+		GoToXY(brickSprites, 0, 7);
+		WriteConsole(brickSprites, "                ", 16, &output, NULL);
+
+		SetConsoleTextAttribute(brickSprites, 11 * 16);
+
+		GoToXY(brickSprites, 4, 0);
+		WriteConsole(brickSprites, "  ", 2, &output, NULL);
+
+		GoToXY(brickSprites, 12, 4);
+		WriteConsole(brickSprites, "  ", 2, &output, NULL);
+
+		return true;
+	}
+
 	bool LoadWall() {
 
 		DWORD output;

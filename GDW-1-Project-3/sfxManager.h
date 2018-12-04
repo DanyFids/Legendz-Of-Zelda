@@ -1,5 +1,5 @@
 #pragma once
-/*
+
 #include <SFML/Audio.hpp>
 
 
@@ -80,4 +80,4 @@ public:
 };
 
 SoundManager sounds;
-*/
+

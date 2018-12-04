@@ -115,8 +115,9 @@ private:
 	bool isDodongo = false;
 	FCOORD location;
 public:
-	Enemy(int x, int y, int w, int h, int hp, int dmg, EnemyType type = ET_DEFAULT) :Entity(x, y, w, h) {
 	std::vector<Projectile *> projectiles;
+
+	Enemy(int x, int y, int w, int h, int hp, int dmg, EnemyType type = ET_DEFAULT) :Entity(x, y, w, h) {
 
 		this->hp = hp;
 		this->dmg = dmg;
@@ -201,10 +202,6 @@ public:
 		invuln = i;
 	}
 
-	EnemyType GetType() {
-		return et;
-	}
-
 	void Drop(std::vector<PowerUp *> * pl);
 
 
@@ -228,6 +225,10 @@ public:
 		//Can Remove Later
 		return (willHit(other, 0, 0));
 	}
+
+	void draw(HANDLE out);
+	void move();
+
 	virtual void AI(Player p) = 0;
 	virtual void hitTerrain() = 0;
 	virtual Enemy* Clone() = 0;
@@ -241,8 +242,6 @@ private:
 	//Direction moveDir;
 	bool canMove = false;
 public:
-	const float MOVE_TIME = 0.05f;
-
 	Terrain(int x, int y, int w, int h, bool hide = false) :Entity(x, y, w, h, hide) {
 		//canMove = cM;
 	}
@@ -296,15 +295,6 @@ public:
 			return false;
 		}
 	}
-
-	/*void SetMvDir(Direction d) {
-		moveDir = d;
-	}
-
-	Direction GetMvDir() {
-		return moveDir;
-	}*/
-
 };
 
 class Projectile : public Entity {

@@ -3,7 +3,8 @@
 class HeartPickup : public PowerUp {
 public:
 	HeartPickup(int x, int y) : PowerUp(x, y, 32, 16) {
-		SetSpriteSheet(Sprites.blockSprites);
+		SetSpriteSheet(Sprites.heartSprites);
+		SetCurAnim(0);
 	}
 
 
@@ -29,7 +30,8 @@ public:
 class HeartContainerPickup : public PowerUp {
 public:
 	HeartContainerPickup(int x, int y) : PowerUp(x, y, 32, 16) {
-		SetSpriteSheet(Sprites.blockSprites);
+		SetSpriteSheet(Sprites.heartSprites);
+		set
 	}
 
 
@@ -50,8 +52,8 @@ public:
 
 class KeyPickup : public PowerUp {
 public:
-	KeyPickup(int x, int y) : PowerUp(x, y, 32, 16) {
-		SetSpriteSheet(Sprites.blockSprites);
+	KeyPickup(int x, int y) : PowerUp(x, y, 16, 16) {
+		SetSpriteSheet(Sprites.keySprites);
 	}
 
 
@@ -68,8 +70,9 @@ public:
 
 class BombPickup : public PowerUp {
 public:
-	BombPickup(int x, int y) : PowerUp(x, y, 32, 16) {
-		SetSpriteSheet(Sprites.blockSprites);
+	BombPickup(int x, int y) : PowerUp(x, y, 28, 14) {
+		SetSpriteSheet(Sprites.bombSprites);
+		SetCurFrame(0);
 	}
 
 
@@ -86,8 +89,8 @@ public:
 
 class StopwatchPickup : public PowerUp {
 public:
-	StopwatchPickup(int x, int y) : PowerUp(x, y, 32, 16) {
-		SetSpriteSheet(Sprites.blockSprites);
+	StopwatchPickup(int x, int y) : PowerUp(x, y, 22, 16) {
+		SetSpriteSheet(Sprites.stopwatchSprites);
 	}
 	void Effect(Player_Info * stats) {
 		stop_watch = true;
@@ -102,8 +105,8 @@ public:
 
 class CompassPickup : public PowerUp {
 public:
-	CompassPickup(int x, int y) : PowerUp(x, y, 32, 16) {
-		SetSpriteSheet(Sprites.blockSprites);
+	CompassPickup(int x, int y) : PowerUp(x, y, 26, 13) {
+		SetSpriteSheet(Sprites.compassSprites);
 	}
 
 
@@ -121,7 +124,7 @@ public:
 class MapPickup : public PowerUp {
 public:
 	MapPickup(int x, int y) : PowerUp(x, y, 32, 16) {
-		SetSpriteSheet(Sprites.blockSprites);
+		SetSpriteSheet(Sprites.mapSprites);
 	}
 
 
@@ -139,7 +142,7 @@ public:
 class RupeesPickup : public PowerUp {
 public:
 	RupeesPickup(int x, int y) : PowerUp(x, y, 32, 16) {
-		SetSpriteSheet(Sprites.blockSprites);
+		SetSpriteSheet(Sprites.rupeeSprites);
 	}
 
 
@@ -160,7 +163,7 @@ public:
 class BlueRupeesPickup : public PowerUp {
 public:
 	BlueRupeesPickup(int x, int y) : PowerUp(x, y, 32, 16) {
-		SetSpriteSheet(Sprites.blockSprites);
+		SetSpriteSheet(Sprites.rupeeSprites);
 	}
 
 
@@ -177,8 +180,8 @@ public:
 
 class FairiesPickup : public PowerUp {
 public:
-	FairiesPickup(int x, int y) : PowerUp(x, y, 32, 16) {
-		SetSpriteSheet(Sprites.blockSprites);
+	FairiesPickup(int x, int y) : PowerUp(x, y, 34, 17) {
+		SetSpriteSheet(Sprites.fairySprites);
 	}
 
 

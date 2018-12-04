@@ -1069,6 +1069,8 @@ public:
 		}
 	}
 
+	void hitTerrain() {}
+
 	Enemy * Clone() {
 		return new MoldormSegment(*this);
 	}
@@ -1219,6 +1221,8 @@ public:
 			segments[s]->Update(dt);
 		}
 	}
+
+	void hitTerrain(){}
 
 	Enemy * Clone() {
 		return new Moldorm(*this);
