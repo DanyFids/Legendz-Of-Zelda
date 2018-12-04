@@ -679,7 +679,14 @@ void Update() {
 
 		if (player_input.keySpace)
 		{
-			sounds.PlaySwing();
+			if (player_file->CurLife == player_file->MaxLife) {
+				sounds.PlaySwordBeam();
+			}
+			else
+			{
+				sounds.PlaySwing();
+			}
+			
 			if (player.CanAtk()) {
 				Direction d = player.GetDir();
 				switch (d) {
@@ -687,7 +694,7 @@ void Update() {
 					projectiles.push_back(new Sword(player.GetX(), player.GetY() - 16, d));
 					if (player_file->CurLife == player_file->MaxLife) {
 						projectiles.push_back(new BeamSword(player.GetX(), player.GetY() - 16, 0, -4, d));
-						sounds.PlaySwordBeam();
+						
 
 					}
 					break;
@@ -695,7 +702,7 @@ void Update() {
 					projectiles.push_back(new Sword(player.GetX(), player.GetY() + player.GetHeight(), d));
 					if (player_file->CurLife == player_file->MaxLife) {
 						projectiles.push_back(new BeamSword(player.GetX(), player.GetY() + player.GetHeight(), 0, 4, d));
-						sounds.PlaySwordBeam();
+						
 
 					}
 					break;
@@ -703,7 +710,7 @@ void Update() {
 					projectiles.push_back(new Sword(player.GetX() - 32, player.GetY(), d));
 					if (player_file->CurLife == player_file->MaxLife) {
 						projectiles.push_back(new BeamSword(player.GetX() - 32, player.GetY(), -8, 0, d));
-						sounds.PlaySwordBeam();
+						
 
 					}
 					break;
@@ -711,7 +718,7 @@ void Update() {
 					projectiles.push_back(new Sword(player.GetX() + player.GetWidth(), player.GetY(), d));
 					if (player_file->CurLife == player_file->MaxLife) {
 						projectiles.push_back(new BeamSword(player.GetX() + player.GetWidth(), player.GetY(), 8, 0, d));
-						sounds.PlaySwordBeam();
+						
 					}
 					break;
 				}

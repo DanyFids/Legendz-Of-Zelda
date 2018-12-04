@@ -53,7 +53,7 @@ private:
 
 public:	   // x,y coord,                  width*2,height,time, damage, speed
 		   // the x+30 and y+3 is to make it appear infront of link, this needs to be changed by direction. sooner or later.
-	BeamSword(int x, int y, int x_spd, int y_spd, Direction _dir) : Projectile(x, y, 32, 7, 3.0f, 1) {
+	BeamSword(int x, int y, int x_spd, int y_spd, Direction _dir) : Projectile(x, y, 32, 16, 3.0f, 1) {
 		//Sprite sheet
 		//set the sprite sheet!
 		this->setDir(_dir);
